@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import NumberFlow from '@number-flow/react'
+import confetti from 'canvas-confetti'
 
 // ─── Legal content ─────────────────────────────────────────────────────────────
 const LEGAL = {
@@ -579,42 +581,77 @@ function StatsBar() {
 
 // ─── Pricing ───────────────────────────────────────────────────────────────────
 function PricingSection() {
+  const [yearly, setYearly] = useState(false)
+  const switchRef = useRef(null)
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 900px)')
+    setIsDesktop(mq.matches)
+    const h = e => setIsDesktop(e.matches)
+    mq.addEventListener('change', h)
+    return () => mq.removeEventListener('change', h)
+  }, [])
+
+  const handleToggle = val => {
+    setYearly(val)
+    if (val && switchRef.current) {
+      const rect = switchRef.current.getBoundingClientRect()
+      confetti({
+        particleCount: 70,
+        spread: 65,
+        origin: { x: (rect.left + rect.width / 2) / window.innerWidth, y: (rect.top + rect.height / 2) / window.innerHeight },
+        colors: ['#2fd9f4', '#8b5cf6', '#f59e0b', '#22c55e'],
+        ticks: 220, gravity: 1.2, decay: 0.94, startVelocity: 28, shapes: ['circle'],
+      })
+    }
+  }
+
   const plans = [
     {
       name: 'Gratuit', tag: 'COMMUNITY',
-      price: '0', suffix: 'FCFA / mois',
+      price: 0, yearlyPrice: 0, suffix: 'FCFA / mois',
       desc: 'Pour démarrer sans engagement.',
       color: '#2fd9f4', border: 'rgba(47,217,244,0.18)', bg: 'rgba(47,217,244,0.03)',
       features: ['Mots de passe illimités', '150 générations / mois', '5 partages actifs', '5 secrets dans le coffre', '5 certificats SSL/TLS', 'Extension Chrome', '2FA TOTP'],
       cta: 'Créer un compte gratuit', ctaHref: 'https://app.dencu.online/register',
       ctaStyle: { background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.25)', color: '#2fd9f4' },
+      isPopular: false,
     },
     {
       name: 'Pro', tag: 'POPULAIRE',
-      price: '2 000', suffix: 'FCFA / mois',
+      price: 2000, yearlyPrice: 1600, suffix: 'FCFA / mois',
       desc: 'Pour les professionnels qui ne comptent pas.',
       color: '#8b5cf6', border: 'rgba(139,92,246,0.35)', bg: 'rgba(139,92,246,0.06)',
-      badge: true,
       features: ["Tout du plan Gratuit", 'Générateur illimité', 'Partages illimités', 'Secrets illimités', 'Certificats illimités', 'Passphrase africaine', 'Support prioritaire'],
       cta: 'Passer en Pro', ctaHref: 'https://app.dencu.online/register',
       ctaStyle: { background: '#8b5cf6', color: '#fff', boxShadow: '0 4px 24px rgba(139,92,246,0.35)' },
+      isPopular: true,
     },
     {
       name: 'Enterprise', tag: 'ORGANISATIONS',
-      price: 'Sur devis', suffix: '',
+      price: null, yearlyPrice: null, suffix: '',
       desc: 'Pour les équipes et les organisations.',
       color: '#f59e0b', border: 'rgba(245,158,11,0.22)', bg: 'rgba(245,158,11,0.03)',
       features: ["Tout du plan Pro", 'Équipes & groupes', 'Active Directory (LDAP)', 'Audit organisation', 'SIEM / Syslog', 'Déploiement on-premise', 'Licence + support dédiés'],
       cta: 'Nous contacter', ctaHref: 'mailto:mouhamadoumoustapha.dione@dencu.online',
       ctaStyle: { background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', color: '#f59e0b' },
+      isPopular: false,
     },
   ]
+
+  const cardTransform = (p, i) => {
+    if (!isDesktop) return 'none'
+    if (p.isPopular) return 'translateY(-22px) scale(1.03)'
+    return i === 0 ? 'translateX(18px) scale(0.95)' : 'translateX(-18px) scale(0.95)'
+  }
 
   return (
     <section id="pricing" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+
         <Reveal>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>TARIFS</p>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
               Simple. Transparent. En FCFA.
@@ -625,40 +662,74 @@ function PricingSection() {
           </div>
         </Reveal>
 
-        <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
+        {/* Toggle mensuel / annuel */}
+        <Reveal delay={80}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, justifyContent: 'center', marginBottom: '3.5rem' }}>
+            <span style={{ fontSize: 14, fontWeight: yearly ? 400 : 600, color: yearly ? 'var(--text4)' : 'var(--text)', transition: 'all 0.2s', fontFamily: "'Inter', sans-serif" }}>Mensuel</span>
+            <button ref={switchRef} role="switch" aria-checked={yearly} onClick={() => handleToggle(!yearly)}
+              style={{ width: 50, height: 28, borderRadius: 14, border: 'none', cursor: 'pointer', position: 'relative', background: yearly ? '#2fd9f4' : 'rgba(47,217,244,0.2)', transition: 'background 0.28s', flexShrink: 0 }}>
+              <span style={{ position: 'absolute', top: 4, left: yearly ? 26 : 4, width: 20, height: 20, borderRadius: '50%', background: yearly ? '#07111f' : 'var(--text2)', transition: 'left 0.28s cubic-bezier(0.34,1.56,0.64,1)', display: 'block' }} />
+            </button>
+            <span style={{ fontSize: 14, fontWeight: yearly ? 600 : 400, color: yearly ? 'var(--text)' : 'var(--text4)', transition: 'all 0.2s', fontFamily: "'Inter', sans-serif" }}>
+              Annuel <span style={{ color: '#22c55e', fontWeight: 700, fontSize: 13 }}>−20%</span>
+            </span>
+          </div>
+        </Reveal>
+
+        <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', alignItems: 'start', paddingTop: 28 }}>
           {plans.map((p, i) => (
-            <Reveal key={p.name} delay={i * 120}>
-            <div className="price-card" style={{ position: 'relative', padding: '2.25rem', borderRadius: 20, border: `1px solid ${p.border}`, background: 'var(--bg-card)', backdropFilter: 'blur(20px) saturate(150%)', WebkitBackdropFilter: 'blur(20px) saturate(150%)', overflow: 'hidden' }}>
-              {/* Color tint + glow orb */}
-              <div style={{ position: 'absolute', inset: 0, background: p.bg, pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', top: -50, right: -50, width: 160, height: 160, borderRadius: '50%', background: `radial-gradient(circle, ${p.color}20 0%, transparent 70%)`, pointerEvents: 'none' }} />
-              {p.badge && <div style={{ position: 'absolute', top: 0, right: 20, background: '#8b5cf6', color: '#fff', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px', zIndex: 1 }}>POPULAIRE</div>}
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
+            <Reveal key={p.name} delay={i * 100}>
+              <div style={{ transform: cardTransform(p, i), transition: 'transform 0.55s cubic-bezier(0.16,1,0.3,1)' }}>
+                <div className="price-card" style={{ position: 'relative', padding: '2.25rem', borderRadius: 20, border: `1px solid ${p.isPopular ? p.border : p.border}`, background: 'var(--bg-card)', backdropFilter: 'blur(20px) saturate(150%)', WebkitBackdropFilter: 'blur(20px) saturate(150%)', overflow: 'hidden', boxShadow: p.isPopular ? `0 24px 64px ${p.color}22` : 'none' }}>
+                  <div style={{ position: 'absolute', inset: 0, background: p.bg, pointerEvents: 'none' }} />
+                  <div style={{ position: 'absolute', top: -50, right: -50, width: 160, height: 160, borderRadius: '50%', background: `radial-gradient(circle, ${p.color}22 0%, transparent 70%)`, pointerEvents: 'none' }} />
+                  {p.isPopular && <div style={{ position: 'absolute', top: 0, right: 20, background: '#8b5cf6', color: '#fff', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px', zIndex: 1 }}>POPULAIRE</div>}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
 
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: p.color, letterSpacing: '0.14em', marginBottom: '0.6rem' }}>{p.tag}</p>
-              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 20, color: 'var(--text)', marginBottom: '0.5rem' }}>{p.name}</p>
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: p.color, letterSpacing: '0.14em', marginBottom: '0.5rem', position: 'relative' }}>{p.tag}</p>
+                  <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 20, color: 'var(--text)', marginBottom: '1rem', position: 'relative' }}>{p.name}</p>
 
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, margin: '1rem 0 0.5rem' }}>
-                <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: p.price === 'Sur devis' ? 26 : 34, color: 'var(--text)', letterSpacing: '-0.04em' }}>{p.price}</span>
-                {p.suffix && <span style={{ fontSize: 12, color: 'var(--text4)' }}>{p.suffix}</span>}
-              </div>
-              <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, marginBottom: '1.75rem' }}>{p.desc}</p>
-
-              <a href={p.ctaHref} style={{ display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.75rem', transition: 'all 0.2s', ...p.ctaStyle }}>
-                {p.cta}
-              </a>
-
-              <div style={{ borderTop: `1px solid ${p.border}`, paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {p.features.map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 13, color: 'var(--text2)' }}>
-                    <span style={{ color: p.color, flexShrink: 0, marginTop: 1 }}><IcoCheck /></span>{f}
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4, position: 'relative' }}>
+                    {p.price !== null ? (
+                      <NumberFlow
+                        value={yearly ? p.yearlyPrice : p.price}
+                        format={{ useGrouping: true }}
+                        style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 36, color: 'var(--text)', letterSpacing: '-0.04em' }}
+                      />
+                    ) : (
+                      <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 26, color: 'var(--text)', letterSpacing: '-0.04em' }}>Sur devis</span>
+                    )}
+                    {p.price !== null && <span style={{ fontSize: 12, color: 'var(--text4)' }}>FCFA / mois</span>}
                   </div>
-                ))}
+
+                  {/* Économies annuelles */}
+                  <div style={{ height: 20, marginBottom: '1rem', position: 'relative' }}>
+                    {yearly && p.price > 0 && (
+                      <span style={{ fontSize: 11, color: '#22c55e', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.04em' }}>
+                        Économisez {((p.price - p.yearlyPrice) * 12).toLocaleString('fr-FR')} FCFA/an
+                      </span>
+                    )}
+                  </div>
+
+                  <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, marginBottom: '1.5rem', position: 'relative' }}>{p.desc}</p>
+
+                  <a href={p.ctaHref} style={{ display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.75rem', transition: 'all 0.2s', position: 'relative', ...p.ctaStyle }}>
+                    {p.cta}
+                  </a>
+
+                  <div style={{ borderTop: `1px solid ${p.border}`, paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative' }}>
+                    {p.features.map(f => (
+                      <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 13, color: 'var(--text2)' }}>
+                        <span style={{ color: p.color, flexShrink: 0, marginTop: 1 }}><IcoCheck /></span>{f}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
             </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   )
