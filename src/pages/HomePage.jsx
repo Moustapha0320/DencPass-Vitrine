@@ -93,6 +93,36 @@ function useTheme() {
   return { theme, setTheme }
 }
 
+// ─── Reveal on scroll ──────────────────────────────────────────────────────────
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+function Reveal({ children, delay = 0, y = 28, style = {} }) {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(prefersReducedMotion)
+
+  useEffect(() => {
+    if (prefersReducedMotion) return
+    const el = ref.current; if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
+      { threshold: 0.1, rootMargin: '0px 0px -48px 0px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} style={{
+      opacity:    visible ? 1 : 0,
+      transform:  visible ? 'translateY(0)' : `translateY(${y}px)`,
+      transition: `opacity 0.65s ease ${delay}ms, transform 0.65s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+      ...style,
+    }}>
+      {children}
+    </div>
+  )
+}
+
 // ─── Icons ─────────────────────────────────────────────────────────────────────
 const Ico = ({ d, size = 18 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={d}/></svg>
 const IcoCheck   = ({ size=15 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -488,11 +518,13 @@ function StatsBar() {
   return (
     <div style={{ background: 'var(--bg2)', borderTop: '1px solid rgba(47,217,244,0.07)', borderBottom: '1px solid rgba(47,217,244,0.07)', padding: '1.1rem 0' }}>
       <div className="proof-bar" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 max(1.5rem, calc((100% - 1200px) / 2))', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem' }}>
-        {items.map(({ v, l }) => (
-          <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 9, flex: '1 1 auto', justifyContent: 'center' }}>
-            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 17, color: '#2fd9f4' }}>{v}</span>
-            <span style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif" }}>{l}</span>
-          </div>
+        {items.map(({ v, l }, i) => (
+          <Reveal key={l} delay={i * 80} y={16}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, flex: '1 1 auto', justifyContent: 'center' }}>
+              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 17, color: '#2fd9f4' }}>{v}</span>
+              <span style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif" }}>{l}</span>
+            </div>
+          </Reveal>
         ))}
       </div>
     </div>
@@ -535,19 +567,22 @@ function PricingSection() {
   return (
     <section id="pricing" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>TARIFS</p>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
-            Simple. Transparent. En FCFA.
-          </h2>
-          <p style={{ fontSize: 16, color: 'var(--text3)', maxWidth: 440, margin: '0 auto' }}>
-            Pas de conversion, pas de frais cachés. Payez directement en francs CFA.
-          </p>
-        </div>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>TARIFS</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
+              Simple. Transparent. En FCFA.
+            </h2>
+            <p style={{ fontSize: 16, color: 'var(--text3)', maxWidth: 440, margin: '0 auto' }}>
+              Pas de conversion, pas de frais cachés. Payez directement en francs CFA.
+            </p>
+          </div>
+        </Reveal>
 
         <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
-          {plans.map(p => (
-            <div key={p.name} className="price-card" style={{ position: 'relative', padding: '2.25rem', borderRadius: 20, border: `1px solid ${p.border}`, background: p.bg, overflow: 'hidden' }}>
+          {plans.map((p, i) => (
+            <Reveal key={p.name} delay={i * 120}>
+            <div className="price-card" style={{ position: 'relative', padding: '2.25rem', borderRadius: 20, border: `1px solid ${p.border}`, background: p.bg, overflow: 'hidden' }}>
               {p.badge && <div style={{ position: 'absolute', top: 0, right: 20, background: '#8b5cf6', color: '#fff', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px' }}>POPULAIRE</div>}
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
 
@@ -572,6 +607,7 @@ function PricingSection() {
                 ))}
               </div>
             </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -584,22 +620,26 @@ function FeaturesSection() {
   return (
     <section id="features" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ marginBottom: '4rem', maxWidth: 560 }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>FONCTIONNALITÉS</p>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
-            Tout ce dont vous avez besoin.
-          </h2>
-          <p style={{ fontSize: 16, color: 'var(--text3)', lineHeight: 1.75 }}>
-            De la gestion quotidienne des accès à la sécurité enterprise avec SIEM et Active Directory.
-          </p>
-        </div>
+        <Reveal>
+          <div style={{ marginBottom: '4rem', maxWidth: 560 }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>FONCTIONNALITÉS</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
+              Tout ce dont vous avez besoin.
+            </h2>
+            <p style={{ fontSize: 16, color: 'var(--text3)', lineHeight: 1.75 }}>
+              De la gestion quotidienne des accès à la sécurité enterprise avec SIEM et Active Directory.
+            </p>
+          </div>
+        </Reveal>
         <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.1rem' }}>
-          {FEATURES.map(({ Icon, title, desc, color }) => (
-            <div key={title} className="card-hover" style={{ padding: '1.6rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.07)', background: 'var(--bg-card)', cursor: 'default' }}>
+          {FEATURES.map(({ Icon, title, desc, color }, i) => (
+            <Reveal key={title} delay={(i % 3) * 90}>
+            <div className="card-hover" style={{ padding: '1.6rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.07)', background: 'var(--bg-card)', cursor: 'default' }}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: `${color}12`, border: `1px solid ${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, marginBottom: '1.1rem' }}><Icon /></div>
               <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{title}</h3>
               <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: 0 }}>{desc}</p>
             </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -633,30 +673,34 @@ function EditionsSection() {
   return (
     <section id="editions" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>ÉDITIONS</p>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Une solution pour chaque besoin</h2>
-        </div>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>ÉDITIONS</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Une solution pour chaque besoin</h2>
+          </div>
+        </Reveal>
         <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
-          {editions.map(ed => (
-            <div key={ed.tag} className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: `1px solid ${ed.border}`, background: ed.bg, position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${ed.color}, transparent)` }} />
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: ed.color, letterSpacing: '0.14em', marginBottom: '0.25rem' }}>{ed.tag}</p>
-              <p style={{ fontSize: 12, color: 'var(--text4)', marginBottom: '1rem' }}>{ed.sub}</p>
-              <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{ed.desc}</p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
-                {ed.items.map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--text2)' }}>
-                    <span style={{ color: ed.color, flexShrink: 0 }}><IcoCheck /></span>{f}
-                  </li>
-                ))}
-              </ul>
-              {ed.cta && (
-                <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '1.5rem', fontSize: 13, fontWeight: 600, color: ed.color }}>
-                  {ed.cta} <IcoArrow size={13} />
-                </a>
-              )}
-            </div>
+          {editions.map((ed, i) => (
+            <Reveal key={ed.tag} delay={i * 120}>
+              <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: `1px solid ${ed.border}`, background: ed.bg, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${ed.color}, transparent)` }} />
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: ed.color, letterSpacing: '0.14em', marginBottom: '0.25rem' }}>{ed.tag}</p>
+                <p style={{ fontSize: 12, color: 'var(--text4)', marginBottom: '1rem' }}>{ed.sub}</p>
+                <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{ed.desc}</p>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
+                  {ed.items.map(f => (
+                    <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--text2)' }}>
+                      <span style={{ color: ed.color, flexShrink: 0 }}><IcoCheck /></span>{f}
+                    </li>
+                  ))}
+                </ul>
+                {ed.cta && (
+                  <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '1.5rem', fontSize: 13, fontWeight: 600, color: ed.color }}>
+                    {ed.cta} <IcoArrow size={13} />
+                  </a>
+                )}
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -669,19 +713,23 @@ function SecuritySection() {
   return (
     <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>SÉCURITÉ</p>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Aucun compromis</h2>
-        </div>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>SÉCURITÉ</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Aucun compromis</h2>
+          </div>
+        </Reveal>
         <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-          {SECURITY.map(s => (
-            <div key={s.title} className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.09)', background: 'var(--bg-card)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
+          {SECURITY.map((s, i) => (
+            <Reveal key={s.title} delay={(i % 2) * 100}>
+            <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.09)', background: 'var(--bg-card)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2fd9f4', flexShrink: 0 }}><s.Icon /></div>
               <div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{s.title}</h3>
                 <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
               </div>
             </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -695,13 +743,16 @@ function FAQSection() {
   return (
     <section id="faq" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
       <div style={{ maxWidth: 760, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>FAQ</p>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Questions fréquentes</h2>
-        </div>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>FAQ</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Questions fréquentes</h2>
+          </div>
+        </Reveal>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
           {FAQS.map((faq, i) => (
-            <div key={i} style={{ borderRadius: 14, border: `1px solid ${open===i ? 'rgba(47,217,244,0.22)' : 'rgba(47,217,244,0.07)'}`, background: open===i ? 'rgba(47,217,244,0.04)' : 'var(--bg-card)', overflow: 'hidden', transition: 'border-color 0.2s, background 0.2s' }}>
+            <Reveal key={i} delay={i * 60}>
+            <div style={{ borderRadius: 14, border: `1px solid ${open===i ? 'rgba(47,217,244,0.22)' : 'rgba(47,217,244,0.07)'}`, background: open===i ? 'rgba(47,217,244,0.04)' : 'var(--bg-card)', overflow: 'hidden', transition: 'border-color 0.2s, background 0.2s' }}>
               <button onClick={() => setOpen(open===i ? null : i)} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.15rem 1.4rem', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', gap: 16 }}>
                 <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1.4 }}>{faq.q}</span>
                 <span style={{ color: '#2fd9f4', flexShrink: 0, transition: 'transform 0.22s', transform: open===i ? 'rotate(180deg)' : 'none', display: 'flex' }}><IcoChevron /></span>
@@ -712,6 +763,7 @@ function FAQSection() {
                 </div>
               )}
             </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -724,6 +776,7 @@ function CTABanner() {
   return (
     <section style={{ padding: '5rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <Reveal>
         <div style={{ borderRadius: 24, border: '1px solid rgba(47,217,244,0.18)', background: 'linear-gradient(135deg, rgba(47,217,244,0.05) 0%, rgba(139,92,246,0.05) 100%)', padding: 'clamp(3rem,6vw,5rem)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(47,217,244,0.04) 0%, transparent 60%)', pointerEvents: 'none' }} />
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem', position: 'relative' }}>COMMENCER MAINTENANT</p>
@@ -744,6 +797,7 @@ function CTABanner() {
             </a>
           </div>
         </div>
+        </Reveal>
       </div>
     </section>
   )
