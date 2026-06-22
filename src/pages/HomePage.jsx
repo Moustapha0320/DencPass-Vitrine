@@ -362,94 +362,106 @@ function CipherGrid() {
   return <canvas ref={ref} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} />
 }
 
-// ─── Entry icon for mockup ─────────────────────────────────────────────────────
-function EntryInitial({ label, color }) {
-  return (
-    <div style={{ width: 36, height: 36, borderRadius: 9, background: `${color}14`, border: `1px solid ${color}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-      <span style={{ fontSize: 13, fontWeight: 700, color, fontFamily: "'Space Grotesk', sans-serif" }}>{label}</span>
-    </div>
-  )
-}
-
 // ─── Product Mockup ────────────────────────────────────────────────────────────
 function ProductMockup() {
   const entries = [
-    { initials: 'BQ', initColor: '#2fd9f4', name: 'Banque en ligne',  user: 'john.doe@gmail.com',  score: 98,  scoreColor: '#2fd9f4' },
-    { initials: 'RH', initColor: '#8b5cf6', name: 'Portail RH',       user: 'pathe.diallo',         score: 84,  scoreColor: '#8b5cf6' },
-    { initials: 'AW', initColor: '#22c55e', name: 'AWS Production',   user: 'toto@acmecorp.io',     score: 100, scoreColor: '#22c55e' },
+    { initials: 'BQ', name: 'Banque en ligne',  user: 'john.doe@gmail.com', score: 98  },
+    { initials: 'RH', name: 'Portail RH',        user: 'pathe.diallo',       score: 84  },
+    { initials: 'AW', name: 'AWS Production',    user: 'toto@acmecorp.io',   score: 100 },
   ]
+
+  const scoreGradient = s =>
+    s >= 90 ? 'linear-gradient(90deg,rgba(47,217,244,0.5),#2fd9f4)'
+    : s >= 70 ? 'linear-gradient(90deg,rgba(47,217,244,0.3),rgba(47,217,244,0.8))'
+    : 'linear-gradient(90deg,rgba(47,217,244,0.15),rgba(47,217,244,0.55))'
+
   return (
     <div style={{ position: 'relative', width: '100%', maxWidth: 420 }}>
-      <div style={{ position: 'absolute', inset: '-30px', background: 'radial-gradient(ellipse at 50% 50%, rgba(47,217,244,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      {/* ambient glow */}
+      <div style={{ position: 'absolute', inset: '-40px', background: 'radial-gradient(ellipse at 50% 50%, rgba(47,217,244,0.08) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-      <div style={{ position: 'relative', background: 'var(--bg2)', border: '1px solid rgba(47,217,244,0.18)', borderRadius: 18, overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(47,217,244,0.06)', animation: 'mockup-float 7s ease-in-out infinite' }}>
+      <div style={{ position: 'relative', background: '#080f1c', border: '1px solid rgba(47,217,244,0.16)', borderRadius: 20, overflow: 'hidden', boxShadow: '0 48px 120px rgba(0,0,0,0.75), 0 0 0 1px rgba(47,217,244,0.05)', animation: 'mockup-float 7s ease-in-out infinite' }}>
 
         {/* Window chrome */}
-        <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(47,217,244,0.09)', display: 'flex', alignItems: 'center', gap: 8, background: 'var(--bg-overlay)' }}>
+        <div style={{ padding: '11px 14px', borderBottom: '1px solid rgba(47,217,244,0.07)', display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.02)' }}>
           <div style={{ display: 'flex', gap: 5 }}>
-            {['#ff5f57','#febc2e','#28c840'].map(c => <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c, opacity: 0.8 }} />)}
+            {['#ff5f57','#febc2e','#28c840'].map(c => <div key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.75 }} />)}
           </div>
-          <div style={{ flex: 1, background: 'rgba(47,217,244,0.05)', border: '1px solid rgba(47,217,244,0.1)', borderRadius: 6, padding: '3px 10px', display: 'flex', alignItems: 'center', gap: 5, marginLeft: 8 }}>
-            <span style={{ color: '#22c55e', display: 'flex' }}><IcoLock size={9} /></span>
-            <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>app.dencu.online</span>
+          <div style={{ flex: 1, background: 'rgba(47,217,244,0.04)', border: '1px solid rgba(47,217,244,0.09)', borderRadius: 6, padding: '3px 10px', display: 'flex', alignItems: 'center', gap: 5, marginLeft: 6 }}>
+            <span style={{ color: 'rgba(47,217,244,0.5)', display: 'flex' }}><IcoLock size={9} /></span>
+            <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.02em' }}>app.dencu.online</span>
           </div>
         </div>
 
+        {/* Tab bar */}
+        <div style={{ padding: '0 14px', borderBottom: '1px solid rgba(47,217,244,0.07)', display: 'flex', gap: 0, background: 'rgba(255,255,255,0.01)' }}>
+          {['Coffre', 'Générateur', 'Partage'].map((t, i) => (
+            <div key={t} style={{ padding: '8px 14px', fontSize: 11, fontFamily: "'Inter', sans-serif", fontWeight: i === 0 ? 600 : 400, color: i === 0 ? '#2fd9f4' : 'var(--text5)', borderBottom: i === 0 ? '2px solid #2fd9f4' : '2px solid transparent', cursor: 'default', transition: 'color 0.2s' }}>{t}</div>
+          ))}
+        </div>
+
         {/* Search */}
-        <div style={{ padding: '10px 14px', borderBottom: '1px solid rgba(47,217,244,0.06)' }}>
-          <div style={{ background: 'rgba(47,217,244,0.04)', border: '1px solid rgba(47,217,244,0.1)', borderRadius: 8, padding: '7px 11px', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: 'var(--text5)', display: 'flex' }}><IcoSearch /></span>
-            <span style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif" }}>Rechercher dans le coffre...</span>
+        <div style={{ padding: '10px 14px 8px' }}>
+          <div style={{ background: 'rgba(47,217,244,0.03)', border: '1px solid rgba(47,217,244,0.09)', borderRadius: 8, padding: '7px 11px', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ color: 'var(--text5)', display: 'flex', opacity: 0.6 }}><IcoSearch /></span>
+            <span style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif", opacity: 0.5 }}>Rechercher dans le coffre...</span>
           </div>
         </div>
 
         {/* Entries */}
-        <div style={{ padding: '4px 0' }}>
+        <div>
           {entries.map((e, i) => (
-            <div key={i} style={{ padding: '11px 14px', display: 'flex', alignItems: 'center', gap: 11, background: i === 0 ? 'rgba(47,217,244,0.04)' : 'transparent', borderLeft: i === 0 ? '2px solid rgba(47,217,244,0.6)' : '2px solid transparent', transition: 'background 0.2s' }}>
-              <EntryInitial label={e.initials} color={e.initColor} />
+            <div key={i} style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 11, background: i === 0 ? 'rgba(47,217,244,0.035)' : 'transparent', borderLeft: i === 0 ? '2px solid rgba(47,217,244,0.55)' : '2px solid transparent', borderBottom: i < entries.length - 1 ? '1px solid rgba(47,217,244,0.05)' : 'none' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 9, background: 'rgba(47,217,244,0.07)', border: '1px solid rgba(47,217,244,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(47,217,244,0.85)', fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.01em' }}>{e.initials}</span>
+              </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-head)', marginBottom: 2, fontFamily: "'Inter', sans-serif", overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.name}</div>
-                <div style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>{e.user}</div>
-                <div style={{ marginTop: 5, display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <div style={{ flex: 1, height: 2, borderRadius: 1, background: 'rgba(255,255,255,0.06)' }}>
-                    <div style={{ width: `${e.score}%`, height: '100%', borderRadius: 1, background: e.scoreColor }} />
+                <div style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace', monospace", marginBottom: 5, opacity: 0.7 }}>{e.user}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ flex: 1, height: 2, borderRadius: 1, background: 'rgba(255,255,255,0.05)' }}>
+                    <div style={{ width: `${e.score}%`, height: '100%', borderRadius: 1, background: scoreGradient(e.score), transition: 'width 0.6s ease' }} />
                   </div>
-                  <span style={{ fontSize: 9, color: e.scoreColor, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>{e.score}</span>
+                  <span style={{ fontSize: 9, color: 'rgba(47,217,244,0.7)', fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, minWidth: 14, textAlign: 'right' }}>{e.score}</span>
                 </div>
               </div>
-              <button style={{ background: 'rgba(47,217,244,0.07)', border: '1px solid rgba(47,217,244,0.14)', borderRadius: 6, padding: '5px 8px', color: '#2fd9f4', cursor: 'pointer', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+              <button style={{ background: 'rgba(47,217,244,0.06)', border: '1px solid rgba(47,217,244,0.12)', borderRadius: 7, padding: '6px 8px', color: 'rgba(47,217,244,0.6)', cursor: 'pointer', display: 'flex', alignItems: 'center', flexShrink: 0, transition: 'all 0.15s' }}>
                 <IcoCopy />
               </button>
             </div>
           ))}
         </div>
 
-        {/* Footer */}
-        <div style={{ padding: '9px 14px', borderTop: '1px solid rgba(47,217,244,0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-overlay)' }}>
-          <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>Score global</span>
+        {/* Footer status bar */}
+        <div style={{ padding: '8px 14px', borderTop: '1px solid rgba(47,217,244,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.015)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 56, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.06)' }}>
-              <div style={{ width: '94%', height: '100%', borderRadius: 2, background: 'linear-gradient(90deg, #2fd9f4, #8b5cf6)' }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2fd9f4', display: 'block', boxShadow: '0 0 6px rgba(47,217,244,0.7)' }} />
+            <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", opacity: 0.6 }}>3 entrées · chiffrées</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ width: 52, height: 2.5, borderRadius: 2, background: 'rgba(255,255,255,0.05)' }}>
+              <div style={{ width: '94%', height: '100%', borderRadius: 2, background: 'linear-gradient(90deg,rgba(47,217,244,0.4),#2fd9f4)' }} />
             </div>
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#2fd9f4', fontFamily: "'JetBrains Mono', monospace" }}>94/100</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#2fd9f4', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.02em' }}>94/100</span>
           </div>
         </div>
       </div>
 
-      {/* Floating badges */}
-      <div style={{ position: 'absolute', bottom: -18, left: -24, background: 'var(--bg2)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 12, padding: '9px 13px', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 8px 32px rgba(0,0,0,0.5)', animation: 'mockup-float 7s ease-in-out infinite 1.5s' }}>
-        <div style={{ width: 26, height: 26, borderRadius: 7, background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b5cf6' }}>
+      {/* Badge 2FA */}
+      <div style={{ position: 'absolute', bottom: -16, left: -20, background: '#080f1c', border: '1px solid rgba(47,217,244,0.2)', borderRadius: 12, padding: '9px 13px', display: 'flex', alignItems: 'center', gap: 9, boxShadow: '0 12px 40px rgba(0,0,0,0.6)', animation: 'mockup-float 7s ease-in-out infinite 1.5s' }}>
+        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2fd9f4' }}>
           <IcoPhone size={13} />
         </div>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text)', fontFamily: "'Space Grotesk', sans-serif" }}>2FA activé</div>
-          <div style={{ fontSize: 9, color: '#4a4a80', fontFamily: "'JetBrains Mono', monospace" }}>Google Auth</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text)', fontFamily: "'Space Grotesk', sans-serif", marginBottom: 1 }}>2FA activé</div>
+          <div style={{ fontSize: 9, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", opacity: 0.55 }}>Google Auth</div>
         </div>
       </div>
-      <div style={{ position: 'absolute', top: 48, right: -22, background: 'var(--bg2)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 10, padding: '7px 12px', boxShadow: '0 8px 32px rgba(0,0,0,0.5)', animation: 'mockup-float 7s ease-in-out infinite 3s' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: '#22c55e', fontFamily: "'JetBrains Mono', monospace" }}>Chiffre</div>
-        <div style={{ fontSize: 9, color: '#1a4a2e', fontFamily: "'JetBrains Mono', monospace" }}>AES-256</div>
+
+      {/* Badge AES */}
+      <div style={{ position: 'absolute', top: 52, right: -20, background: '#080f1c', border: '1px solid rgba(47,217,244,0.2)', borderRadius: 10, padding: '8px 13px', boxShadow: '0 12px 40px rgba(0,0,0,0.6)', animation: 'mockup-float 7s ease-in-out infinite 3s' }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#2fd9f4', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.04em', marginBottom: 2 }}>AES-256</div>
+        <div style={{ fontSize: 9, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", opacity: 0.5 }}>chiffré · HMAC</div>
       </div>
     </div>
   )
