@@ -312,7 +312,7 @@ function CipherGrid() {
           const d2 = dx * dx + dy * dy
           if (d2 < LINK2) {
             const d = Math.sqrt(d2)
-            const a = (1 - d / LINK_DIST) * (light ? 0.3 : 0.22)
+            const a = (1 - d / LINK_DIST) * (light ? 0.14 : 0.22)
             ctx.beginPath()
             ctx.strokeStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`
             ctx.lineWidth = 0.8
@@ -339,7 +339,7 @@ function CipherGrid() {
       }
 
       // Dots
-      const dotA = light ? 0.55 : 0.65
+      const dotA = light ? 0.18 : 0.65
       ctx.fillStyle = `rgba(${r},${g},${b},${dotA})`
       for (let i = 0; i < pts.length; i++) {
         ctx.beginPath()
@@ -521,8 +521,7 @@ function HeroSection() {
   return (
     <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden', paddingTop: 62, background: 'var(--bg)' }}>
       <CipherGrid />
-      <div style={{ position: 'absolute', top: '15%', left: '20%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(47,217,244,0.035) 0%, transparent 65%)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', top: '40%', right: '10%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(139,92,246,0.03) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: '15%', left: '20%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(47,217,244,0.03) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
       <div className="hero-grid" style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', padding: '4rem max(1.5rem, calc((100% - 1200px) / 2))', display: 'grid', gridTemplateColumns: '55% 45%', gap: '3rem', alignItems: 'center', width: '100%' }}>
 
@@ -549,7 +548,7 @@ function HeroSection() {
               Commencer gratuitement <IcoArrow />
             </a>
             <a href="#pricing" className="btn-ghost"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid rgba(47,217,244,0.22)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               Voir les tarifs
             </a>
           </div>
