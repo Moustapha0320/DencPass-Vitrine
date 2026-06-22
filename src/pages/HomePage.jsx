@@ -202,19 +202,19 @@ const IcoSearch   = ({ size=14 }) => <svg width={size} height={size} viewBox="0 
 const IcoCopy     = ({ size=11 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
 
 const FEATURES = [
-  { Icon: IcoVault,    title: 'Coffre chiffré',       desc: 'Mots de passe, identifiants et notes sécurisées avec historique des modifications.', color: '#2fd9f4' },
-  { Icon: IcoZap,      title: 'Générateur',            desc: 'Mots de passe aléatoires et passphrases avec mots à sonorités africaines.', color: '#8b5cf6' },
-  { Icon: IcoShare,    title: 'Partage sécurisé',      desc: 'Liens temporaires avec limite de vues, expiration et révocation à tout moment.', color: '#2fd9f4' },
-  { Icon: IcoKey,      title: 'Coffre des secrets',    desc: 'Clés API, tokens SSH, credentials de bases de données — avec journal d\'accès complet.', color: '#f59e0b' },
-  { Icon: IcoGlobe,    title: 'Extension Chrome',      desc: 'Remplissage automatique et détection proactive sur tous les sites de connexion.', color: '#22c55e' },
-  { Icon: IcoCert,     title: 'Certificats SSL/TLS',   desc: 'Suivi d\'expiration avec alertes automatiques avant renouvellement.', color: '#8b5cf6' },
-  { Icon: IcoUsers,    title: 'Équipes & groupes',     desc: 'Partagez des entrées avec des équipes, gérez les rôles et permissions par groupe.', color: '#2fd9f4' },
-  { Icon: IcoActivity, title: 'Audit & SIEM',          desc: 'Chaque action tracée. Intégration Splunk, Elastic, Wazuh via webhook ou Syslog.', color: '#f59e0b' },
-  { Icon: IcoServer,   title: 'Active Directory',      desc: 'Authentification LDAP native et synchronisation des utilisateurs depuis votre AD.', color: '#8b5cf6' },
+  { Icon: IcoVault,    title: 'Coffre chiffré',       desc: 'Mots de passe, identifiants et notes sécurisées avec historique des modifications.' },
+  { Icon: IcoZap,      title: 'Générateur',            desc: 'Mots de passe aléatoires et passphrases avec mots à sonorités africaines.' },
+  { Icon: IcoShare,    title: 'Partage sécurisé',      desc: 'Liens temporaires avec limite de vues, expiration et révocation à tout moment.' },
+  { Icon: IcoKey,      title: 'Coffre des secrets',    desc: 'Clés API, tokens SSH, credentials de bases de données — avec journal d\'accès complet.' },
+  { Icon: IcoGlobe,    title: 'Extension Chrome',      desc: 'Remplissage automatique et détection proactive sur tous les sites de connexion.' },
+  { Icon: IcoCert,     title: 'Certificats SSL/TLS',   desc: 'Suivi d\'expiration avec alertes automatiques avant renouvellement.' },
+  { Icon: IcoUsers,    title: 'Équipes & groupes',     desc: 'Partagez des entrées avec des équipes, gérez les rôles et permissions par groupe.' },
+  { Icon: IcoActivity, title: 'Audit & SIEM',          desc: 'Chaque action tracée. Intégration Splunk, Elastic, Wazuh via webhook ou Syslog.' },
+  { Icon: IcoServer,   title: 'Active Directory',      desc: 'Authentification LDAP native et synchronisation des utilisateurs depuis votre AD.' },
 ]
 
 const SECURITY = [
-  { Icon: IcoShield,    title: 'Chiffrement Fernet AES',      desc: 'Chaque entrée est chiffrée individuellement avant stockage. Rotation des clés depuis l\'interface admin sans interruption de service.' },
+  { Icon: IcoShield,    title: 'Chiffrement AES-256',          desc: 'Chaque entrée est chiffrée individuellement avant stockage. Rotation des clés depuis l\'interface admin sans interruption de service.' },
   { Icon: IcoPhone,     title: 'Authentification 2FA TOTP',   desc: 'Double authentification compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
   { Icon: IcoEye,       title: 'Zéro connaissance serveur',   desc: 'Même en cas d\'accès physique au serveur, vos données restent illisibles sans vos clés de chiffrement personnelles.' },
   { Icon: IcoClipboard, title: 'Audit complet',               desc: 'Chaque action tracée dans des logs structurés. Export vers votre SIEM via webhook (Splunk, Elastic) ou Syslog RFC 5424.' },
@@ -760,11 +760,10 @@ function FeaturesSection() {
           </div>
         </Reveal>
         <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.1rem' }}>
-          {FEATURES.map(({ Icon, title, desc, color }, i) => (
+          {FEATURES.map(({ Icon, title, desc }, i) => (
             <Reveal key={title} delay={(i % 3) * 90}>
-            <div className="card-hover" style={{ padding: '1.6rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', cursor: 'default', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: -30, right: -30, width: 100, height: 100, borderRadius: '50%', background: `radial-gradient(circle, ${color}14 0%, transparent 70%)`, pointerEvents: 'none' }} />
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: `${color}12`, border: `1px solid ${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, marginBottom: '1.1rem' }}><Icon /></div>
+            <div className="card-hover" style={{ padding: '1.6rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.08)', background: 'var(--bg-card)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', cursor: 'default' }}>
+              <div style={{ color: 'rgba(47,217,244,0.55)', marginBottom: '1rem' }}><Icon size={22} /></div>
               <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{title}</h3>
               <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: 0 }}>{desc}</p>
             </div>
