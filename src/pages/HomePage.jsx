@@ -120,7 +120,7 @@ const SECURITY = [
 ]
 
 const FAQS = [
-  { q: 'Comment mes données sont-elles chiffrées ?', a: 'Chaque mot de passe, secret et certificat est chiffré individuellement avec Fernet (AES-128-CBC + HMAC-SHA256) avant stockage. DencPass utilise MultiFernet — plusieurs clés en parallèle — pour permettre la rotation sans perte de données.' },
+  { q: 'Comment mes données sont-elles chiffrées ?', a: 'Chaque mot de passe, secret et certificat est chiffré individuellement avec AES avant d\'être stocké. DencPass applique également un contrôle d\'intégrité HMAC sur chaque donnée. Même nos équipes ne peuvent pas lire tes secrets — zéro accès en clair.' },
   { q: 'Puis-je migrer depuis Bitwarden, 1Password ou KeePass ?', a: 'Oui. DencPass accepte l\'import CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC directement depuis l\'interface. La migration prend moins de 2 minutes.' },
   { q: 'L\'extension Chrome est-elle incluse dans tous les plans ?', a: 'Oui, l\'extension Chrome est disponible dans tous les plans (Gratuit, Pro, Enterprise). Elle détecte automatiquement les champs de connexion et propose le remplissage en un clic.' },
   { q: 'Quelle différence entre SaaS et On-Premise ?', a: 'Enterprise SaaS est hébergé et maintenu par DencPass — rien à gérer de votre côté. Enterprise On-Premise s\'installe sur votre infrastructure (Docker ou bare metal) : vos données ne quittent jamais vos serveurs.' },
