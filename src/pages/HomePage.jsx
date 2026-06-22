@@ -93,6 +93,55 @@ function useTheme() {
   return { theme, setTheme }
 }
 
+// ─── Hero typewriter ───────────────────────────────────────────────────────────
+function HeroTypewriter() {
+  const LINE1 = 'Samm'
+  const LINE2 = 'sa sirru.'
+  const SPEED  = 72
+  const [l1, setL1]           = useState(prefersReducedMotion ? LINE1 : '')
+  const [l2, setL2]           = useState(prefersReducedMotion ? LINE2 : '')
+  const [phase, setPhase]     = useState(prefersReducedMotion ? 2 : 0)
+  const [showCursor, setCursor] = useState(!prefersReducedMotion)
+
+  useEffect(() => {
+    if (prefersReducedMotion) return
+    let i = 0
+    const t1 = setTimeout(() => {
+      const iv1 = setInterval(() => {
+        i++; setL1(LINE1.slice(0, i))
+        if (i >= LINE1.length) {
+          clearInterval(iv1)
+          setPhase(1)
+          let j = 0
+          setTimeout(() => {
+            const iv2 = setInterval(() => {
+              j++; setL2(LINE2.slice(0, j))
+              if (j >= LINE2.length) {
+                clearInterval(iv2)
+                setPhase(2)
+                setTimeout(() => setCursor(false), 1000)
+              }
+            }, SPEED)
+          }, 180)
+        }
+      }, SPEED)
+    }, 320)
+    return () => clearTimeout(t1)
+  }, [])
+
+  const cursor = showCursor ? (
+    <span style={{ display: 'inline-block', width: 3, height: '0.78em', background: '#2fd9f4', marginLeft: 4, verticalAlign: 'text-bottom', borderRadius: 1, animation: 'glow-pulse 0.65s ease-in-out infinite' }} />
+  ) : null
+
+  const span = { display: 'block', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(3.2rem, 6.5vw, 5.5rem)', color: 'var(--sand)' }
+  return (
+    <h1 style={{ lineHeight: 1.0, letterSpacing: '-0.045em', marginBottom: '0.75rem' }}>
+      <span style={span}>{l1}{phase === 0 ? cursor : null}</span>
+      <span style={span}>{l2}{phase >= 1 ? cursor : null}</span>
+    </h1>
+  )
+}
+
 // ─── Reveal on scroll ──────────────────────────────────────────────────────────
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -470,10 +519,7 @@ function HeroSection() {
             <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4', letterSpacing: '0.1em' }}>GESTIONNAIRE DE MOTS DE PASSE · SÉNÉGAL</span>
           </div>
 
-          <h1 style={{ lineHeight: 1.0, letterSpacing: '-0.045em', marginBottom: '0.75rem' }}>
-            <span className="hero-line" style={{ display: 'block', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(3.2rem, 6.5vw, 5.5rem)', color: 'var(--sand)' }}>Samm</span>
-            <span className="hero-line" style={{ display: 'block', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(3.2rem, 6.5vw, 5.5rem)', color: 'var(--sand)' }}>sa sirru.</span>
-          </h1>
+          <HeroTypewriter />
 
           <p style={{ fontSize: 18, color: 'var(--text3)', fontStyle: 'italic', fontWeight: 300, marginBottom: '1.5rem', animation: 'fade-up 0.7s ease both 0.25s', fontFamily: "'Inter', sans-serif" }}>
             Garde ton secret.
@@ -582,8 +628,11 @@ function PricingSection() {
         <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
           {plans.map((p, i) => (
             <Reveal key={p.name} delay={i * 120}>
-            <div className="price-card" style={{ position: 'relative', padding: '2.25rem', borderRadius: 20, border: `1px solid ${p.border}`, background: p.bg, overflow: 'hidden' }}>
-              {p.badge && <div style={{ position: 'absolute', top: 0, right: 20, background: '#8b5cf6', color: '#fff', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px' }}>POPULAIRE</div>}
+            <div className="price-card" style={{ position: 'relative', padding: '2.25rem', borderRadius: 20, border: `1px solid ${p.border}`, background: 'var(--bg-card)', backdropFilter: 'blur(20px) saturate(150%)', WebkitBackdropFilter: 'blur(20px) saturate(150%)', overflow: 'hidden' }}>
+              {/* Color tint + glow orb */}
+              <div style={{ position: 'absolute', inset: 0, background: p.bg, pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', top: -50, right: -50, width: 160, height: 160, borderRadius: '50%', background: `radial-gradient(circle, ${p.color}20 0%, transparent 70%)`, pointerEvents: 'none' }} />
+              {p.badge && <div style={{ position: 'absolute', top: 0, right: 20, background: '#8b5cf6', color: '#fff', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px', zIndex: 1 }}>POPULAIRE</div>}
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
 
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: p.color, letterSpacing: '0.14em', marginBottom: '0.6rem' }}>{p.tag}</p>
@@ -634,7 +683,8 @@ function FeaturesSection() {
         <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.1rem' }}>
           {FEATURES.map(({ Icon, title, desc, color }, i) => (
             <Reveal key={title} delay={(i % 3) * 90}>
-            <div className="card-hover" style={{ padding: '1.6rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.07)', background: 'var(--bg-card)', cursor: 'default' }}>
+            <div className="card-hover" style={{ padding: '1.6rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', cursor: 'default', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: -30, right: -30, width: 100, height: 100, borderRadius: '50%', background: `radial-gradient(circle, ${color}14 0%, transparent 70%)`, pointerEvents: 'none' }} />
               <div style={{ width: 40, height: 40, borderRadius: 10, background: `${color}12`, border: `1px solid ${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, marginBottom: '1.1rem' }}><Icon /></div>
               <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{title}</h3>
               <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: 0 }}>{desc}</p>
@@ -682,7 +732,9 @@ function EditionsSection() {
         <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
           {editions.map((ed, i) => (
             <Reveal key={ed.tag} delay={i * 120}>
-              <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: `1px solid ${ed.border}`, background: ed.bg, position: 'relative', overflow: 'hidden' }}>
+              <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: `1px solid ${ed.border}`, background: 'var(--bg-card)', backdropFilter: 'blur(20px) saturate(150%)', WebkitBackdropFilter: 'blur(20px) saturate(150%)', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', inset: 0, background: ed.bg, pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', top: -50, right: -50, width: 150, height: 150, borderRadius: '50%', background: `radial-gradient(circle, ${ed.color}1a 0%, transparent 70%)`, pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${ed.color}, transparent)` }} />
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: ed.color, letterSpacing: '0.14em', marginBottom: '0.25rem' }}>{ed.tag}</p>
                 <p style={{ fontSize: 12, color: 'var(--text4)', marginBottom: '1rem' }}>{ed.sub}</p>
@@ -722,7 +774,7 @@ function SecuritySection() {
         <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
           {SECURITY.map((s, i) => (
             <Reveal key={s.title} delay={(i % 2) * 100}>
-            <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.09)', background: 'var(--bg-card)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
+            <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2fd9f4', flexShrink: 0 }}><s.Icon /></div>
               <div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{s.title}</h3>
