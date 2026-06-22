@@ -59,17 +59,37 @@ function LegalModal({ type, onClose }) {
 }
 
 // ─── useTheme ──────────────────────────────────────────────────────────────────
+function resolveTheme(t) {
+  return t === 'system'
+    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    : t
+}
+
 function useTheme() {
   const [theme, setThemeState] = useState(() => localStorage.getItem('denc-theme') || 'dark')
+
+  const applyTheme = useCallback(t => {
+    document.documentElement.setAttribute('data-theme', resolveTheme(t))
+  }, [])
+
   const setTheme = useCallback(t => {
     setThemeState(t)
     localStorage.setItem('denc-theme', t)
-    const resolved = t === 'system'
-      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-      : t
-    document.documentElement.setAttribute('data-theme', resolved)
-  }, [])
-  useEffect(() => { setTheme(theme) }, [])
+    applyTheme(t)
+  }, [applyTheme])
+
+  // Apply on mount
+  useEffect(() => { applyTheme(theme) }, [])
+
+  // When system mode is active, track OS preference changes live
+  useEffect(() => {
+    if (theme !== 'system') return
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const handler = () => applyTheme('system')
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [theme, applyTheme])
+
   return { theme, setTheme }
 }
 
@@ -125,7 +145,7 @@ const FAQS = [
   { q: 'L\'extension Chrome est-elle incluse dans tous les plans ?', a: 'Oui, l\'extension Chrome est disponible dans tous les plans (Gratuit, Pro, Enterprise). Elle détecte automatiquement les champs de connexion et propose le remplissage en un clic.' },
   { q: 'Quelle différence entre SaaS et On-Premise ?', a: 'Enterprise SaaS est hébergé et maintenu par DencPass — rien à gérer de votre côté. Enterprise On-Premise s\'installe sur votre infrastructure (Docker ou bare metal) : vos données ne quittent jamais vos serveurs.' },
   { q: 'Comment fonctionne le paiement Enterprise ?', a: 'Pour les éditions Enterprise, nous établissons un devis personnalisé selon le nombre de sièges et la durée. Paiement en FCFA, par virement ou mobile money (Wave, Orange Money).' },
-  { q: 'Que se passe-t-il si j\'oublie mon mot de passe principal ?', a: 'Un administrateur peut effectuer le reset depuis le panneau d\'administration. Le reset par email est en cours de développement (roadmap 2.0).' },
+  { q: 'Que se passe-t-il si j\'oublie mon mot de passe principal ?', a: 'Cliquez sur "Mot de passe oublié ?" depuis la page de connexion. Vous recevrez un lien de réinitialisation valable 1 heure. Un administrateur peut également effectuer le reset depuis le panneau d\'administration.' },
 ]
 
 // ─── Net background ────────────────────────────────────────────────────────────
