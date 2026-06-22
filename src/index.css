@@ -2,41 +2,65 @@
 
 :root,
 [data-theme="dark"] {
-  --bg:      #030d12;
-  --bg2:     #071520;
-  --bg3:     #0c1f2e;
-  --accent:  #2fd9f4;
-  --purple:  #8b5cf6;
-  --text:    #dff0f5;
-  --text2:   #6a95aa;
-  --text3:   #3d6475;
-  --border:  rgba(47,217,244,0.1);
-  --border2: rgba(47,217,244,0.2);
+  --bg:         #07111f;
+  --bg2:        #0d1a2e;
+  --bg3:        #111f35;
+  --bg-alt:     #0a1628;
+  --bg-card:    rgba(13,26,46,0.6);
+  --bg-nav:     rgba(7,17,31,0.88);
+  --bg-overlay: rgba(7,17,31,0.4);
+  --accent:     #2fd9f4;
+  --purple:     #8b5cf6;
+  --amber:      #f59e0b;
+  --green:      #22c55e;
+  --sand:       #f0e4c4;
+  --text:       #e8edf5;
+  --text-head:  #dff0f5;
+  --text2:      #8aa8be;
+  --text3:      #6a95aa;
+  --text4:      #4a7a95;
+  --text5:      #2d5570;
+  --border:     rgba(47,217,244,0.08);
+  --border2:    rgba(47,217,244,0.18);
+  --border3:    rgba(47,217,244,0.25);
   color-scheme: dark;
 }
 
 [data-theme="light"] {
-  --bg:      #f4f9fc;
-  --bg2:     #e8f3f9;
-  --bg3:     #dceef7;
-  --accent:  #0993ab;
-  --purple:  #7c3aed;
-  --text:    #06131d;
-  --text2:   #2d5068;
-  --text3:   #5a7f96;
-  --border:  rgba(9,147,171,0.18);
-  --border2: rgba(9,147,171,0.32);
+  --bg:         #f4f8fc;
+  --bg2:        #e8f1f9;
+  --bg3:        #dce8f4;
+  --bg-alt:     #edf4fb;
+  --bg-card:    rgba(255,255,255,0.9);
+  --bg-nav:     rgba(244,248,252,0.92);
+  --bg-overlay: rgba(224,236,248,0.5);
+  --accent:     #0888a3;
+  --purple:     #7c3aed;
+  --amber:      #d97706;
+  --green:      #16a34a;
+  --sand:       #1a2f42;
+  --text:       #0d1e30;
+  --text-head:  #0a1929;
+  --text2:      #2d5068;
+  --text3:      #3a6880;
+  --text4:      #4a7a95;
+  --text5:      #7a9ab5;
+  --border:     rgba(8,136,163,0.14);
+  --border2:    rgba(8,136,163,0.28);
+  --border3:    rgba(8,136,163,0.35);
   color-scheme: light;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a { text-decoration: none; color: inherit; }
+button { font-family: inherit; }

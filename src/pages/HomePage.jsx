@@ -1,734 +1,839 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
-// ── SVG Icons ──────────────────────────────────────────────────────────────────
-const IconLock     = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-const IconKey      = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
-const IconShield   = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-const IconZap      = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-const IconEye      = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-const IconShare    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-const IconCert     = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="2"/><path d="m10.5 17.5-1 2.5 2.5-1 2.5 1-1-2.5"/></svg>
-const IconUsers    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-const IconGlobe    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-const IconCheck    = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-const IconArrow    = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-
-// ── Cipher Grid Background ─────────────────────────────────────────────────────
-function CipherGrid() {
-  const canvasRef = useRef(null)
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    const chars = '0123456789ABCDEF'
-    const cols = 40
-    const rows = 20
-    const cells = Array.from({ length: cols * rows }, () => ({
-      char: chars[Math.floor(Math.random() * chars.length)],
-      opacity: Math.random(),
-      speed: 0.002 + Math.random() * 0.004,
-      phase: Math.random() * Math.PI * 2,
-    }))
-
-    let raf
-    let t = 0
-    const draw = () => {
-      const w = canvas.offsetWidth
-      const h = canvas.offsetHeight
-      canvas.width = w
-      canvas.height = h
-      ctx.clearRect(0, 0, w, h)
-      ctx.font = `${Math.floor(w / cols)}px "JetBrains Mono", monospace`
-      ctx.textAlign = 'center'
-      const cw = w / cols
-      const ch = h / rows
-
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light'
-      const maxOp   = isLight ? 0.18 : 0.07
-      const color   = isLight ? '9,100,130' : '47,217,244'
-
-      cells.forEach((cell, i) => {
-        const col = i % cols
-        const row = Math.floor(i / cols)
-        const op = (Math.sin(t * cell.speed * 100 + cell.phase) + 1) / 2 * maxOp
-        ctx.fillStyle = `rgba(${color},${op})`
-        ctx.fillText(cell.char, col * cw + cw / 2, row * ch + ch * 0.75)
-        if (Math.random() < 0.001) cell.char = chars[Math.floor(Math.random() * chars.length)]
-      })
-      t++
-      raf = requestAnimationFrame(draw)
-    }
-    draw()
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-    />
-  )
-}
-
-// ── Features data ──────────────────────────────────────────────────────────────
-const FEATURES = [
-  { Icon: IconKey,   title: 'Gestionnaire de mots de passe', desc: 'Centralisez tous vos accès dans un coffre chiffré. Organisez, recherchez, accédez instantanément.' },
-  { Icon: IconLock,  title: 'Coffre des secrets', desc: 'Tokens API, clés SSH, variables d\'environnement. Chaque secret est chiffré avant d\'être stocké.' },
-  { Icon: IconShield,title: 'Double authentification', desc: 'TOTP intégré. Chaque compte protégé par une deuxième couche infranchissable.' },
-  { Icon: IconZap,   title: 'Générateur cryptographique', desc: 'Entropie maximale, longueur configurable, règles de complexité personnalisables.' },
-  { Icon: IconEye,   title: 'Audit de sécurité', desc: 'Détection des mots de passe faibles, réutilisés ou compromis. Score de sécurité en temps réel.' },
-  { Icon: IconShare, title: 'Partage sécurisé', desc: 'Transmettez des accès à vos équipes avec contrôle de durée, nombre de vues et révocation.' },
-  { Icon: IconCert,  title: 'Certificats SSL/TLS', desc: 'Stockage et suivi de vos certificats. Alertes automatiques avant expiration.' },
-  { Icon: IconGlobe, title: 'Extension navigateur', desc: 'Remplissage automatique dans Chrome. Vos mots de passe là où vous en avez besoin.' },
-  { Icon: IconUsers, title: 'Gestion des équipes', desc: 'Groupes, rôles et permissions granulaires. Visibilité complète sur les accès de chaque membre.' },
-]
-
-// ── Main Component ─────────────────────────────────────────────────────────────
-function useTheme() {
-  const getSystemTheme = () =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-
-  const [theme, setThemeState] = useState(() => {
-    const saved = localStorage.getItem('denc-theme')
-    return saved || 'system'
-  })
-
-  const applyTheme = useCallback((t) => {
-    const resolved = t === 'system' ? getSystemTheme() : t
-    document.documentElement.setAttribute('data-theme', resolved)
-  }, [])
-
-  useEffect(() => {
-    applyTheme(theme)
-    const mq = window.matchMedia('(prefers-color-scheme: dark)')
-    const handler = () => { if (theme === 'system') applyTheme('system') }
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [theme, applyTheme])
-
-  const setTheme = (t) => {
-    setThemeState(t)
-    localStorage.setItem('denc-theme', t)
-  }
-
-  return { theme, setTheme }
-}
-
+// ─── Legal content ─────────────────────────────────────────────────────────────
 const LEGAL = {
   cgu: {
     title: "Conditions d'utilisation",
-    content: [
-      { h: "1. Objet", p: "Les présentes conditions régissent l'utilisation de Denc, gestionnaire de mots de passe et de secrets numériques, accessible sur app.dencu.online. En créant un compte, vous acceptez ces conditions dans leur intégralité." },
-      { h: "2. Accès au service", p: "Denc est accessible aux particuliers (édition Community / Pro) et aux organisations (édition Enterprise Cloud). L'accès Enterprise Cloud est conditionné à la possession d'une licence valide délivrée par Denc." },
-      { h: "3. Responsabilités de l'utilisateur", p: "Vous êtes responsable de la confidentialité de vos identifiants, de l'exactitude des données saisies, et de la sécurité de votre appareil. Denc ne peut être tenu responsable d'une compromission liée à la négligence de l'utilisateur." },
-      { h: "4. Données chiffrées", p: "Vos mots de passe, secrets et certificats sont chiffrés avant d'être stockés. Denc ne dispose d'aucun accès en clair à vos données sensibles." },
-      { h: "5. Résiliation", p: "Vous pouvez supprimer votre compte à tout moment depuis les Paramètres → Zone de danger. Pour les organisations, la résiliation intervient à l'expiration de la licence, après la période de grâce de 7 jours." },
-      { h: "6. Modifications", p: "Denc se réserve le droit de modifier ces conditions. Les utilisateurs seront notifiés par email au moins 15 jours avant toute modification substantielle." },
-      { h: "7. Contact", p: "Pour toute question : mouhamadoumoustapha.dione@dencu.online" },
+    sections: [
+      { h: "1. Objet", p: "Les présentes conditions régissent l'utilisation de DencPass, gestionnaire de mots de passe et de secrets numériques, accessible sur app.dencu.online. En créant un compte, vous acceptez ces conditions dans leur intégralité." },
+      { h: "2. Accès au service", p: "Denc est accessible aux particuliers (édition Community / Pro) et aux organisations (édition Enterprise SaaS). L'accès Enterprise SaaS est conditionné à la possession d'une licence valide délivrée par DencPass." },
+      { h: "3. Responsabilités", p: "Vous êtes responsable de la confidentialité de vos identifiants, de l'exactitude des données saisies, et de la sécurité de votre appareil. DencPass ne peut être tenu responsable d'une compromission liée à la négligence de l'utilisateur." },
+      { h: "4. Données chiffrées", p: "Vos mots de passe, secrets et certificats sont chiffrés avant d'être stockés. DencPass ne dispose d'aucun accès en clair à vos données sensibles." },
+      { h: "5. Résiliation", p: "Vous pouvez supprimer votre compte à tout moment depuis les Paramètres → Zone de danger. Pour les organisations, la résiliation intervient à l'expiration de la licence, après une période de grâce de 7 jours." },
+      { h: "6. Modifications", p: "DencPass se réserve le droit de modifier ces conditions. Les utilisateurs seront notifiés par email au moins 15 jours avant toute modification substantielle." },
+      { h: "7. Contact", p: "mouhamadoumoustapha.dione@dencu.online" },
     ]
   },
   privacy: {
     title: "Politique de confidentialité",
-    content: [
-      { h: "1. Données collectées", p: "Denc collecte : adresse email, nom d'utilisateur, métadonnées de connexion (date, IP), et les données chiffrées que vous stockez (mots de passe, secrets, certificats). Aucune donnée sensible n'est lisible par nos équipes." },
-      { h: "2. Finalité du traitement", p: "Vos données sont utilisées exclusivement pour fournir le service Denc : authentification, stockage sécurisé, notifications d'expiration de certificats et de licences." },
-      { h: "3. Durée de conservation", p: "Les données sont supprimées immédiatement à la fermeture du compte. Les logs de sécurité (fichiers d'audit) sont conservés jusqu'à rotation manuelle par l'administrateur." },
-      { h: "4. Partage des données", p: "Denc ne vend, ne loue et ne partage aucune donnée personnelle avec des tiers à des fins commerciales." },
-      { h: "5. Vos droits", p: "Vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits : mouhamadoumoustapha.dione@dencu.online" },
-      { h: "6. Sécurité", p: "Nous mettons en œuvre des mesures techniques adaptées : chiffrement multi-clés, authentification 2FA, journalisation des accès, et contrôle d'accès strict aux serveurs." },
-      { h: "7. Contact DPO", p: "mouhamadoumoustapha.dione@dencu.online · +221 XX XXX XX XX" },
+    sections: [
+      { h: "1. Données collectées", p: "DencPass collecte : adresse email, nom d'utilisateur, métadonnées de connexion (date, IP), et les données chiffrées que vous stockez. Aucune donnée sensible n'est lisible par nos équipes." },
+      { h: "2. Finalité", p: "Vos données sont utilisées exclusivement pour fournir le service DencPass : authentification, stockage sécurisé, notifications d'expiration de certificats et de licences." },
+      { h: "3. Durée de conservation", p: "Les données sont supprimées immédiatement à la fermeture du compte. Les logs de sécurité sont conservés jusqu'à rotation manuelle par l'administrateur." },
+      { h: "4. Partage", p: "DencPass ne vend, ne loue et ne partage aucune donnée personnelle avec des tiers à des fins commerciales." },
+      { h: "5. Vos droits", p: "Droit d'accès, rectification, suppression et portabilité. Pour exercer ces droits : mouhamadoumoustapha.dione@dencu.online" },
+      { h: "6. Sécurité", p: "Chiffrement multi-clés, authentification 2FA, journalisation des accès, contrôle d'accès strict aux serveurs." },
+      { h: "7. Contact", p: "mouhamadoumoustapha.dione@dencu.online · +221 XX XXX XX XX" },
     ]
   }
 }
 
+// ─── Legal Modal ───────────────────────────────────────────────────────────────
 function LegalModal({ type, onClose }) {
   const doc = LEGAL[type]
+  useEffect(() => {
+    const fn = e => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', fn)
+    return () => window.removeEventListener('keydown', fn)
+  }, [onClose])
   if (!doc) return null
   return (
-    <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <div onClick={e => e.stopPropagation()} style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 20, maxWidth: 640, width: '100%', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700, margin: 0 }}>{doc.title}</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text2)', cursor: 'pointer', fontSize: 20, lineHeight: 1, padding: '4px 8px' }}>✕</button>
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: 'var(--bg2)', border: '1px solid rgba(47,217,244,0.18)', borderRadius: 20, maxWidth: 620, width: '100%', maxHeight: '80vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ padding: '1.25rem 1.75rem', borderBottom: '1px solid rgba(47,217,244,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <h2 style={{ fontSize: 16, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: 'var(--text)' }}>{doc.title}</h2>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text4)', cursor: 'pointer', fontSize: 18, lineHeight: 1, padding: '4px 8px', borderRadius: 6 }}>✕</button>
         </div>
-        <div style={{ padding: '1.5rem 2rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          {doc.content.map(s => (
+        <div style={{ padding: '1.5rem 1.75rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+          {doc.sections.map(s => (
             <div key={s.h}>
-              <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--accent)', marginBottom: '0.4rem', fontFamily: "'Space Grotesk', sans-serif" }}>{s.h}</p>
-              <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.7, fontFamily: "'Inter', sans-serif" }}>{s.p}</p>
+              <p style={{ fontSize: 11, fontWeight: 700, color: '#2fd9f4', marginBottom: '0.3rem', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.06em' }}>{s.h}</p>
+              <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.75 }}>{s.p}</p>
             </div>
           ))}
-          <p style={{ fontSize: 11, color: 'var(--text3)', marginTop: '0.5rem', fontFamily: "'JetBrains Mono', monospace" }}>Dernière mise à jour : juin 2026</p>
+          <p style={{ fontSize: 11, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", marginTop: '0.5rem' }}>Dernière mise à jour : juin 2026</p>
         </div>
       </div>
     </div>
   )
 }
 
-export default function HomePage() {
-  const { theme, setTheme } = useTheme()
-  const [legalModal, setLegalModal] = useState(null)
+// ─── useTheme ──────────────────────────────────────────────────────────────────
+function useTheme() {
+  const [theme, setThemeState] = useState(() => localStorage.getItem('denc-theme') || 'dark')
+  const setTheme = useCallback(t => {
+    setThemeState(t)
+    localStorage.setItem('denc-theme', t)
+    const resolved = t === 'system'
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : t
+    document.documentElement.setAttribute('data-theme', resolved)
+  }, [])
+  useEffect(() => { setTheme(theme) }, [])
+  return { theme, setTheme }
+}
+
+// ─── Icons ─────────────────────────────────────────────────────────────────────
+const Ico = ({ d, size = 18 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={d}/></svg>
+const IcoCheck   = ({ size=15 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+const IcoArrow   = ({ size=15 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+const IcoChevron = ({ size=16 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+const IcoSun     = ({ size=14 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+const IcoMoon    = ({ size=14 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+const IcoMonitor = ({ size=14 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+
+// Feature & security icons
+const IcoVault    = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M12 9V7M12 17v-2M9 12H7M17 12h-2"/></svg>
+const IcoZap      = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+const IcoShare    = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+const IcoKey      = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="15" r="5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/></svg>
+const IcoGlobe    = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+const IcoCert     = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+const IcoUsers    = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+const IcoActivity = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+const IcoServer   = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+const IcoShield   = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+const IcoPhone    = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+const IcoEye      = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+const IcoClipboard= ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+const IcoLock     = ({ size=20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+const IcoSearch   = ({ size=14 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+const IcoCopy     = ({ size=11 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+
+const FEATURES = [
+  { Icon: IcoVault,    title: 'Coffre chiffré',       desc: 'Mots de passe, identifiants et notes sécurisées avec historique des modifications.', color: '#2fd9f4' },
+  { Icon: IcoZap,      title: 'Générateur',            desc: 'Mots de passe aléatoires et passphrases avec mots à sonorités africaines.', color: '#8b5cf6' },
+  { Icon: IcoShare,    title: 'Partage sécurisé',      desc: 'Liens temporaires avec limite de vues, expiration et révocation à tout moment.', color: '#2fd9f4' },
+  { Icon: IcoKey,      title: 'Coffre des secrets',    desc: 'Clés API, tokens SSH, credentials de bases de données — avec journal d\'accès complet.', color: '#f59e0b' },
+  { Icon: IcoGlobe,    title: 'Extension Chrome',      desc: 'Remplissage automatique et détection proactive sur tous les sites de connexion.', color: '#22c55e' },
+  { Icon: IcoCert,     title: 'Certificats SSL/TLS',   desc: 'Suivi d\'expiration avec alertes automatiques avant renouvellement.', color: '#8b5cf6' },
+  { Icon: IcoUsers,    title: 'Équipes & groupes',     desc: 'Partagez des entrées avec des équipes, gérez les rôles et permissions par groupe.', color: '#2fd9f4' },
+  { Icon: IcoActivity, title: 'Audit & SIEM',          desc: 'Chaque action tracée. Intégration Splunk, Elastic, Wazuh via webhook ou Syslog.', color: '#f59e0b' },
+  { Icon: IcoServer,   title: 'Active Directory',      desc: 'Authentification LDAP native et synchronisation des utilisateurs depuis votre AD.', color: '#8b5cf6' },
+]
+
+const SECURITY = [
+  { Icon: IcoShield,    title: 'Chiffrement Fernet AES',      desc: 'Chaque entrée est chiffrée individuellement avant stockage. Rotation des clés depuis l\'interface admin sans interruption de service.' },
+  { Icon: IcoPhone,     title: 'Authentification 2FA TOTP',   desc: 'Double authentification compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
+  { Icon: IcoEye,       title: 'Zéro connaissance serveur',   desc: 'Même en cas d\'accès physique au serveur, vos données restent illisibles sans vos clés de chiffrement personnelles.' },
+  { Icon: IcoClipboard, title: 'Audit complet',               desc: 'Chaque action tracée dans des logs structurés. Export vers votre SIEM via webhook (Splunk, Elastic) ou Syslog RFC 5424.' },
+]
+
+const FAQS = [
+  { q: 'Comment mes données sont-elles chiffrées ?', a: 'Chaque mot de passe, secret et certificat est chiffré individuellement avec Fernet (AES-128-CBC + HMAC-SHA256) avant stockage. DencPass utilise MultiFernet — plusieurs clés en parallèle — pour permettre la rotation sans perte de données.' },
+  { q: 'Puis-je migrer depuis Bitwarden, 1Password ou KeePass ?', a: 'Oui. DencPass accepte l\'import CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC directement depuis l\'interface. La migration prend moins de 2 minutes.' },
+  { q: 'L\'extension Chrome est-elle incluse dans tous les plans ?', a: 'Oui, l\'extension Chrome est disponible dans tous les plans (Gratuit, Pro, Enterprise). Elle détecte automatiquement les champs de connexion et propose le remplissage en un clic.' },
+  { q: 'Quelle différence entre SaaS et On-Premise ?', a: 'Enterprise SaaS est hébergé et maintenu par DencPass — rien à gérer de votre côté. Enterprise On-Premise s\'installe sur votre infrastructure (Docker ou bare metal) : vos données ne quittent jamais vos serveurs.' },
+  { q: 'Comment fonctionne le paiement Enterprise ?', a: 'Pour les éditions Enterprise, nous établissons un devis personnalisé selon le nombre de sièges et la durée. Paiement en FCFA, par virement ou mobile money (Wave, Orange Money).' },
+  { q: 'Que se passe-t-il si j\'oublie mon mot de passe principal ?', a: 'Un administrateur peut effectuer le reset depuis le panneau d\'administration. Le reset par email est en cours de développement (roadmap 2.0).' },
+]
+
+// ─── Net background ────────────────────────────────────────────────────────────
+function CipherGrid() {
+  const ref       = useRef(null)
+  const lightRef  = useRef(false)
+  const mouseRef  = useRef({ x: -9999, y: -9999 })
+
+  useEffect(() => {
+    const check = () => { lightRef.current = document.documentElement.getAttribute('data-theme') === 'light' }
+    check()
+    const obs = new MutationObserver(check)
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const canvas = ref.current; if (!canvas) return
+    const ctx = canvas.getContext('2d')
+
+    const N          = 70
+    const LINK_DIST  = 160
+    const MOUSE_DIST = 220
+    const SPEED      = 0.38
+    const INTERVAL   = 1000 / 60
+
+    let pts = [], running = true, last = 0
+
+    const mkPt = () => ({
+      x:  Math.random() * canvas.width,
+      y:  Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * SPEED * 2,
+      vy: (Math.random() - 0.5) * SPEED * 2,
+      r:  1.2 + Math.random() * 1.4,
+    })
+
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+      pts = Array.from({ length: N }, mkPt)
+    }
+    resize()
+    const ro = new ResizeObserver(resize)
+    ro.observe(canvas)
+
+    const onMouse = e => {
+      const rect = canvas.getBoundingClientRect()
+      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
+    }
+    const offMouse = () => { mouseRef.current = { x: -9999, y: -9999 } }
+    window.addEventListener('mousemove', onMouse)
+    window.addEventListener('mouseleave', offMouse)
+
+    const LINK2  = LINK_DIST  * LINK_DIST
+    const MOUSE2 = MOUSE_DIST * MOUSE_DIST
+
+    const tick = (ts) => {
+      if (!running) return
+      if (ts - last < INTERVAL) { requestAnimationFrame(tick); return }
+      last = ts
+
+      const { width: W, height: H } = canvas
+      ctx.clearRect(0, 0, W, H)
+
+      const light     = lightRef.current
+      const [r, g, b] = light ? [8, 136, 163] : [47, 217, 244]
+      const mx = mouseRef.current.x
+      const my = mouseRef.current.y
+
+      // Move + wrap
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i]
+        p.x += p.vx; p.y += p.vy
+        if (p.x < 0) p.x += W; if (p.x > W) p.x -= W
+        if (p.y < 0) p.y += H; if (p.y > H) p.y -= H
+      }
+
+      // Particle → particle lines
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x
+          const dy = pts[i].y - pts[j].y
+          const d2 = dx * dx + dy * dy
+          if (d2 < LINK2) {
+            const d = Math.sqrt(d2)
+            const a = (1 - d / LINK_DIST) * (light ? 0.3 : 0.22)
+            ctx.beginPath()
+            ctx.strokeStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`
+            ctx.lineWidth = 0.8
+            ctx.moveTo(pts[i].x, pts[i].y)
+            ctx.lineTo(pts[j].x, pts[j].y)
+            ctx.stroke()
+          }
+        }
+
+        // Particle → mouse lines
+        const mdx = pts[i].x - mx
+        const mdy = pts[i].y - my
+        const md2 = mdx * mdx + mdy * mdy
+        if (md2 < MOUSE2) {
+          const md = Math.sqrt(md2)
+          const a  = (1 - md / MOUSE_DIST) * (light ? 0.55 : 0.5)
+          ctx.beginPath()
+          ctx.strokeStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`
+          ctx.lineWidth = 1
+          ctx.moveTo(pts[i].x, pts[i].y)
+          ctx.lineTo(mx, my)
+          ctx.stroke()
+        }
+      }
+
+      // Dots
+      const dotA = light ? 0.55 : 0.65
+      ctx.fillStyle = `rgba(${r},${g},${b},${dotA})`
+      for (let i = 0; i < pts.length; i++) {
+        ctx.beginPath()
+        ctx.arc(pts[i].x, pts[i].y, pts[i].r, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+
+    return () => {
+      running = false
+      ro.disconnect()
+      window.removeEventListener('mousemove', onMouse)
+      window.removeEventListener('mouseleave', offMouse)
+    }
+  }, [])
+
+  return <canvas ref={ref} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} />
+}
+
+// ─── Entry icon for mockup ─────────────────────────────────────────────────────
+function EntryInitial({ label, color }) {
+  return (
+    <div style={{ width: 36, height: 36, borderRadius: 9, background: `${color}14`, border: `1px solid ${color}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+      <span style={{ fontSize: 13, fontWeight: 700, color, fontFamily: "'Space Grotesk', sans-serif" }}>{label}</span>
+    </div>
+  )
+}
+
+// ─── Product Mockup ────────────────────────────────────────────────────────────
+function ProductMockup() {
+  const entries = [
+    { initials: 'BQ', initColor: '#2fd9f4', name: 'Banque en ligne',  user: 'john.doe@gmail.com',  score: 98,  scoreColor: '#2fd9f4' },
+    { initials: 'RH', initColor: '#8b5cf6', name: 'Portail RH',       user: 'pathe.diallo',         score: 84,  scoreColor: '#8b5cf6' },
+    { initials: 'AW', initColor: '#22c55e', name: 'AWS Production',   user: 'toto@acmecorp.io',     score: 100, scoreColor: '#22c55e' },
+  ]
+  return (
+    <div style={{ position: 'relative', width: '100%', maxWidth: 420 }}>
+      <div style={{ position: 'absolute', inset: '-30px', background: 'radial-gradient(ellipse at 50% 50%, rgba(47,217,244,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      <div style={{ position: 'relative', background: 'var(--bg2)', border: '1px solid rgba(47,217,244,0.18)', borderRadius: 18, overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(47,217,244,0.06)', animation: 'mockup-float 7s ease-in-out infinite' }}>
+
+        {/* Window chrome */}
+        <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(47,217,244,0.09)', display: 'flex', alignItems: 'center', gap: 8, background: 'var(--bg-overlay)' }}>
+          <div style={{ display: 'flex', gap: 5 }}>
+            {['#ff5f57','#febc2e','#28c840'].map(c => <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c, opacity: 0.8 }} />)}
+          </div>
+          <div style={{ flex: 1, background: 'rgba(47,217,244,0.05)', border: '1px solid rgba(47,217,244,0.1)', borderRadius: 6, padding: '3px 10px', display: 'flex', alignItems: 'center', gap: 5, marginLeft: 8 }}>
+            <span style={{ color: '#22c55e', display: 'flex' }}><IcoLock size={9} /></span>
+            <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>app.dencu.online</span>
+          </div>
+        </div>
+
+        {/* Search */}
+        <div style={{ padding: '10px 14px', borderBottom: '1px solid rgba(47,217,244,0.06)' }}>
+          <div style={{ background: 'rgba(47,217,244,0.04)', border: '1px solid rgba(47,217,244,0.1)', borderRadius: 8, padding: '7px 11px', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ color: 'var(--text5)', display: 'flex' }}><IcoSearch /></span>
+            <span style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif" }}>Rechercher dans le coffre...</span>
+          </div>
+        </div>
+
+        {/* Entries */}
+        <div style={{ padding: '4px 0' }}>
+          {entries.map((e, i) => (
+            <div key={i} style={{ padding: '11px 14px', display: 'flex', alignItems: 'center', gap: 11, background: i === 0 ? 'rgba(47,217,244,0.04)' : 'transparent', borderLeft: i === 0 ? '2px solid rgba(47,217,244,0.6)' : '2px solid transparent', transition: 'background 0.2s' }}>
+              <EntryInitial label={e.initials} color={e.initColor} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-head)', marginBottom: 2, fontFamily: "'Inter', sans-serif", overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.name}</div>
+                <div style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>{e.user}</div>
+                <div style={{ marginTop: 5, display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <div style={{ flex: 1, height: 2, borderRadius: 1, background: 'rgba(255,255,255,0.06)' }}>
+                    <div style={{ width: `${e.score}%`, height: '100%', borderRadius: 1, background: e.scoreColor }} />
+                  </div>
+                  <span style={{ fontSize: 9, color: e.scoreColor, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>{e.score}</span>
+                </div>
+              </div>
+              <button style={{ background: 'rgba(47,217,244,0.07)', border: '1px solid rgba(47,217,244,0.14)', borderRadius: 6, padding: '5px 8px', color: '#2fd9f4', cursor: 'pointer', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                <IcoCopy />
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div style={{ padding: '9px 14px', borderTop: '1px solid rgba(47,217,244,0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-overlay)' }}>
+          <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>Score global</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ width: 56, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.06)' }}>
+              <div style={{ width: '94%', height: '100%', borderRadius: 2, background: 'linear-gradient(90deg, #2fd9f4, #8b5cf6)' }} />
+            </div>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#2fd9f4', fontFamily: "'JetBrains Mono', monospace" }}>94/100</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating badges */}
+      <div style={{ position: 'absolute', bottom: -18, left: -24, background: 'var(--bg2)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 12, padding: '9px 13px', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 8px 32px rgba(0,0,0,0.5)', animation: 'mockup-float 7s ease-in-out infinite 1.5s' }}>
+        <div style={{ width: 26, height: 26, borderRadius: 7, background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b5cf6' }}>
+          <IcoPhone size={13} />
+        </div>
+        <div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text)', fontFamily: "'Space Grotesk', sans-serif" }}>2FA activé</div>
+          <div style={{ fontSize: 9, color: '#4a4a80', fontFamily: "'JetBrains Mono', monospace" }}>Google Auth</div>
+        </div>
+      </div>
+      <div style={{ position: 'absolute', top: 48, right: -22, background: 'var(--bg2)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 10, padding: '7px 12px', boxShadow: '0 8px 32px rgba(0,0,0,0.5)', animation: 'mockup-float 7s ease-in-out infinite 3s' }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#22c55e', fontFamily: "'JetBrains Mono', monospace" }}>Chiffre</div>
+        <div style={{ fontSize: 9, color: '#1a4a2e', fontFamily: "'JetBrains Mono', monospace" }}>AES-256</div>
+      </div>
+    </div>
+  )
+}
+
+// ─── NavBar ────────────────────────────────────────────────────────────────────
+function NavBar() {
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 24)
+    window.addEventListener('scroll', fn, { passive: true })
+    return () => window.removeEventListener('scroll', fn)
+  }, [])
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: "'Space Grotesk', sans-serif" }}>
-
-      {/* ── Navbar ── */}
-      <nav style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 4rem', height: 64,
-        borderBottom: '1px solid var(--border)',
-        position: 'sticky', top: 0,
-        background: 'rgba(3,13,18,0.85)',
-        backdropFilter: 'blur(16px)',
-        zIndex: 100,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border2)', background: 'rgba(47,217,244,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            <img src="/denc-logo.png" alt="Denc" style={{ height: 26, width: 26, objectFit: 'contain' }} />
-          </div>
-          <span style={{ fontWeight: 800, fontSize: 20, letterSpacing: '-0.04em' }}>
-            De<span style={{ color: 'var(--accent)' }}>nc</span>
-          </span>
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      height: 62,
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '0 max(1.5rem, calc((100% - 1200px) / 2))',
+      background: scrolled ? 'var(--bg-nav)' : 'transparent',
+      backdropFilter: scrolled ? 'blur(24px) saturate(1.5)' : 'none',
+      borderBottom: scrolled ? '1px solid rgba(47,217,244,0.07)' : 'none',
+      transition: 'background 0.35s, border-color 0.35s, backdrop-filter 0.35s',
+    }}>
+      <a href="#" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+        <div style={{ width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(47,217,244,0.22)', background: 'rgba(47,217,244,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+          <img src="/dencpass-logo.png" alt="DencPass" style={{ width: 24, height: 24, objectFit: 'contain' }} />
         </div>
+        <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.04em', color: 'var(--text)' }}>
+          Denc<span style={{ color: '#2fd9f4' }}>Pass</span>
+        </span>
+      </a>
 
-        <div className="nav-links" style={{ display: 'flex', gap: '2.5rem', fontSize: 13, fontWeight: 500, color: 'var(--text2)' }}>
-          {[['#fonctionnalites','Fonctionnalités'],['#editions','Éditions'],['#tarifs','Tarifs'],['#contact','Contact']].map(([href, label]) => (
-            <a key={href} href={href} className="nav-link" style={{ color: 'var(--text2)' }}>{label}</a>
-          ))}
-        </div>
+      <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
+        {[['#features','Fonctionnalités'],['#pricing','Tarifs'],['#editions','Éditions'],['#faq','FAQ']].map(([href, label]) => (
+          <a key={href} href={href} className="nav-link" style={{ fontSize: 14, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>{label}</a>
+        ))}
+      </div>
 
-        <a href="https://app.dencu.online" className="btn-primary" style={{
-          padding: '9px 20px', borderRadius: 8,
-          background: 'var(--accent)', color: '#001a20',
-          fontWeight: 700, fontSize: 13,
-          letterSpacing: '-0.01em',
-        }}>
-          Se connecter
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+        <a href="https://app.dencu.online" style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500, padding: '8px 4px', transition: 'color 0.2s' }}
+          onMouseEnter={e=>e.target.style.color='var(--accent)'} onMouseLeave={e=>e.target.style.color='var(--text3)'}>
+          Connexion
         </a>
-      </nav>
+        <a href="https://app.dencu.online/register" className="btn-primary"
+          style={{ padding: '9px 18px', borderRadius: 10, background: '#2fd9f4', color: '#07111f', fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 16px rgba(47,217,244,0.25)' }}>
+          Commencer — Gratuit
+        </a>
+      </div>
+    </nav>
+  )
+}
 
-      {/* ── Hero ── */}
-      <section style={{
-        position: 'relative', overflow: 'hidden',
-        minHeight: '92vh',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        textAlign: 'center',
-        padding: '6rem 2rem',
-      }}>
-        {/* Cipher grid background */}
-        <CipherGrid />
+// ─── Hero ──────────────────────────────────────────────────────────────────────
+function HeroSection() {
+  return (
+    <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden', paddingTop: 62, background: 'var(--bg)' }}>
+      <CipherGrid />
+      <div style={{ position: 'absolute', top: '15%', left: '20%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(47,217,244,0.035) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: '40%', right: '10%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(139,92,246,0.03) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-        {/* Radial glow */}
-        <div style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(47,217,244,0.06) 0%, transparent 70%)',
-        }} />
+      <div className="hero-grid" style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', padding: '4rem max(1.5rem, calc((100% - 1200px) / 2))', display: 'grid', gridTemplateColumns: '55% 45%', gap: '3rem', alignItems: 'center', width: '100%' }}>
 
-        {/* Horizontal scan line */}
-        <div style={{
-          position: 'absolute', left: 0, right: 0, height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(47,217,244,0.15), transparent)',
-          animation: 'scan-line 8s linear infinite',
-          pointerEvents: 'none',
-        }} />
-
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 760 }}>
-          {/* Eyebrow */}
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '5px 14px', borderRadius: 4,
-            border: '1px solid var(--border2)',
-            background: 'rgba(47,217,244,0.04)',
-            fontSize: 11, fontFamily: "'JetBrains Mono', monospace",
-            color: 'var(--accent)', letterSpacing: '0.08em',
-            marginBottom: '2.5rem',
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', boxShadow: '0 0 8px var(--accent)' }} />
-            GESTIONNAIRE DE SECRETS · PARTICULIERS ET ENTREPRISES
+        {/* Text */}
+        <div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid rgba(47,217,244,0.2)', background: 'rgba(47,217,244,0.05)', marginBottom: '2rem', animation: 'fade-up 0.6s ease both 0.05s' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2fd9f4', animation: 'glow-pulse 2s ease-in-out infinite', display: 'inline-block' }} />
+            <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4', letterSpacing: '0.1em' }}>GESTIONNAIRE DE MOTS DE PASSE · SÉNÉGAL</span>
           </div>
 
-          {/* Headline */}
-          <h1 className="hero-h1" style={{
-            fontSize: 'clamp(3rem, 6.5vw, 5.5rem)',
-            fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.04em',
-            marginBottom: '1.75rem',
-          }}>
-            <span className="hero-word" style={{ display: 'block' }}>Vos données.</span>
-            <span className="hero-word" style={{ display: 'block', color: 'var(--accent)', textShadow: '0 0 40px rgba(47,217,244,0.3)' }}>
-              Votre contrôle.
-            </span>
-            <span className="hero-word" style={{ display: 'block' }}>Sans compromis.</span>
+          <h1 style={{ lineHeight: 1.0, letterSpacing: '-0.045em', marginBottom: '0.75rem' }}>
+            <span className="hero-line" style={{ display: 'block', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(3.2rem, 6.5vw, 5.5rem)', color: 'var(--sand)' }}>Samm</span>
+            <span className="hero-line" style={{ display: 'block', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(3.2rem, 6.5vw, 5.5rem)', color: 'var(--sand)' }}>sa sirru.</span>
           </h1>
 
-          {/* Sub */}
-          <p style={{
-            fontSize: 17, color: 'var(--text2)', lineHeight: 1.75,
-            maxWidth: 520, margin: '0 auto 3rem',
-            fontFamily: "'Inter', sans-serif", fontWeight: 400,
-          }}>
-            Denc chiffre vos mots de passe, secrets et certificats avant de les stocker.
-            Conçu pour les particuliers et les entreprises d'Afrique de l'Ouest.
+          <p style={{ fontSize: 18, color: 'var(--text3)', fontStyle: 'italic', fontWeight: 300, marginBottom: '1.5rem', animation: 'fade-up 0.7s ease both 0.25s', fontFamily: "'Inter', sans-serif" }}>
+            Garde ton secret.
           </p>
 
-          {/* CTAs */}
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="https://app.dencu.online/register" className="btn-primary" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 28px', borderRadius: 10,
-              background: 'linear-gradient(135deg, var(--accent) 0%, #1ab8d4 100%)',
-              color: '#001a20', fontWeight: 700, fontSize: 15,
-              letterSpacing: '-0.02em',
-            }}>
-              Commencer gratuitement <IconArrow />
+          <p style={{ fontSize: 16, color: 'var(--text2)', fontFamily: "'Inter', sans-serif", lineHeight: 1.8, maxWidth: 500, marginBottom: '2.5rem', animation: 'fade-up 0.7s ease both 0.35s', fontWeight: 400 }}>
+            Sécurisez vos mots de passe, secrets et certificats avec un chiffrement de niveau militaire. Pour les professionnels et organisations d'Afrique.
+          </p>
+
+          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', animation: 'fade-up 0.7s ease both 0.45s' }}>
+            <a href="https://app.dencu.online/register" className="btn-primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
+              Commencer gratuitement <IcoArrow />
             </a>
-            <a href="#fonctionnalites" className="btn-ghost" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 28px', borderRadius: 10,
-              border: '1px solid var(--border2)',
-              color: 'var(--text2)', fontWeight: 600, fontSize: 15,
-            }}>
-              Voir les fonctionnalités
+            <a href="#pricing" className="btn-ghost"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid rgba(47,217,244,0.22)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+              Voir les tarifs
             </a>
           </div>
         </div>
 
-        {/* Bottom fade */}
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, height: 120,
-          background: 'linear-gradient(to bottom, transparent, var(--bg))',
-          pointerEvents: 'none',
-        }} />
-      </section>
+        {/* Mockup */}
+        <div className="hero-mockup" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '1rem' }}>
+          <ProductMockup />
+        </div>
+      </div>
 
-      {/* ── Trust bar ── */}
-      <section style={{
-        borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
-        padding: '2rem 4rem',
-        display: 'flex', justifyContent: 'center', gap: '5rem', flexWrap: 'wrap',
-        background: 'var(--bg2)',
-      }}>
-        {[
-          { value: 'Chiffrement',  label: 'Vos données chiffrées avant stockage' },
-          { value: 'Zero tiers',   label: 'Vos données ne sont jamais vendues' },
-          { value: 'Multi-scope',  label: 'Clés distinctes par type de données' },
-          { value: 'Audit complet',label: 'Journaux d\'accès consultables' },
-        ].map(t => (
-          <div key={t.value} style={{ textAlign: 'center' }}>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 15, color: 'var(--accent)', fontWeight: 500, marginBottom: 4 }}>
-              {t.value}
-            </p>
-            <p style={{ fontSize: 12, color: 'var(--text3)', fontFamily: "'Inter', sans-serif" }}>{t.label}</p>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 140, background: 'linear-gradient(to bottom, transparent, var(--bg))', pointerEvents: 'none' }} />
+    </section>
+  )
+}
+
+// ─── Stats bar ─────────────────────────────────────────────────────────────────
+function StatsBar() {
+  const items = [
+    { v: 'AES-256',    l: 'Chiffrement' },
+    { v: '2FA',        l: 'Double authentification' },
+    { v: '28+',        l: 'Fonctionnalités' },
+    { v: '0 FCFA',     l: 'Pour commencer' },
+    { v: 'Zéro',       l: 'Connaissance serveur' },
+  ]
+  return (
+    <div style={{ background: 'var(--bg2)', borderTop: '1px solid rgba(47,217,244,0.07)', borderBottom: '1px solid rgba(47,217,244,0.07)', padding: '1.1rem 0' }}>
+      <div className="proof-bar" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 max(1.5rem, calc((100% - 1200px) / 2))', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem' }}>
+        {items.map(({ v, l }) => (
+          <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 9, flex: '1 1 auto', justifyContent: 'center' }}>
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 17, color: '#2fd9f4' }}>{v}</span>
+            <span style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif" }}>{l}</span>
           </div>
         ))}
-      </section>
+      </div>
+    </div>
+  )
+}
 
-      {/* ── Features ── */}
-      <section id="fonctionnalites" className="section-pad" style={{ padding: '7rem 4rem', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '3.5rem', flexWrap: 'wrap', gap: '1rem' }}>
-          <div>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.1em', marginBottom: '1rem' }}>FONCTIONNALITÉS</p>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-              Tout ce qu'il faut.<br />Rien de superflu.
-            </h2>
-          </div>
-          <p style={{ fontSize: 14, color: 'var(--text2)', maxWidth: 320, lineHeight: 1.7, fontFamily: "'Inter', sans-serif" }}>
-            Des outils pensés pour sécuriser vos accès au quotidien, sans complexité inutile.
+// ─── Pricing ───────────────────────────────────────────────────────────────────
+function PricingSection() {
+  const plans = [
+    {
+      name: 'Gratuit', tag: 'COMMUNITY',
+      price: '0', suffix: 'FCFA / mois',
+      desc: 'Pour démarrer sans engagement.',
+      color: '#2fd9f4', border: 'rgba(47,217,244,0.18)', bg: 'rgba(47,217,244,0.03)',
+      features: ['Mots de passe illimités', '150 générations / mois', '5 partages actifs', '5 secrets dans le coffre', '5 certificats SSL/TLS', 'Extension Chrome', '2FA TOTP'],
+      cta: 'Créer un compte gratuit', ctaHref: 'https://app.dencu.online/register',
+      ctaStyle: { background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.25)', color: '#2fd9f4' },
+    },
+    {
+      name: 'Pro', tag: 'POPULAIRE',
+      price: '2 000', suffix: 'FCFA / mois',
+      desc: 'Pour les professionnels qui ne comptent pas.',
+      color: '#8b5cf6', border: 'rgba(139,92,246,0.35)', bg: 'rgba(139,92,246,0.06)',
+      badge: true,
+      features: ["Tout du plan Gratuit", 'Générateur illimité', 'Partages illimités', 'Secrets illimités', 'Certificats illimités', 'Passphrase africaine', 'Support prioritaire'],
+      cta: 'Passer en Pro', ctaHref: 'https://app.dencu.online/register',
+      ctaStyle: { background: '#8b5cf6', color: '#fff', boxShadow: '0 4px 24px rgba(139,92,246,0.35)' },
+    },
+    {
+      name: 'Enterprise', tag: 'ORGANISATIONS',
+      price: 'Sur devis', suffix: '',
+      desc: 'Pour les équipes et les organisations.',
+      color: '#f59e0b', border: 'rgba(245,158,11,0.22)', bg: 'rgba(245,158,11,0.03)',
+      features: ["Tout du plan Pro", 'Équipes & groupes', 'Active Directory (LDAP)', 'Audit organisation', 'SIEM / Syslog', 'Déploiement on-premise', 'Licence + support dédiés'],
+      cta: 'Nous contacter', ctaHref: 'mailto:mouhamadoumoustapha.dione@dencu.online',
+      ctaStyle: { background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', color: '#f59e0b' },
+    },
+  ]
+
+  return (
+    <section id="pricing" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>TARIFS</p>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
+            Simple. Transparent. En FCFA.
+          </h2>
+          <p style={{ fontSize: 16, color: 'var(--text3)', maxWidth: 440, margin: '0 auto' }}>
+            Pas de conversion, pas de frais cachés. Payez directement en francs CFA.
           </p>
         </div>
 
-        {/* Bento grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gridTemplateRows: 'auto', gap: '1rem' }}>
+        <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
+          {plans.map(p => (
+            <div key={p.name} className="price-card" style={{ position: 'relative', padding: '2.25rem', borderRadius: 20, border: `1px solid ${p.border}`, background: p.bg, overflow: 'hidden' }}>
+              {p.badge && <div style={{ position: 'absolute', top: 0, right: 20, background: '#8b5cf6', color: '#fff', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px' }}>POPULAIRE</div>}
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${p.color}, transparent)` }} />
 
-          {/* Grande carte — Gestionnaire MDP */}
-          <div className="feature-card" style={{
-            gridColumn: 'span 3', padding: '2.5rem',
-            borderRadius: 16, border: '1px solid var(--border)',
-            background: 'linear-gradient(145deg, rgba(47,217,244,0.06) 0%, var(--bg2) 60%)',
-            position: 'relative', overflow: 'hidden',
-          }}>
-            <div style={{ position: 'absolute', top: -40, right: -40, width: 160, height: 160, borderRadius: '50%', background: 'radial-gradient(circle, rgba(47,217,244,0.08), transparent 70%)', pointerEvents: 'none' }} />
-            <div style={{ width: 48, height: 48, borderRadius: 12, border: '1px solid rgba(47,217,244,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', marginBottom: '1.5rem', background: 'rgba(47,217,244,0.08)' }}>
-              <IconKey />
-            </div>
-            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>Gestionnaire de mots de passe</h3>
-            <p style={{ fontSize: 14, color: 'var(--text2)', lineHeight: 1.7, fontFamily: "'Inter', sans-serif", maxWidth: 360 }}>
-              Centralisez tous vos accès dans un coffre sécurisé. Organisez par catégories, recherchez instantanément, accédez depuis n'importe quel appareil.
-            </p>
-          </div>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: p.color, letterSpacing: '0.14em', marginBottom: '0.6rem' }}>{p.tag}</p>
+              <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 20, color: 'var(--text)', marginBottom: '0.5rem' }}>{p.name}</p>
 
-          {/* Grande carte — Coffre secrets */}
-          <div className="feature-card" style={{
-            gridColumn: 'span 3', padding: '2.5rem',
-            borderRadius: 16, border: '1px solid var(--border)',
-            background: 'linear-gradient(145deg, rgba(139,92,246,0.06) 0%, var(--bg2) 60%)',
-            position: 'relative', overflow: 'hidden',
-          }}>
-            <div style={{ position: 'absolute', top: -40, right: -40, width: 160, height: 160, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.08), transparent 70%)', pointerEvents: 'none' }} />
-            <div style={{ width: 48, height: 48, borderRadius: 12, border: '1px solid rgba(139,92,246,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--purple)', marginBottom: '1.5rem', background: 'rgba(139,92,246,0.08)' }}>
-              <IconLock />
-            </div>
-            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>Coffre des secrets</h3>
-            <p style={{ fontSize: 14, color: 'var(--text2)', lineHeight: 1.7, fontFamily: "'Inter', sans-serif", maxWidth: 360 }}>
-              Tokens API, clés SSH, variables d'environnement. Chaque secret est chiffré individuellement et accessible uniquement à vous.
-            </p>
-          </div>
-
-          {/* Petites cartes — ligne 2 */}
-          {[
-            { Icon: IconShield, title: 'Double authentification', desc: 'TOTP intégré sur chaque compte.', color: '#22c55e', bg: 'rgba(34,197,94,0.06)', border: 'rgba(34,197,94,0.2)' },
-            { Icon: IconZap,    title: 'Générateur',              desc: 'Entropie maximale, règles configurables.', color: 'var(--accent)', bg: 'rgba(47,217,244,0.05)', border: 'rgba(47,217,244,0.15)' },
-            { Icon: IconEye,    title: 'Audit de sécurité',       desc: 'Mots de passe faibles ou réutilisés.', color: '#f97316', bg: 'rgba(249,115,22,0.05)', border: 'rgba(249,115,22,0.2)' },
-            { Icon: IconShare,  title: 'Partage sécurisé',        desc: 'Contrôle de durée et révocation.', color: '#a855f7', bg: 'rgba(168,85,247,0.05)', border: 'rgba(168,85,247,0.2)' },
-            { Icon: IconCert,   title: 'Certificats SSL/TLS',     desc: 'Suivi et alertes avant expiration.', color: 'var(--accent)', bg: 'rgba(47,217,244,0.05)', border: 'rgba(47,217,244,0.15)' },
-            { Icon: IconGlobe,  title: 'Extension navigateur',    desc: 'Remplissage automatique dans Chrome.', color: '#22c55e', bg: 'rgba(34,197,94,0.05)', border: 'rgba(34,197,94,0.15)' },
-            { Icon: IconUsers,  title: 'Gestion des équipes',     desc: 'Groupes, rôles et permissions.', color: 'var(--purple)', bg: 'rgba(139,92,246,0.05)', border: 'rgba(139,92,246,0.2)' },
-          ].map(({ Icon, title, desc, color, bg, border }) => (
-            <div key={title} className="feature-card" style={{
-              gridColumn: 'span 2', padding: '1.75rem',
-              borderRadius: 14, border: `1px solid ${border}`,
-              background: bg,
-            }}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, border: `1px solid ${border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, marginBottom: '1.25rem', background: `${color}10` }}>
-                <Icon />
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, margin: '1rem 0 0.5rem' }}>
+                <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: p.price === 'Sur devis' ? 26 : 34, color: 'var(--text)', letterSpacing: '-0.04em' }}>{p.price}</span>
+                {p.suffix && <span style={{ fontSize: 12, color: 'var(--text4)' }}>{p.suffix}</span>}
               </div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: '0.5rem', letterSpacing: '-0.01em' }}>{title}</h3>
-              <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6, fontFamily: "'Inter', sans-serif" }}>{desc}</p>
-            </div>
-          ))}
+              <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, marginBottom: '1.75rem' }}>{p.desc}</p>
 
-        </div>
-      </section>
-
-      {/* ── Editions ── */}
-      <section id="editions" className="section-pad" style={{ padding: '7rem 4rem', background: 'var(--bg2)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ marginBottom: '4rem' }}>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.1em', marginBottom: '1rem' }}>
-              ÉDITIONS
-            </p>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-              Une solution pour chaque besoin
-            </h2>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
-            {/* Community */}
-            <div className="edition-card" style={{
-              padding: '2.5rem',
-              borderRadius: 16,
-              border: '1px solid rgba(47,217,244,0.2)',
-              background: 'linear-gradient(145deg, rgba(47,217,244,0.04) 0%, transparent 60%)',
-              position: 'relative', overflow: 'hidden',
-            }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, var(--accent), transparent)' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.5rem' }}>
-                <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(47,217,244,0.1)', border: '1px solid rgba(47,217,244,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)' }}><IconLock /></div>
-                <div>
-                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: '0.1em' }}>COMMUNITY</p>
-                  <p style={{ fontSize: 12, color: 'var(--text2)', fontFamily: "'Inter', sans-serif" }}>Pour les particuliers</p>
-                </div>
-              </div>
-              <p style={{ fontSize: 14, color: 'var(--text2)', fontFamily: "'Inter', sans-serif", lineHeight: 1.7, marginBottom: '2rem' }}>
-                Gérez vos mots de passe personnels, secrets et certificats. Gratuit avec des limites raisonnables, ou illimité en mode Pro.
-              </p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {['Mots de passe illimités', 'Générateur cryptographique (150/mois)', 'Coffre des secrets (5 entrées)', 'Certificats SSL/TLS (5 max)', 'Extension navigateur Chrome', 'Mode Pro à 2 000 FCFA/mois'].map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, fontFamily: "'Inter', sans-serif", color: 'var(--text2)' }}>
-                    <span style={{ color: 'var(--accent)', flexShrink: 0 }}><IconCheck /></span>{f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Enterprise Cloud — maintenant colonne du milieu */}
-            <div className="edition-card" style={{
-              padding: '2.5rem',
-              borderRadius: 16,
-              border: '1px solid rgba(139,92,246,0.3)',
-              background: 'linear-gradient(145deg, rgba(139,92,246,0.06) 0%, transparent 60%)',
-              position: 'relative', overflow: 'hidden',
-            }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, var(--purple), transparent)' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.5rem' }}>
-                <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--purple)' }}><IconUsers /></div>
-                <div>
-                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--purple)', letterSpacing: '0.1em' }}>ENTERPRISE CLOUD</p>
-                  <p style={{ fontSize: 12, color: 'var(--text2)', fontFamily: "'Inter', sans-serif" }}>Pour les organisations</p>
-                </div>
-              </div>
-              <p style={{ fontSize: 14, color: 'var(--text2)', fontFamily: "'Inter', sans-serif", lineHeight: 1.7, marginBottom: '2rem' }}>
-                Gestion centralisée des accès pour vos équipes. Licences managées par Denc avec support dédié et suivi des membres de votre organisation.
-              </p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {['Tout de l\'édition Community', 'Gestion des équipes et groupes', 'Audit d\'activité de l\'organisation', 'Licence mensuelle managée par Denc', 'Période de grâce en cas d\'expiration', 'Support dédié'].map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, fontFamily: "'Inter', sans-serif", color: 'var(--text2)' }}>
-                    <span style={{ color: 'var(--purple)', flexShrink: 0 }}><IconCheck /></span>{f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {/* Enterprise On-Premise */}
-            <div className="edition-card" style={{
-              padding: '2.5rem',
-              borderRadius: 16,
-              border: '1px solid rgba(251,191,36,0.25)',
-              background: 'linear-gradient(145deg, rgba(251,191,36,0.04) 0%, transparent 60%)',
-              position: 'relative', overflow: 'hidden',
-            }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, #f59e0b, transparent)' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.5rem' }}>
-                <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f59e0b' }}><IconShield /></div>
-                <div>
-                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#f59e0b', letterSpacing: '0.1em' }}>ENTERPRISE ON-PREMISE</p>
-                  <p style={{ fontSize: 12, color: 'var(--text2)', fontFamily: "'Inter', sans-serif" }}>Déployé chez vous</p>
-                </div>
-              </div>
-              <p style={{ fontSize: 14, color: 'var(--text2)', fontFamily: "'Inter', sans-serif", lineHeight: 1.7, marginBottom: '2rem' }}>
-                Installez Denc sur votre propre infrastructure. Vos données restent sur vos serveurs, sous votre contrôle total. Idéal pour les entreprises avec des exigences de conformité strictes.
-              </p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {["Tout de l'édition Enterprise Cloud", 'Données 100% sur site (on-premise)', 'Intégration Active Directory (LDAP)', 'Déploiement Docker ou bare metal', 'Licence annuelle sur devis', 'Support et maintenance inclus'].map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, fontFamily: "'Inter', sans-serif", color: 'var(--text2)' }}>
-                    <span style={{ color: '#f59e0b', flexShrink: 0 }}><IconCheck /></span>{f}
-                  </li>
-                ))}
-              </ul>
-              <a href="mailto:mouhamadoumoustapha.dione@dencu.online"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '2rem', fontSize: 13, fontWeight: 600, color: '#f59e0b', fontFamily: "'Space Grotesk', sans-serif" }}>
-                Nous contacter <IconArrow />
+              <a href={p.ctaHref} style={{ display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.75rem', transition: 'all 0.2s', ...p.ctaStyle }}>
+                {p.cta}
               </a>
-            </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* ── Tarifs ── */}
-      <section id="tarifs" className="section-pad" style={{ padding: '7rem 4rem', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-        <div style={{ marginBottom: '4rem' }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.1em', marginBottom: '1rem' }}>TARIFS</p>
-          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1 }}>Simple. Transparent. Sans surprise.</h2>
-        </div>
-
-        <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', maxWidth: 760 }}>
-          {[
-            {
-              plan: 'Gratuit', price: '0', unit: 'FCFA/mois', color: 'var(--text2)', accentColor: 'var(--accent)',
-              features: ['Mots de passe illimités', '150 générations / mois', '5 partages actifs', '5 secrets max', '5 certificats max'],
-            },
-            {
-              plan: 'Pro', price: '2 000', unit: 'FCFA/mois', color: 'var(--purple)', accentColor: 'var(--purple)', badge: 'POPULAIRE',
-              features: ['Tout du plan Gratuit', 'Générateur illimité', 'Partages illimités', 'Secrets illimités', 'Certificats illimités'],
-            },
-          ].map(p => (
-            <div key={p.plan} style={{
-              padding: '2rem', borderRadius: 16,
-              border: `1px solid ${p.color}40`,
-              background: 'var(--bg2)',
-              position: 'relative',
-            }}>
-              {p.badge && (
-                <div style={{
-                  position: 'absolute', top: -11, right: 20,
-                  background: 'var(--purple)', color: '#fff',
-                  fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
-                  padding: '3px 10px', borderRadius: 4,
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}>{p.badge}</div>
-              )}
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: p.accentColor, letterSpacing: '0.1em', marginBottom: '1rem' }}>{p.plan.toUpperCase()}</p>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: '1.5rem' }}>
-                <span style={{ fontSize: 36, fontWeight: 800, letterSpacing: '-0.04em' }}>{p.price}</span>
-                <span style={{ fontSize: 13, color: 'var(--text2)', fontFamily: "'Inter', sans-serif" }}>{p.unit}</span>
-              </div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
+              <div style={{ borderTop: `1px solid ${p.border}`, paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {p.features.map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontFamily: "'Inter', sans-serif", color: 'var(--text2)' }}>
-                    <span style={{ color: p.accentColor, flexShrink: 0 }}><IconCheck /></span>{f}
-                  </li>
+                  <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 13, color: 'var(--text2)' }}>
+                    <span style={{ color: p.color, flexShrink: 0, marginTop: 1 }}><IcoCheck /></span>{f}
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
 
-        <p style={{ marginTop: '2.5rem', fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif" }}>
-          Licence Enterprise Cloud ?{' '}
-          <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ color: 'var(--accent)', fontWeight: 600 }}>
-            Contactez-nous pour un devis
-          </a>
-        </p>
-      </section>
+// ─── Features ──────────────────────────────────────────────────────────────────
+function FeaturesSection() {
+  return (
+    <section id="features" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ marginBottom: '4rem', maxWidth: 560 }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>FONCTIONNALITÉS</p>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
+            Tout ce dont vous avez besoin.
+          </h2>
+          <p style={{ fontSize: 16, color: 'var(--text3)', lineHeight: 1.75 }}>
+            De la gestion quotidienne des accès à la sécurité enterprise avec SIEM et Active Directory.
+          </p>
+        </div>
+        <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.1rem' }}>
+          {FEATURES.map(({ Icon, title, desc, color }) => (
+            <div key={title} className="card-hover" style={{ padding: '1.6rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.07)', background: 'var(--bg-card)', cursor: 'default' }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: `${color}12`, border: `1px solid ${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, marginBottom: '1.1rem' }}><Icon /></div>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{title}</h3>
+              <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: 0 }}>{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
-      {/* ── CTA final ── */}
-      <section id="contact" style={{
-        padding: '7rem 4rem',
-        background: 'var(--bg2)',
-        borderTop: '1px solid var(--border)',
-        textAlign: 'center',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse 60% 80% at 50% 100%, rgba(139,92,246,0.08) 0%, transparent 70%)',
-        }} />
-        <div style={{ position: 'relative', maxWidth: 600, margin: '0 auto' }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.1em', marginBottom: '1.5rem' }}>CONTACT</p>
-          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '1.25rem' }}>
+// ─── Editions ─────────────────────────────────────────────────────────────────
+function EditionsSection() {
+  const editions = [
+    {
+      tag: 'COMMUNITY', sub: 'Pour les particuliers', color: '#2fd9f4',
+      border: 'rgba(47,217,244,0.18)', bg: 'rgba(47,217,244,0.03)',
+      desc: 'Gérez vos mots de passe personnels, secrets et certificats. Gratuit avec des limites raisonnables, illimité en mode Pro.',
+      items: ['Mots de passe illimités', 'Générateur (150/mois)', 'Coffre secrets (5)', 'Certificats (5 max)', 'Extension Chrome', 'Pro à 2 000 FCFA/mois'],
+    },
+    {
+      tag: 'ENTERPRISE SAAS', sub: 'Pour les organisations', color: '#8b5cf6',
+      border: 'rgba(139,92,246,0.28)', bg: 'rgba(139,92,246,0.05)',
+      desc: 'Gestion centralisée pour vos équipes. Licence managée par DencPass avec support dédié et suivi d\'activité complet.',
+      items: ["Tout de l'édition Community", 'Équipes & groupes', "Audit d'activité", 'Période de grâce 7 jours', 'Licence managée', 'Support dédié'],
+    },
+    {
+      tag: 'ENTERPRISE ON-PREMISE', sub: 'Déployé sur votre infrastructure', color: '#f59e0b',
+      border: 'rgba(245,158,11,0.22)', bg: 'rgba(245,158,11,0.03)',
+      desc: 'Installez DencPass sur vos propres serveurs. Vos données restent sur site, sous votre contrôle total.',
+      items: ["Tout de l'édition SaaS", 'Données 100% sur site', 'Intégration LDAP / AD', 'Docker ou bare metal', 'Licence annuelle sur devis', 'Maintenance incluse'],
+      cta: 'Demander un devis',
+    },
+  ]
+  return (
+    <section id="editions" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>ÉDITIONS</p>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Une solution pour chaque besoin</h2>
+        </div>
+        <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
+          {editions.map(ed => (
+            <div key={ed.tag} className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: `1px solid ${ed.border}`, background: ed.bg, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${ed.color}, transparent)` }} />
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: ed.color, letterSpacing: '0.14em', marginBottom: '0.25rem' }}>{ed.tag}</p>
+              <p style={{ fontSize: 12, color: 'var(--text4)', marginBottom: '1rem' }}>{ed.sub}</p>
+              <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{ed.desc}</p>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
+                {ed.items.map(f => (
+                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--text2)' }}>
+                    <span style={{ color: ed.color, flexShrink: 0 }}><IcoCheck /></span>{f}
+                  </li>
+                ))}
+              </ul>
+              {ed.cta && (
+                <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '1.5rem', fontSize: 13, fontWeight: 600, color: ed.color }}>
+                  {ed.cta} <IcoArrow size={13} />
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── Security ──────────────────────────────────────────────────────────────────
+function SecuritySection() {
+  return (
+    <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>SÉCURITÉ</p>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Aucun compromis</h2>
+        </div>
+        <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+          {SECURITY.map(s => (
+            <div key={s.title} className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.09)', background: 'var(--bg-card)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2fd9f4', flexShrink: 0 }}><s.Icon /></div>
+              <div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{s.title}</h3>
+                <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── FAQ ───────────────────────────────────────────────────────────────────────
+function FAQSection() {
+  const [open, setOpen] = useState(null)
+  return (
+    <section id="faq" style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
+      <div style={{ maxWidth: 760, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>FAQ</p>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Questions fréquentes</h2>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+          {FAQS.map((faq, i) => (
+            <div key={i} style={{ borderRadius: 14, border: `1px solid ${open===i ? 'rgba(47,217,244,0.22)' : 'rgba(47,217,244,0.07)'}`, background: open===i ? 'rgba(47,217,244,0.04)' : 'var(--bg-card)', overflow: 'hidden', transition: 'border-color 0.2s, background 0.2s' }}>
+              <button onClick={() => setOpen(open===i ? null : i)} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.15rem 1.4rem', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', gap: 16 }}>
+                <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1.4 }}>{faq.q}</span>
+                <span style={{ color: '#2fd9f4', flexShrink: 0, transition: 'transform 0.22s', transform: open===i ? 'rotate(180deg)' : 'none', display: 'flex' }}><IcoChevron /></span>
+              </button>
+              {open===i && (
+                <div style={{ padding: '0 1.4rem 1.25rem' }}>
+                  <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.8, margin: 0 }}>{faq.a}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── CTA Banner ────────────────────────────────────────────────────────────────
+function CTABanner() {
+  return (
+    <section style={{ padding: '5rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ borderRadius: 24, border: '1px solid rgba(47,217,244,0.18)', background: 'linear-gradient(135deg, rgba(47,217,244,0.05) 0%, rgba(139,92,246,0.05) 100%)', padding: 'clamp(3rem,6vw,5rem)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(47,217,244,0.04) 0%, transparent 60%)', pointerEvents: 'none' }} />
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem', position: 'relative' }}>COMMENCER MAINTENANT</p>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3.2rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1, position: 'relative' }}>
             Prêt à sécuriser vos accès ?
           </h2>
-          <p style={{ fontSize: 15, color: 'var(--text2)', fontFamily: "'Inter', sans-serif", lineHeight: 1.7, marginBottom: '2.5rem' }}>
-            Créez votre compte en 30 secondes ou contactez-nous pour une licence Enterprise adaptée à votre organisation.
+          <p style={{ fontSize: 16, color: 'var(--text3)', maxWidth: 440, margin: '0 auto 2.5rem', position: 'relative' }}>
+            Créez votre compte en moins de 2 minutes. Gratuit, sans carte bancaire.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="https://app.dencu.online/register" className="btn-primary" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 28px', borderRadius: 10,
-              background: 'linear-gradient(135deg, var(--accent) 0%, #1ab8d4 100%)',
-              color: '#001a20', fontWeight: 700, fontSize: 15,
-            }}>
-              Créer un compte <IconArrow />
+          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
+            <a href="https://app.dencu.online/register" className="btn-primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 32px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.3)' }}>
+              Commencer gratuitement <IcoArrow />
             </a>
-            <a href="mailto:mouhamadoumoustapha.dione@dencu.online" className="btn-ghost" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 28px', borderRadius: 10,
-              border: '1px solid var(--border2)',
-              color: 'var(--text2)', fontWeight: 600, fontSize: 15,
-            }}>
-              Nous écrire
+            <a href="mailto:mouhamadoumoustapha.dione@dencu.online" className="btn-ghost"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid rgba(47,217,244,0.22)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+              Contacter l'équipe
             </a>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  )
+}
 
-      {/* ── Footer ── */}
-      <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--bg2)', fontFamily: "'Inter', sans-serif" }}>
-
-        {/* Colonnes */}
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem 4rem 3rem', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '3rem', flexWrap: 'wrap' }}>
-
-          {/* Colonne marque */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border2)', background: 'rgba(47,217,244,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                <img src="/denc-logo.png" alt="Denc" style={{ height: 32, width: 32, objectFit: 'contain' }} />
+// ─── Footer ────────────────────────────────────────────────────────────────────
+function Footer({ theme, setTheme, setLegalModal }) {
+  const navCols = [
+    { title: 'Produit', links: [
+      { l: 'Fonctionnalités', h: '#features' },
+      { l: 'Tarifs', h: '#pricing' },
+      { l: 'Éditions', h: '#editions' },
+      { l: 'FAQ', h: '#faq' },
+      { l: 'Se connecter', h: 'https://app.dencu.online' },
+    ]},
+    { title: 'Éditions', links: [
+      { l: 'Community', h: '#editions' },
+      { l: 'Enterprise SaaS', h: '#editions' },
+      { l: 'Enterprise On-Premise', h: '#editions' },
+    ]},
+    { title: 'Légal', links: [
+      { l: "Conditions d'utilisation", modal: 'cgu' },
+      { l: 'Politique de confidentialité', modal: 'privacy' },
+      { l: 'Contact', h: 'mailto:mouhamadoumoustapha.dione@dencu.online' },
+    ]},
+  ]
+  const themes = [
+    { v: 'light', Icon: IcoSun, l: 'Clair' },
+    { v: 'dark',  Icon: IcoMoon, l: 'Sombre' },
+    { v: 'system',Icon: IcoMonitor, l: 'Système' },
+  ]
+  const linkStyle = { display: 'block', fontSize: 13, color: 'var(--text5)', marginBottom: '0.55rem', transition: 'color 0.2s', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: "'Inter', sans-serif", textAlign: 'left' }
+  return (
+    <footer style={{ background: 'var(--bg2)', borderTop: '1px solid rgba(47,217,244,0.07)' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem max(1.5rem, calc((100% - 1200px) / 2)) 2rem' }}>
+        <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '3rem', marginBottom: '3rem' }}>
+          {/* Brand */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1rem' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid rgba(47,217,244,0.18)', background: 'rgba(47,217,244,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <img src="/dencpass-logo.png" alt="DencPass" style={{ width: 28, height: 28, objectFit: 'contain' }} />
               </div>
-              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 22, letterSpacing: '-0.03em' }}>
-                De<span style={{ color: 'var(--accent)' }}>nc</span>
+              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: '-0.04em', color: 'var(--text)' }}>
+                Denc<span style={{ color: '#2fd9f4' }}>Pass</span>
               </span>
             </div>
-            <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.7, maxWidth: 280 }}>
-              Gestionnaire de mots de passe sécurisé pour les équipes et les professionnels. Vos accès, sous votre contrôle.
+            <p style={{ fontSize: 13, color: 'var(--text5)', lineHeight: 1.75, maxWidth: 260, marginBottom: '1.25rem' }}>
+              Gestionnaire de mots de passe et secrets numériques pour les professionnels et organisations d'Afrique.
             </p>
-            <a href="mailto:mouhamadoumoustapha.dione@dencu.online"
-              style={{ fontSize: 12, color: 'var(--text3)', transition: 'color .2s', width: 'fit-content' }}
-              onMouseEnter={e=>e.target.style.color='var(--accent)'}
-              onMouseLeave={e=>e.target.style.color='var(--text3)'}>
-              mouhamadoumoustapha.dione@dencu.online
-            </a>
-            <a href="tel:+221XXXXXXXXX"
-              style={{ fontSize: 12, color: 'var(--text3)', transition: 'color .2s', width: 'fit-content' }}
-              onMouseEnter={e=>e.target.style.color='var(--accent)'}
-              onMouseLeave={e=>e.target.style.color='var(--text3)'}>
-              +221 XX XXX XX XX
-            </a>
-          </div>
-
-          {/* Colonne Produit */}
-          <div>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--text3)', marginBottom: '1rem', textTransform: 'uppercase', fontFamily: "'JetBrains Mono', monospace" }}>Produit</p>
-            {[
-              { label: 'Fonctionnalités', href: '#fonctionnalites' },
-              { label: 'Tarifs',          href: '#tarifs' },
-              { label: 'Se connecter',    href: 'https://app.dencu.online' },
-            ].map(l => (
-              <a key={l.label} href={l.href}
-                style={{ display: 'block', fontSize: 13, color: 'var(--text2)', marginBottom: '0.65rem', transition: 'color .2s' }}
-                onMouseEnter={e=>e.target.style.color='var(--accent)'}
-                onMouseLeave={e=>e.target.style.color='var(--text2)'}>
-                {l.label}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+              <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", transition: 'color 0.2s' }}
+                onMouseEnter={e=>e.target.style.color='var(--accent)'} onMouseLeave={e=>e.target.style.color='var(--text5)'}>
+                mouhamadoumoustapha.dione@dencu.online
               </a>
-            ))}
-          </div>
-
-          {/* Colonne Éditions */}
-          <div>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--text3)', marginBottom: '1rem', textTransform: 'uppercase', fontFamily: "'JetBrains Mono', monospace" }}>Éditions</p>
-            {[
-              { label: 'Community',          href: '#editions' },
-              { label: 'Enterprise Cloud',   href: '#editions' },
-              { label: 'Enterprise On-Prem', href: '#editions' },
-              { label: 'Comparer',           href: '#editions' },
-            ].map(l => (
-              <a key={l.label} href={l.href}
-                style={{ display: 'block', fontSize: 13, color: 'var(--text2)', marginBottom: '0.65rem', transition: 'color .2s' }}
-                onMouseEnter={e=>e.target.style.color='var(--accent)'}
-                onMouseLeave={e=>e.target.style.color='var(--text2)'}>
-                {l.label}
+              <a href="tel:+221XXXXXXXXX" style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", transition: 'color 0.2s' }}
+                onMouseEnter={e=>e.target.style.color='var(--accent)'} onMouseLeave={e=>e.target.style.color='var(--text5)'}>
+                +221 XX XXX XX XX
               </a>
-            ))}
+            </div>
           </div>
 
-          {/* Colonne Légal */}
-          <div>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--text3)', marginBottom: '1rem', textTransform: 'uppercase', fontFamily: "'JetBrains Mono', monospace" }}>Légal</p>
-            {[
-              { label: "Conditions d'utilisation", modal: 'cgu' },
-              { label: 'Politique de confidentialité', modal: 'privacy' },
-              { label: 'Contact', href: 'mailto:mouhamadoumoustapha.dione@dencu.online' },
-            ].map(l => (
-              l.modal
-                ? <button key={l.label} onClick={() => setLegalModal(l.modal)}
-                    style={{ display: 'block', fontSize: 13, color: 'var(--text2)', marginBottom: '0.65rem', transition: 'color .2s', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: "'Inter', sans-serif", textAlign: 'left' }}
-                    onMouseEnter={e=>e.target.style.color='var(--accent)'}
-                    onMouseLeave={e=>e.target.style.color='var(--text2)'}>
-                    {l.label}
-                  </button>
-                : <a key={l.label} href={l.href}
-                    style={{ display: 'block', fontSize: 13, color: 'var(--text2)', marginBottom: '0.65rem', transition: 'color .2s' }}
-                    onMouseEnter={e=>e.target.style.color='var(--accent)'}
-                    onMouseLeave={e=>e.target.style.color='var(--text2)'}>
-                    {l.label}
-                  </a>
-            ))}
-          </div>
+          {navCols.map(col => (
+            <div key={col.title}>
+              <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4', letterSpacing: '0.12em', marginBottom: '1rem' }}>{col.title.toUpperCase()}</p>
+              {col.links.map(l => (
+                l.modal
+                  ? <button key={l.l} onClick={() => setLegalModal(l.modal)} style={linkStyle}
+                      onMouseEnter={e=>e.target.style.color='var(--accent)'} onMouseLeave={e=>e.target.style.color='var(--text5)'}>{l.l}</button>
+                  : <a key={l.l} href={l.h} style={linkStyle}
+                      onMouseEnter={e=>e.target.style.color='var(--accent)'} onMouseLeave={e=>e.target.style.color='var(--text5)'}>{l.l}</a>
+              ))}
+            </div>
+          ))}
         </div>
 
-        {/* Barre bas */}
-        <div style={{ borderTop: '1px solid var(--border)', maxWidth: 1200, margin: '0 auto', padding: '1.25rem 4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-          <span style={{ fontSize: 12, color: 'var(--text3)' }}>© 2026 Denc · Tous droits réservés</span>
-
-          {/* Sélecteur de thème */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'var(--bg3)', borderRadius: 10, padding: '3px', border: '1px solid var(--border)' }}>
-            {[
-              { key: 'light',  label: 'Clair',   icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg> },
-              { key: 'dark',   label: 'Sombre',  icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> },
-              { key: 'system', label: 'Système', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> },
-            ].map(t => (
-              <button key={t.key} onClick={() => setTheme(t.key)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 5,
-                  padding: '5px 10px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 12,
-                  fontFamily: "'Inter', sans-serif",
-                  background: theme === t.key ? 'var(--bg)' : 'transparent',
-                  color: theme === t.key ? 'var(--accent)' : 'var(--text3)',
-                  fontWeight: theme === t.key ? 600 : 400,
-                  transition: 'all .15s',
-                  boxShadow: theme === t.key ? '0 1px 3px rgba(0,0,0,0.2)' : 'none',
-                }}>
-                {t.icon} {t.label}
+        <div style={{ borderTop: '1px solid rgba(47,217,244,0.07)', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+          <p style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>
+            © 2026 DencPass · Sénégal · <em>Samm sa sirru</em>
+          </p>
+          <div style={{ display: 'flex', background: 'rgba(47,217,244,0.04)', border: '1px solid rgba(47,217,244,0.09)', borderRadius: 9, padding: 3, gap: 2 }}>
+            {themes.map(({ v, Icon, l }) => (
+              <button key={v} onClick={() => setTheme(v)} title={l}
+                style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 11px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12, fontFamily: "'Inter', sans-serif", transition: 'all 0.2s', background: theme===v ? 'rgba(47,217,244,0.12)' : 'none', color: theme===v ? '#2fd9f4' : 'var(--text5)' }}>
+                <Icon /> {l}
               </button>
             ))}
           </div>
         </div>
-      </footer>
+      </div>
+    </footer>
+  )
+}
 
+// ─── Main ──────────────────────────────────────────────────────────────────────
+export default function HomePage() {
+  const { theme, setTheme } = useTheme()
+  const [legalModal, setLegalModal] = useState(null)
+  return (
+    <div style={{ background: 'var(--bg)' }}>
+      <NavBar />
+      <HeroSection />
+      <StatsBar />
+      <PricingSection />
+      <FeaturesSection />
+      <EditionsSection />
+      <SecuritySection />
+      <FAQSection />
+      <CTABanner />
+      <Footer theme={theme} setTheme={setTheme} setLegalModal={setLegalModal} />
       {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}
-
     </div>
   )
 }
