@@ -779,20 +779,17 @@ function FeaturesSection() {
 function EditionsSection() {
   const editions = [
     {
-      tag: 'COMMUNITY', sub: 'Pour les particuliers', color: '#2fd9f4',
-      border: 'rgba(47,217,244,0.18)', bg: 'rgba(47,217,244,0.03)',
+      tag: 'COMMUNITY', sub: 'Pour les particuliers',
       desc: 'Gérez vos mots de passe personnels, secrets et certificats. Gratuit avec des limites raisonnables, illimité en mode Pro.',
       items: ['Mots de passe illimités', 'Générateur (150/mois)', 'Coffre secrets (5)', 'Certificats (5 max)', 'Extension Chrome', 'Pro à 2 000 FCFA/mois'],
     },
     {
-      tag: 'ENTERPRISE SAAS', sub: 'Pour les organisations', color: '#8b5cf6',
-      border: 'rgba(139,92,246,0.28)', bg: 'rgba(139,92,246,0.05)',
+      tag: 'ENTERPRISE SAAS', sub: 'Pour les organisations',
       desc: 'Gestion centralisée pour vos équipes. Licence managée par DencPass avec support dédié et suivi d\'activité complet.',
       items: ["Tout de l'édition Community", 'Équipes & groupes', "Audit d'activité", 'Période de grâce 7 jours', 'Licence managée', 'Support dédié'],
     },
     {
-      tag: 'ENTERPRISE ON-PREMISE', sub: 'Déployé sur votre infrastructure', color: '#f59e0b',
-      border: 'rgba(245,158,11,0.22)', bg: 'rgba(245,158,11,0.03)',
+      tag: 'ENTERPRISE ON-PREMISE', sub: 'Déployé sur votre infrastructure',
       desc: 'Installez DencPass sur vos propres serveurs. Vos données restent sur site, sous votre contrôle total.',
       items: ["Tout de l'édition SaaS", 'Données 100% sur site', 'Intégration LDAP / AD', 'Docker ou bare metal', 'Licence annuelle sur devis', 'Maintenance incluse'],
       cta: 'Demander un devis',
@@ -807,25 +804,23 @@ function EditionsSection() {
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Une solution pour chaque besoin</h2>
           </div>
         </Reveal>
-        <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
+        <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', alignItems: 'stretch' }}>
           {editions.map((ed, i) => (
-            <Reveal key={ed.tag} delay={i * 120}>
-              <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: `1px solid ${ed.border}`, background: 'var(--bg-card)', backdropFilter: 'blur(20px) saturate(150%)', WebkitBackdropFilter: 'blur(20px) saturate(150%)', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', inset: 0, background: ed.bg, pointerEvents: 'none' }} />
-                <div style={{ position: 'absolute', top: -50, right: -50, width: 150, height: 150, borderRadius: '50%', background: `radial-gradient(circle, ${ed.color}1a 0%, transparent 70%)`, pointerEvents: 'none' }} />
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${ed.color}, transparent)` }} />
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: ed.color, letterSpacing: '0.14em', marginBottom: '0.25rem' }}>{ed.tag}</p>
+            <Reveal key={ed.tag} delay={i * 120} style={{ height: '100%' }}>
+              <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', backdropFilter: 'blur(20px) saturate(150%)', WebkitBackdropFilter: 'blur(20px) saturate(150%)', position: 'relative', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,rgba(47,217,244,0.35),transparent)', pointerEvents: 'none' }} />
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#2fd9f4', letterSpacing: '0.14em', marginBottom: '0.25rem', opacity: 0.8 }}>{ed.tag}</p>
                 <p style={{ fontSize: 12, color: 'var(--text4)', marginBottom: '1rem' }}>{ed.sub}</p>
                 <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{ed.desc}</p>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9, flex: 1 }}>
                   {ed.items.map(f => (
                     <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--text2)' }}>
-                      <span style={{ color: ed.color, flexShrink: 0 }}><IcoCheck /></span>{f}
+                      <span style={{ color: 'rgba(47,217,244,0.6)', flexShrink: 0 }}><IcoCheck /></span>{f}
                     </li>
                   ))}
                 </ul>
                 {ed.cta && (
-                  <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '1.5rem', fontSize: 13, fontWeight: 600, color: ed.color }}>
+                  <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '1.5rem', fontSize: 13, fontWeight: 600, color: '#2fd9f4' }}>
                     {ed.cta} <IcoArrow size={13} />
                   </a>
                 )}
