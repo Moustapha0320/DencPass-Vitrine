@@ -497,7 +497,7 @@ function NavBar() {
       </a>
 
       <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
-        {[['#features','Fonctionnalités'],['#pricing','Tarifs'],['#editions','Éditions'],['#faq','FAQ']].map(([href, label]) => (
+        {[['#pricing','Tarifs'],['#features','Fonctionnalités'],['#editions','Éditions'],['#faq','FAQ']].map(([href, label]) => (
           <a key={href} href={href} className="nav-link" style={{ fontSize: 14, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>{label}</a>
         ))}
       </div>
@@ -798,6 +798,7 @@ function EditionsSection() {
       tag: 'ENTERPRISE SAAS', sub: 'Pour les organisations',
       desc: 'Gestion centralisée pour vos équipes. Licence managée par DencPass avec support dédié et suivi d\'activité complet.',
       items: ["Tout de l'édition Community", 'Équipes & groupes', "Audit d'activité", 'Période de grâce 7 jours', 'Licence managée', 'Support dédié'],
+      cta: 'Demander un devis',
     },
     {
       tag: 'ENTERPRISE ON-PREMISE', sub: 'Déployé sur votre infrastructure',
