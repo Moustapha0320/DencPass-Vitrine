@@ -116,15 +116,17 @@ function NavBar() {
         </div>
 
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <a href="https://app.dencu.online"
-            className="nav-link"
-            style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500, padding: '8px 4px' }}>
-            Connexion
-          </a>
-          <a href="https://app.dencu.online/register" className="btn-primary"
-            style={{ padding: '9px 18px', borderRadius: 10, background: '#2fd9f4', color: '#07111f', fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 16px rgba(47,217,244,0.25)' }}>
-            Essayer gratuitement
-          </a>
+          <div className="nav-cta-group" style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <a href="https://app.dencu.online"
+              className="nav-link"
+              style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500, padding: '8px 4px' }}>
+              Connexion
+            </a>
+            <a href="https://app.dencu.online/register" className="btn-primary"
+              style={{ padding: '9px 18px', borderRadius: 10, background: '#2fd9f4', color: '#07111f', fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 16px rgba(47,217,244,0.25)', whiteSpace: 'nowrap' }}>
+              Essayer gratuitement
+            </a>
+          </div>
           <button
             className="nav-hamburger"
             onClick={() => setMobileOpen(o => !o)}

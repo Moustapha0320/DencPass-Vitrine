@@ -195,9 +195,9 @@ function HeroSection() {
       <div style={{ position: 'absolute', top: '15%', left: '20%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(47,217,244,0.03) 0%, transparent 65%)', pointerEvents: 'none' }} />
       <div className="hero-grid" style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', padding: '4rem max(1.5rem, calc((100% - 1200px) / 2))', display: 'grid', gridTemplateColumns: '55% 45%', gap: '3rem', alignItems: 'center', width: '100%' }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid rgba(47,217,244,0.2)', background: 'rgba(47,217,244,0.05)', marginBottom: '2rem', animation: 'fade-up 0.6s ease both 0.05s' }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2fd9f4', animation: 'glow-pulse 2s ease-in-out infinite', display: 'inline-block' }} />
-            <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4', letterSpacing: '0.1em' }}>GESTIONNAIRE DE MOTS DE PASSE · SÉNÉGAL</span>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid rgba(47,217,244,0.2)', background: 'rgba(47,217,244,0.05)', marginBottom: '2rem', animation: 'fade-up 0.6s ease both 0.05s', maxWidth: '100%', overflow: 'hidden' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2fd9f4', animation: 'glow-pulse 2s ease-in-out infinite', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4', letterSpacing: '0.1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>GESTIONNAIRE DE MOTS DE PASSE · SÉNÉGAL</span>
           </div>
           <HeroTypewriter />
           <p style={{ fontSize: 18, color: 'var(--text3)', fontStyle: 'italic', fontWeight: 300, marginBottom: '1.5rem', animation: 'fade-up 0.7s ease both 0.25s', fontFamily: "'Inter', sans-serif" }}>
@@ -246,6 +246,30 @@ function TrustBand() {
               <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 13, color: 'var(--text3)', letterSpacing: '0.01em' }}>{label}</span>
             </div>
           </Fragment>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ─── Stats row ────────────────────────────────────────────────────────────────
+function StatsRow() {
+  const stats = [
+    { num: '10 000+', label: 'Utilisateurs actifs' },
+    { num: '2M+',     label: 'Mots de passe sécurisés' },
+    { num: '99,9%',   label: 'Disponibilité garantie' },
+    { num: 'Zéro',    label: 'Connaissance serveur' },
+  ]
+  return (
+    <div style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2.75rem max(1.5rem, calc((100% - 1200px) / 2))', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
+        {stats.map(({ num, label }, i) => (
+          <Reveal key={label} delay={i * 80}>
+            <div>
+              <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.75rem,3vw,2.4rem)', color: 'var(--sand)', letterSpacing: '-0.04em', lineHeight: 1.1, marginBottom: '0.35rem' }}>{num}</div>
+              <div style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", lineHeight: 1.4 }}>{label}</div>
+            </div>
+          </Reveal>
         ))}
       </div>
     </div>
@@ -536,28 +560,28 @@ function FAQSection() {
 // ─── CTA final ────────────────────────────────────────────────────────────────
 function CTABanner() {
   return (
-    <section style={{ padding: '5rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+    <section style={{ position: 'relative', overflow: 'hidden', padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))' }} className="section-pad">
+      <div style={{ position: 'absolute', inset: 0, background: 'var(--bg)', zIndex: 0 }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 25% 50%, rgba(47,217,244,0.09) 0%, transparent 55%), radial-gradient(ellipse at 75% 50%, rgba(139,92,246,0.09) 0%, transparent 55%)', pointerEvents: 'none', zIndex: 1 }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(47,217,244,0.3), rgba(139,92,246,0.3), transparent)', zIndex: 2 }} />
+      <div style={{ position: 'relative', zIndex: 3, maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
         <Reveal>
-          <div style={{ borderRadius: 24, border: '1px solid rgba(47,217,244,0.18)', background: 'linear-gradient(135deg, rgba(47,217,244,0.05) 0%, rgba(139,92,246,0.05) 100%)', padding: 'clamp(3rem,6vw,5rem)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(47,217,244,0.04) 0%, transparent 60%)', pointerEvents: 'none' }} />
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem', position: 'relative' }}>COMMENCER MAINTENANT</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3.2rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1, position: 'relative' }}>
-              Prêt à sécuriser vos accès ?
-            </h2>
-            <p style={{ fontSize: 16, color: 'var(--text3)', maxWidth: 440, margin: '0 auto 2.5rem', position: 'relative' }}>
-              Créez votre compte en moins de 2 minutes. Gratuit, sans carte bancaire.
-            </p>
-            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
-              <a href="https://app.dencu.online/register" className="btn-primary"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 32px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.3)' }}>
-                Commencer gratuitement <IcoArrow />
-              </a>
-              <a href="mailto:mouhamadoumoustapha.dione@dencu.online" className="btn-ghost"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid rgba(47,217,244,0.22)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-                Contacter l'équipe
-              </a>
-            </div>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>Commencer maintenant</p>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.5rem,5vw,4rem)', letterSpacing: '-0.05em', color: 'var(--sand)', margin: '0 0 1.25rem', lineHeight: 1.08 }}>
+            Vos accès.<br /><span className="gradient-text">Blindés.</span>
+          </h2>
+          <p style={{ fontSize: 17, color: 'var(--text3)', maxWidth: 480, margin: '0 auto 2.75rem', lineHeight: 1.7 }}>
+            Créez votre coffre en moins de 2 minutes.<br />Gratuit, sans carte bancaire.
+          </p>
+          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="https://app.dencu.online/register" className="btn-primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 36px', borderRadius: 14, background: '#2fd9f4', color: '#07111f', fontSize: 16, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px rgba(47,217,244,0.32)' }}>
+              Commencer gratuitement <IcoArrow size={17} />
+            </a>
+            <a href="mailto:mouhamadoumoustapha.dione@dencu.online" className="btn-ghost"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 28px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 16, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+              Contacter l'équipe
+            </a>
           </div>
         </Reveal>
       </div>
@@ -571,6 +595,7 @@ export default function HomePage() {
     <PublicLayout>
       <HeroSection />
       <TrustBand />
+      <StatsRow />
       <FeaturesTeaser />
       <HowItWorksSection />
       <SecuritySection />
