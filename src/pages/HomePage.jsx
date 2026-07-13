@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import NumberFlow from '@number-flow/react'
 import confetti from 'canvas-confetti'
 import PublicLayout from '../components/layout/PublicLayout'
-import { Reveal, prefersReducedMotion, IcoCheck, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoSearch, IcoCopy, IcoBuilding, IcoCode } from '../components/shared'
+import { Reveal, prefersReducedMotion, IcoCheck, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoSearch, IcoCopy, IcoBuilding, IcoCode, IcoStar } from '../components/shared'
 
 // ─── Canvas background ────────────────────────────────────────────────────────
 function CipherGrid() {
@@ -472,6 +472,74 @@ function EnterpriseSection() {
   )
 }
 
+// ─── Testimonials ─────────────────────────────────────────────────────────────
+const TESTIMONIALS = [
+  {
+    quote: "On a migré toute notre équipe IT en 20 minutes. L'intégration Syslog avec notre SIEM était opérationnelle le jour même.",
+    name: 'Mamadou Diallo',
+    role: 'Responsable Sécurité SI',
+    company: 'FinServ Dakar',
+    initial: 'MD',
+    accent: '#2fd9f4',
+  },
+  {
+    quote: "Le seul gestionnaire qui fonctionne vraiment en Afrique — paiement en FCFA, Wave Money, et l'interface reste disponible même avec une connexion instable.",
+    name: 'Awa Konaré',
+    role: 'Fondatrice & CTO',
+    company: 'Kolibri Tech, Abidjan',
+    initial: 'AK',
+    accent: '#8b5cf6',
+  },
+  {
+    quote: "Plus jamais de mots de passe partagés sur WhatsApp. Les liens à expiration ont transformé nos revues de sécurité client.",
+    name: 'Ibrahima Ndiaye',
+    role: 'Directeur Informatique',
+    company: 'Cabinet Ndiaye & Associés',
+    initial: 'IN',
+    accent: '#22c55e',
+  },
+]
+
+function TestimonialsSection() {
+  return (
+    <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>TÉMOIGNAGES</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>
+              Ce qu'ils disent.
+            </h2>
+          </div>
+        </Reveal>
+        <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
+          {TESTIMONIALS.map(({ quote, name, role, company, initial, accent }, i) => (
+            <Reveal key={name} delay={i * 90}>
+              <div className="card-hover" style={{ padding: '2rem', borderRadius: 18, border: '1px solid var(--border)', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <div style={{ display: 'flex', gap: 3 }}>
+                  {[...Array(5)].map((_, j) => <span key={j} style={{ color: '#f59e0b' }}><IcoStar size={13} /></span>)}
+                </div>
+                <p style={{ fontSize: 14, color: 'var(--text2)', lineHeight: 1.8, margin: 0, flex: 1, fontStyle: 'italic' }}>
+                  "{quote}"
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 11, paddingTop: '1.1rem', borderTop: '1px solid var(--border)' }}>
+                  <div style={{ width: 38, height: 38, borderRadius: 9, background: `${accent}18`, border: `1px solid ${accent}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 12, color: accent }}>{initial}</span>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1.3 }}>{name}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text4)', fontFamily: "'Inter', sans-serif" }}>{role} · {company}</div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── Pricing teaser ───────────────────────────────────────────────────────────
 function PricingTeaser() {
   const plans = [
@@ -490,7 +558,7 @@ function PricingTeaser() {
     },
   ]
   return (
-    <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
+    <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
@@ -552,7 +620,7 @@ const FAQS = [
 function FAQSection() {
   const [open, setOpen] = useState(null)
   return (
-    <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
+    <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
       <div style={{ maxWidth: 760, margin: '0 auto' }}>
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
@@ -604,7 +672,7 @@ function CTABanner() {
               Commencer gratuitement <IcoArrow size={17} />
             </a>
             <a href="mailto:mouhamadoumoustapha.dione@dencu.online" className="btn-ghost"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 28px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 16, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 28px', borderRadius: 14, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text2)', fontSize: 16, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               Contacter l'équipe
             </a>
           </div>
@@ -625,6 +693,7 @@ export default function HomePage() {
       <HowItWorksSection />
       <SecuritySection />
       <EnterpriseSection />
+      <TestimonialsSection />
       <PricingTeaser />
       <FAQSection />
       <CTABanner />
