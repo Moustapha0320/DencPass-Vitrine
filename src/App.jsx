@@ -4,6 +4,7 @@ import PricingPage from './pages/PricingPage'
 import SecurityPage from './pages/SecurityPage'
 import DownloadPage from './pages/DownloadPage'
 import BusinessPage from './pages/BusinessPage'
+import FeaturesPage from './pages/FeaturesPage'
 import PublicLayout from './components/layout/PublicLayout'
 import { Reveal } from './components/shared'
 
@@ -33,7 +34,7 @@ export default function App() {
         <Route path="/security"  element={<SecurityPage />} />
         <Route path="/download"  element={<DownloadPage />} />
         <Route path="/business"  element={<BusinessPage />} />
-        <Route path="/features"  element={<NotFoundPage />} />
+        <Route path="/features"  element={<FeaturesPage />} />
         <Route path="/blog"      element={<NotFoundPage />} />
         <Route path="/changelog" element={<NotFoundPage />} />
         <Route path="/about"     element={<NotFoundPage />} />
