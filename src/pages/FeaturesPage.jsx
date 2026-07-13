@@ -157,15 +157,15 @@ export default function FeaturesPage() {
           <Reveal delay={100}>
             <div style={{ borderRadius: 18, border: '1px solid var(--border)', overflow: 'hidden', background: 'var(--bg-card)' }}>
               {/* Header */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 160px 160px', background: 'rgba(47,217,244,0.04)', borderBottom: '1px solid var(--border)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 160px 160px', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ padding: '1rem 1.5rem', fontSize: 12, color: 'var(--text3)', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.08em' }}>FONCTIONNALITÉ</div>
-                <div style={{ padding: '1rem', textAlign: 'center', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 14, color: '#2fd9f4' }}>DencPass</div>
+                <div style={{ padding: '1rem', textAlign: 'center', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 14, color: '#2fd9f4', background: 'rgba(47,217,244,0.07)', borderLeft: '1px solid rgba(47,217,244,0.12)', borderRight: '1px solid rgba(47,217,244,0.12)' }}>DencPass</div>
                 <div style={{ padding: '1rem', textAlign: 'center', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 14, color: 'var(--text3)' }}>Autres</div>
               </div>
               {COMPARE.map(({ label, dp, others }, i) => (
                 <div key={label} style={{ display: 'grid', gridTemplateColumns: '1fr 160px 160px', borderBottom: i < COMPARE.length - 1 ? '1px solid var(--border)' : 'none' }}>
                   <div style={{ padding: '0.9rem 1.5rem', fontSize: 14, color: 'var(--text2)' }}>{label}</div>
-                  <div style={{ padding: '0.9rem', textAlign: 'center', color: dp ? '#22c55e' : '#ef4444' }}>
+                  <div style={{ padding: '0.9rem', textAlign: 'center', color: dp ? '#22c55e' : '#ef4444', background: 'rgba(47,217,244,0.04)', borderLeft: '1px solid rgba(47,217,244,0.1)', borderRight: '1px solid rgba(47,217,244,0.1)' }}>
                     {dp ? <IcoCheck size={16} /> : '✗'}
                   </div>
                   <div style={{ padding: '0.9rem', textAlign: 'center', color: others ? '#22c55e' : 'var(--text3)', fontSize: others ? 'inherit' : 13 }}>
@@ -179,23 +179,28 @@ export default function FeaturesPage() {
       </section>
 
       {/* CTA */}
-      <section style={{ paddingTop: '5rem', paddingBottom: '5rem', textAlign: 'center' }} className="section-pad">
-        <Reveal>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.75rem,3.5vw,2.75rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 0.75rem' }}>
-            Prêt à sécuriser vos accès ?
-          </h2>
-          <p style={{ fontSize: 16, color: 'var(--text3)', margin: '0 0 2rem' }}>
-            Gratuit pour un usage personnel. Aucune carte bancaire requise.
-          </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="https://app.dencu.online/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 24px rgba(47,217,244,0.3)' }}>
-              Créer mon coffre gratuit <IcoArrow size={16} />
-            </a>
-            <Link to="/pricing" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", background: 'transparent' }} className="btn-ghost">
-              Voir les tarifs
-            </Link>
-          </div>
-        </Reveal>
+      <section style={{ position: 'relative', overflow: 'hidden', padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', textAlign: 'center' }} className="section-pad">
+        <div style={{ position: 'absolute', inset: 0, background: 'var(--bg)', zIndex: 0 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(47,217,244,0.08) 0%, transparent 55%), radial-gradient(ellipse at 70% 50%, rgba(139,92,246,0.07) 0%, transparent 55%)', pointerEvents: 'none', zIndex: 1 }} />
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(47,217,244,0.3), rgba(139,92,246,0.3), transparent)', zIndex: 2 }} />
+        <div style={{ position: 'relative', zIndex: 3, maxWidth: 620, margin: '0 auto' }}>
+          <Reveal>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
+              Prêt à sécuriser vos accès ?
+            </h2>
+            <p style={{ fontSize: 16, color: 'var(--text3)', margin: '0 0 2.25rem', lineHeight: 1.7 }}>
+              Gratuit pour un usage personnel. Aucune carte bancaire requise.
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="https://app.dencu.online/register" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 32px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
+                Créer mon coffre gratuit <IcoArrow size={16} />
+              </a>
+              <Link to="/pricing" className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 28px', borderRadius: 13, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+                Voir les tarifs
+              </Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
     </PublicLayout>
   )
