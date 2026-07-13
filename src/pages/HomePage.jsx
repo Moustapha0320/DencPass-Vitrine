@@ -253,20 +253,45 @@ function TrustBand() {
 }
 
 // ─── Stats row ────────────────────────────────────────────────────────────────
+const STATS = [
+  { value: 10000,  suffix: '+',  locales: 'fr-FR', label: 'Utilisateurs actifs' },
+  { value: 2000000, suffix: '+', locales: 'fr-FR', format: { notation: 'compact' }, label: 'Mots de passe sécurisés' },
+  { value: 99.9,  suffix: '%',  locales: 'fr-FR', format: { maximumFractionDigits: 1 }, label: 'Disponibilité garantie' },
+  { value: null,  text: 'Zéro', label: 'Connaissance serveur' },
+]
+
 function StatsRow() {
-  const stats = [
-    { num: '10 000+', label: 'Utilisateurs actifs' },
-    { num: '2M+',     label: 'Mots de passe sécurisés' },
-    { num: '99,9%',   label: 'Disponibilité garantie' },
-    { num: 'Zéro',    label: 'Connaissance serveur' },
-  ]
+  const ref = useRef(null)
+  const [triggered, setTriggered] = useState(prefersReducedMotion)
+
+  useEffect(() => {
+    if (prefersReducedMotion) return
+    const el = ref.current; if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setTriggered(true); obs.disconnect() } },
+      { threshold: 0.3 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
-    <div style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)' }}>
+    <div ref={ref} style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2.75rem max(1.5rem, calc((100% - 1200px) / 2))', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
-        {stats.map(({ num, label }, i) => (
+        {STATS.map(({ value, suffix, locales, format, text, label }, i) => (
           <Reveal key={label} delay={i * 80}>
             <div>
-              <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.75rem,3vw,2.4rem)', color: 'var(--sand)', letterSpacing: '-0.04em', lineHeight: 1.1, marginBottom: '0.35rem' }}>{num}</div>
+              <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.75rem,3vw,2.4rem)', color: 'var(--sand)', letterSpacing: '-0.04em', lineHeight: 1.1, marginBottom: '0.35rem', display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 1 }}>
+                {text ? text : (
+                  <NumberFlow
+                    value={triggered ? value : 0}
+                    locales={locales}
+                    format={format}
+                    suffix={suffix}
+                    style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, letterSpacing: '-0.04em' }}
+                  />
+                )}
+              </div>
               <div style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", lineHeight: 1.4 }}>{label}</div>
             </div>
           </Reveal>
