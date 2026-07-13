@@ -145,11 +145,11 @@ function NavBar() {
               <div style={{ width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(47,217,244,0.22)', background: 'rgba(47,217,244,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img src="/dencpass-logo.png" alt="DencPass" style={{ width: 24, height: 24, objectFit: 'contain' }} />
               </div>
-              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.04em', color: 'var(--text)' }}>
+              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.04em', color: '#e8edf5' }}>
                 Denc<span style={{ color: '#2fd9f4' }}>Pass</span>
               </span>
             </Link>
-            <button onClick={() => setMobileOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: 4 }}>
+            <button onClick={() => setMobileOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(232,237,245,0.6)', cursor: 'pointer', padding: 4 }}>
               <IcoClose />
             </button>
           </div>
@@ -158,8 +158,8 @@ function NavBar() {
               <Link key={to} to={to} onClick={() => setMobileOpen(false)} style={{
                 display: 'block', padding: '1rem 0', fontSize: 22, fontWeight: 700,
                 fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.02em',
-                color: location.pathname === to ? '#2fd9f4' : 'var(--text)',
-                borderBottom: '1px solid rgba(47,217,244,0.06)',
+                color: location.pathname === to ? '#2fd9f4' : '#e8edf5',
+                borderBottom: '1px solid rgba(47,217,244,0.08)',
               }}>
                 {label}
               </Link>
@@ -167,7 +167,7 @@ function NavBar() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingBottom: '2rem' }}>
             <a href="https://app.dencu.online"
-              style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, border: '1px solid rgba(47,217,244,0.2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+              style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, border: '1px solid rgba(47,217,244,0.25)', color: 'rgba(232,237,245,0.8)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               Connexion
             </a>
             <a href="https://app.dencu.online/register" className="btn-primary"
