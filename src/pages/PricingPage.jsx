@@ -184,7 +184,7 @@ export default function PricingPage() {
                   <div className="price-card" style={{
                     position: 'relative', padding: '2.25rem', borderRadius: 20,
                     border: p.isPopular ? '1px solid rgba(47,217,244,0.45)' : '1px solid rgba(47,217,244,0.1)',
-                    background: 'var(--bg-card)', backdropFilter: 'blur(20px) saturate(150%)',
+                    background: 'var(--bg-card)',
                     overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column',
                     boxShadow: p.isPopular ? '0 24px 64px rgba(47,217,244,0.1)' : 'none',
                   }}>
@@ -264,7 +264,7 @@ export default function PricingPage() {
           <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', alignItems: 'stretch' }}>
             {EDITIONS.map((ed, i) => (
               <Reveal key={ed.tag} delay={i * 120} style={{ height: '100%' }}>
-                <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', backdropFilter: 'blur(20px)', position: 'relative', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
+                <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', position: 'relative', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,rgba(47,217,244,0.35),transparent)', pointerEvents: 'none' }} />
                   <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#2fd9f4', letterSpacing: '0.14em', marginBottom: '0.25rem', opacity: 0.8 }}>{ed.tag}</p>
                   <p style={{ fontSize: 12, color: 'var(--text4)', marginBottom: '1rem' }}>{ed.sub}</p>

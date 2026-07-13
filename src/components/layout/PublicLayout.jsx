@@ -91,11 +91,11 @@ function NavBar() {
         padding: '0 max(1.5rem, calc((100% - 1200px) / 2))',
         background: scrolled ? 'var(--bg-nav)' : 'transparent',
         backdropFilter: scrolled ? 'blur(24px) saturate(1.5)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(47,217,244,0.07)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--border2)' : '1px solid transparent',
         transition: 'background 0.35s, border-color 0.35s, backdrop-filter 0.35s',
       }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <div style={{ width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(47,217,244,0.22)', background: 'rgba(47,217,244,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, border: '1px solid var(--border2)', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
             <img src="/dencpass-logo.png" alt="DencPass" style={{ width: 24, height: 24, objectFit: 'contain' }} />
           </div>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.04em', color: 'var(--text)' }}>
@@ -227,12 +227,12 @@ function Footer({ setLegalModal }) {
   ]
 
   return (
-    <footer style={{ background: 'var(--bg2)', borderTop: '1px solid rgba(47,217,244,0.07)' }}>
+    <footer style={{ background: 'var(--bg-footer)', borderTop: '1px solid var(--border)' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem max(1.5rem, calc((100% - 1200px) / 2)) 2rem' }}>
         <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '3rem', marginBottom: '3rem' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1rem' }}>
-              <div style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid rgba(47,217,244,0.18)', background: 'rgba(47,217,244,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid var(--border2)', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img src="/dencpass-logo.png" alt="DencPass" style={{ width: 28, height: 28, objectFit: 'contain' }} />
               </div>
               <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: '-0.04em', color: 'var(--text)' }}>
@@ -251,7 +251,7 @@ function Footer({ setLegalModal }) {
 
           {cols.map(col => (
             <div key={col.title}>
-              <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4', letterSpacing: '0.12em', marginBottom: '1rem' }}>{col.title.toUpperCase()}</p>
+              <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.12em', marginBottom: '1rem' }}>{col.title.toUpperCase()}</p>
               {col.links.map(l => (
                 l.modal
                   ? <button key={l.label} onClick={() => setLegalModal(l.modal)} style={linkStyle} {...hover}>{l.label}</button>
@@ -263,11 +263,11 @@ function Footer({ setLegalModal }) {
           ))}
         </div>
 
-        <div style={{ borderTop: '1px solid rgba(47,217,244,0.07)', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-          <p style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+          <p style={{ fontSize: 12, color: 'var(--text4)', fontFamily: "'JetBrains Mono', monospace" }}>
             © 2026 DencPass · Sénégal · <em>Samm sa sirru</em>
           </p>
-          <div style={{ display: 'flex', background: 'rgba(47,217,244,0.04)', border: '1px solid rgba(47,217,244,0.09)', borderRadius: 9, padding: 3, gap: 2 }}>
+          <div style={{ display: 'flex', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 9, padding: 3, gap: 2 }}>
             {themes.map(({ v, Icon, l }) => (
               <button key={v} onClick={() => setTheme(v)} title={l}
                 style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 11px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12, fontFamily: "'Inter', sans-serif", transition: 'all 0.2s', background: theme === v ? 'rgba(47,217,244,0.12)' : 'none', color: theme === v ? '#2fd9f4' : 'var(--text5)' }}>

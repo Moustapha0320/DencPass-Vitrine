@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import NumberFlow from '@number-flow/react'
 import confetti from 'canvas-confetti'
 import PublicLayout from '../components/layout/PublicLayout'
-import { Reveal, prefersReducedMotion, IcoCheck, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoSearch, IcoCopy, IcoBuilding } from '../components/shared'
+import { Reveal, prefersReducedMotion, IcoCheck, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoSearch, IcoCopy, IcoBuilding, IcoCode } from '../components/shared'
 
 // ─── Canvas background ────────────────────────────────────────────────────────
 function CipherGrid() {
@@ -229,25 +229,23 @@ function HeroSection() {
 // ─── Trust band ───────────────────────────────────────────────────────────────
 function TrustBand() {
   const badges = [
-    { icon: '🔒', label: 'AES-256', sub: 'Chiffrement' },
-    { icon: '👁️', label: 'Zéro connaissance', sub: 'Aucun accès serveur' },
-    { icon: '📱', label: '2FA TOTP', sub: 'Authentification forte' },
-    { icon: '🧩', label: 'Extension Chrome', sub: 'Autofill intégré' },
-    { icon: '🌍', label: 'Africa-first', sub: 'Paiement FCFA' },
+    { Icon: IcoLock,  label: 'AES-256-GCM' },
+    { Icon: IcoEye,   label: 'Zéro connaissance' },
+    { Icon: IcoPhone, label: '2FA TOTP' },
+    { Icon: IcoCode,  label: 'Extension Chrome' },
+    { Icon: IcoGlobe, label: 'Africa-first' },
   ]
   return (
-    <div style={{ background: 'var(--bg2)', borderTop: '1px solid rgba(47,217,244,0.07)', borderBottom: '1px solid rgba(47,217,244,0.07)', padding: '1.1rem 0', overflow: 'hidden' }}>
-      <div className="proof-bar" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 max(1.5rem, calc((100% - 1200px) / 2))', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem' }}>
-        {badges.map(({ icon, label, sub }, i) => (
-          <Reveal key={label} delay={i * 80} y={16}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9, flex: '1 1 auto', justifyContent: 'center' }}>
-              <span style={{ fontSize: 16 }}>{icon}</span>
-              <div>
-                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 14, color: '#2fd9f4', lineHeight: 1.2 }}>{label}</div>
-                <div style={{ fontSize: 11, color: 'var(--text5)', fontFamily: "'Inter', sans-serif" }}>{sub}</div>
-              </div>
+    <div style={{ borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '0.9rem 0', overflow: 'auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 max(1.5rem, calc((100% - 1200px) / 2))', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'max-content' }}>
+        {badges.map(({ Icon, label }, i) => (
+          <Fragment key={label}>
+            {i > 0 && <span style={{ width: 1, height: 13, background: 'var(--border2)', flexShrink: 0, margin: '0 1.75rem' }} />}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' }}>
+              <span style={{ color: 'var(--accent)', display: 'flex', flexShrink: 0 }}><Icon size={13} /></span>
+              <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 13, color: 'var(--text3)', letterSpacing: '0.01em' }}>{label}</span>
             </div>
-          </Reveal>
+          </Fragment>
         ))}
       </div>
     </div>
@@ -280,11 +278,11 @@ function FeaturesTeaser() {
         <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '2.5rem' }}>
           {MAIN_FEATURES.map(({ Icon, title, desc, link }, i) => (
             <Reveal key={title} delay={(i % 2) * 90}>
-              <Link to={link} className="card-hover" style={{ display: 'block', padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.08)', background: 'var(--bg-card)', backdropFilter: 'blur(14px)', textDecoration: 'none' }}>
-                <div style={{ color: 'rgba(47,217,244,0.55)', marginBottom: '1rem' }}><Icon size={22} /></div>
+              <Link to={link} className="card-hover" style={{ display: 'block', padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', textDecoration: 'none' }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(47,217,244,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', marginBottom: '1.25rem', flexShrink: 0 }}><Icon size={20} /></div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.5rem' }}>{title}</h3>
-                <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: '0 0 1rem' }}>{desc}</p>
-                <span style={{ fontSize: 12, color: '#2fd9f4', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>En savoir plus <IcoArrow size={11} /></span>
+                <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: '0 0 1.25rem' }}>{desc}</p>
+                <span style={{ fontSize: 12, color: 'var(--accent)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>En savoir plus <IcoArrow size={11} /></span>
               </Link>
             </Reveal>
           ))}
@@ -324,7 +322,7 @@ function HowItWorksSection() {
           <div style={{ position: 'absolute', top: 40, left: 'calc(16.66% + 1rem)', right: 'calc(16.66% + 1rem)', height: 1, background: 'linear-gradient(90deg, rgba(47,217,244,0.2), rgba(139,92,246,0.2), rgba(34,197,94,0.2))', pointerEvents: 'none' }} className="steps-line" />
           {steps.map(({ n, title, desc, accent }, i) => (
             <Reveal key={n} delay={i * 120}>
-              <div style={{ padding: '2rem', borderRadius: 18, border: '1px solid rgba(47,217,244,0.08)', background: 'var(--bg-card)', backdropFilter: 'blur(14px)', position: 'relative', textAlign: 'center' }}>
+              <div style={{ padding: '2rem', borderRadius: 18, border: '1px solid var(--border)', background: 'var(--bg-card)', position: 'relative', textAlign: 'center' }}>
                 <div style={{ width: 56, height: 56, borderRadius: '50%', background: `${accent}14`, border: `1px solid ${accent}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem', position: 'relative', zIndex: 1 }}>
                   <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 18, color: accent }}>{n}</span>
                 </div>
@@ -341,10 +339,10 @@ function HowItWorksSection() {
 
 // ─── Security condensed ───────────────────────────────────────────────────────
 const SECURITY_CARDS = [
-  { Icon: IcoShield,    title: 'Chiffrement AES-256',        desc: 'Chaque entrée chiffrée individuellement. Rotation des clés sans interruption de service.' },
-  { Icon: IcoPhone,     title: '2FA TOTP',                   desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
-  { Icon: IcoEye,       title: 'Zéro connaissance serveur',  desc: 'Même en cas d\'accès physique au serveur, vos données restent illisibles sans vos clés.' },
-  { Icon: IcoClipboard, title: 'Audit complet',              desc: 'Chaque action tracée. Export vers Splunk, Elastic via webhook ou Syslog RFC 5424.' },
+  { Icon: IcoShield,    accent: '#2fd9f4', title: 'Chiffrement AES-256',        desc: 'Chaque entrée chiffrée individuellement. Rotation des clés sans interruption de service.' },
+  { Icon: IcoPhone,     accent: '#8b5cf6', title: '2FA TOTP',                   desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
+  { Icon: IcoEye,       accent: '#22c55e', title: 'Zéro connaissance serveur',  desc: 'Même en cas d\'accès physique au serveur, vos données restent illisibles sans vos clés.' },
+  { Icon: IcoClipboard, accent: '#f59e0b', title: 'Audit complet',              desc: 'Chaque action tracée. Export vers Splunk, Elastic via webhook ou Syslog RFC 5424.' },
 ]
 
 function SecuritySection() {
@@ -365,8 +363,8 @@ function SecuritySection() {
         <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
           {SECURITY_CARDS.map((s, i) => (
             <Reveal key={s.title} delay={(i % 2) * 100}>
-              <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', backdropFilter: 'blur(14px)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2fd9f4', flexShrink: 0 }}><s.Icon /></div>
+              <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: `${s.accent}14`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.accent, flexShrink: 0 }}><s.Icon size={20} /></div>
                 <div>
                   <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.4rem' }}>{s.title}</h3>
                   <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
@@ -390,7 +388,7 @@ function EnterpriseSection() {
           <Reveal>
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid rgba(139,92,246,0.25)', background: 'rgba(139,92,246,0.07)', marginBottom: '1.5rem' }}>
-                <IcoBuilding size={13} style={{ color: '#8b5cf6' }} />
+                <span style={{ color: '#8b5cf6', display: 'flex' }}><IcoBuilding size={13} /></span>
                 <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: '#8b5cf6', letterSpacing: '0.1em' }}>ENTERPRISE</span>
               </div>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.15 }}>
@@ -457,7 +455,7 @@ function PricingTeaser() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', maxWidth: 720, margin: '0 auto 2.5rem' }} className="grid-2">
           {plans.map((p, i) => (
             <Reveal key={p.name} delay={i * 100}>
-              <div className="price-card" style={{ padding: '2rem', borderRadius: 20, border: p.isPopular ? '1px solid rgba(47,217,244,0.45)' : '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', backdropFilter: 'blur(20px)', position: 'relative', overflow: 'hidden', boxShadow: p.isPopular ? '0 24px 64px rgba(47,217,244,0.1)' : 'none' }}>
+              <div className="price-card" style={{ padding: '2rem', borderRadius: 20, border: p.isPopular ? '1px solid var(--border3)' : '1px solid var(--border)', background: 'var(--bg-card)', position: 'relative', overflow: 'hidden', boxShadow: p.isPopular ? '0 24px 64px rgba(47,217,244,0.08)' : 'none' }}>
                 {p.isPopular && <div style={{ position: 'absolute', top: 0, right: 20, background: '#2fd9f4', color: '#07111f', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px' }}>POPULAIRE</div>}
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: p.isPopular ? 'linear-gradient(90deg,#2fd9f4,rgba(47,217,244,0.2))' : 'linear-gradient(90deg,rgba(47,217,244,0.2),transparent)', pointerEvents: 'none' }} />
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#2fd9f4', letterSpacing: '0.14em', marginBottom: '0.5rem' }}>{p.tag}</p>
@@ -516,7 +514,7 @@ function FAQSection() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
           {FAQS.map((faq, i) => (
             <Reveal key={i} delay={i * 60}>
-              <div style={{ borderRadius: 14, border: `1px solid ${open === i ? 'rgba(47,217,244,0.22)' : 'rgba(47,217,244,0.07)'}`, background: open === i ? 'rgba(47,217,244,0.04)' : 'var(--bg-card)', overflow: 'hidden', transition: 'border-color 0.2s, background 0.2s' }}>
+              <div style={{ borderRadius: 14, border: `1px solid ${open === i ? 'var(--border3)' : 'var(--border)'}`, background: open === i ? 'rgba(47,217,244,0.03)' : 'var(--bg-card)', overflow: 'hidden', transition: 'border-color 0.2s, background 0.2s' }}>
                 <button onClick={() => setOpen(open === i ? null : i)} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.15rem 1.4rem', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', gap: 16 }}>
                   <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1.4 }}>{faq.q}</span>
                   <span style={{ color: '#2fd9f4', flexShrink: 0, transition: 'transform 0.22s', transform: open === i ? 'rotate(180deg)' : 'none', display: 'flex' }}><IcoChevron /></span>

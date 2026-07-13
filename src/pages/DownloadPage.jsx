@@ -83,7 +83,7 @@ export default function DownloadPage() {
 
             {/* Extension Chrome */}
             <Reveal>
-              <div style={{ padding: '2.5rem', borderRadius: 20, border: '1px solid rgba(47,217,244,0.2)', background: 'var(--bg-card)', backdropFilter: 'blur(20px)', display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: '2rem', alignItems: 'center' }} className="hero-grid">
+              <div style={{ padding: '2.5rem', borderRadius: 20, border: '1px solid rgba(47,217,244,0.2)', background: 'var(--bg-card)', display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: '2rem', alignItems: 'center' }} className="hero-grid">
                 <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <IcoGlobe size={28} style={{ color: '#2fd9f4' }} />
                 </div>
@@ -118,7 +118,7 @@ export default function DownloadPage() {
 
             {/* Application web (PWA) */}
             <Reveal delay={100}>
-              <div style={{ padding: '2.5rem', borderRadius: 20, border: canInstall ? '1px solid rgba(47,217,244,0.35)' : '1px solid rgba(47,217,244,0.15)', background: 'var(--bg-card)', backdropFilter: 'blur(20px)', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ padding: '2.5rem', borderRadius: 20, border: canInstall ? '1px solid rgba(47,217,244,0.35)' : '1px solid rgba(47,217,244,0.15)', background: 'var(--bg-card)', position: 'relative', overflow: 'hidden' }}>
                 {canInstall && <div style={{ position: 'absolute', inset: 0, background: 'rgba(47,217,244,0.02)', pointerEvents: 'none' }} />}
                 <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: '2rem', alignItems: 'flex-start' }} className="hero-grid">
                   <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
@@ -188,7 +188,7 @@ export default function DownloadPage() {
 
             {/* Mobile */}
             <Reveal delay={200}>
-              <div style={{ padding: '2.5rem', borderRadius: 20, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', backdropFilter: 'blur(20px)', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2rem', alignItems: 'center' }} className="hero-grid">
+              <div style={{ padding: '2.5rem', borderRadius: 20, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2rem', alignItems: 'center' }} className="hero-grid">
                 <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <IcoSmartphone size={28} style={{ color: '#2fd9f4' }} />
                 </div>

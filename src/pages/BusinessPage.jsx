@@ -109,7 +109,7 @@ export default function BusinessPage() {
           <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
             {B2B_FEATURES.map(({ Icon, title, desc }, i) => (
               <Reveal key={title} delay={(i % 3) * 90}>
-                <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(139,92,246,0.12)', background: 'var(--bg-card)', backdropFilter: 'blur(14px)' }}>
+                <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(139,92,246,0.12)', background: 'var(--bg-card)' }}>
                   <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b5cf6', marginBottom: '1rem' }}><Icon /></div>
                   <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{title}</h3>
                   <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: 0 }}>{desc}</p>
@@ -134,7 +134,7 @@ export default function BusinessPage() {
           <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
             {TIERS.map((tier, i) => (
               <Reveal key={tier.label} delay={i * 100}>
-                <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: tier.highlight ? '1px solid rgba(139,92,246,0.45)' : '1px solid rgba(139,92,246,0.12)', background: 'var(--bg-card)', backdropFilter: 'blur(20px)', position: 'relative', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', boxShadow: tier.highlight ? '0 24px 64px rgba(139,92,246,0.1)' : 'none', boxSizing: 'border-box' }}>
+                <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: tier.highlight ? '1px solid rgba(139,92,246,0.45)' : '1px solid rgba(139,92,246,0.12)', background: 'var(--bg-card)', position: 'relative', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', boxShadow: tier.highlight ? '0 24px 64px rgba(139,92,246,0.1)' : 'none', boxSizing: 'border-box' }}>
                   {tier.highlight && <div style={{ position: 'absolute', top: 0, right: 20, background: '#8b5cf6', color: '#fff', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px' }}>RECOMMANDÉ</div>}
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: tier.highlight ? 'linear-gradient(90deg,#8b5cf6,rgba(139,92,246,0.2))' : 'linear-gradient(90deg,rgba(139,92,246,0.3),transparent)', pointerEvents: 'none' }} />
                   <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: '#8b5cf6', letterSpacing: '0.1em', marginBottom: '0.5rem', opacity: 0.8 }}>{tier.label.toUpperCase()}</p>
