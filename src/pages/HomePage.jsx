@@ -3,69 +3,9 @@ import { Link } from 'react-router-dom'
 import NumberFlow from '@number-flow/react'
 import confetti from 'canvas-confetti'
 import PublicLayout from '../components/layout/PublicLayout'
+import DotField from '../components/DotField'
+import { useTheme } from '../hooks/useTheme'
 import { Reveal, prefersReducedMotion, IcoCheck, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoSearch, IcoCopy, IcoBuilding, IcoCode, IcoStar } from '../components/shared'
-
-// ─── Canvas background ────────────────────────────────────────────────────────
-function CipherGrid() {
-  const ref = useRef(null)
-  const lightRef = useRef(false)
-  const mouseRef = useRef({ x: -9999, y: -9999 })
-
-  useEffect(() => {
-    const check = () => { lightRef.current = document.documentElement.getAttribute('data-theme') === 'light' }
-    check()
-    const obs = new MutationObserver(check)
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
-    return () => obs.disconnect()
-  }, [])
-
-  useEffect(() => {
-    const canvas = ref.current; if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    const N = 70, LINK_DIST = 160, MOUSE_DIST = 220, SPEED = 0.38, INTERVAL = 1000 / 60
-    let pts = [], running = true, last = 0
-    const mkPt = () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * SPEED * 2, vy: (Math.random() - 0.5) * SPEED * 2, r: 1.2 + Math.random() * 1.4 })
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; pts = Array.from({ length: N }, mkPt) }
-    resize()
-    const ro = new ResizeObserver(resize)
-    ro.observe(canvas)
-    const onMouse = e => { const rect = canvas.getBoundingClientRect(); mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top } }
-    const offMouse = () => { mouseRef.current = { x: -9999, y: -9999 } }
-    window.addEventListener('mousemove', onMouse)
-    window.addEventListener('mouseleave', offMouse)
-    const LINK2 = LINK_DIST * LINK_DIST, MOUSE2 = MOUSE_DIST * MOUSE_DIST
-    const tick = ts => {
-      if (!running) return
-      if (ts - last < INTERVAL) { requestAnimationFrame(tick); return }
-      last = ts
-      const { width: W, height: H } = canvas
-      ctx.clearRect(0, 0, W, H)
-      const light = lightRef.current
-      const [r, g, b] = light ? [8, 136, 163] : [47, 217, 244]
-      const mx = mouseRef.current.x, my = mouseRef.current.y
-      for (let i = 0; i < pts.length; i++) {
-        const p = pts[i]; p.x += p.vx; p.y += p.vy
-        if (p.x < 0) p.x += W; if (p.x > W) p.x -= W
-        if (p.y < 0) p.y += H; if (p.y > H) p.y -= H
-      }
-      for (let i = 0; i < pts.length; i++) {
-        for (let j = i + 1; j < pts.length; j++) {
-          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y, d2 = dx * dx + dy * dy
-          if (d2 < LINK2) { const d = Math.sqrt(d2); const a = (1 - d / LINK_DIST) * (light ? 0.14 : 0.22); ctx.beginPath(); ctx.strokeStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`; ctx.lineWidth = 0.8; ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke() }
-        }
-        const mdx = pts[i].x - mx, mdy = pts[i].y - my, md2 = mdx * mdx + mdy * mdy
-        if (md2 < MOUSE2) { const md = Math.sqrt(md2); const a = (1 - md / MOUSE_DIST) * (light ? 0.55 : 0.5); ctx.beginPath(); ctx.strokeStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`; ctx.lineWidth = 1; ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(mx, my); ctx.stroke() }
-      }
-      const dotA = light ? 0.18 : 0.65; ctx.fillStyle = `rgba(${r},${g},${b},${dotA})`
-      for (let i = 0; i < pts.length; i++) { ctx.beginPath(); ctx.arc(pts[i].x, pts[i].y, pts[i].r, 0, Math.PI * 2); ctx.fill() }
-      requestAnimationFrame(tick)
-    }
-    requestAnimationFrame(tick)
-    return () => { running = false; ro.disconnect(); window.removeEventListener('mousemove', onMouse); window.removeEventListener('mouseleave', offMouse) }
-  }, [])
-
-  return <canvas ref={ref} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} />
-}
 
 // ─── Hero typewriter ──────────────────────────────────────────────────────────
 function HeroTypewriter() {
@@ -189,10 +129,27 @@ function ProductMockup() {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function HeroSection() {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+
   return (
     <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden', paddingTop: 62, background: 'var(--bg)' }}>
-      <CipherGrid />
-      <div style={{ position: 'absolute', top: '15%', left: '20%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(47,217,244,0.03) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <DotField
+        dotRadius={1}
+        dotSpacing={24}
+        bulgeStrength={28}
+        glowRadius={90}
+        sparkle={false}
+        waveAmplitude={0}
+        cursorRadius={110}
+        cursorForce={0.08}
+        bulgeOnly
+        gradientFrom={isDark ? 'rgba(47, 217, 244, 0.32)' : 'rgba(10, 155, 184, 0.40)'}
+        gradientTo={isDark ? 'rgba(139, 92, 246, 0.20)' : 'rgba(124, 58, 237, 0.28)'}
+        glowColor={isDark ? 'rgba(47, 217, 244, 0.10)' : 'rgba(10, 155, 184, 0.15)'}
+        style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}
+        aria-hidden="true"
+      />
       <div className="hero-grid" style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', padding: '4rem max(1.5rem, calc((100% - 1200px) / 2))', display: 'grid', gridTemplateColumns: '55% 45%', gap: '3rem', alignItems: 'center', width: '100%' }}>
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid rgba(47,217,244,0.2)', background: 'rgba(47,217,244,0.05)', marginBottom: '2rem', animation: 'fade-up 0.6s ease both 0.05s', maxWidth: '100%', overflow: 'hidden' }}>
@@ -210,10 +167,6 @@ function HeroSection() {
             <a href="https://app.dencu.online/register" className="btn-primary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
               Commencer gratuitement <IcoArrow />
-            </a>
-            <a href="https://app.dencu.online" className="btn-ghost"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-              Voir la démo
             </a>
           </div>
         </div>
@@ -254,10 +207,10 @@ function TrustBand() {
 
 // ─── Stats row ────────────────────────────────────────────────────────────────
 const STATS = [
-  { value: 10000,  suffix: '+',  locales: 'fr-FR', label: 'Utilisateurs actifs' },
-  { value: 2000000, suffix: '+', locales: 'fr-FR', format: { notation: 'compact' }, label: 'Mots de passe sécurisés' },
-  { value: 99.9,  suffix: '%',  locales: 'fr-FR', format: { maximumFractionDigits: 1 }, label: 'Disponibilité garantie' },
-  { value: null,  text: 'Zéro', label: 'Connaissance serveur' },
+  { value: 700,   suffix: 'M+',   locales: 'fr-FR', label: 'Fuites HIBP indexées' },
+  { value: 128,   suffix: ' car.', locales: 'fr-FR', label: 'Longueur max du générateur' },
+  { value: null,  text: 'Zéro',   label: 'Accès serveur aux données' },
+  { value: null,  text: 'AES-256-GCM', label: 'Chiffrement bout en bout' },
 ]
 
 function StatsRow() {
@@ -277,7 +230,7 @@ function StatsRow() {
 
   return (
     <div ref={ref} style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2.75rem max(1.5rem, calc((100% - 1200px) / 2))', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2.75rem 1.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
         {STATS.map(({ value, suffix, locales, format, text, label }, i) => (
           <Reveal key={label} delay={i * 80}>
             <div>
@@ -351,9 +304,9 @@ function FeaturesTeaser() {
 // ─── Comment ça marche ────────────────────────────────────────────────────────
 function HowItWorksSection() {
   const steps = [
-    { n: '01', title: 'Créez votre coffre', desc: 'Inscription en 2 minutes. Votre coffre chiffré est prêt instantanément — sans carte bancaire.', accent: '#2fd9f4' },
+    { n: '01', title: 'Créez votre coffre', desc: 'Inscription en 2 minutes. Votre coffre chiffré est prêt instantanément, sans carte bancaire.', accent: '#2fd9f4' },
     { n: '02', title: 'Importez ou générez', desc: 'Importez depuis Chrome, Bitwarden, 1Password ou KeePass. Ou générez de nouveaux mots de passe forts directement.', accent: '#8b5cf6' },
-    { n: '03', title: 'Accédez partout', desc: "Via le web sur app.dencu.online, l'extension Chrome pour le remplissage automatique, ou la PWA installable sur mobile.", accent: '#22c55e' },
+    { n: '03', title: 'Accédez partout', desc: "Via le web sur app.dencu.online ou l'extension Chrome pour le remplissage automatique directement dans votre navigateur.", accent: '#22c55e' },
   ]
   return (
     <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
@@ -444,15 +397,15 @@ function EnterpriseSection() {
                 Pensé pour vos équipes.
               </h2>
               <p style={{ fontSize: 16, color: 'var(--text3)', lineHeight: 1.8, marginBottom: '2rem' }}>
-                DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès — avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks.
+                DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès, avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks.
               </p>
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
                 <Link to="/business" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#8b5cf6', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px rgba(139,92,246,0.3)' }}>
                   Découvrir Enterprise <IcoArrow />
                 </Link>
-                <a href="mailto:mouhamadoumoustapha.dione@dencu.online" className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 22px', borderRadius: 12, border: '1px solid rgba(139,92,246,0.25)', color: 'var(--text3)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+                <Link to="/contact" className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 22px', borderRadius: 12, border: '1px solid rgba(139,92,246,0.25)', color: 'var(--text3)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
                   Demander un devis
-                </a>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -483,7 +436,7 @@ const TESTIMONIALS = [
     accent: '#2fd9f4',
   },
   {
-    quote: "Le seul gestionnaire qui fonctionne vraiment en Afrique — paiement en FCFA, Wave Money, et l'interface reste disponible même avec une connexion instable.",
+    quote: "Le seul gestionnaire qui fonctionne vraiment en Afrique, paiement en FCFA, Wave Money, et l'interface reste disponible même avec une connexion instable.",
     name: 'Awa Konaré',
     role: 'Fondatrice & CTO',
     company: 'Kolibri Tech, Abidjan',
@@ -610,7 +563,7 @@ function PricingTeaser() {
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 const FAQS = [
-  { q: 'Comment mes données sont-elles chiffrées ?', a: 'Chaque mot de passe, secret et certificat est chiffré individuellement avec AES avant stockage. DencPass applique un contrôle HMAC sur chaque donnée. Même nos équipes ne peuvent pas lire vos secrets — zéro accès en clair.' },
+  { q: 'Comment mes données sont-elles chiffrées ?', a: 'Chaque mot de passe, secret et certificat est chiffré individuellement avec AES avant stockage. DencPass applique un contrôle HMAC sur chaque donnée. Même nos équipes ne peuvent pas lire vos secrets, zéro accès en clair.' },
   { q: 'Puis-je migrer depuis Bitwarden, 1Password ou KeePass ?', a: 'Oui. DencPass accepte l\'import CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC directement depuis l\'interface. La migration prend moins de 2 minutes.' },
   { q: 'L\'extension Chrome est-elle incluse dans tous les plans ?', a: 'Oui, l\'extension Chrome est disponible dans tous les plans. Elle détecte automatiquement les champs de connexion et propose le remplissage en un clic.' },
   { q: 'Comment fonctionne le paiement Enterprise ?', a: 'Pour les éditions Enterprise, nous établissons un devis personnalisé selon le nombre de sièges et la durée. Paiement en FCFA, par virement ou mobile money (Wave, Orange Money).' },
@@ -671,10 +624,10 @@ function CTABanner() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 36px', borderRadius: 14, background: '#2fd9f4', color: '#07111f', fontSize: 16, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px rgba(47,217,244,0.32)' }}>
               Commencer gratuitement <IcoArrow size={17} />
             </a>
-            <a href="mailto:mouhamadoumoustapha.dione@dencu.online" className="btn-ghost"
+            <Link to="/contact" className="btn-ghost"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 28px', borderRadius: 14, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text2)', fontSize: 16, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               Contacter l'équipe
-            </a>
+            </Link>
           </div>
         </Reveal>
       </div>

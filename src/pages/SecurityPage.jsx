@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import PublicLayout from '../components/layout/PublicLayout'
-import { Reveal, IcoArrow, IcoChevron, IcoCheck, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoServer, IcoKey, IcoLock, IcoActivity } from '../components/shared'
+import { Reveal, IcoArrow, IcoChevron, IcoCheck, IcoShield, IcoPhone, IcoEye, IcoServer, IcoActivity } from '../components/shared'
 
 const PILLARS = [
   {
     Icon: IcoShield, accent: '#2fd9f4',
     title: 'Chiffrement AES-256-GCM',
-    desc: 'Chaque entrée est chiffrée individuellement avant tout stockage. Vous êtes le seul à posséder vos clés de déchiffrement.',
+    desc: 'Chaque entrée est chiffrée individuellement avant tout stockage. Les données en base de données sont illisibles sans les clés serveur.',
     details: [
       'Algorithme : AES-256-GCM (chiffrement authentifié)',
-      'Contrôle d\'intégrité HMAC sur chaque donnée',
-      'Dérivation de clé : PBKDF2 avec sel cryptographique',
-      'Rotation des clés depuis l\'interface admin sans interruption',
+      'Nonce aléatoire unique par chiffrement',
+      'Rotation des clés avec identifiant kid sans interruption',
+      'Backups chiffrés au même standard',
     ],
   },
   {
@@ -28,19 +27,19 @@ const PILLARS = [
   },
   {
     Icon: IcoEye, accent: '#22c55e',
-    title: 'Zéro connaissance serveur',
-    desc: 'Même en cas d\'accès physique complet au serveur, vos données restent illisibles.',
+    title: 'Protection contre les fuites',
+    desc: 'Une fuite de base de données n\'expose aucun secret en clair, chaque entrée est chiffrée individuellement.',
     details: [
-      'La clé maître ne quitte jamais votre appareil',
-      'Le serveur ne stocke que des données chiffrées',
-      'Aucun personnel DencPass n\'a accès à vos secrets',
-      'En cas de fuite de base de données : données inexploitables',
+      'Chiffrement par entrée : une clé compromise n\'affecte pas les autres',
+      'Identifiant kid par clé : rotation sans interruption de service',
+      'Backups chiffrés au même standard AES-256-GCM',
+      'Aucune donnée sensible stockée en clair',
     ],
   },
   {
     Icon: IcoActivity, accent: '#f59e0b',
     title: 'Audit & journalisation complète',
-    desc: 'Chaque action est tracée dans des logs structurés — qui a accédé à quoi, quand, depuis où.',
+    desc: 'Chaque action est tracée dans des logs structurés, qui a accédé à quoi, quand, depuis où.',
     details: [
       'Logs structurés format JSON horodatés',
       'Export vers Splunk, Elastic via webhook HTTP',
@@ -51,17 +50,17 @@ const PILLARS = [
 ]
 
 const INFRA = [
-  { label: 'Hébergement', value: 'Europe (UE)', sub: 'Serveurs sous juridiction RGPD' },
+  { label: 'Hébergement', value: 'Cloud dédié', sub: 'Infrastructures conformes RGPD' },
   { label: 'Base de données', value: 'Chiffrée au repos', sub: 'Données + backups chiffrés' },
   { label: 'Transport', value: 'TLS 1.3', sub: 'HTTPS strict sur tous les endpoints' },
-  { label: 'Backups', value: 'Quotidiens', sub: 'Rétention 30 jours, chiffrés' },
+  { label: 'Backups', value: 'Quotidiens', sub: '3 derniers conservés, chiffrés AES-256-GCM' },
 ]
 
 const SEC_FAQS = [
-  { q: 'Que se passe-t-il si j\'oublie mon mot de passe principal ?', a: 'Un lien de réinitialisation est envoyé par email, valable 1 heure. Notez que si vous utilisez un chiffrement côté client avec votre propre clé maître, la réinitialisation peut entraîner la perte d\'accès aux données chiffrées avec l\'ancienne clé — consulter la procédure de récupération dans votre panneau d\'administration.' },
+  { q: 'Que se passe-t-il si j\'oublie mon mot de passe principal ?', a: 'Un lien de réinitialisation est envoyé à votre adresse email, valable 1 heure. Après réinitialisation, toutes vos données restent intégralement accessibles, le chiffrement de vos secrets est indépendant de votre mot de passe de connexion.' },
   { q: 'Mes données sont-elles accessibles par les équipes DencPass ?', a: 'Non. Aucun membre de l\'équipe DencPass ne peut lire vos mots de passe, secrets ou certificats. Les seules données accessibles en interne sont les métadonnées de compte (email, date d\'inscription, logs de connexion).' },
   { q: 'Comment DencPass réagit en cas de fuite de données ?', a: 'En cas d\'incident, les utilisateurs concernés sont notifiés par email dans les 72 heures. Les données exposées étant chiffrées, une fuite de base de données n\'expose pas vos secrets en clair. Un rapport d\'incident est publié sous 30 jours.' },
-  { q: 'L\'extension Chrome a-t-elle accès à tous les sites que je visite ?', a: 'L\'extension ne s\'active que sur les pages contenant des champs de formulaire identifiés comme des champs de connexion. Elle ne transmet aucune donnée de navigation à nos serveurs — le traitement de détection se fait localement dans le navigateur.' },
+  { q: 'L\'extension Chrome a-t-elle accès à tous les sites que je visite ?', a: 'L\'extension ne s\'active que sur les pages contenant des champs de formulaire identifiés comme des champs de connexion. Elle ne transmet aucune donnée de navigation à nos serveurs, le traitement de détection se fait localement dans le navigateur.' },
   { q: 'Comment signaler une vulnérabilité de sécurité ?', a: 'Contactez security@dencpass.com ou mouhamadoumoustapha.dione@dencu.online avec le détail de la vulnérabilité. Nous nous engageons à accuser réception sous 48 heures et à corriger les vulnérabilités critiques sous 72 heures.' },
 ]
 
@@ -89,7 +88,7 @@ function FAQAccordion({ faqs }) {
 }
 
 export default function SecurityPage() {
-  useEffect(() => { document.title = 'Sécurité — DencPass' }, [])
+  useEffect(() => { document.title = 'Sécurité | DencPass' }, [])
 
   return (
     <PublicLayout>
@@ -98,14 +97,14 @@ export default function SecurityPage() {
         <Reveal>
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>SÉCURITÉ</p>
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.5rem,5.5vw,4rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.25rem', lineHeight: 1.05 }}>
-            Zéro connaissance,<br />par design.
+            Chiffrement militaire,<br />couche par couche.
           </h1>
           <p style={{ fontSize: 18, color: 'var(--text3)', maxWidth: 560, margin: '0 auto 2.5rem', lineHeight: 1.75 }}>
-            Vos secrets sont chiffrés avant de quitter votre appareil. Même nos équipes techniques ne peuvent pas lire vos données — c'est une garantie cryptographique, pas une promesse marketing.
+            Vos données sont chiffrées avec AES-256-GCM avant d'être stockées. En cas de fuite de base de données, les données restent illisibles, le chiffrement est une garantie technique, pas une promesse marketing.
           </p>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '10px 20px', borderRadius: 100, border: '1px solid rgba(47,217,244,0.2)', background: 'rgba(47,217,244,0.05)' }}>
             <IcoShield size={16} style={{ color: '#2fd9f4' }} />
-            <span style={{ fontSize: 13, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4' }}>AES-256-GCM · HMAC · TLS 1.3 · Zero-Knowledge</span>
+            <span style={{ fontSize: 13, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4' }}>AES-256-GCM · Argon2id · TLS 1.3 · RGPD</span>
           </div>
         </Reveal>
       </section>
@@ -117,17 +116,17 @@ export default function SecurityPage() {
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>ARCHITECTURE</p>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>
-                Comment fonctionne le zéro connaissance ?
+                Comment vos données sont-elles protégées ?
               </h2>
             </div>
           </Reveal>
           {/* Schema steps */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {[
-              { step: '1', title: 'Vous saisissez un mot de passe', detail: 'Sur app.dencu.online dans votre navigateur', color: '#2fd9f4', side: 'CLIENT' },
-              { step: '2', title: 'Chiffrement local (côté navigateur)', detail: 'Votre clé maître dérive de votre mot de passe via PBKDF2. Le chiffrement AES-256-GCM se passe dans votre navigateur — la clé ne quitte jamais votre appareil.', color: '#8b5cf6', side: 'CLIENT' },
-              { step: '3', title: 'Envoi de données chiffrées uniquement', detail: 'Seul le texte chiffré est transmis sur TLS 1.3 vers nos serveurs. Nos serveurs ne voient que des bytes incompréhensibles.', color: '#22c55e', side: 'RÉSEAU' },
-              { step: '4', title: 'Stockage chiffré', detail: 'La base de données stocke uniquement des données chiffrées. En cas de fuite de base de données, un attaquant ne récupère que des données illisibles.', color: '#f59e0b', side: 'SERVEUR' },
+              { step: '1', title: 'Vous saisissez un mot de passe', detail: 'Sur app.dencu.online dans votre navigateur sécurisé (HTTPS strict).', color: '#2fd9f4', side: 'CLIENT' },
+              { step: '2', title: 'Transmission chiffrée via TLS 1.3', detail: 'La donnée transite vers nos serveurs exclusivement via TLS 1.3, le protocole de transport le plus sûr actuellement disponible.', color: '#8b5cf6', side: 'RÉSEAU' },
+              { step: '3', title: 'Chiffrement AES-256-GCM côté serveur', detail: 'Le serveur chiffre chaque entrée individuellement avec AES-256-GCM avant tout stockage.', color: '#22c55e', side: 'SERVEUR' },
+              { step: '4', title: 'Stockage chiffré en base de données', detail: 'Seules des données chiffrées sont stockées. En cas de fuite de base de données, un attaquant ne récupère que des données illisibles sans les clés serveur.', color: '#f59e0b', side: 'STOCKAGE' },
             ].map(({ step, title, detail, color, side }) => (
               <Reveal key={step}>
                 <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
@@ -186,7 +185,7 @@ export default function SecurityPage() {
           <Reveal>
             <div style={{ marginBottom: '3rem' }}>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>INFRASTRUCTURE</p>
-              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Données hébergées en Europe.</h2>
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Une infrastructure sécurisée de bout en bout.</h2>
             </div>
           </Reveal>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem' }} className="grid-2">

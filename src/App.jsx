@@ -1,10 +1,18 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
 import HomePage from './pages/HomePage'
 import PricingPage from './pages/PricingPage'
 import SecurityPage from './pages/SecurityPage'
 import DownloadPage from './pages/DownloadPage'
 import BusinessPage from './pages/BusinessPage'
 import FeaturesPage from './pages/FeaturesPage'
+import ContactPage from './pages/ContactPage'
 import PublicLayout from './components/layout/PublicLayout'
 import { Reveal } from './components/shared'
 
@@ -28,6 +36,7 @@ function NotFoundPage() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/"          element={<HomePage />} />
         <Route path="/pricing"   element={<PricingPage />} />
@@ -35,6 +44,7 @@ export default function App() {
         <Route path="/download"  element={<DownloadPage />} />
         <Route path="/business"  element={<BusinessPage />} />
         <Route path="/features"  element={<FeaturesPage />} />
+        <Route path="/contact"   element={<ContactPage />} />
         <Route path="/blog"      element={<NotFoundPage />} />
         <Route path="/changelog" element={<NotFoundPage />} />
         <Route path="/about"     element={<NotFoundPage />} />

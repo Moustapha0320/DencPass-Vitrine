@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import PublicLayout from '../components/layout/PublicLayout'
-import { Reveal, IcoArrow, IcoGlobe, IcoSmartphone, IcoDownload, IcoCheck } from '../components/shared'
+import { Reveal, IcoArrow, IcoGlobe, IcoDownload, IcoCheck } from '../components/shared'
 
-// PWA install hook (no npm needed — pure browser API)
+// PWA install hook (no npm needed, pure browser API)
 function usePWAInstall() {
   const [installPrompt, setInstallPrompt] = useState(null)
   const [isInstalled, setIsInstalled] = useState(false)
@@ -31,31 +31,24 @@ function usePWAInstall() {
 export default function DownloadPage() {
   const { canInstall, isInstalled, install } = usePWAInstall()
 
-  useEffect(() => { document.title = 'Télécharger — DencPass' }, [])
+  useEffect(() => { document.title = 'Télécharger | DencPass' }, [])
 
   const manualSteps = {
     Windows: [
       'Ouvrez app.dencu.online dans Chrome',
       'Cliquez sur le menu ⋮ (trois points en haut à droite)',
       'Sélectionnez "Installer DencPass..."',
-      'Confirmez l\'installation',
+      'Confirmez, l\'icône apparaît sur votre bureau',
     ],
     macOS: [
-      'Ouvrez app.dencu.online dans Chrome ou Safari',
-      'Dans Chrome : menu ⋮ → "Installer DencPass..."',
-      'Dans Safari : bouton Partager → "Sur l\'écran d\'accueil"',
+      'Ouvrez app.dencu.online dans Chrome',
+      'Cliquez sur le menu ⋮ → "Installer DencPass..."',
+      'Confirmez, l\'icône apparaît dans votre Dock / Launchpad',
     ],
-    Android: [
-      'Ouvrez app.dencu.online dans Chrome mobile',
-      'Appuyez sur le menu ⋮ (trois points)',
-      'Sélectionnez "Ajouter à l\'écran d\'accueil"',
-      'Confirmez — l\'app apparaît sur votre écran',
-    ],
-    iOS: [
-      'Ouvrez app.dencu.online dans Safari (iOS)',
-      'Appuyez sur le bouton Partager (⬆)',
-      'Faites défiler et choisissez "Sur l\'écran d\'accueil"',
-      'Appuyez sur "Ajouter"',
+    Linux: [
+      'Ouvrez app.dencu.online dans Chrome',
+      'Cliquez sur le menu ⋮ → "Installer DencPass..."',
+      'Confirmez l\'installation',
     ],
   }
 
@@ -71,7 +64,7 @@ export default function DownloadPage() {
             DencPass, partout.
           </h1>
           <p style={{ fontSize: 18, color: 'var(--text3)', maxWidth: 480, margin: '0 auto', lineHeight: 1.75 }}>
-            Extension Chrome pour l'autofill, application web installable (PWA), accès mobile. Choisissez votre canal.
+            Extension Chrome pour l'autofill et application web installable sur desktop. Choisissez votre canal.
           </p>
         </Reveal>
       </section>
@@ -111,7 +104,7 @@ export default function DownloadPage() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
                     Chrome Web Store
                   </a>
-                  <span style={{ fontSize: 11, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", textAlign: 'right' }}>Firefox · Edge — Bientôt</span>
+                  <span style={{ fontSize: 11, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", textAlign: 'right' }}>Firefox · Edge, Bientôt</span>
                 </div>
               </div>
             </Reveal>
@@ -130,10 +123,10 @@ export default function DownloadPage() {
                     </div>
                     <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 22, color: 'var(--text-head)', margin: '0 0 0.5rem' }}>Application Web Installable</h2>
                     <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.7, margin: '0 0 1rem' }}>
-                      Installez DencPass directement depuis votre navigateur. Aucun App Store, aucun téléchargement — icône sur votre écran d'accueil en 10 secondes.
+                      Installez DencPass directement depuis Chrome, aucun exécutable, aucun téléchargement. L'app apparaît sur votre bureau en quelques secondes.
                     </p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {['Fonctionne hors-ligne (cache)', 'Accès depuis l\'écran d\'accueil', 'Mise à jour automatique', 'iOS · Android · Windows · macOS'].map(f => (
+                      {['Fonctionne hors-ligne (cache)', 'Icône sur le bureau', 'Mise à jour automatique', 'Windows · macOS · Linux'].map(f => (
                         <span key={f} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, color: 'var(--text3)', background: 'rgba(139,92,246,0.05)', border: '1px solid rgba(139,92,246,0.12)', borderRadius: 6, padding: '3px 10px' }}>
                           <IcoCheck size={11} style={{ color: '#8b5cf6' }} /> {f}
                         </span>
@@ -186,26 +179,6 @@ export default function DownloadPage() {
               </div>
             </Reveal>
 
-            {/* Mobile */}
-            <Reveal delay={200}>
-              <div style={{ padding: '2.5rem', borderRadius: 20, border: '1px solid rgba(47,217,244,0.1)', background: 'var(--bg-card)', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2rem', alignItems: 'center' }} className="hero-grid">
-                <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(47,217,244,0.08)', border: '1px solid rgba(47,217,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <IcoSmartphone size={28} style={{ color: '#2fd9f4' }} />
-                </div>
-                <div>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', borderRadius: 100, border: '1px solid rgba(251,191,36,0.2)', background: 'rgba(251,191,36,0.06)', marginBottom: '0.75rem' }}>
-                    <span style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: '#f59e0b', letterSpacing: '0.08em' }}>VIA PWA</span>
-                  </div>
-                  <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 22, color: 'var(--text-head)', margin: '0 0 0.5rem' }}>Applications mobiles</h2>
-                  <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.7, margin: '0 0 0.75rem' }}>
-                    Il n'existe pas encore d'application native App Store / Google Play. Sur mobile, utilisez la <strong style={{ color: 'var(--text2)' }}>PWA</strong> : ouvrez app.dencu.online dans Safari (iOS) ou Chrome (Android) et installez-la sur votre écran d'accueil via le guide ci-dessus.
-                  </p>
-                  <p style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>
-                    Applications natives iOS / Android → prévues
-                  </p>
-                </div>
-              </div>
-            </Reveal>
           </div>
         </div>
       </section>

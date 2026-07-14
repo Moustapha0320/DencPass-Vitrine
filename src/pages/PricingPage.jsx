@@ -12,13 +12,13 @@ const PLANS = [
     cta: 'Créer un compte gratuit', ctaHref: 'https://app.dencu.online/register',
     features: [
       { label: 'Mots de passe illimités',     ok: true },
-      { label: '150 générations / mois',      ok: true },
+      { label: '50 générations / mois',        ok: true },
+      { label: 'Passphrase africaine',        ok: true },
       { label: '5 partages actifs',           ok: true },
       { label: '5 secrets dans le coffre',    ok: true },
       { label: '5 certificats SSL/TLS',       ok: true },
       { label: 'Extension Chrome',            ok: true },
       { label: '2FA TOTP',                    ok: true },
-      { label: 'Passphrase africaine',        ok: false },
       { label: 'Partages illimités',          ok: false },
       { label: 'Secrets illimités',           ok: false },
       { label: 'Équipes & groupes',           ok: false },
@@ -49,7 +49,7 @@ const PLANS = [
   {
     name: 'Enterprise', tag: 'ORGANISATIONS', price: null, yearlyPrice: null,
     desc: 'Pour les équipes et organisations.',
-    cta: 'Nous contacter', ctaHref: 'mailto:mouhamadoumoustapha.dione@dencu.online',
+    cta: 'Nous contacter', ctaTo: '/contact',
     features: [
       { label: 'Tout du plan Pro',            ok: true },
       { label: 'Équipes & groupes',           ok: true },
@@ -58,8 +58,7 @@ const PLANS = [
       { label: 'SIEM / Syslog',              ok: true },
       { label: 'Déploiement On-Premise',      ok: true },
       { label: 'Licence + support dédié',    ok: true },
-      { label: 'SLA personnalisé',            ok: true },
-      { label: 'Période de grâce 7 jours',   ok: true },
+      { label: 'Engagement de disponibilité',  ok: true },
     ],
   },
 ]
@@ -68,7 +67,7 @@ const EDITIONS = [
   {
     tag: 'COMMUNITY', sub: 'Pour les particuliers',
     desc: 'Gérez vos mots de passe personnels, secrets et certificats. Gratuit avec des limites raisonnables, illimité en mode Pro.',
-    items: ['Mots de passe illimités', 'Générateur (150/mois en gratuit)', 'Coffre secrets (5 en gratuit)', 'Certificats (5 en gratuit)', 'Extension Chrome incluse', 'Pro à 2 000 FCFA/mois'],
+    items: ['Mots de passe illimités', 'Générateur (50/mois en gratuit)', 'Passphrase africaine incluse', 'Coffre secrets (5 en gratuit)', 'Certificats (5 en gratuit)', 'Extension Chrome incluse'],
   },
   {
     tag: 'ENTERPRISE SAAS', sub: 'Pour les organisations',
@@ -85,11 +84,11 @@ const EDITIONS = [
 ]
 
 const PRICING_FAQS = [
-  { q: 'Puis-je changer de plan à tout moment ?', a: 'Oui. Vous pouvez passer à Pro à tout moment depuis votre espace. La facturation est au mois, sans engagement annuel. Pour revenir au plan gratuit, aucune action nécessaire — votre plan Pro expire naturellement à la fin de la période payée.' },
+  { q: 'Puis-je changer de plan à tout moment ?', a: 'Oui. Vous pouvez passer à Pro à tout moment depuis votre espace. La facturation est au mois, sans engagement annuel. Pour revenir au plan gratuit, aucune action nécessaire, votre plan Pro expire naturellement à la fin de la période payée.' },
   { q: 'Y a-t-il un essai gratuit pour le plan Pro ?', a: 'Le plan Gratuit (Community) est permanent et déjà très complet. Plutôt qu\'un essai Pro limité dans le temps, nous préférons que vous utilisiez le plan gratuit sans limite de durée, puis passiez à Pro quand vous avez besoin des fonctionnalités avancées.' },
   { q: 'Comment fonctionne le paiement en FCFA ?', a: 'Paiement par virement bancaire ou mobile money (Wave, Orange Money). Pour les plans Enterprise, nous émettons un devis en FCFA avec les modalités adaptées à votre organisation.' },
   { q: 'Que se passe-t-il à l\'expiration d\'une licence Enterprise ?', a: 'Un délai de grâce de 7 jours s\'applique automatiquement. Pendant cette période, les fonctionnalités Enterprise restent actives. Passé ce délai, l\'organisation passe au plan Community jusqu\'à renouvellement.' },
-  { q: 'Le déploiement On-Premise est-il possible pour les PME ?', a: 'Oui. L\'Enterprise On-Premise s\'installe via Docker ou bare metal sur votre propre infrastructure. Il n\'y a pas de minimum de sièges fixe — contactez-nous pour un devis adapté à votre taille.' },
+  { q: 'Le déploiement On-Premise est-il possible pour les PME ?', a: 'Oui. L\'Enterprise On-Premise s\'installe via Docker ou bare metal sur votre propre infrastructure. Il n\'y a pas de minimum de sièges fixe, contactez-nous pour un devis adapté à votre taille.' },
 ]
 
 function FAQAccordion({ faqs }) {
@@ -121,7 +120,7 @@ export default function PricingPage() {
   const [isDesktop, setIsDesktop] = useState(false)
 
   useEffect(() => {
-    document.title = 'Tarifs — DencPass'
+    document.title = 'Tarifs | DencPass'
     const mq = window.matchMedia('(min-width: 900px)')
     setIsDesktop(mq.matches)
     const h = e => setIsDesktop(e.matches)
@@ -198,38 +197,47 @@ export default function PricingPage() {
                       <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 20, color: 'var(--text)', marginBottom: '1rem' }}>{p.name}</p>
 
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4 }}>
-                        {p.price !== null ? (
-                          <NumberFlow
-                            value={yearly ? p.yearlyPrice : p.price}
-                            format={{ useGrouping: true }}
-                            style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 36, color: 'var(--text)', letterSpacing: '-0.04em' }}
-                          />
+                        {p.price === null ? (
+                          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 15, color: 'var(--text3)', letterSpacing: '0.01em' }}>Sur devis</span>
+                        ) : p.price === 0 ? (
+                          <>
+                            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 36, color: 'var(--text)', letterSpacing: '-0.04em' }}>0</span>
+                            <span style={{ fontSize: 12, color: 'var(--text4)' }}>FCFA / mois</span>
+                          </>
                         ) : (
-                          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 26, color: 'var(--text)', letterSpacing: '-0.04em' }}>Sur devis</span>
+                          <>
+                            <NumberFlow
+                              value={yearly ? p.yearlyPrice : p.price}
+                              format={{ useGrouping: true }}
+                              style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 36, color: 'var(--text)', letterSpacing: '-0.04em' }}
+                            />
+                            <span style={{ fontSize: 12, color: 'var(--text4)' }}>FCFA / mois</span>
+                          </>
                         )}
-                        {p.price !== null && p.price > 0 && <span style={{ fontSize: 12, color: 'var(--text4)' }}>FCFA / mois</span>}
                       </div>
 
-                      <div style={{ height: 18, marginBottom: '0.75rem' }}>
-                        {yearly && p.price > 0 && (
-                          <span style={{ fontSize: 11, color: '#22c55e', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.04em' }}>
-                            Économisez {((p.price - p.yearlyPrice) * 12).toLocaleString('fr-FR')} FCFA/an
-                          </span>
-                        )}
-                      </div>
+                      {p.price !== null && (
+                        <div style={{ height: 18, marginBottom: '0.75rem' }}>
+                          {yearly && p.price > 0 && (
+                            <span style={{ fontSize: 11, color: '#22c55e', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.04em' }}>
+                              Économisez {((p.price - p.yearlyPrice) * 12).toLocaleString('fr-FR')} FCFA/an
+                            </span>
+                          )}
+                        </div>
+                      )}
 
                       <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, marginBottom: '1.25rem' }}>{p.desc}</p>
 
-                      <a href={p.ctaHref} style={{
-                        display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11,
-                        fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif",
-                        marginBottom: '1.5rem', transition: 'all 0.2s',
-                        ...(p.isPopular
-                          ? { background: '#2fd9f4', color: '#07111f', boxShadow: '0 4px 20px rgba(47,217,244,0.28)' }
-                          : p.price === null
-                            ? { background: 'rgba(47,217,244,0.06)', border: '1px solid rgba(47,217,244,0.25)', color: '#2fd9f4' }
-                            : { background: 'transparent', border: '1px solid rgba(47,217,244,0.2)', color: 'var(--text3)' })
-                      }}>
+                      <a href={p.ctaHref}
+                        className={p.isPopular ? '' : 'btn-free-cta'}
+                        style={{
+                          display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11,
+                          fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif",
+                          marginBottom: '1.5rem', transition: 'all 0.2s',
+                          ...(p.isPopular
+                            ? { background: '#2fd9f4', color: '#07111f', boxShadow: '0 4px 20px rgba(47,217,244,0.28)' }
+                            : { background: 'rgba(47,217,244,0.04)', border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text2)' })
+                        }}>
                         {p.cta}
                       </a>
 
@@ -277,9 +285,9 @@ export default function PricingPage() {
                     ))}
                   </ul>
                   {ed.cta && (
-                    <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '1.5rem', fontSize: 13, fontWeight: 600, color: '#2fd9f4' }}>
+                    <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '1.5rem', fontSize: 13, fontWeight: 600, color: '#2fd9f4' }}>
                       {ed.cta} <IcoArrow size={13} />
-                    </a>
+                    </Link>
                   )}
                 </div>
               </Reveal>
@@ -301,10 +309,10 @@ export default function PricingPage() {
           <Reveal delay={300}>
             <div style={{ marginTop: '3rem', textAlign: 'center', padding: '2rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.12)', background: 'rgba(47,217,244,0.03)' }}>
               <p style={{ fontSize: 15, color: 'var(--text3)', marginBottom: '1rem' }}>Une question sur les plans Enterprise ?</p>
-              <a href="mailto:mouhamadoumoustapha.dione@dencu.online"
+              <Link to="/contact"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 22px', borderRadius: 10, background: '#2fd9f4', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>
                 Contacter l'équipe <IcoArrow />
-              </a>
+              </Link>
             </div>
           </Reveal>
         </div>

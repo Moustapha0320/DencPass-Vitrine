@@ -7,7 +7,7 @@ const B2B_FEATURES = [
   {
     Icon: IcoUsers,
     title: 'Organisations multi-tenant',
-    desc: 'Plusieurs organisations sur la même instance. Isolation totale des données entre entités — idéal pour les groupes et filiales.',
+    desc: 'Plusieurs organisations sur la même instance. Isolation totale des données entre entités, idéal pour les groupes et filiales.',
   },
   {
     Icon: IcoShield,
@@ -32,7 +32,7 @@ const B2B_FEATURES = [
   {
     Icon: IcoKey,
     title: 'Coffre des secrets API',
-    desc: 'Tokens SSH, clés API, credentials base de données — partagés entre équipes avec journal d\'accès complet par entrée.',
+    desc: 'Tokens SSH, clés API, credentials base de données, partagés entre équipes avec journal d\'accès complet par entrée.',
   },
 ]
 
@@ -47,9 +47,9 @@ const TIERS = [
   {
     label: 'PME (10–200 personnes)',
     plan: 'Enterprise SaaS',
-    desc: 'Gestion centralisée, équipes et groupes, audit d\'activité. Hébergé et maintenu par DencPass — rien à gérer côté infrastructure.',
-    price: 'Sur devis — paiement FCFA',
-    cta: { label: 'Demander un devis', href: 'mailto:mouhamadoumoustapha.dione@dencu.online' },
+    desc: 'Gestion centralisée, équipes et groupes, audit d\'activité. Hébergé et maintenu par DencPass, rien à gérer côté infrastructure.',
+    price: 'Sur devis, paiement FCFA',
+    cta: { label: 'Demander un devis', to: '/contact' },
     highlight: true,
   },
   {
@@ -57,12 +57,12 @@ const TIERS = [
     plan: 'Enterprise On-Premise',
     desc: 'Déployé sur votre infrastructure (Docker ou bare metal). Données sur vos serveurs, intégration AD, SIEM et conformité totale.',
     price: 'Licence annuelle sur devis',
-    cta: { label: 'Contacter notre équipe', href: 'mailto:mouhamadoumoustapha.dione@dencu.online' },
+    cta: { label: 'Contacter notre équipe', to: '/contact' },
   },
 ]
 
 export default function BusinessPage() {
-  useEffect(() => { document.title = 'Entreprises — DencPass' }, [])
+  useEffect(() => { document.title = 'Entreprises | DencPass' }, [])
 
   return (
     <PublicLayout>
@@ -79,13 +79,13 @@ export default function BusinessPage() {
               Gestion centralisée.<br />Contrôle total.
             </h1>
             <p style={{ fontSize: 18, color: 'var(--text3)', maxWidth: 560, marginBottom: '2.5rem', lineHeight: 1.8, fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
-              DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès — avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks. Déployé en SaaS ou sur votre infrastructure.
+              DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès, avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks. Déployé en SaaS ou sur votre infrastructure.
             </p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', animation: 'fade-up 0.7s ease both 0.35s' }}>
-              <a href="mailto:mouhamadoumoustapha.dione@dencu.online"
+              <Link to="/contact"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: '#8b5cf6', color: '#fff', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(139,92,246,0.35)' }}>
                 Demander une démo <IcoArrow />
-              </a>
+              </Link>
               <Link to="/pricing" className="btn-ghost"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid rgba(139,92,246,0.3)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
                 Voir les tarifs
@@ -143,10 +143,16 @@ export default function BusinessPage() {
                   <div style={{ padding: '0.75rem 1rem', borderRadius: 10, background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.15)', marginBottom: '1.25rem' }}>
                     <p style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: '#8b5cf6', margin: 0 }}>{tier.price}</p>
                   </div>
-                  <a href={tier.cta.href}
-                    style={{ display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", transition: 'all 0.2s', ...(tier.highlight ? { background: '#8b5cf6', color: '#fff', boxShadow: '0 4px 20px rgba(139,92,246,0.3)' } : { background: 'transparent', border: '1px solid rgba(139,92,246,0.25)', color: '#8b5cf6' }) }}>
-                    {tier.cta.label}
-                  </a>
+                  {tier.cta.to
+                    ? <Link to={tier.cta.to}
+                        style={{ display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", transition: 'all 0.2s', ...(tier.highlight ? { background: '#8b5cf6', color: '#fff', boxShadow: '0 4px 20px rgba(139,92,246,0.3)' } : { background: 'transparent', border: '1px solid rgba(139,92,246,0.25)', color: '#8b5cf6' }) }}>
+                        {tier.cta.label}
+                      </Link>
+                    : <a href={tier.cta.href}
+                        style={{ display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", transition: 'all 0.2s', ...(tier.highlight ? { background: '#8b5cf6', color: '#fff', boxShadow: '0 4px 20px rgba(139,92,246,0.3)' } : { background: 'transparent', border: '1px solid rgba(139,92,246,0.25)', color: '#8b5cf6' }) }}>
+                        {tier.cta.label}
+                      </a>
+                  }
                 </div>
               </Reveal>
             ))}
@@ -165,7 +171,7 @@ export default function BusinessPage() {
                   Conformité et contrôle.
                 </h2>
                 <p style={{ fontSize: 16, color: 'var(--text3)', lineHeight: 1.8, marginBottom: '1.75rem' }}>
-                  DencPass Enterprise est conçu pour répondre aux exigences des équipes sécurité les plus strictes — traçabilité totale, chiffrement bout en bout, intégrations SIEM.
+                  DencPass Enterprise est conçu pour répondre aux exigences des équipes sécurité les plus strictes, traçabilité totale, chiffrement bout en bout, intégrations SIEM.
                 </p>
                 <Link to="/security" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 600, color: '#2fd9f4' }}>
                   Architecture de sécurité complète <IcoArrow size={13} />
@@ -209,10 +215,10 @@ export default function BusinessPage() {
               Contactez-nous pour une démo personnalisée et un devis adapté à votre équipe.
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
-              <a href="mailto:mouhamadoumoustapha.dione@dencu.online"
+              <Link to="/contact"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#8b5cf6', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px rgba(139,92,246,0.3)' }}>
                 Demander une démo <IcoArrow />
-              </a>
+              </Link>
               <Link to="/pricing"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 22px', borderRadius: 12, border: '1px solid rgba(139,92,246,0.3)', color: 'var(--text3)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
                 Voir les tarifs

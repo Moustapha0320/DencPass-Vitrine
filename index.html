@@ -141,6 +141,46 @@
         .section-pad { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
         .steps-line { display: none !important; }
       }
+      /* Pulsing border glow on Enterprise CTA */
+      .btn-enterprise-cta {
+        animation: enterprise-glow 3s ease-in-out infinite;
+      }
+      @keyframes enterprise-glow {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(47,217,244,0);    border-color: rgba(47,217,244,0.3); }
+        50%       { box-shadow: 0 0 18px rgba(47,217,244,0.22); border-color: rgba(47,217,244,0.65); }
+      }
+      [data-theme="light"] .btn-enterprise-cta {
+        animation: enterprise-glow-light 3s ease-in-out infinite;
+      }
+      @keyframes enterprise-glow-light {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(10,155,184,0);    border-color: rgba(10,155,184,0.3); }
+        50%       { box-shadow: 0 0 14px rgba(10,155,184,0.18); border-color: rgba(10,155,184,0.6); }
+      }
+
+      /* Shimmer sweep on free plan CTA */
+      .btn-free-cta {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-free-cta::after {
+        content: '';
+        position: absolute;
+        top: 0; left: -75%;
+        width: 50%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(47,217,244,0.18), transparent);
+        animation: btn-shimmer 3.5s ease-in-out infinite;
+        animation-delay: 1.2s;
+        pointer-events: none;
+      }
+      @keyframes btn-shimmer {
+        0%        { left: -75%; opacity: 1; }
+        45%, 100% { left: 140%; opacity: 0; }
+        46%       { opacity: 0; }
+      }
+      [data-theme="light"] .btn-free-cta::after {
+        background: linear-gradient(90deg, transparent, rgba(10,155,184,0.12), transparent);
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
       }

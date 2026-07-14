@@ -5,7 +5,7 @@ import {
   Reveal,
   IcoShield, IcoKey, IcoZap, IcoShare, IcoVault, IcoGlobe,
   IcoCert, IcoUsers, IcoPhone, IcoEye, IcoClipboard, IcoLock,
-  IcoSearch, IcoCopy, IcoCheck, IcoArrow, IcoSmartphone, IcoCode,
+  IcoSearch, IcoCopy, IcoCheck, IcoArrow, IcoCode,
 } from '../components/shared'
 
 const FEATURES = [
@@ -20,14 +20,14 @@ const FEATURES = [
     Icon: IcoKey,
     accent: '#8b5cf6',
     title: 'Générateur de mots de passe',
-    desc: 'Créez des mots de passe forts sur mesure : longueur, complexité, caractères spéciaux, mots mémorables — votre choix.',
+    desc: 'Créez des mots de passe forts sur mesure : longueur, complexité, caractères spéciaux, mots mémorables, votre choix.',
     tags: ['Longueur jusqu\'à 128 caractères', 'Règles configurables', 'Mots de passe mémorables', 'Historique de génération'],
   },
   {
     Icon: IcoShare,
     accent: '#f59e0b',
     title: 'Partage sécurisé',
-    desc: 'Partagez des secrets avec des collègues ou des clients via des liens chiffrés à durée limitée — sans jamais exposer le mot de passe en clair.',
+    desc: 'Partagez des secrets avec des collègues ou des clients via des liens chiffrés à durée limitée, sans jamais exposer le mot de passe en clair.',
     tags: ['Liens temporaires', 'Expiration configurable', 'Révocation instantanée', 'Journal des accès'],
   },
   {
@@ -45,24 +45,24 @@ const FEATURES = [
     tags: ['Remplissage auto', 'Détection de domaine', 'Générer & enregistrer', 'Mode hors-ligne'],
   },
   {
-    Icon: IcoSmartphone,
-    accent: '#8b5cf6',
-    title: 'PWA installable',
-    desc: "Installez DencPass sur votre téléphone comme une vraie app native — sans passer par un store. Disponible sur Android et iOS.",
-    tags: ['Android & iOS', 'Mode hors-ligne', 'Notifications push', 'Mise à jour automatique'],
+    Icon: IcoZap,
+    accent: '#f59e0b',
+    title: 'Passphrase africaine',
+    desc: 'Générez des phrases de passe mémorables construites à partir de mots en Wolof, Swahili, Bambara, Hausa et d\'autres langues du continent.',
+    tags: ['Wolof · Swahili · Bambara', 'Hausa · Yoruba · Zulu', 'Facile à retenir', 'Séparateur personnalisable'],
   },
   {
     Icon: IcoShield,
     accent: '#ef4444',
     title: 'Détection HIBP',
-    desc: 'Vérification automatique de vos mots de passe contre la base Have I Been Pwned (700M+ fuites) — sans jamais envoyer votre mot de passe.',
+    desc: 'Vérification automatique de vos mots de passe contre la base Have I Been Pwned (700M+ fuites), sans jamais envoyer votre mot de passe.',
     tags: ['700M+ mots de passe vérifiés', 'Hachage k-anonymat', 'Alertes en temps réel', 'Rapport de sécurité'],
   },
   {
     Icon: IcoUsers,
     accent: '#f59e0b',
     title: 'Gestion d\'équipes',
-    desc: 'Coffres partagés, rôles et permissions granulaires, onboarding en un clic — pensé pour les équipes africaines de toutes tailles.',
+    desc: 'Coffres partagés, rôles et permissions granulaires, onboarding en un clic, pensé pour les équipes africaines de toutes tailles.',
     tags: ['Coffres partagés', 'Rôles Admin/Membre/Invité', 'Onboarding rapide', 'Logs d\'audit'],
   },
   {
@@ -79,7 +79,7 @@ const COMPARE = [
   { label: 'Zéro connaissance',              dp: true,  others: true  },
   { label: '2FA TOTP',                       dp: true,  others: true  },
   { label: 'Extension navigateur',           dp: true,  others: true  },
-  { label: 'PWA installable',                dp: true,  others: false },
+  { label: 'Passphrase en langues africaines', dp: true,  others: false },
   { label: 'Paiement en FCFA / Wave',        dp: true,  others: false },
   { label: 'Interface en français',          dp: true,  others: false },
   { label: 'Hébergement conforme Africa',    dp: true,  others: false },
@@ -88,7 +88,7 @@ const COMPARE = [
 ]
 
 export default function FeaturesPage() {
-  useEffect(() => { document.title = 'Fonctionnalités — DencPass' }, [])
+  useEffect(() => { document.title = 'Fonctionnalités | DencPass' }, [])
 
   return (
     <PublicLayout>
@@ -151,7 +151,7 @@ export default function FeaturesPage() {
               Fait pour l'Afrique, dès le départ.
             </h2>
             <p style={{ fontSize: 15, color: 'var(--text3)', textAlign: 'center', margin: '0 0 2.5rem' }}>
-              Les gestionnaires globaux ne supportent pas FCFA, Wave ni Orange Money — et ignorent les contraintes de conformité locales.
+              Les gestionnaires globaux ne supportent pas FCFA, Wave ni Orange Money, et ignorent les contraintes de conformité locales.
             </p>
           </Reveal>
           <Reveal delay={100}>
