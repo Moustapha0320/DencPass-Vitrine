@@ -9,7 +9,7 @@ const PLANS = [
   {
     name: 'Gratuit', tag: 'COMMUNITY', price: 0, yearlyPrice: 0,
     desc: 'Pour démarrer sans engagement.',
-    cta: 'Créer un compte gratuit', ctaHref: 'https://app.dencu.online/register',
+    cta: 'Créer un compte gratuit', ctaHref: 'https://app.dencpass.com/register',
     features: [
       { label: 'Mots de passe illimités',     ok: true },
       { label: '50 générations / mois',        ok: true },
@@ -29,7 +29,7 @@ const PLANS = [
   {
     name: 'Pro', tag: 'POPULAIRE', price: 2000, yearlyPrice: 1600,
     desc: 'Pour les professionnels qui ne comptent pas.',
-    cta: 'Passer en Pro', ctaHref: 'https://app.dencu.online/register',
+    cta: 'Passer en Pro', ctaHref: 'https://app.dencpass.com/register',
     isPopular: true,
     features: [
       { label: 'Mots de passe illimités',     ok: true },

@@ -8,13 +8,13 @@ const LEGAL = {
   cgu: {
     title: "Conditions d'utilisation",
     sections: [
-      { h: "1. Objet", p: "Les présentes conditions régissent l'utilisation de DencPass, gestionnaire de mots de passe et de secrets numériques, accessible sur app.dencu.online. En créant un compte, vous acceptez ces conditions dans leur intégralité." },
+      { h: "1. Objet", p: "Les présentes conditions régissent l'utilisation de DencPass, gestionnaire de mots de passe et de secrets numériques, accessible sur app.dencpass.com. En créant un compte, vous acceptez ces conditions dans leur intégralité." },
       { h: "2. Accès au service", p: "Denc est accessible aux particuliers (édition Community / Pro) et aux organisations (édition Enterprise SaaS). L'accès Enterprise SaaS est conditionné à la possession d'une licence valide délivrée par DencPass." },
       { h: "3. Responsabilités", p: "Vous êtes responsable de la confidentialité de vos identifiants, de l'exactitude des données saisies, et de la sécurité de votre appareil. DencPass ne peut être tenu responsable d'une compromission liée à la négligence de l'utilisateur." },
       { h: "4. Données chiffrées", p: "Vos mots de passe, secrets et certificats sont chiffrés avant d'être stockés. DencPass ne dispose d'aucun accès en clair à vos données sensibles." },
       { h: "5. Résiliation", p: "Vous pouvez supprimer votre compte à tout moment depuis les Paramètres → Zone de danger. Pour les organisations, la résiliation intervient à l'expiration de la licence, après une période de grâce de 7 jours." },
       { h: "6. Modifications", p: "DencPass se réserve le droit de modifier ces conditions. Les utilisateurs seront notifiés par email au moins 15 jours avant toute modification substantielle." },
-      { h: "7. Contact", p: "mouhamadoumoustapha.dione@dencu.online" },
+      { h: "7. Contact", p: "support@dencpass.com" },
     ]
   },
   privacy: {
@@ -24,9 +24,9 @@ const LEGAL = {
       { h: "2. Finalité", p: "Vos données sont utilisées exclusivement pour fournir le service DencPass : authentification, stockage sécurisé, notifications d'expiration de certificats et de licences." },
       { h: "3. Durée de conservation", p: "Les données sont supprimées immédiatement à la fermeture du compte. Les logs de sécurité sont conservés jusqu'à rotation manuelle par l'administrateur." },
       { h: "4. Partage", p: "DencPass ne vend, ne loue et ne partage aucune donnée personnelle avec des tiers à des fins commerciales." },
-      { h: "5. Vos droits", p: "Droit d'accès, rectification, suppression et portabilité. Pour exercer ces droits : mouhamadoumoustapha.dione@dencu.online" },
+      { h: "5. Vos droits", p: "Droit d'accès, rectification, suppression et portabilité. Pour exercer ces droits : support@dencpass.com" },
       { h: "6. Sécurité", p: "Chiffrement multi-clés, authentification 2FA, journalisation des accès, contrôle d'accès strict aux serveurs." },
-      { h: "7. Contact", p: "mouhamadoumoustapha.dione@dencu.online · +221 XX XXX XX XX" },
+      { h: "7. Contact", p: "support@dencpass.com · +221 XX XXX XX XX" },
     ]
   }
 }
@@ -119,12 +119,12 @@ function NavBar() {
 
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <div className="nav-cta-group" style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <a href="https://app.dencu.online"
+            <a href="https://app.dencpass.com"
               className="nav-link"
               style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500, padding: '8px 4px' }}>
               Connexion
             </a>
-            <a href="https://app.dencu.online/register" className="btn-primary"
+            <a href="https://app.dencpass.com/register" className="btn-primary"
               style={{ padding: '9px 18px', borderRadius: 10, background: '#2fd9f4', color: '#07111f', fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 16px rgba(47,217,244,0.25)', whiteSpace: 'nowrap' }}>
               Essayer gratuitement
             </a>
@@ -168,11 +168,11 @@ function NavBar() {
             ))}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingBottom: '2rem' }}>
-            <a href="https://app.dencu.online"
+            <a href="https://app.dencpass.com"
               style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, border: '1px solid rgba(47,217,244,0.25)', color: 'rgba(232,237,245,0.8)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               Connexion
             </a>
-            <a href="https://app.dencu.online/register" className="btn-primary"
+            <a href="https://app.dencpass.com/register" className="btn-primary"
               style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>
               Essayer gratuitement
             </a>
@@ -202,7 +202,7 @@ function Footer({ setLegalModal }) {
         { label: 'Sécurité',        to: '/security' },
         { label: 'Tarifs',          to: '/pricing' },
         { label: 'Téléchargements', to: '/download' },
-        { label: 'Connexion',       href: 'https://app.dencu.online' },
+        { label: 'Connexion',       href: 'https://app.dencpass.com' },
       ]
     },
     {
@@ -240,8 +240,8 @@ function Footer({ setLegalModal }) {
               Gestionnaire de mots de passe et secrets numériques pour les professionnels et organisations d'Afrique.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-              <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", transition: 'color 0.2s' }} {...hover}>
-                mouhamadoumoustapha.dione@dencu.online
+              <a href="mailto:support@dencpass.com" style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", transition: 'color 0.2s' }} {...hover}>
+                support@dencpass.com
               </a>
             </div>
           </div>

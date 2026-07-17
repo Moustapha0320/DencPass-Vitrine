@@ -105,7 +105,7 @@ export default function FeaturesPage() {
             DencPass combine sécurité militaire et expérience fluide, avec des fonctionnalités conçues pour les utilisateurs et les équipes d'Afrique.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="https://app.dencu.online/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 24px rgba(47,217,244,0.3)' }}>
+            <a href="https://app.dencpass.com/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 24px rgba(47,217,244,0.3)' }}>
               Essayer gratuitement
             </a>
             <Link to="/download" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", background: 'transparent' }} className="btn-ghost">
@@ -192,7 +192,7 @@ export default function FeaturesPage() {
               Gratuit pour un usage personnel. Aucune carte bancaire requise.
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="https://app.dencu.online/register" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 32px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
+              <a href="https://app.dencpass.com/register" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 32px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
                 Créer mon coffre gratuit <IcoArrow size={16} />
               </a>
               <Link to="/pricing" className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 28px', borderRadius: 13, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>

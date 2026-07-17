@@ -35,18 +35,18 @@ export default function DownloadPage() {
 
   const manualSteps = {
     Windows: [
-      'Ouvrez app.dencu.online dans Chrome',
+      'Ouvrez app.dencpass.com dans Chrome',
       'Cliquez sur le menu ⋮ (trois points en haut à droite)',
       'Sélectionnez "Installer DencPass..."',
       'Confirmez, l\'icône apparaît sur votre bureau',
     ],
     macOS: [
-      'Ouvrez app.dencu.online dans Chrome',
+      'Ouvrez app.dencpass.com dans Chrome',
       'Cliquez sur le menu ⋮ → "Installer DencPass..."',
       'Confirmez, l\'icône apparaît dans votre Dock / Launchpad',
     ],
     Linux: [
-      'Ouvrez app.dencu.online dans Chrome',
+      'Ouvrez app.dencpass.com dans Chrome',
       'Cliquez sur le menu ⋮ → "Installer DencPass..."',
       'Confirmez l\'installation',
     ],
@@ -145,7 +145,7 @@ export default function DownloadPage() {
                         <IcoDownload size={16} /> Installer l'app
                       </button>
                     ) : (
-                      <a href="https://app.dencu.online"
+                      <a href="https://app.dencpass.com"
                         className="btn-ghost"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 22px', borderRadius: 11, border: '1px solid rgba(47,217,244,0.2)', color: 'var(--text2)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif', whiteSpace: 'nowrap'" }}>
                         Ouvrir l'app web <IcoArrow size={13} />
@@ -187,7 +187,7 @@ export default function DownloadPage() {
       <section style={{ padding: '4rem max(1.5rem, calc((100% - 1200px) / 2)) 6rem', background: 'var(--bg-alt)', textAlign: 'center' }} className="section-pad">
         <Reveal>
           <p style={{ fontSize: 15, color: 'var(--text3)', marginBottom: '1.25rem' }}>Pas encore de compte ?</p>
-          <a href="https://app.dencu.online/register" className="btn-primary"
+          <a href="https://app.dencpass.com/register" className="btn-primary"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px rgba(47,217,244,0.3)' }}>
             Créer un compte gratuit <IcoArrow />
           </a>

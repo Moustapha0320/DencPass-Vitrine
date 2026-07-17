@@ -42,7 +42,7 @@ const TIERS = [
     plan: 'Community / Pro',
     desc: 'Comptes individuels Pro pour chaque membre. Partages via liens temporaires. Pas besoin d\'Enterprise pour commencer.',
     price: '2 000 FCFA / membre / mois',
-    cta: { label: 'Commencer en Pro', href: 'https://app.dencu.online/register' },
+    cta: { label: 'Commencer en Pro', href: 'https://app.dencpass.com/register' },
   },
   {
     label: 'PME (10–200 personnes)',

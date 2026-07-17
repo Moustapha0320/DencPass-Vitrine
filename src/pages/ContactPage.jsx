@@ -9,7 +9,7 @@ const NB_OPTIONS = [
   { value: '200+',   label: '200+ utilisateurs' },
 ]
 
-const API_URL = 'https://app.dencu.online/api/public/contact/'
+const API_URL = 'https://app.dencpass.com/api/public/contact/'
 
 export default function ContactPage() {
   useEffect(() => { document.title = 'Contact | DencPass' }, [])
@@ -210,8 +210,8 @@ export default function ContactPage() {
             <Reveal delay={240}>
               <div style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--text4)', letterSpacing: '0.12em', marginBottom: '0.75rem' }}>EMAIL DIRECT</p>
-                <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ fontSize: 13, color: '#2fd9f4', wordBreak: 'break-all' }}>
-                  mouhamadoumoustapha.dione@dencu.online
+                <a href="mailto:support@dencpass.com" style={{ fontSize: 13, color: '#2fd9f4', wordBreak: 'break-all' }}>
+                  support@dencpass.com
                 </a>
               </div>
             </Reveal>

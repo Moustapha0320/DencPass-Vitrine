@@ -61,7 +61,7 @@ const SEC_FAQS = [
   { q: 'Mes données sont-elles accessibles par les équipes DencPass ?', a: 'Non. Aucun membre de l\'équipe DencPass ne peut lire vos mots de passe, secrets ou certificats. Les seules données accessibles en interne sont les métadonnées de compte (email, date d\'inscription, logs de connexion).' },
   { q: 'Comment DencPass réagit en cas de fuite de données ?', a: 'En cas d\'incident, les utilisateurs concernés sont notifiés par email dans les 72 heures. Les données exposées étant chiffrées, une fuite de base de données n\'expose pas vos secrets en clair. Un rapport d\'incident est publié sous 30 jours.' },
   { q: 'L\'extension Chrome a-t-elle accès à tous les sites que je visite ?', a: 'L\'extension ne s\'active que sur les pages contenant des champs de formulaire identifiés comme des champs de connexion. Elle ne transmet aucune donnée de navigation à nos serveurs, le traitement de détection se fait localement dans le navigateur.' },
-  { q: 'Comment signaler une vulnérabilité de sécurité ?', a: 'Contactez security@dencpass.com ou mouhamadoumoustapha.dione@dencu.online avec le détail de la vulnérabilité. Nous nous engageons à accuser réception sous 48 heures et à corriger les vulnérabilités critiques sous 72 heures.' },
+  { q: 'Comment signaler une vulnérabilité de sécurité ?', a: 'Contactez security@dencpass.com ou support@dencpass.com avec le détail de la vulnérabilité. Nous nous engageons à accuser réception sous 48 heures et à corriger les vulnérabilités critiques sous 72 heures.' },
 ]
 
 function FAQAccordion({ faqs }) {
@@ -123,7 +123,7 @@ export default function SecurityPage() {
           {/* Schema steps */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {[
-              { step: '1', title: 'Vous saisissez un mot de passe', detail: 'Sur app.dencu.online dans votre navigateur sécurisé (HTTPS strict).', color: '#2fd9f4', side: 'CLIENT' },
+              { step: '1', title: 'Vous saisissez un mot de passe', detail: 'Sur app.dencpass.com dans votre navigateur sécurisé (HTTPS strict).', color: '#2fd9f4', side: 'CLIENT' },
               { step: '2', title: 'Transmission chiffrée via TLS 1.3', detail: 'La donnée transite vers nos serveurs exclusivement via TLS 1.3, le protocole de transport le plus sûr actuellement disponible.', color: '#8b5cf6', side: 'RÉSEAU' },
               { step: '3', title: 'Chiffrement AES-256-GCM côté serveur', detail: 'Le serveur chiffre chaque entrée individuellement avec AES-256-GCM avant tout stockage.', color: '#22c55e', side: 'SERVEUR' },
               { step: '4', title: 'Stockage chiffré en base de données', detail: 'Seules des données chiffrées sont stockées. En cas de fuite de base de données, un attaquant ne récupère que des données illisibles sans les clés serveur.', color: '#f59e0b', side: 'STOCKAGE' },
@@ -203,7 +203,7 @@ export default function SecurityPage() {
             <div style={{ marginTop: '2rem', padding: '1.25rem 1.5rem', borderRadius: 12, border: '1px solid rgba(47,217,244,0.12)', background: 'rgba(47,217,244,0.04)', display: 'flex', alignItems: 'center', gap: 12 }}>
               <IcoServer size={18} style={{ color: '#2fd9f4', flexShrink: 0 }} />
               <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.6, margin: 0 }}>
-                <strong style={{ color: 'var(--text2)' }}>Conformité RGPD :</strong> Toutes les données personnelles sont traitées conformément au Règlement Général sur la Protection des Données. Droit d'accès, rectification et suppression sur demande à <a href="mailto:mouhamadoumoustapha.dione@dencu.online" style={{ color: '#2fd9f4' }}>mouhamadoumoustapha.dione@dencu.online</a>.
+                <strong style={{ color: 'var(--text2)' }}>Conformité RGPD :</strong> Toutes les données personnelles sont traitées conformément au Règlement Général sur la Protection des Données. Droit d'accès, rectification et suppression sur demande à <a href="mailto:support@dencpass.com" style={{ color: '#2fd9f4' }}>support@dencpass.com</a>.
               </p>
             </div>
           </Reveal>
@@ -222,7 +222,7 @@ export default function SecurityPage() {
                   Contactez-nous en privé avant toute divulgation publique. Nous nous engageons à répondre sous 48 heures et à corriger les problèmes critiques sous 72 heures.
                 </p>
               </div>
-              <a href="mailto:mouhamadoumoustapha.dione@dencu.online"
+              <a href="mailto:support@dencpass.com"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 22px', borderRadius: 11, background: '#2fd9f4', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", whiteSpace: 'nowrap' }}>
                 Signaler <IcoArrow />
               </a>

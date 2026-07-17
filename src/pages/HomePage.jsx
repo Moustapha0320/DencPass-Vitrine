@@ -63,7 +63,7 @@ function ProductMockup() {
           </div>
           <div style={{ flex: 1, background: 'rgba(47,217,244,0.04)', border: '1px solid rgba(47,217,244,0.09)', borderRadius: 6, padding: '3px 10px', display: 'flex', alignItems: 'center', gap: 5, marginLeft: 6 }}>
             <span style={{ color: 'rgba(47,217,244,0.5)', display: 'flex' }}><IcoLock size={9} /></span>
-            <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.02em' }}>app.dencu.online</span>
+            <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.02em' }}>app.dencpass.com</span>
           </div>
         </div>
         <div style={{ padding: '0 14px', borderBottom: '1px solid rgba(47,217,244,0.07)', display: 'flex', background: 'rgba(255,255,255,0.01)' }}>
@@ -164,7 +164,7 @@ function HeroSection() {
             Le command center de vos identifiants, secrets et certificats. Chiffrement AES-256, zéro connaissance, fait pour l'Afrique.
           </p>
           <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', animation: 'fade-up 0.7s ease both 0.45s' }}>
-            <a href="https://app.dencu.online/register" className="btn-primary"
+            <a href="https://app.dencpass.com/register" className="btn-primary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
               Commencer gratuitement <IcoArrow />
             </a>
@@ -306,7 +306,7 @@ function HowItWorksSection() {
   const steps = [
     { n: '01', title: 'Créez votre coffre', desc: 'Inscription en 2 minutes. Votre coffre chiffré est prêt instantanément, sans carte bancaire.', accent: '#2fd9f4' },
     { n: '02', title: 'Importez ou générez', desc: 'Importez depuis Chrome, Bitwarden, 1Password ou KeePass. Ou générez de nouveaux mots de passe forts directement.', accent: '#8b5cf6' },
-    { n: '03', title: 'Accédez partout', desc: "Via le web sur app.dencu.online ou l'extension Chrome pour le remplissage automatique directement dans votre navigateur.", accent: '#22c55e' },
+    { n: '03', title: 'Accédez partout', desc: "Via le web sur app.dencpass.com ou l'extension Chrome pour le remplissage automatique directement dans votre navigateur.", accent: '#22c55e' },
   ]
   return (
     <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
@@ -500,13 +500,13 @@ function PricingTeaser() {
       name: 'Gratuit', tag: 'COMMUNITY', price: 0,
       desc: 'Pour démarrer sans engagement.',
       features: ['Mots de passe illimités', '150 générations / mois', '5 partages actifs', 'Extension Chrome', '2FA TOTP'],
-      cta: 'Créer un compte', ctaHref: 'https://app.dencu.online/register',
+      cta: 'Créer un compte', ctaHref: 'https://app.dencpass.com/register',
     },
     {
       name: 'Pro', tag: 'POPULAIRE', price: 2000,
       desc: 'Pour les professionnels qui ne comptent pas.',
       features: ['Tout du plan Gratuit', 'Générateur illimité', 'Partages illimités', 'Secrets illimités', 'Passphrase africaine'],
-      cta: 'Passer en Pro', ctaHref: 'https://app.dencu.online/register',
+      cta: 'Passer en Pro', ctaHref: 'https://app.dencpass.com/register',
       isPopular: true,
     },
   ]
@@ -620,7 +620,7 @@ function CTABanner() {
             Créez votre coffre en moins de 2 minutes.<br />Gratuit, sans carte bancaire.
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="https://app.dencu.online/register" className="btn-primary"
+            <a href="https://app.dencpass.com/register" className="btn-primary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 36px', borderRadius: 14, background: '#2fd9f4', color: '#07111f', fontSize: 16, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px rgba(47,217,244,0.32)' }}>
               Commencer gratuitement <IcoArrow size={17} />
             </a>
