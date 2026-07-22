@@ -121,7 +121,7 @@ export default function FeaturesPage() {
           <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
             {FEATURES.map(({ Icon, accent, title, desc, tags }, i) => (
               <Reveal key={title} delay={i * 60}>
-                <div className="card-hover" style={{ borderRadius: 18, border: '1px solid var(--border)', background: 'var(--bg-card)', padding: '1.75rem', height: '100%', boxSizing: 'border-box' }}>
+                <div className="card card-hover" style={{ borderRadius: 18, padding: '1.75rem', height: '100%', boxSizing: 'border-box' }}>
                   <div style={{ width: 44, height: 44, borderRadius: 12, background: `${accent}18`, border: `1px solid ${accent}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem', color: accent }}>
                     <Icon size={20} />
                   </div>
@@ -155,7 +155,7 @@ export default function FeaturesPage() {
             </p>
           </Reveal>
           <Reveal delay={100}>
-            <div style={{ borderRadius: 18, border: '1px solid var(--border)', overflow: 'hidden', background: 'var(--bg-card)' }}>
+            <div className="card" style={{ borderRadius: 18, overflow: 'hidden' }}>
               {/* Header */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 160px 160px', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ padding: '1rem 1.5rem', fontSize: 12, color: 'var(--text3)', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.08em' }}>FONCTIONNALITÉ</div>
@@ -192,7 +192,7 @@ export default function FeaturesPage() {
               Gratuit pour un usage personnel. Aucune carte bancaire requise.
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="https://app.dencpass.com/register" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 32px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
+              <a href="https://app.dencpass.com/register" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 32px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
                 Créer mon coffre gratuit <IcoArrow size={16} />
               </a>
               <Link to="/pricing" className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 28px', borderRadius: 13, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>

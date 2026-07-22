@@ -26,7 +26,7 @@ const LEGAL = {
       { h: "4. Partage", p: "DencPass ne vend, ne loue et ne partage aucune donnée personnelle avec des tiers à des fins commerciales." },
       { h: "5. Vos droits", p: "Droit d'accès, rectification, suppression et portabilité. Pour exercer ces droits : support@dencpass.com" },
       { h: "6. Sécurité", p: "Chiffrement multi-clés, authentification 2FA, journalisation des accès, contrôle d'accès strict aux serveurs." },
-      { h: "7. Contact", p: "support@dencpass.com · +221 XX XXX XX XX" },
+      { h: "7. Contact", p: "support@dencpass.com" },
     ]
   }
 }
@@ -45,7 +45,7 @@ function LegalModal({ type, onClose }) {
       <div onClick={e => e.stopPropagation()} style={{ background: 'var(--bg2)', border: '1px solid rgba(47,217,244,0.18)', borderRadius: 20, maxWidth: 620, width: '100%', maxHeight: '80vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div style={{ padding: '1.25rem 1.75rem', borderBottom: '1px solid rgba(47,217,244,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <h2 style={{ fontSize: 16, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: 'var(--text)' }}>{doc.title}</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text4)', cursor: 'pointer', fontSize: 18, lineHeight: 1, padding: '4px 8px', borderRadius: 6 }}>✕</button>
+          <button onClick={onClose} aria-label="Fermer" style={{ background: 'none', border: 'none', color: 'var(--text4)', cursor: 'pointer', fontSize: 18, lineHeight: 1, padding: '4px 8px', borderRadius: 6 }}>✕</button>
         </div>
         <div style={{ padding: '1.5rem 1.75rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
           {doc.sections.map(s => (
@@ -125,13 +125,15 @@ function NavBar() {
               Connexion
             </a>
             <a href="https://app.dencpass.com/register" className="btn-primary"
-              style={{ padding: '9px 18px', borderRadius: 10, background: '#2fd9f4', color: '#07111f', fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 16px rgba(47,217,244,0.25)', whiteSpace: 'nowrap' }}>
+              style={{ padding: '9px 18px', borderRadius: 10, background: '#2fd9f4', color: '#07111f', fontSize: 13, boxShadow: '0 2px 16px rgba(47,217,244,0.25)', whiteSpace: 'nowrap' }}>
               Essayer gratuitement
             </a>
           </div>
           <button
             className="nav-hamburger"
             onClick={() => setMobileOpen(o => !o)}
+            aria-label="Ouvrir le menu"
+            aria-expanded={mobileOpen}
             style={{ display: 'none', background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: 4 }}
           >
             <IcoMenu />
@@ -151,7 +153,7 @@ function NavBar() {
                 Denc<span style={{ color: '#2fd9f4' }}>Pass</span>
               </span>
             </Link>
-            <button onClick={() => setMobileOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(232,237,245,0.6)', cursor: 'pointer', padding: 4 }}>
+            <button onClick={() => setMobileOpen(false)} aria-label="Fermer le menu" style={{ background: 'none', border: 'none', color: 'rgba(232,237,245,0.6)', cursor: 'pointer', padding: 4 }}>
               <IcoClose />
             </button>
           </div>
@@ -173,7 +175,7 @@ function NavBar() {
               Connexion
             </a>
             <a href="https://app.dencpass.com/register" className="btn-primary"
-              style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>
+              style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 15 }}>
               Essayer gratuitement
             </a>
           </div>
@@ -209,15 +211,12 @@ function Footer({ setLegalModal }) {
       title: 'Entreprise',
       links: [
         { label: 'Entreprises',     to: '/business' },
-        { label: 'À propos',        to: '/about' },
         { label: 'Contact',         to: '/contact' },
       ]
     },
     {
       title: 'Ressources',
       links: [
-        { label: 'Blog',           to: '/blog' },
-        { label: 'Changelog',      to: '/changelog' },
         { label: 'Statut du service', href: '#' },
       ]
     },

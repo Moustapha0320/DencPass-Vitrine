@@ -100,7 +100,7 @@ export default function DownloadPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-end', flexShrink: 0 }}>
                   <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
                     className="btn-primary"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 22px', borderRadius: 11, background: '#2fd9f4', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", whiteSpace: 'nowrap' }}>
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 22px', borderRadius: 11, background: '#2fd9f4', color: '#07111f', fontSize: 14, whiteSpace: 'nowrap' }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
                     Chrome Web Store
                   </a>
@@ -141,7 +141,7 @@ export default function DownloadPage() {
                     ) : canInstall ? (
                       <button onClick={install}
                         className="btn-primary"
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 22px', borderRadius: 11, background: '#2fd9f4', color: '#07111f', border: 'none', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 22px', borderRadius: 11, background: '#2fd9f4', color: '#07111f', fontSize: 14, whiteSpace: 'nowrap' }}>
                         <IcoDownload size={16} /> Installer l'app
                       </button>
                     ) : (
@@ -188,7 +188,7 @@ export default function DownloadPage() {
         <Reveal>
           <p style={{ fontSize: 15, color: 'var(--text3)', marginBottom: '1.25rem' }}>Pas encore de compte ?</p>
           <a href="https://app.dencpass.com/register" className="btn-primary"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px rgba(47,217,244,0.3)' }}>
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 15, boxShadow: '0 4px 24px rgba(47,217,244,0.3)' }}>
             Créer un compte gratuit <IcoArrow />
           </a>
         </Reveal>

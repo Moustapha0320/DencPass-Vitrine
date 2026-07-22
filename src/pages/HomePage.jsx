@@ -165,7 +165,7 @@ function HeroSection() {
           </p>
           <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', animation: 'fade-up 0.7s ease both 0.45s' }}>
             <a href="https://app.dencpass.com/register" className="btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
               Commencer gratuitement <IcoArrow />
             </a>
           </div>
@@ -280,7 +280,7 @@ function FeaturesTeaser() {
         <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '2.5rem' }}>
           {MAIN_FEATURES.map(({ Icon, title, desc, link }, i) => (
             <Reveal key={title} delay={(i % 2) * 90}>
-              <Link to={link} className="card-hover" style={{ display: 'block', padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', textDecoration: 'none' }}>
+              <Link to={link} className="card card-hover" style={{ display: 'block', padding: '1.75rem', borderRadius: 16, textDecoration: 'none' }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(47,217,244,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', marginBottom: '1.25rem', flexShrink: 0 }}><Icon size={20} /></div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.5rem' }}>{title}</h3>
                 <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: '0 0 1.25rem' }}>{desc}</p>
@@ -324,7 +324,7 @@ function HowItWorksSection() {
           <div style={{ position: 'absolute', top: 40, left: 'calc(16.66% + 1rem)', right: 'calc(16.66% + 1rem)', height: 1, background: 'linear-gradient(90deg, rgba(47,217,244,0.2), rgba(139,92,246,0.2), rgba(34,197,94,0.2))', pointerEvents: 'none' }} className="steps-line" />
           {steps.map(({ n, title, desc, accent }, i) => (
             <Reveal key={n} delay={i * 120}>
-              <div style={{ padding: '2rem', borderRadius: 18, border: '1px solid var(--border)', background: 'var(--bg-card)', position: 'relative', textAlign: 'center' }}>
+              <div className="card" style={{ padding: '2rem', borderRadius: 18, position: 'relative', textAlign: 'center' }}>
                 <div style={{ width: 56, height: 56, borderRadius: '50%', background: `${accent}14`, border: `1px solid ${accent}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem', position: 'relative', zIndex: 1 }}>
                   <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 18, color: accent }}>{n}</span>
                 </div>
@@ -365,7 +365,7 @@ function SecuritySection() {
         <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
           {SECURITY_CARDS.map((s, i) => (
             <Reveal key={s.title} delay={(i % 2) * 100}>
-              <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
+              <div className="card card-hover" style={{ padding: '1.75rem', borderRadius: 16, display: 'flex', gap: '1.1rem', alignItems: 'flex-start' }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: `${s.accent}14`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.accent, flexShrink: 0 }}><s.Icon size={20} /></div>
                 <div>
                   <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.4rem' }}>{s.title}</h3>
@@ -400,7 +400,7 @@ function EnterpriseSection() {
                 DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès, avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks.
               </p>
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                <Link to="/business" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#8b5cf6', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px rgba(139,92,246,0.3)' }}>
+                <Link to="/business" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#8b5cf6', color: '#fff', fontSize: 14, boxShadow: '0 4px 24px rgba(139,92,246,0.3)' }}>
                   Découvrir Enterprise <IcoArrow />
                 </Link>
                 <Link to="/contact" className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 22px', borderRadius: 12, border: '1px solid rgba(139,92,246,0.25)', color: 'var(--text3)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -468,7 +468,7 @@ function TestimonialsSection() {
         <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
           {TESTIMONIALS.map(({ quote, name, role, company, initial, accent }, i) => (
             <Reveal key={name} delay={i * 90}>
-              <div className="card-hover" style={{ padding: '2rem', borderRadius: 18, border: '1px solid var(--border)', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div className="card card-hover" style={{ padding: '2rem', borderRadius: 18, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 <div style={{ display: 'flex', gap: 3 }}>
                   {[...Array(5)].map((_, j) => <span key={j} style={{ color: '#f59e0b' }}><IcoStar size={13} /></span>)}
                 </div>
@@ -621,7 +621,7 @@ function CTABanner() {
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href="https://app.dencpass.com/register" className="btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 36px', borderRadius: 14, background: '#2fd9f4', color: '#07111f', fontSize: 16, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px rgba(47,217,244,0.32)' }}>
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 36px', borderRadius: 14, background: '#2fd9f4', color: '#07111f', fontSize: 16, boxShadow: '0 4px 32px rgba(47,217,244,0.32)' }}>
               Commencer gratuitement <IcoArrow size={17} />
             </a>
             <Link to="/contact" className="btn-ghost"

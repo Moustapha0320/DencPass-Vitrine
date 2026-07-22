@@ -82,7 +82,7 @@ export default function ContactPage() {
 
           {/* Form */}
           <Reveal>
-            <div style={{ padding: '2.5rem', borderRadius: 20, border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
+            <div className="card" style={{ padding: '2.5rem', borderRadius: 20 }}>
               {status === 'success' ? (
                 <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
                   <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: '#22c55e' }}>
@@ -165,7 +165,7 @@ export default function ContactPage() {
                     type="submit"
                     disabled={status === 'loading'}
                     className="btn-primary"
-                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, background: '#8b5cf6', color: '#fff', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", border: 'none', cursor: status === 'loading' ? 'wait' : 'pointer', boxShadow: '0 4px 24px rgba(139,92,246,0.3)', opacity: status === 'loading' ? 0.7 : 1 }}
+                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, background: '#8b5cf6', color: '#fff', fontSize: 15, cursor: status === 'loading' ? 'wait' : 'pointer', boxShadow: '0 4px 24px rgba(139,92,246,0.3)', opacity: status === 'loading' ? 0.7 : 1 }}
                   >
                     {status === 'loading' ? 'Envoi...' : <><span>Envoyer le message</span><IcoArrow /></>}
                   </button>
@@ -177,7 +177,7 @@ export default function ContactPage() {
           {/* Aside */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <Reveal delay={100}>
-              <div style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
+              <div className="card" style={{ padding: '1.75rem', borderRadius: 16 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#8b5cf6', letterSpacing: '0.12em', marginBottom: '1rem' }}>RÉPONSE RAPIDE</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {[
@@ -208,7 +208,7 @@ export default function ContactPage() {
             </Reveal>
 
             <Reveal delay={240}>
-              <div style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
+              <div className="card" style={{ padding: '1.75rem', borderRadius: 16 }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--text4)', letterSpacing: '0.12em', marginBottom: '0.75rem' }}>EMAIL DIRECT</p>
                 <a href="mailto:support@dencpass.com" style={{ fontSize: 13, color: '#2fd9f4', wordBreak: 'break-all' }}>
                   support@dencpass.com

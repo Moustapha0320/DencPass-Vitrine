@@ -45,9 +45,6 @@ export default function App() {
         <Route path="/business"  element={<BusinessPage />} />
         <Route path="/features"  element={<FeaturesPage />} />
         <Route path="/contact"   element={<ContactPage />} />
-        <Route path="/blog"      element={<NotFoundPage />} />
-        <Route path="/changelog" element={<NotFoundPage />} />
-        <Route path="/about"     element={<NotFoundPage />} />
         <Route path="*"          element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

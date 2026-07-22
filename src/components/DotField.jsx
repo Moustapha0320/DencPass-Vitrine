@@ -1,5 +1,6 @@
 import { useEffect, useRef, memo } from 'react';
 import './DotField.css';
+import { prefersReducedMotion } from './shared';
 
 const TWO_PI = Math.PI * 2;
 
@@ -103,7 +104,7 @@ const DotField = memo(({
       m.prevY = m.y;
     }
 
-    const speedInterval = setInterval(updateMouseSpeed, 20);
+    const speedInterval = prefersReducedMotion ? null : setInterval(updateMouseSpeed, 20);
 
     let frameCount = 0;
 
@@ -206,8 +207,12 @@ const DotField = memo(({
 
     doResize();
     window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
-    rafRef.current = requestAnimationFrame(tick);
+    if (prefersReducedMotion) {
+      tick();
+    } else {
+      window.addEventListener('mousemove', onMouseMove, { passive: true });
+      rafRef.current = requestAnimationFrame(tick);
+    }
 
     rebuildRef.current = () => {
       const { w, h } = sizeRef.current;

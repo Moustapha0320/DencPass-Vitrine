@@ -159,7 +159,7 @@ export default function SecurityPage() {
           <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
             {PILLARS.map(({ Icon, accent, title, desc, details }, i) => (
               <Reveal key={title} delay={(i % 2) * 100}>
-                <div className="card-hover" style={{ padding: '2rem', borderRadius: 18, border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
+                <div className="card card-hover" style={{ padding: '2rem', borderRadius: 18 }}>
                   <div style={{ width: 44, height: 44, borderRadius: 12, background: `${accent}12`, border: `1px solid ${accent}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: accent, marginBottom: '1.25rem' }}>
                     <Icon size={22} />
                   </div>
@@ -191,7 +191,7 @@ export default function SecurityPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem' }} className="grid-2">
             {INFRA.map(({ label, value, sub }, i) => (
               <Reveal key={label} delay={i * 80}>
-                <div style={{ padding: '1.5rem', borderRadius: 14, border: '1px solid var(--border)', background: 'var(--bg-card)', textAlign: 'center' }}>
+                <div className="card" style={{ padding: '1.5rem', borderRadius: 14, textAlign: 'center' }}>
                   <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: '#2fd9f4', letterSpacing: '0.1em', marginBottom: '0.5rem', opacity: 0.7 }}>{label.toUpperCase()}</p>
                   <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 18, color: 'var(--text-head)', marginBottom: '0.3rem' }}>{value}</p>
                   <p style={{ fontSize: 12, color: 'var(--text5)' }}>{sub}</p>
