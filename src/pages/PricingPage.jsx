@@ -1,51 +1,105 @@
 import { useState, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import PublicLayout from '../components/layout/PublicLayout';
-import { Reveal, IcoCheck, IcoX, IcoArrow, IcoChevron, IcoCloud, IcoServer } from '../components/shared';
+import { Reveal, IcoCheck, IcoX, IcoArrow, IcoChevron } from '../components/shared';
 
-const freeFeatures = [
-  { label: 'Mots de passe illimités',   ok: true  },
-  { label: '50 générations / mois',     ok: true  },
-  { label: 'Passphrase africaine',       ok: true  },
-  { label: '5 partages actifs',          ok: true  },
-  { label: '5 secrets dans le coffre',   ok: true  },
-  { label: '5 certificats SSL/TLS',      ok: true  },
-  { label: 'Extension Chrome',           ok: true  },
-  { label: '2FA TOTP',                   ok: true  },
-  { label: 'Partages illimités',         ok: false },
-  { label: 'Secrets illimités',          ok: false },
-  { label: 'Équipes & groupes',          ok: false },
-  { label: 'Active Directory (LDAP)',    ok: false },
-  { label: 'SIEM / Syslog',             ok: false },
-];
-const proFeatures = [
-  { label: 'Mots de passe illimités',   ok: true },
-  { label: 'Générateur illimité',        ok: true },
-  { label: 'Partages illimités',         ok: true },
-  { label: 'Secrets illimités',          ok: true },
-  { label: 'Certificats illimités',      ok: true },
-  { label: 'Extension Chrome',           ok: true },
-  { label: '2FA TOTP',                   ok: true },
-  { label: 'Passphrase africaine',       ok: true },
-  { label: 'Support prioritaire',        ok: true },
-  { label: 'Équipes & groupes',          ok: false },
-  { label: 'Active Directory (LDAP)',    ok: false },
-  { label: 'SIEM / Syslog',             ok: false },
-];
-
-const cloudFeatures = [
-  'Tout le plan Pro',
-  'Équipes & groupes',
-  'SIEM / Syslog',
-  'Audit complet',
-  'Support dédié',
-];
-const onPremFeatures = [
-  'Tout le plan Pro',
-  '100% sur votre infra',
-  'Docker / bare-metal',
-  'LDAP / Active Directory',
-  'Licence annuelle + maintenance',
+/* ── Data ─────────────────────────────────────────── */
+const groups = [
+  {
+    id: 'individuel',
+    dot: 'var(--accent)',
+    label: 'USAGE INDIVIDUEL',
+    sub: 'Pour vous, en solo ou en freelance.',
+    borderColor: 'var(--border2)',
+    borderTop: 'var(--accent)',
+    plans: [
+      {
+        tag: 'COMMUNITY',
+        tagColor: 'var(--accent)',
+        tagBg: 'var(--accent-014)',
+        badge: null,
+        title: 'Gratuit',
+        priceKey: 'free',
+        desc: 'Pour démarrer sans engagement.',
+        cta: { label: 'Créer un compte', href: 'https://app.dencpass.com', external: true, style: 'outline' },
+        accent: 'var(--accent)',
+        features: [
+          { label: 'Mots de passe illimités',     ok: true  },
+          { label: '50 générations / mois',        ok: true  },
+          { label: 'Passphrase africaine',          ok: true  },
+          { label: '5 partages · 5 secrets',        ok: true  },
+          { label: 'Extension Chrome · 2FA',        ok: true  },
+          { label: 'Partages & secrets illimités',  ok: false },
+        ],
+      },
+      {
+        tag: 'POPULAIRE',
+        tagColor: 'var(--accent)',
+        tagBg: 'var(--accent-014)',
+        badge: 'POPULAIRE',
+        title: 'Pro',
+        priceKey: 'pro',
+        desc: "Pour les professionnels qui ne comptent pas.",
+        cta: { label: 'Passer en Pro', href: 'https://app.dencpass.com', external: true, style: 'accent' },
+        accent: 'var(--accent)',
+        features: [
+          { label: 'Tout du plan Gratuit',           ok: true },
+          { label: 'Générateur illimité',             ok: true },
+          { label: 'Partages illimités',              ok: true },
+          { label: 'Secrets & certificats illimités', ok: true },
+          { label: 'Analyses HIBP illimitées',        ok: true },
+          { label: 'Support prioritaire',             ok: true },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'enterprise',
+    dot: 'var(--purple)',
+    label: 'ORGANISATIONS · ENTERPRISE',
+    sub: 'Pour les équipes et les déploiements internes.',
+    borderColor: 'var(--purple-025)',
+    borderTop: 'var(--purple)',
+    plans: [
+      {
+        tag: 'SAAS MANAGÉ',
+        tagColor: 'var(--purple)',
+        tagBg: 'var(--purple-06)',
+        badge: null,
+        title: 'Enterprise Cloud',
+        priceKey: 'cloud',
+        desc: 'Licence managée par DencPass, gestion centralisée pour vos équipes.',
+        cta: { label: 'Demander un devis', href: '/contact', external: false, style: 'purple' },
+        accent: 'var(--purple)',
+        features: [
+          { label: 'Tout du plan Pro',    ok: true },
+          { label: 'Équipes & groupes',   ok: true },
+          { label: 'SIEM / Syslog',       ok: true },
+          { label: 'Audit organisation',  ok: true },
+          { label: 'Support dédié',       ok: true },
+        ],
+      },
+      {
+        tag: 'SUR VOTRE INFRA',
+        tagColor: 'var(--purple)',
+        tagBg: 'var(--purple-06)',
+        badge: null,
+        title: 'Enterprise On-Premise',
+        priceKey: 'onprem',
+        desc: 'Installez DencPass sur vos serveurs. Vos données restent sur site, sous votre contrôle.',
+        cta: { label: 'Demander un devis', href: '/contact', external: false, style: 'purple' },
+        accent: 'var(--purple)',
+        features: [
+          { label: "Tout de l'édition Cloud", ok: true },
+          { label: 'Données 100% sur site',    ok: true },
+          { label: 'Docker ou bare metal',     ok: true },
+          { label: 'Intégration LDAP / AD',    ok: true },
+          { label: 'Licence annuelle',          ok: true },
+          { label: 'Maintenance incluse',       ok: true },
+        ],
+      },
+    ],
+  },
 ];
 
 const faqs = [
@@ -67,6 +121,7 @@ const faqs = [
   },
 ];
 
+/* ── Subcomponents ────────────────────────────────── */
 function FaqItem({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
@@ -90,6 +145,119 @@ function FaqItem({ q, a }) {
   );
 }
 
+function PlanCard({ plan, annual, accentOverride }) {
+  const { tag, tagColor, tagBg, badge, title, priceKey, desc, cta, accent, features } = plan;
+
+  const prices = { free: [0, 0], pro: [2000, 1600], cloud: null, onprem: null };
+  const priceArr = prices[priceKey];
+  const price = priceArr ? (annual ? priceArr[1] : priceArr[0]) : null;
+
+  const btnStyle = {
+    display: 'block', width: '100%', textAlign: 'center',
+    padding: '0.7rem 1rem', borderRadius: 10,
+    fontSize: '0.875rem', fontWeight: 700,
+    fontFamily: 'Space Grotesk, sans-serif',
+    cursor: 'pointer', border: 'none',
+    transition: 'opacity 0.2s',
+  };
+
+  const styles = {
+    accent: { background: 'var(--accent)', color: '#07111f' },
+    purple: { background: 'var(--purple)', color: '#fff' },
+    outline: { background: 'transparent', border: '1px solid var(--border2)', color: 'var(--text2)' },
+  };
+
+  return (
+    <div style={{
+      background: 'var(--bg-card)',
+      border: `1px solid ${accentOverride === 'var(--purple)' ? 'var(--purple-025)' : 'var(--border2)'}`,
+      borderRadius: 16,
+      padding: '1.25rem',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.9rem',
+      position: 'relative',
+    }}>
+      {/* Badge flottant */}
+      {badge && (
+        <div style={{
+          position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)',
+          background: 'var(--accent)', color: '#07111f',
+          fontFamily: 'JetBrains Mono, monospace', fontSize: '0.64rem', fontWeight: 800,
+          letterSpacing: '0.1em', padding: '3px 12px', borderRadius: 20,
+          whiteSpace: 'nowrap',
+        }}>
+          {badge}
+        </div>
+      )}
+
+      {/* Tag */}
+      <span style={{
+        fontFamily: 'JetBrains Mono, monospace', fontSize: '0.64rem', fontWeight: 700,
+        letterSpacing: '0.1em', color: tagColor, background: tagBg,
+        padding: '3px 8px', borderRadius: 6, alignSelf: 'flex-start',
+        textTransform: 'uppercase',
+      }}>
+        {tag}
+      </span>
+
+      {/* Title */}
+      <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.2rem', color: 'var(--text-head)', margin: 0 }}>
+        {title}
+      </h3>
+
+      {/* Price */}
+      {price !== null ? (
+        <div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '2rem', color: 'var(--text-head)', lineHeight: 1 }}>
+              {price.toLocaleString('fr-FR')}
+            </span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text3)' }}>FCFA / mois</span>
+          </div>
+          {annual && priceKey === 'pro' && (
+            <p style={{ fontSize: '0.72rem', color: 'var(--text4)', marginTop: 2 }}>facturation annuelle</p>
+          )}
+        </div>
+      ) : (
+        <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.4rem', color: accentOverride || accent, margin: 0 }}>
+          Sur devis
+        </p>
+      )}
+
+      {/* Desc */}
+      <p style={{ fontSize: '0.82rem', color: 'var(--text2)', lineHeight: 1.55, margin: 0 }}>{desc}</p>
+
+      {/* CTA */}
+      {cta.external ? (
+        <a href={cta.href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ ...btnStyle, ...styles[cta.style] }}>
+          {cta.label}
+        </a>
+      ) : (
+        <a href={cta.href} className="btn-primary" style={{ ...btnStyle, ...styles[cta.style] }}>
+          {cta.label}
+        </a>
+      )}
+
+      {/* Divider */}
+      <div style={{ height: 1, background: 'var(--border)' }} />
+
+      {/* Features */}
+      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
+        {features.map(({ label, ok }) => (
+          <li key={label} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '0.82rem', color: ok ? 'var(--text2)' : 'var(--text4)' }}>
+            <span style={{ color: ok ? accentOverride || accent : 'var(--text4)', flexShrink: 0, marginTop: 1 }}>
+              {ok ? <IcoCheck size={14} /> : <IcoX size={14} />}
+            </span>
+            {label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* ── Page ─────────────────────────────────────────── */
 export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
   const toggleRef = useRef(null);
@@ -105,9 +273,6 @@ export default function PricingPage() {
       });
     }
   }
-
-  const proMonthly = 2000;
-  const proAnnual  = 1600;
 
   return (
     <PublicLayout>
@@ -130,33 +295,25 @@ export default function PricingPage() {
             Choisissez le plan adapté à votre usage. Pas de frais cachés, pas de conversion.
           </p>
 
-          {/* Toggle */}
-          <div ref={toggleRef} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 30, padding: '4px' }}>
-            <button
-              onClick={() => handleToggle(false)}
-              style={{
-                padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
-                fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif',
-                background: !annual ? 'var(--accent)' : 'transparent',
-                color: !annual ? '#07111f' : 'var(--text3)',
-                transition: 'all 0.2s',
-              }}
-            >
+          {/* Toggle mensuel / annuel */}
+          <div ref={toggleRef} style={{ display: 'inline-flex', alignItems: 'center', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 30, padding: '4px' }}>
+            <button onClick={() => handleToggle(false)} style={{
+              padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
+              fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif',
+              background: !annual ? 'var(--accent)' : 'transparent',
+              color: !annual ? '#07111f' : 'var(--text3)', transition: 'all 0.2s',
+            }}>
               Mensuel
             </button>
-            <button
-              onClick={() => handleToggle(true)}
-              style={{
-                padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
-                fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif',
-                background: annual ? 'var(--accent)' : 'transparent',
-                color: annual ? '#07111f' : 'var(--text3)',
-                transition: 'all 0.2s',
-                display: 'flex', alignItems: 'center', gap: 6,
-              }}
-            >
+            <button onClick={() => handleToggle(true)} style={{
+              padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
+              fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif',
+              background: annual ? 'var(--accent)' : 'transparent',
+              color: annual ? '#07111f' : 'var(--text3)', transition: 'all 0.2s',
+              display: 'flex', alignItems: 'center', gap: 6,
+            }}>
               Annuel
-              <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.15)', color: 'var(--green)', padding: '2px 7px', borderRadius: 20, fontWeight: 700 }}>
+              <span style={{ fontSize: '0.68rem', background: 'rgba(34,197,94,0.15)', color: 'var(--green)', padding: '2px 7px', borderRadius: 20, fontWeight: 700 }}>
                 −20 %
               </span>
             </button>
@@ -164,159 +321,48 @@ export default function PricingPage() {
         </Reveal>
       </section>
 
-      {/* ── Pricing groups ── */}
-      <section style={{ padding: '1.5rem max(1.25rem, calc((100vw - 1100px)/2)) clamp(2.5rem,6vw,4rem)' }}>
+      {/* ── Grille des plans ── */}
+      <section style={{ padding: '1.5rem max(1.25rem, calc((100vw - 1160px)/2)) clamp(2.5rem,6vw,4rem)' }}>
         <Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px,1fr))', gap: '1.5rem', alignItems: 'stretch' }}>
-
-            {/* Group 1: Individuel */}
-            <div style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border2)',
-              borderTop: '3px solid var(--accent)',
-              borderRadius: 20,
-              padding: '1.75rem',
-            }}>
-              <div style={{ marginBottom: '1.25rem' }}>
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.12em', color: 'var(--accent)', textTransform: 'uppercase' }}>
-                  Usage individuel
-                </span>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                {/* Gratuit */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-head)' }}>Gratuit</h3>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                    <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.75rem', color: 'var(--text-head)' }}>0</span>
-                    <span style={{ fontSize: '0.82rem', color: 'var(--text3)' }}>FCFA/mois</span>
-                  </div>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {freeFeatures.map(({ label, ok }) => (
-                      <li key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem', color: ok ? 'var(--text2)' : 'var(--text4)' }}>
-                        <span style={{ color: ok ? 'var(--green)' : 'var(--text4)', flexShrink: 0 }}>
-                          {ok ? <IcoCheck size={14} /> : <IcoX size={14} />}
-                        </span>
-                        {label}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" style={{
-                    display: 'block', textAlign: 'center', padding: '0.65rem', borderRadius: 9,
-                    background: 'transparent', border: '1px solid var(--border2)',
-                    fontSize: '0.82rem', fontWeight: 600, color: 'var(--text2)',
-                    fontFamily: 'Space Grotesk, sans-serif', marginTop: 'auto',
-                  }}>
-                    Commencer
-                  </a>
-                </div>
-
-                {/* Pro */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', position: 'relative' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-head)' }}>Pro</h3>
-                    <span style={{ fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, background: 'var(--accent)', color: '#07111f', padding: '2px 8px', borderRadius: 20, letterSpacing: '0.05em' }}>
-                      POPULAIRE
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.25rem' }}>
+            {groups.map(group => (
+              <div key={group.id} style={{
+                background: group.id === 'enterprise' ? 'rgba(139,92,246,0.04)' : 'transparent',
+                border: `1px solid ${group.borderColor}`,
+                borderTop: `3px solid ${group.borderTop}`,
+                borderRadius: 20,
+                padding: '1.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.25rem',
+              }}>
+                {/* En-tête groupe */}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: '0.4rem' }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: group.dot, flexShrink: 0, display: 'inline-block' }} />
+                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.14em', color: group.dot, textTransform: 'uppercase' }}>
+                      {group.label}
                     </span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                    <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.75rem', color: 'var(--text-head)' }}>
-                      {annual ? proAnnual.toLocaleString('fr-FR') : proMonthly.toLocaleString('fr-FR')}
-                    </span>
-                    <span style={{ fontSize: '0.82rem', color: 'var(--text3)' }}>FCFA/mois</span>
-                  </div>
-                  {annual && (
-                    <span style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>facturation annuelle</span>
-                  )}
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {proFeatures.map(({ label }) => (
-                      <li key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem', color: 'var(--text2)' }}>
-                        <span style={{ color: 'var(--green)', flexShrink: 0 }}><IcoCheck size={14} /></span>
-                        {label}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
-                    display: 'block', textAlign: 'center', padding: '0.65rem', borderRadius: 9,
-                    background: 'var(--accent)', border: 'none',
-                    fontSize: '0.82rem', fontWeight: 700, color: '#07111f',
-                    fontFamily: 'Space Grotesk, sans-serif', marginTop: 'auto',
-                  }}>
-                    S'abonner
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Group 2: Enterprise */}
-            <div style={{
-              background: 'rgba(139,92,246,0.06)',
-              border: '1px solid var(--purple-025)',
-              borderTop: '3px solid var(--purple)',
-              borderRadius: 20,
-              padding: '1.75rem',
-            }}>
-              <div style={{ marginBottom: '1.25rem' }}>
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.12em', color: 'var(--purple)', textTransform: 'uppercase' }}>
-                  Organisations · Enterprise
-                </span>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                {/* Enterprise Cloud */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ color: 'var(--purple)' }}><IcoCloud size={16} /></span>
-                    <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1rem', color: 'var(--text-head)' }}>Enterprise Cloud</h3>
-                  </div>
-                  <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.5rem', color: 'var(--text-head)' }}>
-                    Sur devis
-                  </div>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {cloudFeatures.map(f => (
-                      <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem', color: 'var(--text2)' }}>
-                        <span style={{ color: 'var(--purple)', flexShrink: 0 }}>✓</span> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="/contact" className="btn-primary" style={{
-                    display: 'block', textAlign: 'center', padding: '0.65rem', borderRadius: 9,
-                    background: 'var(--purple)', border: 'none',
-                    fontSize: '0.82rem', fontWeight: 700, color: '#fff',
-                    fontFamily: 'Space Grotesk, sans-serif', marginTop: 'auto',
-                  }}>
-                    Nous contacter
-                  </a>
+                  <p style={{ fontSize: '0.88rem', color: 'var(--text2)' }}>{group.sub}</p>
                 </div>
 
-                {/* Enterprise On-Premise */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ color: 'var(--purple)' }}><IcoServer size={16} /></span>
-                    <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1rem', color: 'var(--text-head)' }}>On-Premise</h3>
-                  </div>
-                  <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.5rem', color: 'var(--text-head)' }}>
-                    Sur devis
-                  </div>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {onPremFeatures.map(f => (
-                      <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem', color: 'var(--text2)' }}>
-                        <span style={{ color: 'var(--purple)', flexShrink: 0 }}>✓</span> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="/contact" className="btn-primary" style={{
-                    display: 'block', textAlign: 'center', padding: '0.65rem', borderRadius: 9,
-                    background: 'var(--purple)', border: 'none',
-                    fontSize: '0.82rem', fontWeight: 700, color: '#fff',
-                    fontFamily: 'Space Grotesk, sans-serif', marginTop: 'auto',
-                  }}>
-                    Demander un devis
-                  </a>
+                {/* Plans 2 colonnes */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.875rem' }}>
+                  {group.plans.map(plan => (
+                    <PlanCard
+                      key={plan.title}
+                      plan={plan}
+                      annual={annual}
+                      accentOverride={group.dot}
+                    />
+                  ))}
                 </div>
               </div>
-            </div>
+            ))}
           </div>
 
-          <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.82rem', color: 'var(--text3)' }}>
+          <p style={{ textAlign: 'center', marginTop: '1.25rem', fontSize: '0.8rem', color: 'var(--text3)' }}>
             Tous les plans incluent le chiffrement AES-256-GCM et la vérification HIBP k-anonymat.
           </p>
         </Reveal>
