@@ -1,209 +1,236 @@
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import PublicLayout from '../components/layout/PublicLayout'
-import {
-  Reveal,
-  IcoShield, IcoKey, IcoZap, IcoShare, IcoVault, IcoGlobe,
-  IcoCert, IcoUsers, IcoPhone, IcoEye, IcoClipboard, IcoLock,
-  IcoSearch, IcoCopy, IcoCheck, IcoArrow, IcoCode,
-} from '../components/shared'
+import PublicLayout from '../components/layout/PublicLayout';
+import { Reveal, IcoVault, IcoShare, IcoShield, IcoCheck, IcoArrow, IcoUsers, IcoBuilding } from '../components/shared';
 
-const FEATURES = [
+const groups = [
   {
+    kicker: 'Au quotidien',
     Icon: IcoVault,
-    accent: '#2fd9f4',
-    title: 'Coffre-fort chiffré',
-    desc: 'Organisez tous vos mots de passe, notes secrètes et clés API dans des dossiers hiérarchisés. Recherche instantanée parmi toutes vos entrées.',
-    tags: ['Dossiers & sous-dossiers', 'Tags & filtres', 'Recherche fulltext', 'Corbeille sécurisée'],
+    items: [
+      { title: 'Coffre chiffré',            desc: 'Stockez mots de passe, notes secrètes et certificats dans un coffre AES-256-GCM.' },
+      { title: 'Générateur fort',            desc: 'Générez des mots de passe jusqu\'à 128 caractères avec contrôle d\'entropie.' },
+      { title: 'Extension Chrome',           desc: 'Remplissage automatique dans Chrome, Brave et tout navigateur Chromium.' },
+      { title: 'Secrets & certificats',      desc: 'Stockez des clés API, tokens, certificats SSL et fichiers sensibles.' },
+      { title: 'Import en 2 minutes',        desc: 'Migration depuis Bitwarden, 1Password ou LastPass via fichier CSV/JSON.' },
+      { title: 'Score de sécurité',          desc: 'Analysez la robustesse de vos mots de passe et identifiez les doublons.' },
+    ],
   },
   {
-    Icon: IcoKey,
-    accent: '#8b5cf6',
-    title: 'Générateur de mots de passe',
-    desc: 'Créez des mots de passe forts sur mesure : longueur, complexité, caractères spéciaux, mots mémorables, votre choix.',
-    tags: ['Longueur jusqu\'à 128 caractères', 'Règles configurables', 'Mots de passe mémorables', 'Historique de génération'],
-  },
-  {
+    kicker: 'Partage & collaboration',
     Icon: IcoShare,
-    accent: '#f59e0b',
-    title: 'Partage sécurisé',
-    desc: 'Partagez des secrets avec des collègues ou des clients via des liens chiffrés à durée limitée, sans jamais exposer le mot de passe en clair.',
-    tags: ['Liens temporaires', 'Expiration configurable', 'Révocation instantanée', 'Journal des accès'],
+    items: [
+      { title: 'Liens temporaires',          desc: 'Partagez un secret via un lien à durée limitée, sans compte requis pour le destinataire.' },
+      { title: 'Équipes & groupes',          desc: 'Organisez vos collaborateurs par équipe, attribuez des coffres partagés.' },
+      { title: 'Notifications d\'accès',     desc: 'Soyez alerté à chaque accès ou modification sur vos entrées partagées.' },
+    ],
   },
   {
-    Icon: IcoPhone,
-    accent: '#22c55e',
-    title: 'Double authentification (2FA)',
-    desc: 'Sécurisez votre compte avec une authentification TOTP compatible avec tous les authenticateurs du marché.',
-    tags: ['Google Authenticator', 'Authy / 1Password', 'Codes à 6 chiffres', 'Rotation 30 secondes'],
-  },
-  {
-    Icon: IcoCode,
-    accent: '#2fd9f4',
-    title: 'Extension Chrome',
-    desc: 'Remplissage automatique des formulaires web, détection des pages de connexion et génération à la volée depuis le navigateur.',
-    tags: ['Disponible sur Chrome', 'Firefox · Edge en développement', 'Générer & enregistrer', 'Mode hors-ligne'],
-  },
-  {
-    Icon: IcoZap,
-    accent: '#f59e0b',
-    title: 'Passphrase africaine',
-    desc: 'Générez des phrases de passe mémorables construites à partir d\'un lexique multilingue puisant dans plusieurs langues africaines (wolof, swahili, bambara, yoruba, hausa, zulu, igbo).',
-    tags: ['Lexique multilingue africain', 'Séparateur personnalisable', 'Facile à retenir'],
-  },
-  {
+    kicker: 'Sécurité de fond',
     Icon: IcoShield,
-    accent: '#ef4444',
-    title: 'Détection HIBP',
-    desc: 'Vérification automatique de vos mots de passe contre la base Have I Been Pwned (700M+ fuites), sans jamais envoyer votre mot de passe.',
-    tags: ['700M+ mots de passe vérifiés', 'Hachage k-anonymat', 'Alertes en temps réel', 'Rapport de sécurité'],
+    items: [
+      { title: 'AES-256-GCM par entrée',    desc: 'Chaque secret est chiffré individuellement avec son propre vecteur d\'initialisation.' },
+      { title: 'Zéro connaissance',          desc: 'Le déchiffrement s\'effectue sur votre appareil. Nos serveurs ne voient que des blocs opaques.' },
+      { title: '2FA TOTP',                   desc: 'Activez un second facteur TOTP (RFC 6238) pour chaque connexion.' },
+    ],
   },
-  {
-    Icon: IcoUsers,
-    accent: '#f59e0b',
-    title: 'Gestion d\'équipes',
-    desc: 'Coffres partagés, rôles et permissions granulaires, onboarding en un clic, pensé pour les équipes africaines de toutes tailles.',
-    tags: ['Coffres partagés', 'Rôles Admin/Membre/Invité', 'Onboarding rapide', 'Logs d\'audit'],
-  },
-  {
-    Icon: IcoGlobe,
-    accent: '#2fd9f4',
-    title: 'Africa-first',
-    desc: 'Interface en français. Paiement en FCFA, Orange Money et Wave. Infrastructure hébergée pour la conformité locale.',
-    tags: ['Interface en français', 'Paiement FCFA / Wave', 'Conformité RGPD & APDP', 'Support local'],
-  },
-]
+];
 
-const COMPARE = [
-  { label: 'Architecture zero-knowledge',      dp: 'Chiffrement côté serveur', others: true,  othersLabel: 'Chez la plupart' },
-  { label: '2FA TOTP',                        dp: true,  others: true  },
-  { label: 'Extension navigateur',            dp: true,  dpLabel: 'Chrome (Firefox/Edge à venir)', others: true, othersLabel: 'Multi-navigateurs' },
-  { label: 'Passphrase en langues africaines', dp: true,  others: false },
-  { label: 'Paiement FCFA / Wave / Orange Money', dp: true, others: false },
-  { label: 'Interface multilingue',           dp: false, dpLabel: 'Français', others: true  },
-  { label: 'Hébergement / support Afrique de l\'Ouest', dp: true, others: false },
-  { label: 'Plan gratuit',                    dp: true,  dpLabel: '✓ (limité)', others: true,  othersLabel: '✓ (variable)' },
-]
+const advantages = [
+  { title: 'Tarifs en FCFA',       desc: 'Aucune conversion, aucune surprise. Payez en Francs CFA avec des prix adaptés au marché ouest-africain.' },
+  { title: 'Passphrase africaine', desc: "Générez des phrases mémorables à partir d'un dictionnaire wolof — plus de force, moins d'effort." },
+  { title: 'Hébergement local',    desc: 'Vos données restent dans des centres de données proches de Dakar pour des performances optimales.' },
+];
+
+const parity = [
+  ['Chiffrement AES-256-GCM',   true],
+  ['Zéro connaissance',         true],
+  ['Extension navigateur',      true],
+  ['2FA TOTP inclus',           true],
+  ['Tarifs en FCFA',            true],
+  ['Support en français',       true],
+];
+
+const roadmap = [
+  { title: 'Applications mobiles',   desc: 'iOS et Android — prévues feuille de route 2026.' },
+  { title: 'Extension Firefox / Edge', desc: 'En développement, disponibles prochainement.' },
+];
 
 export default function FeaturesPage() {
-  useEffect(() => { document.title = 'Fonctionnalités | DencPass' }, [])
-
   return (
     <PublicLayout>
-      {/* Hero */}
-      <section style={{ paddingTop: '7rem', paddingBottom: '5rem', textAlign: 'center' }} className="section-pad">
+    <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+
+      {/* ── Hero ── */}
+      <section style={{
+        padding: 'clamp(5rem,12vw,8rem) max(1.25rem, calc((100vw - 900px)/2)) clamp(3rem,6vw,5rem)',
+        background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(47,217,244,0.07) 0%, transparent 70%)',
+        textAlign: 'center',
+      }}>
         <Reveal>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
-            Fonctionnalités
-          </p>
-          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.4rem,5vw,3.8rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.25rem', lineHeight: 1.12 }}>
-            Tout ce qu'il faut.<br />Rien de superflu.
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: '1.25rem' }}>
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase' }}>
+              Fonctionnalités
+            </span>
+          </div>
+          <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(2rem,5vw,3.25rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1.25rem' }}>
+            Tout ce qu'il faut pour<br />protéger vos accès.
           </h1>
-          <p style={{ fontSize: 17, color: 'var(--text3)', maxWidth: 560, margin: '0 auto 2.5rem', lineHeight: 1.65 }}>
-            DencPass combine sécurité militaire et expérience fluide, avec des fonctionnalités conçues pour les utilisateurs et les équipes d'Afrique.
+          <p style={{ fontSize: 'clamp(1rem,2vw,1.0625rem)', color: 'var(--text2)', maxWidth: 540, margin: '0 auto 2rem', lineHeight: 1.7 }}>
+            Un coffre-fort chiffré de bout en bout, un générateur robuste, une extension navigateur — le tout conçu pour votre usage quotidien.
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="https://app.dencpass.com/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 2px 24px rgba(47,217,244,0.3)' }}>
-              Essayer gratuitement
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
+              background: 'var(--accent)', color: '#07111f', border: 'none',
+              padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+            }}>
+              Essayer gratuitement <IcoArrow size={16} />
             </a>
-            <Link to="/download" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", background: 'transparent' }} className="btn-ghost">
-              Télécharger l'app
-            </Link>
+            <a href="/tarifs" className="btn-primary" style={{
+              background: 'transparent', color: 'var(--text)',
+              border: '1px solid var(--border2)',
+              padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
+            }}>
+              Voir les tarifs
+            </a>
           </div>
         </Reveal>
       </section>
 
-      {/* Features grid */}
-      <section style={{ paddingBottom: '5rem' }} className="section-pad">
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
-            {FEATURES.map(({ Icon, accent, title, desc, tags }, i) => (
-              <Reveal key={title} delay={i * 60}>
-                <div className="card card-hover" style={{ borderRadius: 18, padding: '1.75rem', height: '100%', boxSizing: 'border-box' }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: `${accent}18`, border: `1px solid ${accent}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem', color: accent }}>
-                    <Icon size={20} />
-                  </div>
-                  <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 17, color: 'var(--text)', margin: '0 0 0.6rem', letterSpacing: '-0.02em' }}>{title}</h3>
-                  <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.6, margin: '0 0 1.25rem' }}>{desc}</p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {tags.map(t => (
-                      <li key={t} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'var(--text2)' }}>
-                        <span style={{ color: accent, flexShrink: 0 }}><IcoCheck size={13} /></span>
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
+      {/* ── Feature groups ── */}
+      <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 1100px)/2))', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        {groups.map(({ kicker, Icon, items }) => (
+          <Reveal key={kicker}>
+            <div style={{
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border)',
+              borderRadius: 22,
+              overflow: 'hidden',
+            }}>
+              <div style={{ padding: '1.5rem 1.75rem', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--accent-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)' }}>
+                  <Icon size={18} />
                 </div>
-              </Reveal>
+                <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '1rem', color: 'var(--text-head)' }}>{kicker}</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 0 }}>
+                {items.map(({ title, desc }, i) => (
+                  <div key={title} style={{
+                    padding: '1.25rem 1.75rem',
+                    borderRight: (i + 1) % 3 !== 0 ? '1px solid var(--border)' : 'none',
+                    borderBottom: i < items.length - 3 ? '1px solid var(--border)' : 'none',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: '0.4rem' }}>
+                      <span style={{ color: 'var(--accent)', marginTop: 2, flexShrink: 0 }}><IcoCheck size={15} /></span>
+                      <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: '0.92rem', color: 'var(--text-head)' }}>{title}</span>
+                    </div>
+                    <p style={{ fontSize: '0.84rem', color: 'var(--text2)', lineHeight: 1.6, paddingLeft: 25 }}>{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </section>
+
+      {/* ── Pourquoi DencPass ── */}
+      <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 1100px)/2))' }}>
+        <Reveal>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '2rem' }}>
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+              Pourquoi DencPass
+            </span>
+            <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+            {advantages.map(({ title, desc }) => (
+              <div key={title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, padding: '1.5rem' }}>
+                <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-head)', marginBottom: '0.5rem' }}>{title}</h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text2)', lineHeight: 1.6 }}>{desc}</p>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Comparison */}
-      <section style={{ paddingTop: '4rem', paddingBottom: '5rem', background: 'var(--bg-alt)' }} className="section-pad">
-        <div style={{ maxWidth: 820, margin: '0 auto' }}>
-          <Reveal>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.18em', textTransform: 'uppercase', textAlign: 'center', marginBottom: '0.75rem' }}>Pourquoi DencPass</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.75rem,3.5vw,2.75rem)', letterSpacing: '-0.04em', color: 'var(--text)', margin: '0 0 0.75rem', textAlign: 'center' }}>
-              Fait pour l'Afrique, dès le départ.
-            </h2>
-            <p style={{ fontSize: 15, color: 'var(--text3)', textAlign: 'center', margin: '0 0 2.5rem' }}>
-              Les gestionnaires globaux ne supportent pas FCFA, Wave ni Orange Money, et ignorent les contraintes de conformité locales.
-            </p>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="card" style={{ borderRadius: 18, overflow: 'hidden' }}>
-              {/* Header */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 160px 160px', borderBottom: '1px solid var(--border)' }}>
-                <div style={{ padding: '1rem 1.5rem', fontSize: 12, color: 'var(--text3)', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.08em' }}>FONCTIONNALITÉ</div>
-                <div style={{ padding: '1rem', textAlign: 'center', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 14, color: '#2fd9f4', background: 'rgba(47,217,244,0.07)', borderLeft: '1px solid rgba(47,217,244,0.12)', borderRight: '1px solid rgba(47,217,244,0.12)' }}>DencPass</div>
-                <div style={{ padding: '1rem', textAlign: 'center', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 14, color: 'var(--text3)' }}>Autres</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+            {parity.map(([label, included]) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0.75rem 1rem', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12 }}>
+                <span style={{ color: included ? 'var(--green)' : 'var(--text3)', flexShrink: 0 }}><IcoCheck size={16} /></span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--text2)' }}>{label}</span>
               </div>
-              {COMPARE.map(({ label, dp, dpLabel, others, othersLabel }, i) => (
-                <div key={label} style={{ display: 'grid', gridTemplateColumns: '1fr 160px 160px', borderBottom: i < COMPARE.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                  <div style={{ padding: '0.9rem 1.5rem', fontSize: 14, color: 'var(--text2)' }}>{label}</div>
-                  <div style={{ padding: '0.9rem', textAlign: 'center', background: 'rgba(47,217,244,0.04)', borderLeft: '1px solid rgba(47,217,244,0.1)', borderRight: '1px solid rgba(47,217,244,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {dpLabel
-                      ? <span style={{ fontSize: 12, color: dp ? '#22c55e' : 'var(--text3)', lineHeight: 1.4, textAlign: 'center' }}>{dpLabel}</span>
-                      : <span style={{ color: dp ? '#22c55e' : '#ef4444' }}>{dp ? <IcoCheck size={16} /> : '✗'}</span>}
-                  </div>
-                  <div style={{ padding: '0.9rem', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {othersLabel
-                      ? <span style={{ fontSize: 12, color: others ? '#22c55e' : 'var(--text3)', lineHeight: 1.4, textAlign: 'center' }}>{othersLabel}</span>
-                      : <span style={{ color: others ? '#22c55e' : 'var(--text3)', fontSize: others ? 'inherit' : 13 }}>{others ? <IcoCheck size={16} /> : 'Non'}</span>}
-                  </div>
+            ))}
+          </div>
+
+          <div style={{ background: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.18)', borderRadius: 16, padding: '1.25rem 1.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px,1fr))', gap: '1rem' }}>
+            {roadmap.map(({ title, desc }) => (
+              <div key={title} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '0.7rem', fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, color: 'var(--amber)', background: 'rgba(245,158,11,0.12)', padding: '2px 8px', borderRadius: 6, marginTop: 2, whiteSpace: 'nowrap' }}>BIENTÔT</span>
+                <div>
+                  <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-head)' }}>{title}</p>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text2)', marginTop: 2 }}>{desc}</p>
                 </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
-      {/* CTA */}
-      <section style={{ position: 'relative', overflow: 'hidden', padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', textAlign: 'center' }} className="section-pad">
-        <div style={{ position: 'absolute', inset: 0, background: 'var(--bg)', zIndex: 0 }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(47,217,244,0.08) 0%, transparent 55%), radial-gradient(ellipse at 70% 50%, rgba(139,92,246,0.07) 0%, transparent 55%)', pointerEvents: 'none', zIndex: 1 }} />
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(47,217,244,0.3), rgba(139,92,246,0.3), transparent)', zIndex: 2 }} />
-        <div style={{ position: 'relative', zIndex: 3, maxWidth: 620, margin: '0 auto' }}>
-          <Reveal>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
-              Prêt à sécuriser vos accès ?
-            </h2>
-            <p style={{ fontSize: 16, color: 'var(--text3)', margin: '0 0 2.25rem', lineHeight: 1.7 }}>
-              Gratuit pour un usage personnel. Aucune carte bancaire requise.
-            </p>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="https://app.dencpass.com/register" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 32px', borderRadius: 13, background: '#2fd9f4', color: '#07111f', fontSize: 15, boxShadow: '0 4px 28px rgba(47,217,244,0.32)' }}>
-                Créer mon coffre gratuit <IcoArrow size={16} />
-              </a>
-              <Link to="/pricing" className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 28px', borderRadius: 13, border: '1px solid rgba(47,217,244,0.25)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-                Voir les tarifs
-              </Link>
+      {/* ── Enterprise strip ── */}
+      <section style={{ padding: 'clamp(2.5rem,5vw,3.5rem) max(1.25rem, calc((100vw - 1100px)/2))' }}>
+        <Reveal>
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(139,92,246,0.10) 0%, rgba(47,217,244,0.06) 100%)',
+            border: '1px solid var(--purple-014)',
+            borderRadius: 20,
+            padding: 'clamp(2rem,4vw,2.75rem)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '2rem',
+            flexWrap: 'wrap',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--purple-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--purple)', flexShrink: 0 }}>
+                <IcoBuilding size={24} />
+              </div>
+              <div>
+                <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-head)' }}>Vous avez une équipe ?</p>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text2)', marginTop: 2 }}>Multi-organisations, SIEM, audit, Active Directory — tout pour les entreprises.</p>
+              </div>
             </div>
-          </Reveal>
-        </div>
+            <a href="/entreprises" className="btn-primary" style={{
+              background: 'var(--purple)', color: '#fff', border: 'none',
+              padding: '0.75rem 1.5rem', borderRadius: 10, fontSize: '0.9rem',
+              display: 'inline-flex', alignItems: 'center', gap: 8, flexShrink: 0,
+            }}>
+              Voir l'offre Enterprise <IcoArrow size={16} />
+            </a>
+          </div>
+        </Reveal>
       </section>
+
+      {/* ── CTA ── */}
+      <section style={{
+        padding: 'clamp(3rem,8vw,5rem) max(1.25rem, calc((100vw - 1100px)/2))',
+        textAlign: 'center',
+      }}>
+        <Reveal>
+          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.5rem,3.5vw,2.25rem)', color: 'var(--text-head)', marginBottom: '1rem' }}>
+            Prêt à sécuriser vos accès ?
+          </h2>
+          <p style={{ fontSize: '1rem', color: 'var(--text2)', maxWidth: 460, margin: '0 auto 2rem', lineHeight: 1.7 }}>
+            Commencez gratuitement. Aucune carte bancaire requise.
+          </p>
+          <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
+            background: 'var(--accent)', color: '#07111f', border: 'none',
+            padding: '0.9rem 2rem', borderRadius: 10, fontSize: '0.95rem',
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+          }}>
+            Créer un compte gratuit <IcoArrow size={16} />
+          </a>
+        </Reveal>
+      </section>
+
+    </main>
     </PublicLayout>
-  )
+  );
 }

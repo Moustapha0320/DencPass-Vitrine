@@ -1,162 +1,240 @@
-import { useState, useEffect } from 'react'
-import PublicLayout from '../components/layout/PublicLayout'
-import { Reveal, IcoArrow, IcoShield, IcoCheck } from '../components/shared'
+import { useState } from 'react';
+import PublicLayout from '../components/layout/PublicLayout';
+import { Reveal, IcoArrow, IcoCheck, IcoMail, IcoBuilding, IcoGlobe, IcoCheckCircle } from '../components/shared';
 
-const NB_OPTIONS = [
-  { value: '1-10',   label: '1 – 10 utilisateurs' },
-  { value: '10-50',  label: '10 – 50 utilisateurs' },
-  { value: '50-200', label: '50 – 200 utilisateurs' },
-  { value: '200+',   label: '200+ utilisateurs' },
-]
+const API_URL = 'https://app.dencpass.com/api/public/contact/';
 
-const API_URL = 'https://app.dencpass.com/api/public/contact/'
+const SUJET_OPTIONS = [
+  { value: '',                    label: 'Choisir un sujet...' },
+  { value: 'question-generale',   label: 'Question générale' },
+  { value: 'demonstration',       label: 'Démonstration produit' },
+  { value: 'devis-enterprise',    label: 'Devis Enterprise' },
+  { value: 'support-technique',   label: 'Support technique' },
+  { value: 'autre',               label: 'Autre' },
+];
+
+const channels = [
+  {
+    Icon: IcoMail,
+    title: 'Support & ventes',
+    detail: 'support@dencpass.com',
+    href: 'mailto:support@dencpass.com',
+  },
+  {
+    Icon: IcoBuilding,
+    title: 'Enterprise',
+    detail: 'enterprise@dencpass.com',
+    href: 'mailto:enterprise@dencpass.com',
+  },
+  {
+    Icon: IcoGlobe,
+    title: 'Bureau',
+    detail: 'Dakar · Sénégal',
+    href: null,
+  },
+];
+
+const fieldBase = {
+  width: '100%',
+  boxSizing: 'border-box',
+  padding: '11px 14px',
+  borderRadius: 10,
+  border: '1px solid var(--border)',
+  background: 'var(--bg-alt)',
+  color: 'var(--text)',
+  fontSize: '0.875rem',
+  fontFamily: "'Inter', sans-serif",
+  outline: 'none',
+  transition: 'border-color 0.2s, box-shadow 0.2s',
+};
+
+const labelStyle = {
+  display: 'block',
+  fontSize: '0.8rem',
+  fontWeight: 600,
+  color: 'var(--text2)',
+  marginBottom: 6,
+  fontFamily: "'Space Grotesk', sans-serif",
+};
+
+function Field({ label, required, children }) {
+  return (
+    <div>
+      <label style={labelStyle}>{label}{required && <span style={{ color: '#ef4444', marginLeft: 3 }}>*</span>}</label>
+      {children}
+    </div>
+  );
+}
+
+function focusIn(e)  { e.target.style.borderColor = 'var(--accent)'; e.target.style.boxShadow = '0 0 0 3px var(--accent-014)'; }
+function focusOut(e) { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none'; }
 
 export default function ContactPage() {
-  useEffect(() => { document.title = 'Contact | DencPass' }, [])
+  const [form, setForm]   = useState({ nom: '', email: '', organisation: '', sujet: '', message: '' });
+  const [status, setStatus]   = useState('idle'); // idle | loading | success | error
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const [form, setForm] = useState({ nom: '', email: '', organisation: '', nb_utilisateurs: '', message: '' })
-  const [status, setStatus] = useState('idle') // idle | loading | success | error
-  const [errorMsg, setErrorMsg] = useState('')
+  const firstName = form.nom.trim().split(' ')[0] || 'vous';
 
   function set(key) {
-    return e => setForm(f => ({ ...f, [key]: e.target.value }))
+    return e => setForm(f => ({ ...f, [key]: e.target.value }));
   }
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    setStatus('loading')
-    setErrorMsg('')
+    e.preventDefault();
+    setStatus('loading');
+    setErrorMsg('');
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-      const data = await res.json()
+        body: JSON.stringify({
+          nom:          form.nom,
+          email:        form.email,
+          organisation: form.organisation,
+          message:      form.sujet ? `[${form.sujet}] ${form.message}` : form.message,
+        }),
+      });
+      const data = await res.json();
       if (res.ok) {
-        setStatus('success')
+        setStatus('success');
       } else {
-        setStatus('error')
-        setErrorMsg(data.detail || 'Une erreur est survenue.')
+        setStatus('error');
+        setErrorMsg(data.detail || 'Une erreur est survenue. Réessayez plus tard.');
       }
     } catch {
-      setStatus('error')
-      setErrorMsg('Impossible de joindre le serveur. Réessayez plus tard.')
+      setStatus('error');
+      setErrorMsg('Impossible de joindre le serveur. Réessayez plus tard.');
     }
-  }
-
-  const inputStyle = {
-    width: '100%', boxSizing: 'border-box',
-    padding: '12px 14px', borderRadius: 10,
-    border: '1px solid var(--border)',
-    background: 'var(--bg)', color: 'var(--text)',
-    fontSize: 14, fontFamily: "'Inter', sans-serif",
-    outline: 'none', transition: 'border-color 0.2s',
-  }
-  const labelStyle = {
-    display: 'block', fontSize: 13, fontWeight: 600,
-    color: 'var(--text2)', marginBottom: 6,
-    fontFamily: "'Space Grotesk', sans-serif",
   }
 
   return (
     <PublicLayout>
-      {/* Hero */}
-      <section style={{ paddingTop: '7rem', paddingBottom: '4rem', textAlign: 'center' }} className="section-pad">
+    <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+
+      {/* ── Hero ── */}
+      <section style={{
+        padding: 'clamp(5rem,12vw,8rem) max(1.25rem, calc((100vw - 900px)/2)) clamp(3rem,5vw,4rem)',
+        background: 'radial-gradient(ellipse 80% 55% at 50% 0%, rgba(139,92,246,0.08) 0%, transparent 70%)',
+        textAlign: 'center',
+      }}>
         <Reveal>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#8b5cf6', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
+          <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', display: 'block', marginBottom: '1.25rem' }}>
             Contact
-          </p>
-          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem,4.5vw,3.4rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.25rem', lineHeight: 1.1 }}>
-            Parlons de votre projet.
+          </span>
+          <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(2rem,5vw,3.25rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1.1rem' }}>
+            Parlons de vos besoins.
           </h1>
-          <p style={{ fontSize: 17, color: 'var(--text3)', maxWidth: 500, margin: '0 auto', lineHeight: 1.65 }}>
-            Démo, devis ou simple question, nous répondons sous 48h.
+          <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
+            Équipe basée à Dakar, nous répondons en français — sous 24h ouvrées.
           </p>
         </Reveal>
       </section>
 
-      {/* Form + aside */}
-      <section style={{ paddingBottom: '7rem' }} className="section-pad">
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 380px', gap: '3rem', alignItems: 'start' }} className="hero-grid">
+      {/* ── Content ── */}
+      <section style={{ padding: 'clamp(1.5rem,4vw,2.5rem) max(1.25rem, calc((100vw - 1100px)/2)) clamp(3rem,7vw,5rem)' }}>
+        <Reveal>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'clamp(240px,28%,320px) 1fr',
+            gap: 'clamp(1.5rem,4vw,2.5rem)',
+            alignItems: 'start',
+          }}>
 
-          {/* Form */}
-          <Reveal>
-            <div className="card" style={{ padding: '2.5rem', borderRadius: 20 }}>
+            {/* Left — channel cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+              {channels.map(({ Icon, title, detail, href }) => (
+                <div key={title} style={{
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 14,
+                  padding: '1.1rem 1.25rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.875rem',
+                }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--accent-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', flexShrink: 0 }}>
+                    <Icon size={18} />
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: '0.88rem', color: 'var(--text-head)', marginBottom: 2 }}>{title}</p>
+                    {href ? (
+                      <a href={href} style={{ fontSize: '0.82rem', color: 'var(--accent)', textDecoration: 'none' }}>{detail}</a>
+                    ) : (
+                      <p style={{ fontSize: '0.82rem', color: 'var(--text2)' }}>{detail}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              <div style={{ marginTop: '0.5rem', padding: '1rem 1.25rem', background: 'var(--accent-004)', border: '1px solid var(--accent-014)', borderRadius: 14 }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text2)', lineHeight: 1.6 }}>
+                  Vos informations ne sont utilisées que pour vous répondre. Elles ne sont jamais partagées.
+                </p>
+              </div>
+            </div>
+
+            {/* Right — form */}
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 20, padding: 'clamp(1.75rem,4vw,2.5rem)' }}>
+
               {status === 'success' ? (
                 <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: '#22c55e' }}>
-                    <IcoCheck size={24} />
+                  <div style={{ width: 60, height: 60, borderRadius: '50%', background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: 'var(--green)' }}>
+                    <IcoCheckCircle size={28} />
                   </div>
-                  <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 22, color: 'var(--text)', margin: '0 0 0.75rem' }}>Message envoyé !</h2>
-                  <p style={{ fontSize: 15, color: 'var(--text3)', lineHeight: 1.6 }}>Nous vous répondrons sous 48h à l'adresse <strong style={{ color: 'var(--text2)' }}>{form.email}</strong>.</p>
+                  <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.4rem', color: 'var(--text-head)', marginBottom: '0.75rem' }}>
+                    Merci, {firstName} !
+                  </h2>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text2)', lineHeight: 1.65, marginBottom: '2rem' }}>
+                    Nous avons bien reçu votre message. Nous vous répondrons à <strong>{form.email}</strong> sous 24h ouvrées.
+                  </p>
+                  <button
+                    onClick={() => { setStatus('idle'); setForm({ nom: '', email: '', organisation: '', sujet: '', message: '' }); }}
+                    style={{ background: 'transparent', border: '1px solid var(--border2)', color: 'var(--text2)', padding: '0.65rem 1.5rem', borderRadius: 10, cursor: 'pointer', fontSize: '0.875rem', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}
+                  >
+                    Envoyer un autre message
+                  </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                  <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 18, color: 'var(--text)', margin: '0 0 0.25rem' }}>Envoyer un message</h2>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="grid-2">
-                    <div>
-                      <label style={labelStyle}>Nom complet <span style={{ color: '#ef4444' }}>*</span></label>
-                      <input
-                        style={inputStyle} type="text" required
-                        placeholder="Moustapha Diallo"
-                        value={form.nom} onChange={set('nom')}
-                        onFocus={e => e.target.style.borderColor = 'rgba(139,92,246,0.5)'}
-                        onBlur={e => e.target.style.borderColor = 'var(--border)'}
-                      />
-                    </div>
-                    <div>
-                      <label style={labelStyle}>Email <span style={{ color: '#ef4444' }}>*</span></label>
-                      <input
-                        style={inputStyle} type="email" required
-                        placeholder="vous@entreprise.com"
-                        value={form.email} onChange={set('email')}
-                        onFocus={e => e.target.style.borderColor = 'rgba(139,92,246,0.5)'}
-                        onBlur={e => e.target.style.borderColor = 'var(--border)'}
-                      />
-                    </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <Field label="Nom complet" required>
+                      <input style={fieldBase} type="text" required value={form.nom} onChange={set('nom')}
+                        placeholder="Moustapha Diallo" onFocus={focusIn} onBlur={focusOut} />
+                    </Field>
+                    <Field label="Email" required>
+                      <input style={fieldBase} type="email" required value={form.email} onChange={set('email')}
+                        placeholder="vous@entreprise.com" onFocus={focusIn} onBlur={focusOut} />
+                    </Field>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="grid-2">
-                    <div>
-                      <label style={labelStyle}>Organisation</label>
-                      <input
-                        style={inputStyle} type="text"
-                        placeholder="Nom de l'entreprise"
-                        value={form.organisation} onChange={set('organisation')}
-                        onFocus={e => e.target.style.borderColor = 'rgba(139,92,246,0.5)'}
-                        onBlur={e => e.target.style.borderColor = 'var(--border)'}
-                      />
-                    </div>
-                    <div>
-                      <label style={labelStyle}>Taille de l'équipe</label>
-                      <select
-                        style={{ ...inputStyle, cursor: 'pointer' }}
-                        value={form.nb_utilisateurs} onChange={set('nb_utilisateurs')}
-                        onFocus={e => e.target.style.borderColor = 'rgba(139,92,246,0.5)'}
-                        onBlur={e => e.target.style.borderColor = 'var(--border)'}
-                      >
-                        <option value="">Sélectionner...</option>
-                        {NB_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <Field label="Organisation">
+                      <input style={fieldBase} type="text" value={form.organisation} onChange={set('organisation')}
+                        placeholder="Nom de l'entreprise" onFocus={focusIn} onBlur={focusOut} />
+                    </Field>
+                    <Field label="Sujet">
+                      <select style={{ ...fieldBase, cursor: 'pointer' }} value={form.sujet} onChange={set('sujet')} onFocus={focusIn} onBlur={focusOut}>
+                        {SUJET_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                       </select>
-                    </div>
+                    </Field>
                   </div>
 
-                  <div>
-                    <label style={labelStyle}>Message <span style={{ color: '#ef4444' }}>*</span></label>
+                  <Field label="Message" required>
                     <textarea
-                      style={{ ...inputStyle, minHeight: 140, resize: 'vertical' }}
+                      style={{ ...fieldBase, minHeight: 140, resize: 'vertical' }}
                       required
-                      placeholder="Décrivez votre besoin, votre contexte, vos questions..."
-                      value={form.message} onChange={set('message')}
-                      onFocus={e => e.target.style.borderColor = 'rgba(139,92,246,0.5)'}
-                      onBlur={e => e.target.style.borderColor = 'var(--border)'}
+                      value={form.message}
+                      onChange={set('message')}
+                      placeholder="Décrivez votre besoin ou votre question..."
+                      onFocus={focusIn}
+                      onBlur={focusOut}
                     />
-                  </div>
+                  </Field>
 
                   {status === 'error' && (
-                    <p style={{ fontSize: 13, color: '#ef4444', margin: 0, padding: '10px 14px', borderRadius: 8, background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)' }}>
+                    <p style={{ fontSize: '0.82rem', color: '#ef4444', padding: '10px 14px', borderRadius: 8, background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.18)', margin: 0 }}>
                       {errorMsg}
                     </p>
                   )}
@@ -165,60 +243,26 @@ export default function ContactPage() {
                     type="submit"
                     disabled={status === 'loading'}
                     className="btn-primary"
-                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, background: '#8b5cf6', color: '#fff', fontSize: 15, cursor: status === 'loading' ? 'wait' : 'pointer', boxShadow: '0 4px 24px rgba(139,92,246,0.3)', opacity: status === 'loading' ? 0.7 : 1 }}
+                    style={{
+                      alignSelf: 'flex-start',
+                      display: 'inline-flex', alignItems: 'center', gap: 8,
+                      padding: '0.8rem 1.75rem', borderRadius: 10,
+                      background: 'var(--accent)', color: '#07111f', border: 'none',
+                      fontSize: '0.9rem', cursor: status === 'loading' ? 'wait' : 'pointer',
+                      opacity: status === 'loading' ? 0.7 : 1,
+                    }}
                   >
-                    {status === 'loading' ? 'Envoi...' : <><span>Envoyer le message</span><IcoArrow /></>}
+                    {status === 'loading' ? 'Envoi en cours…' : <><span>Envoyer le message</span><IcoArrow size={16} /></>}
                   </button>
+
                 </form>
               )}
             </div>
-          </Reveal>
-
-          {/* Aside */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            <Reveal delay={100}>
-              <div className="card" style={{ padding: '1.75rem', borderRadius: 16 }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#8b5cf6', letterSpacing: '0.12em', marginBottom: '1rem' }}>RÉPONSE RAPIDE</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  {[
-                    'Réponse sous 48h ouvrées',
-                    'Démo personnalisée disponible',
-                    'Devis adapté à votre équipe',
-                    'Accompagnement à l\'onboarding',
-                  ].map(item => (
-                    <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--text2)' }}>
-                      <span style={{ color: '#8b5cf6', flexShrink: 0 }}><IcoCheck size={14} /></span>
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal delay={180}>
-              <div style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(47,217,244,0.12)', background: 'rgba(47,217,244,0.03)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '0.75rem' }}>
-                  <IcoShield size={16} style={{ color: '#2fd9f4' }} />
-                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#2fd9f4', letterSpacing: '0.12em', margin: 0 }}>SÉCURITÉ</p>
-                </div>
-                <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: 0 }}>
-                  Vos informations de contact ne sont utilisées que pour vous répondre. Elles ne sont jamais partagées ni revendues.
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal delay={240}>
-              <div className="card" style={{ padding: '1.75rem', borderRadius: 16 }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--text4)', letterSpacing: '0.12em', marginBottom: '0.75rem' }}>EMAIL DIRECT</p>
-                <a href="mailto:support@dencpass.com" style={{ fontSize: 13, color: '#2fd9f4', wordBreak: 'break-all' }}>
-                  support@dencpass.com
-                </a>
-              </div>
-            </Reveal>
           </div>
-
-        </div>
+        </Reveal>
       </section>
+
+    </main>
     </PublicLayout>
-  )
+  );
 }

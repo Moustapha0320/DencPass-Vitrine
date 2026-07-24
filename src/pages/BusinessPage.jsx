@@ -1,232 +1,263 @@
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import PublicLayout from '../components/layout/PublicLayout'
-import { Reveal, IcoArrow, IcoCheck, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoKey, IcoClipboard, IcoBuilding, IcoGlobe } from '../components/shared'
+import PublicLayout from '../components/layout/PublicLayout';
+import { Reveal, IcoArrow, IcoUsers, IcoKey, IcoLayers, IcoActivity, IcoClipboard, IcoShield, IcoCloud, IcoServer, IcoLink2, IcoBuilding } from '../components/shared';
 
-const B2B_FEATURES = [
+const capabilities = [
+  { Icon: IcoUsers,     title: 'Multi-organisations',    desc: 'Gérez plusieurs entités depuis un tableau de bord unifié.' },
+  { Icon: IcoKey,       title: 'Rôles & permissions',   desc: 'Définissez des droits granulaires par utilisateur et par coffre.' },
+  { Icon: IcoLayers,    title: 'Active Directory',       desc: 'Synchronisation LDAP/AD — On-Premise uniquement.', tag: 'On-Premise' },
+  { Icon: IcoActivity,  title: 'SIEM / Syslog',          desc: 'Exportez tous les événements vers votre infrastructure de supervision.' },
+  { Icon: IcoClipboard, title: 'Journalisation',         desc: 'Chaque accès, modification ou export est horodaté et signé.' },
+  { Icon: IcoShield,    title: 'Conformité',             desc: 'Piste d\'audit complète pour ISO 27001, SOC 2 et réglementations locales.' },
+];
+
+const deployments = [
   {
-    Icon: IcoUsers,
-    title: 'Organisations multi-tenant',
-    desc: 'Plusieurs organisations sur la même instance. Isolation totale des données entre entités, idéal pour les groupes et filiales.',
+    label: 'SAAS MANAGÉ',
+    Icon: IcoCloud,
+    title: 'Enterprise Cloud',
+    desc: 'Hébergé, maintenu et sécurisé par nos équipes. Démarrez en quelques minutes, sans infrastructure.',
+    features: ['Tout Pro inclus', 'Équipes & groupes', 'SIEM / Syslog', 'Audit complet', 'Support dédié'],
+    cta: { label: 'Nous contacter', href: '/contact' },
+    accent: 'var(--accent)',
+    accentBg: 'var(--accent-014)',
   },
   {
-    Icon: IcoShield,
-    title: 'Groupes & permissions',
-    desc: 'Définissez des rôles (admin, membre, lecteur) et des groupes. Les entrées du coffre héritent des permissions de leur groupe.',
+    label: 'SUR VOTRE INFRA',
+    Icon: IcoServer,
+    title: 'Enterprise On-Premise',
+    desc: 'Déploiement Docker ou bare-metal dans votre datacenter. Contrôle total de vos données.',
+    features: ['100% sur site', 'Docker / bare-metal', 'LDAP / Active Directory', 'Licence annuelle', 'Maintenance incluse'],
+    cta: { label: 'Demander un devis', href: '/contact' },
+    accent: 'var(--purple)',
+    accentBg: 'var(--purple-014)',
+  },
+];
+
+const integrations = [
+  {
+    Icon: IcoLayers,
+    title: 'Active Directory & LDAP',
+    desc: 'Synchronisation bidirectionnelle des utilisateurs et des groupes. Provisioning automatique.',
+    tag: 'On-Premise uniquement',
+    tagColor: 'var(--purple)',
+    tagBg: 'var(--purple-014)',
   },
   {
     Icon: IcoActivity,
-    title: 'SIEM & Activity log',
-    desc: 'Chaque action tracée en temps réel. Export vers Splunk, Elastic, Wazuh via webhook HTTP ou Syslog RFC 5424.',
+    title: 'SIEM & Syslog',
+    desc: 'Envoi des événements d\'audit en temps réel via syslog RFC 5424 vers votre SIEM.',
+    tag: null,
+  },
+  {
+    Icon: IcoLink2,
+    title: 'Webhooks',
+    desc: 'Déclenchez des actions dans vos outils internes à chaque connexion, modification ou alerte.',
+    tag: null,
   },
   {
     Icon: IcoClipboard,
-    title: 'Audit d\'activité centralisé',
-    desc: 'Vue globale sur l\'ensemble des accès : qui a ouvert quoi, quand, depuis quelle IP. Logs structurés JSON horodatés.',
+    title: 'Splunk / Elastic / Wazuh',
+    desc: 'Connecteurs natifs pour les principales plateformes d\'observabilité et de détection.',
+    tag: null,
   },
-  {
-    Icon: IcoServer,
-    title: 'Active Directory (LDAP)',
-    desc: 'Authentification native via votre AD/LDAP existant. Synchronisation des utilisateurs et groupes depuis votre annuaire.',
-  },
-  {
-    Icon: IcoKey,
-    title: 'Coffre des secrets API',
-    desc: 'Tokens SSH, clés API, credentials base de données, partagés entre équipes avec journal d\'accès complet par entrée.',
-  },
-]
-
-const TIERS = [
-  {
-    label: 'Startup (< 10 personnes)',
-    plan: 'Community / Pro',
-    desc: 'Comptes individuels Pro pour chaque membre. Partages via liens temporaires. Pas besoin d\'Enterprise pour commencer.',
-    price: '2 000 FCFA / membre / mois',
-    cta: { label: 'Commencer en Pro', href: 'https://app.dencpass.com/register' },
-  },
-  {
-    label: 'PME (10–200 personnes)',
-    plan: 'Enterprise SaaS',
-    desc: 'Gestion centralisée, équipes et groupes, audit d\'activité. Hébergé et maintenu par DencPass, rien à gérer côté infrastructure.',
-    price: 'Sur devis, paiement FCFA',
-    cta: { label: 'Demander un devis', to: '/contact' },
-    highlight: true,
-  },
-  {
-    label: 'Grande entreprise / Gouvernement',
-    plan: 'Enterprise On-Premise',
-    desc: 'Déployé sur votre infrastructure (Docker ou bare metal). Données sur vos serveurs, intégration AD, SIEM et conformité totale.',
-    price: 'Licence annuelle sur devis',
-    cta: { label: 'Contacter notre équipe', to: '/contact' },
-  },
-]
+];
 
 export default function BusinessPage() {
-  useEffect(() => { document.title = 'Entreprises | DencPass' }, [])
-
   return (
     <PublicLayout>
-      {/* Hero */}
-      <section style={{ paddingTop: 62, minHeight: '70vh', display: 'flex', alignItems: 'center', background: 'var(--bg)', position: 'relative', overflow: 'hidden', padding: '120px max(1.5rem, calc((100% - 1200px) / 2)) 5rem' }} className="section-pad">
-        <div style={{ position: 'absolute', top: '20%', right: '10%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
-          <Reveal>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid rgba(139,92,246,0.25)', background: 'rgba(139,92,246,0.07)', marginBottom: '1.75rem', animation: 'fade-up 0.6s ease both 0.05s' }}>
-              <IcoBuilding size={13} style={{ color: '#8b5cf6' }} />
-              <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: '#8b5cf6', letterSpacing: '0.1em' }}>ENTERPRISE · POUR LES ÉQUIPES</span>
-            </div>
-            <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.5rem,5.5vw,4rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.25rem', lineHeight: 1.05, maxWidth: 700 }}>
-              Gestion centralisée.<br />Contrôle total.
-            </h1>
-            <p style={{ fontSize: 18, color: 'var(--text3)', maxWidth: 560, marginBottom: '2.5rem', lineHeight: 1.8, fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
-              DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès, avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks. Déployé en SaaS ou sur votre infrastructure.
-            </p>
-            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', animation: 'fade-up 0.7s ease both 0.35s' }}>
-              <Link to="/contact"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: '#8b5cf6', color: '#fff', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 28px rgba(139,92,246,0.35)' }}>
-                Demander une démo <IcoArrow />
-              </Link>
-              <Link to="/pricing" className="btn-ghost"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid rgba(139,92,246,0.3)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-                Voir les tarifs
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
 
-      {/* B2B Features */}
-      <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <Reveal>
-            <div style={{ marginBottom: '3.5rem' }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#8b5cf6', letterSpacing: '0.16em', marginBottom: '1rem' }}>FONCTIONNALITÉS ENTERPRISE</p>
-              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>
-                Tout ce que l'IT attend.
-              </h2>
-            </div>
-          </Reveal>
-          <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
-            {B2B_FEATURES.map(({ Icon, title, desc }, i) => (
-              <Reveal key={title} delay={(i % 3) * 90}>
-                <div className="card-hover" style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid rgba(139,92,246,0.12)', background: 'var(--bg-card)' }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b5cf6', marginBottom: '1rem' }}><Icon /></div>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.45rem' }}>{title}</h3>
-                  <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.65, margin: 0 }}>{desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Tiers by company size */}
-      <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }} className="section-pad">
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <Reveal>
-            <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#8b5cf6', letterSpacing: '0.16em', marginBottom: '1rem' }}>PAR TAILLE D'ÉQUIPE</p>
-              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>
-                Adapté à votre structure.
-              </h2>
-            </div>
-          </Reveal>
-          <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem' }}>
-            {TIERS.map((tier, i) => (
-              <Reveal key={tier.label} delay={i * 100}>
-                <div className="price-card" style={{ padding: '2.25rem', borderRadius: 20, border: tier.highlight ? '1px solid rgba(139,92,246,0.45)' : '1px solid rgba(139,92,246,0.12)', background: 'var(--bg-card)', position: 'relative', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', boxShadow: tier.highlight ? '0 24px 64px rgba(139,92,246,0.1)' : 'none', boxSizing: 'border-box' }}>
-                  {tier.highlight && <div style={{ position: 'absolute', top: 0, right: 20, background: '#8b5cf6', color: '#fff', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px' }}>RECOMMANDÉ</div>}
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: tier.highlight ? 'linear-gradient(90deg,#8b5cf6,rgba(139,92,246,0.2))' : 'linear-gradient(90deg,rgba(139,92,246,0.3),transparent)', pointerEvents: 'none' }} />
-                  <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: '#8b5cf6', letterSpacing: '0.1em', marginBottom: '0.5rem', opacity: 0.8 }}>{tier.label.toUpperCase()}</p>
-                  <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 18, color: 'var(--text)', marginBottom: '0.75rem' }}>{tier.plan}</p>
-                  <p style={{ fontSize: 13, color: 'var(--text3)', lineHeight: 1.7, flex: 1, marginBottom: '1.5rem' }}>{tier.desc}</p>
-                  <div style={{ padding: '0.75rem 1rem', borderRadius: 10, background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.15)', marginBottom: '1.25rem' }}>
-                    <p style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: '#8b5cf6', margin: 0 }}>{tier.price}</p>
-                  </div>
-                  {tier.cta.to
-                    ? <Link to={tier.cta.to}
-                        style={{ display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", transition: 'all 0.2s', ...(tier.highlight ? { background: '#8b5cf6', color: '#fff', boxShadow: '0 4px 20px rgba(139,92,246,0.3)' } : { background: 'transparent', border: '1px solid rgba(139,92,246,0.25)', color: '#8b5cf6' }) }}>
-                        {tier.cta.label}
-                      </Link>
-                    : <a href={tier.cta.href}
-                        style={{ display: 'block', textAlign: 'center', padding: '12px 0', borderRadius: 11, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", transition: 'all 0.2s', ...(tier.highlight ? { background: '#8b5cf6', color: '#fff', boxShadow: '0 4px 20px rgba(139,92,246,0.3)' } : { background: 'transparent', border: '1px solid rgba(139,92,246,0.25)', color: '#8b5cf6' }) }}>
-                        {tier.cta.label}
-                      </a>
-                  }
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Security for enterprise */}
-      <section style={{ padding: '7rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }} className="section-pad">
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }} className="hero-grid">
-            <Reveal>
-              <div>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#8b5cf6', letterSpacing: '0.16em', marginBottom: '1rem' }}>SÉCURITÉ ENTREPRISE</p>
-                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1.25rem', lineHeight: 1.15 }}>
-                  Conformité et contrôle.
-                </h2>
-                <p style={{ fontSize: 16, color: 'var(--text3)', lineHeight: 1.8, marginBottom: '1.75rem' }}>
-                  DencPass Enterprise est conçu pour répondre aux exigences des équipes sécurité les plus strictes : traçabilité totale, chiffrement AES-256-GCM, intégrations SIEM.
-                </p>
-                <Link to="/security" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 600, color: '#2fd9f4' }}>
-                  Architecture de sécurité complète <IcoArrow size={13} />
-                </Link>
-              </div>
-            </Reveal>
-            <Reveal delay={100}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {[
-                  { label: 'Chiffrement AES-256-GCM', sub: 'Chaque entrée chiffrée individuellement' },
-                  { label: 'Chiffrement géré par infrastructure', sub: 'Clés protégées et accès audité côté serveur' },
-                  { label: 'Logs d\'audit complets', sub: 'Export JSON, Syslog, webhook SIEM' },
-                  { label: 'Contrôle d\'accès RBAC', sub: 'Rôles et permissions granulaires' },
-                  { label: 'On-Premise disponible', sub: 'Données sur vos serveurs, sous votre contrôle' },
-                  { label: 'RGPD & conformité', sub: 'Hébergement UE, DPA disponible' },
-                ].map(({ label, sub }) => (
-                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '0.9rem 1.1rem', borderRadius: 12, border: '1px solid rgba(139,92,246,0.1)', background: 'var(--bg-card)' }}>
-                    <span style={{ color: '#8b5cf6', flexShrink: 0 }}><IcoCheck size={14} /></span>
-                    <div>
-                      <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text2)', fontFamily: "'Space Grotesk', sans-serif", margin: 0 }}>{label}</p>
-                      <p style={{ fontSize: 12, color: 'var(--text5)', margin: 0 }}>{sub}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact CTA */}
-      <section style={{ padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)', textAlign: 'center' }} className="section-pad">
+      {/* ── Hero 2-col ── */}
+      <section style={{
+        padding: 'clamp(5rem,12vw,8rem) max(1.25rem, calc((100vw - 1200px)/2)) clamp(3rem,6vw,5rem)',
+        background: 'radial-gradient(ellipse 70% 60% at 30% 40%, rgba(139,92,246,0.10) 0%, transparent 65%)',
+      }}>
         <Reveal>
-          <div style={{ maxWidth: 600, margin: '0 auto', padding: '3rem', borderRadius: 24, border: '1px solid rgba(139,92,246,0.2)', background: 'linear-gradient(135deg, rgba(139,92,246,0.05) 0%, rgba(47,217,244,0.03) 100%)', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#8b5cf6', letterSpacing: '0.16em', marginBottom: '1rem', position: 'relative' }}>DÉMARRER</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1, position: 'relative' }}>
-              Prêt à protéger votre organisation ?
-            </h2>
-            <p style={{ fontSize: 15, color: 'var(--text3)', marginBottom: '2rem', position: 'relative' }}>
-              Contactez-nous pour une démo personnalisée et un devis adapté à votre équipe.
-            </p>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
-              <Link to="/contact"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#8b5cf6', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px rgba(139,92,246,0.3)' }}>
-                Demander une démo <IcoArrow />
-              </Link>
-              <Link to="/pricing"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 22px', borderRadius: 12, border: '1px solid rgba(139,92,246,0.3)', color: 'var(--text3)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-                Voir les tarifs
-              </Link>
+          <div style={{ display: 'grid', gridTemplateColumns: 'clamp(280px,48%,560px) 1fr', gap: 'clamp(2rem,5vw,4rem)', alignItems: 'center' }}>
+            {/* Left */}
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--purple-014)', border: '1px solid var(--purple-025)', borderRadius: 20, padding: '4px 14px', marginBottom: '1.5rem' }}>
+                <IcoBuilding size={13} style={{ color: 'var(--purple)' }} />
+                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.12em', color: 'var(--purple)', textTransform: 'uppercase' }}>Enterprise</span>
+              </div>
+              <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.75rem,4vw,2.75rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1.25rem' }}>
+                La gouvernance des accès,<br />pour vos équipes.
+              </h1>
+              <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', lineHeight: 1.7, marginBottom: '2rem' }}>
+                Centralisez la gestion des mots de passe, des secrets et des permissions pour toute votre organisation — avec l'audit, la conformité et l'intégration à vos outils existants.
+              </p>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <a href="/contact" className="btn-primary" style={{
+                  background: 'var(--purple)', color: '#fff', border: 'none',
+                  padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                }}>
+                  Contacter l'équipe <IcoArrow size={16} />
+                </a>
+                <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
+                  background: 'transparent', color: 'var(--text)',
+                  border: '1px solid var(--border2)',
+                  padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
+                }}>
+                  Essayer gratuitement
+                </a>
+              </div>
+            </div>
+
+            {/* Right — capabilities 2x3 */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+              {capabilities.map(({ Icon, title, desc, tag }) => (
+                <div key={title} style={{
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--purple-014)',
+                  borderRadius: 14,
+                  padding: '1.1rem 1.25rem',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.5rem' }}>
+                    <span style={{ color: 'var(--purple)' }}><Icon size={16} /></span>
+                    <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-head)' }}>{title}</span>
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text2)', lineHeight: 1.5 }}>{desc}</p>
+                  {tag && (
+                    <span style={{ display: 'inline-block', marginTop: 8, fontSize: '0.68rem', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600, color: 'var(--purple)', background: 'var(--purple-06)', padding: '2px 8px', borderRadius: 6 }}>
+                      {tag}
+                    </span>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </Reveal>
       </section>
+
+      {/* ── Deployment ── */}
+      <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 1100px)/2))' }}>
+        <Reveal>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '2rem' }}>
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+              Deux modes de déploiement
+            </span>
+            <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: '1.5rem' }}>
+            {deployments.map(({ label, Icon, title, desc, features, cta, accent, accentBg }) => (
+              <div key={title} style={{
+                background: 'var(--bg-card)',
+                border: `1px solid ${accent}33`,
+                borderTop: `3px solid ${accent}`,
+                borderRadius: 18,
+                padding: '2rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem',
+              }}>
+                <div>
+                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.12em', color: accent, textTransform: 'uppercase', display: 'block', marginBottom: 8 }}>{label}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 12, background: accentBg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: accent }}>
+                      <Icon size={20} />
+                    </div>
+                    <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.15rem', color: 'var(--text-head)' }}>{title}</h3>
+                  </div>
+                </div>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text2)', lineHeight: 1.6 }}>{desc}</p>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {features.map(f => (
+                    <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.875rem', color: 'var(--text2)' }}>
+                      <span style={{ color: accent, flexShrink: 0 }}>✓</span> {f}
+                    </li>
+                  ))}
+                </ul>
+                <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.4rem', color: 'var(--text-head)', marginTop: 4 }}>
+                  Sur devis
+                </div>
+                <a href={cta.href} className="btn-primary" style={{
+                  background: accent, color: accent === 'var(--accent)' ? '#07111f' : '#fff',
+                  border: 'none', padding: '0.75rem 1.5rem', borderRadius: 10, fontSize: '0.875rem',
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                }}>
+                  {cta.label} <IcoArrow size={15} />
+                </a>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── Integrations ── */}
+      <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 1100px)/2))' }}>
+        <Reveal>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '2rem' }}>
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+              Dans votre stack existante
+            </span>
+            <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px,1fr))', gap: '1rem' }}>
+            {integrations.map(({ Icon, title, desc, tag, tagColor, tagBg }) => (
+              <div key={title} style={{
+                background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, padding: '1.5rem',
+                transition: 'border-color 0.2s, transform 0.2s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border2)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; }}
+              >
+                <div style={{ width: 40, height: 40, borderRadius: 12, background: 'var(--accent-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', marginBottom: '1rem' }}>
+                  <Icon size={20} />
+                </div>
+                <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-head)', marginBottom: '0.5rem' }}>{title}</h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text2)', lineHeight: 1.6, marginBottom: tag ? '0.75rem' : 0 }}>{desc}</p>
+                {tag && (
+                  <span style={{ fontSize: '0.68rem', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600, color: tagColor, background: tagBg, padding: '3px 8px', borderRadius: 6 }}>
+                    {tag}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── CTA purple ── */}
+      <section style={{ padding: 'clamp(3rem,8vw,5rem) max(1.25rem, calc((100vw - 1100px)/2))' }}>
+        <Reveal>
+          <div style={{
+            background: 'radial-gradient(ellipse 80% 70% at 50% 50%, rgba(139,92,246,0.14) 0%, transparent 70%)',
+            border: '1px solid var(--purple-025)',
+            borderRadius: 24,
+            padding: 'clamp(2.5rem,5vw,3.5rem)',
+            textAlign: 'center',
+            position: 'relative',
+            overflow: 'hidden',
+          }}>
+            <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '60%', height: 2, background: 'var(--purple)', opacity: 0.5 }} />
+            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.5rem,3.5vw,2.25rem)', color: 'var(--text-head)', marginBottom: '1rem' }}>
+              Parlons de votre organisation.
+            </h2>
+            <p style={{ fontSize: '1rem', color: 'var(--text2)', maxWidth: 480, margin: '0 auto 2rem', lineHeight: 1.7 }}>
+              Notre équipe est disponible pour une démonstration, un audit de sécurité ou un chiffrage personnalisé.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="/contact" className="btn-primary" style={{
+                background: 'var(--purple)', color: '#fff', border: 'none',
+                padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+              }}>
+                Prendre contact <IcoArrow size={16} />
+              </a>
+              <a href="/tarifs" className="btn-primary" style={{
+                background: 'transparent', color: 'var(--text)',
+                border: '1px solid var(--border2)',
+                padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
+              }}>
+                Voir les tarifs
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+    </main>
     </PublicLayout>
-  )
+  );
 }
