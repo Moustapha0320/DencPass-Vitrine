@@ -135,18 +135,9 @@ function HeroSection() {
   return (
     <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'flex-start', overflow: 'hidden', paddingTop: 62, background: 'var(--bg)' }}>
       <DotField
-        dotRadius={1}
-        dotSpacing={24}
-        bulgeStrength={28}
-        glowRadius={90}
-        sparkle={false}
-        waveAmplitude={0}
-        cursorRadius={110}
-        cursorForce={0.08}
-        bulgeOnly
-        gradientFrom={isDark ? 'rgba(47, 217, 244, 0.32)' : 'rgba(10, 155, 184, 0.40)'}
-        gradientTo={isDark ? 'rgba(139, 92, 246, 0.20)' : 'rgba(124, 58, 237, 0.28)'}
-        glowColor={isDark ? 'rgba(47, 217, 244, 0.10)' : 'rgba(10, 155, 184, 0.15)'}
+        gradientFrom={isDark ? 'rgba(47, 217, 244, 0.30)' : 'rgba(10, 139, 166, 0.32)'}
+        gradientTo={isDark ? 'rgba(139, 92, 246, 0.22)' : 'rgba(109, 63, 212, 0.20)'}
+        glowColor={isDark ? 'rgba(47, 217, 244, 0.16)' : 'rgba(10, 139, 166, 0.18)'}
         style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}
         aria-hidden="true"
       />

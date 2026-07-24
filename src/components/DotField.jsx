@@ -5,18 +5,18 @@ import { prefersReducedMotion } from './shared';
 const TWO_PI = Math.PI * 2;
 
 const DotField = memo(({
-  dotRadius = 1.5,
-  dotSpacing = 14,
-  cursorRadius = 500,
+  dotRadius = 1.4,
+  dotSpacing = 20,
+  cursorRadius = 460,
   cursorForce = 0.1,
   bulgeOnly = true,
-  bulgeStrength = 67,
-  glowRadius = 160,
+  bulgeStrength = 60,
+  glowRadius = 200,
   sparkle = false,
   waveAmplitude = 0,
-  gradientFrom = 'rgba(168, 85, 247, 0.35)',
-  gradientTo = 'rgba(180, 151, 207, 0.25)',
-  glowColor = '#120F17',
+  gradientFrom = 'rgba(47, 217, 244, 0.30)',
+  gradientTo = 'rgba(139, 92, 246, 0.22)',
+  glowColor = 'rgba(47, 217, 244, 0.16)',
   ...rest
 }) => {
   const canvasRef = useRef(null);
@@ -221,7 +221,7 @@ const DotField = memo(({
 
     return () => {
       cancelAnimationFrame(rafRef.current);
-      clearInterval(speedInterval);
+      if (speedInterval) clearInterval(speedInterval);
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
