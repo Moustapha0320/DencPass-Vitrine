@@ -133,7 +133,7 @@ function HeroSection() {
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
 
   return (
-    <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden', paddingTop: 62, background: 'var(--bg)' }}>
+    <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'flex-start', overflow: 'hidden', paddingTop: 62, background: 'var(--bg)' }}>
       <DotField
         dotRadius={1}
         dotSpacing={24}
