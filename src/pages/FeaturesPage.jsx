@@ -42,14 +42,14 @@ const FEATURES = [
     accent: '#2fd9f4',
     title: 'Extension Chrome',
     desc: 'Remplissage automatique des formulaires web, détection des pages de connexion et génération à la volée depuis le navigateur.',
-    tags: ['Remplissage auto', 'Détection de domaine', 'Générer & enregistrer', 'Mode hors-ligne'],
+    tags: ['Disponible sur Chrome', 'Firefox · Edge en développement', 'Générer & enregistrer', 'Mode hors-ligne'],
   },
   {
     Icon: IcoZap,
     accent: '#f59e0b',
     title: 'Passphrase africaine',
-    desc: 'Générez des phrases de passe mémorables construites à partir d\'un wordlist africain unifié — mots en Wolof, Swahili, Bambara, Hausa et d\'autres langues du continent mélangés.',
-    tags: ['Wordlist africain unifié', 'Phrases mémorables', 'Facile à retenir', 'Séparateur personnalisable'],
+    desc: 'Générez des phrases de passe mémorables construites à partir d\'un lexique multilingue puisant dans plusieurs langues africaines (wolof, swahili, bambara, yoruba, hausa, zulu, igbo).',
+    tags: ['Lexique multilingue africain', 'Séparateur personnalisable', 'Facile à retenir'],
   },
   {
     Icon: IcoShield,
@@ -75,16 +75,14 @@ const FEATURES = [
 ]
 
 const COMPARE = [
-  { label: 'Chiffrement AES-256-GCM',       dp: true,  others: true  },
-  { label: 'Chiffrement côté serveur',        dp: true,  others: true  },
-  { label: '2FA TOTP',                       dp: true,  others: true  },
-  { label: 'Extension navigateur',           dp: true,  others: true  },
+  { label: 'Architecture zero-knowledge',      dp: 'Chiffrement côté serveur', others: true,  othersLabel: 'Chez la plupart' },
+  { label: '2FA TOTP',                        dp: true,  others: true  },
+  { label: 'Extension navigateur',            dp: true,  dpLabel: 'Chrome (Firefox/Edge à venir)', others: true, othersLabel: 'Multi-navigateurs' },
   { label: 'Passphrase en langues africaines', dp: true,  others: false },
-  { label: 'Paiement en FCFA / Wave',        dp: true,  others: false },
-  { label: 'Interface en français',          dp: true,  others: false },
-  { label: 'Hébergement conforme Africa',    dp: true,  others: false },
-  { label: 'Support équipes africaines',     dp: true,  others: false },
-  { label: 'Plan gratuit (limité)',           dp: true,  others: false },
+  { label: 'Paiement FCFA / Wave / Orange Money', dp: true, others: false },
+  { label: 'Interface multilingue',           dp: false, dpLabel: 'Français', others: true  },
+  { label: 'Hébergement / support Afrique de l\'Ouest', dp: true, others: false },
+  { label: 'Plan gratuit',                    dp: true,  dpLabel: '✓ (limité)', others: true,  othersLabel: '✓ (variable)' },
 ]
 
 export default function FeaturesPage() {
@@ -162,14 +160,18 @@ export default function FeaturesPage() {
                 <div style={{ padding: '1rem', textAlign: 'center', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 14, color: '#2fd9f4', background: 'rgba(47,217,244,0.07)', borderLeft: '1px solid rgba(47,217,244,0.12)', borderRight: '1px solid rgba(47,217,244,0.12)' }}>DencPass</div>
                 <div style={{ padding: '1rem', textAlign: 'center', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 14, color: 'var(--text3)' }}>Autres</div>
               </div>
-              {COMPARE.map(({ label, dp, others }, i) => (
+              {COMPARE.map(({ label, dp, dpLabel, others, othersLabel }, i) => (
                 <div key={label} style={{ display: 'grid', gridTemplateColumns: '1fr 160px 160px', borderBottom: i < COMPARE.length - 1 ? '1px solid var(--border)' : 'none' }}>
                   <div style={{ padding: '0.9rem 1.5rem', fontSize: 14, color: 'var(--text2)' }}>{label}</div>
-                  <div style={{ padding: '0.9rem', textAlign: 'center', color: dp ? '#22c55e' : '#ef4444', background: 'rgba(47,217,244,0.04)', borderLeft: '1px solid rgba(47,217,244,0.1)', borderRight: '1px solid rgba(47,217,244,0.1)' }}>
-                    {dp ? <IcoCheck size={16} /> : '✗'}
+                  <div style={{ padding: '0.9rem', textAlign: 'center', background: 'rgba(47,217,244,0.04)', borderLeft: '1px solid rgba(47,217,244,0.1)', borderRight: '1px solid rgba(47,217,244,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {dpLabel
+                      ? <span style={{ fontSize: 12, color: dp ? '#22c55e' : 'var(--text3)', lineHeight: 1.4, textAlign: 'center' }}>{dpLabel}</span>
+                      : <span style={{ color: dp ? '#22c55e' : '#ef4444' }}>{dp ? <IcoCheck size={16} /> : '✗'}</span>}
                   </div>
-                  <div style={{ padding: '0.9rem', textAlign: 'center', color: others ? '#22c55e' : 'var(--text3)', fontSize: others ? 'inherit' : 13 }}>
-                    {others ? <IcoCheck size={16} /> : 'Rarement'}
+                  <div style={{ padding: '0.9rem', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {othersLabel
+                      ? <span style={{ fontSize: 12, color: others ? '#22c55e' : 'var(--text3)', lineHeight: 1.4, textAlign: 'center' }}>{othersLabel}</span>
+                      : <span style={{ color: others ? '#22c55e' : 'var(--text3)', fontSize: others ? 'inherit' : 13 }}>{others ? <IcoCheck size={16} /> : 'Non'}</span>}
                   </div>
                 </div>
               ))}

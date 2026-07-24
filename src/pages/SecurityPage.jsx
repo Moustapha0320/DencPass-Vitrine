@@ -28,7 +28,7 @@ const PILLARS = [
   {
     Icon: IcoEye, accent: '#22c55e',
     title: 'Protection contre les fuites',
-    desc: 'Les clés de chiffrement sont détenues côté serveur, séparées de la base de données. Une fuite de la base expose des données chiffrées, non des secrets en clair.',
+    desc: 'En cas de fuite isolée de la base de données (sans compromission du serveur d\'application), aucun secret n\'est exposé en clair : chaque entrée est chiffrée individuellement avec AES-256-GCM. La clé de chiffrement, elle, est protégée séparément sur notre infrastructure serveur.',
     details: [
       'Chiffrement par entrée : une clé compromise n\'affecte pas les autres',
       'Identifiant kid par clé : rotation sans interruption de service',
@@ -58,7 +58,7 @@ const INFRA = [
 
 const SEC_FAQS = [
   { q: 'Que se passe-t-il si j\'oublie mon mot de passe principal ?', a: 'Un lien de réinitialisation est envoyé à votre adresse email, valable 1 heure. Après réinitialisation, toutes vos données restent intégralement accessibles, le chiffrement de vos secrets est indépendant de votre mot de passe de connexion.' },
-  { q: 'DencPass a-t-il accès à mes mots de passe ?', a: 'Non. Vos mots de passe sont chiffrés avec AES-256-GCM avant tout stockage en base de données. Aucun membre de l\'équipe DencPass ne peut lire vos mots de passe stockés. Les clés de chiffrement sont gérées côté serveur et séparées de la base de données — leur accès est audité et strictement restreint.' },
+  { q: 'DencPass a-t-il accès à mes mots de passe ?', a: 'Techniquement, notre infrastructure détient les clés nécessaires au chiffrement et déchiffrement des données, ce qui nous permet notamment de vous permettre de récupérer l\'accès à votre compte en cas d\'oubli de mot de passe. L\'accès à ces clés est strictement limité, audité, et jamais utilisé pour consulter vos données sans votre demande explicite (ex : support technique avec votre autorisation). Ce n\'est pas une architecture "zero-knowledge" — nous faisons ce choix pour offrir une récupération de compte fiable, un compromis assumé entre sécurité maximale et facilité d\'usage.' },
   { q: 'Mes données sont-elles accessibles par les équipes DencPass ?', a: 'Aucun membre de l\'équipe DencPass ne peut lire vos mots de passe, secrets ou certificats — ils sont chiffrés et ne sont lisibles que par votre session active. Les seules données accessibles en interne sont les métadonnées de compte (email, date d\'inscription, logs de connexion).' },
   { q: 'Comment DencPass réagit en cas de fuite de données ?', a: 'En cas d\'incident, les utilisateurs concernés sont notifiés par email dans les 72 heures. Les données exposées étant chiffrées, une fuite de base de données n\'expose pas vos secrets en clair. Un rapport d\'incident est publié sous 30 jours.' },
   { q: 'L\'extension Chrome a-t-elle accès à tous les sites que je visite ?', a: 'L\'extension ne s\'active que sur les pages contenant des champs de formulaire identifiés comme des champs de connexion. Elle ne transmet aucune donnée de navigation à nos serveurs, le traitement de détection se fait localement dans le navigateur.' },
@@ -101,7 +101,7 @@ export default function SecurityPage() {
             Chiffrement robuste,<br />à chaque étape.
           </h1>
           <p style={{ fontSize: 18, color: 'var(--text3)', maxWidth: 560, margin: '0 auto 2.5rem', lineHeight: 1.75 }}>
-            Vos données sont chiffrées avec AES-256-GCM côté serveur avant tout stockage. Les clés de chiffrement sont gérées par nos serveurs et isolées de la base de données — en cas de fuite, les données restent illisibles.
+            Vos données sont chiffrées avec AES-256-GCM avant d'être stockées. Nos clés de chiffrement sont gérées et protégées par notre infrastructure, avec un accès strictement limité et audité. En cas de fuite de la seule base de données (sans compromission du serveur), les données restent illisibles.
           </p>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '10px 20px', borderRadius: 100, border: '1px solid rgba(47,217,244,0.2)', background: 'rgba(47,217,244,0.05)' }}>
             <IcoShield size={16} style={{ color: '#2fd9f4' }} />

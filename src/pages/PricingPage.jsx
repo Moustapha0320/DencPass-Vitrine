@@ -178,7 +178,11 @@ export default function PricingPage() {
       {/* Plans */}
       <section style={{ padding: '0 max(1.5rem, calc((100% - 1200px) / 2)) 7rem', background: 'var(--bg)' }} className="section-pad">
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', alignItems: 'stretch', paddingTop: 28 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '0.75rem', flexWrap: 'wrap', gap: 12 }}>
+            <p style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text4)', letterSpacing: '0.08em' }}>POUR UN USAGE INDIVIDUEL</p>
+            <p style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text4)', letterSpacing: '0.08em' }}>POUR LES ÉQUIPES ET ORGANISATIONS →</p>
+          </div>
+          <div className="grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', alignItems: 'stretch', paddingTop: 8 }}>
             {PLANS.map((p, i) => (
               <Reveal key={p.name} delay={i * 100} style={{ height: '100%' }}>
                 <div style={{ transform: cardTransform(p, i), transition: 'transform 0.55s cubic-bezier(0.16,1,0.3,1)', height: '100%' }}>
