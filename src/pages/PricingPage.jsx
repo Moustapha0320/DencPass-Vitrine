@@ -3,21 +3,34 @@ import confetti from 'canvas-confetti';
 import PublicLayout from '../components/layout/PublicLayout';
 import { Reveal, IcoCheck, IcoX, IcoArrow, IcoChevron, IcoCloud, IcoServer } from '../components/shared';
 
-const freeFeatures  = [
-  { label: 'Coffre illimité',          ok: true  },
-  { label: 'Générateur de mots de passe', ok: true  },
-  { label: 'Extension Chrome',         ok: true  },
-  { label: 'Partage de secrets',       ok: false },
-  { label: '2FA TOTP',                 ok: false },
-  { label: 'Historique (90 jours)',    ok: false },
+const freeFeatures = [
+  { label: 'Mots de passe illimités',   ok: true  },
+  { label: '50 générations / mois',     ok: true  },
+  { label: 'Passphrase africaine',       ok: true  },
+  { label: '5 partages actifs',          ok: true  },
+  { label: '5 secrets dans le coffre',   ok: true  },
+  { label: '5 certificats SSL/TLS',      ok: true  },
+  { label: 'Extension Chrome',           ok: true  },
+  { label: '2FA TOTP',                   ok: true  },
+  { label: 'Partages illimités',         ok: false },
+  { label: 'Secrets illimités',          ok: false },
+  { label: 'Équipes & groupes',          ok: false },
+  { label: 'Active Directory (LDAP)',    ok: false },
+  { label: 'SIEM / Syslog',             ok: false },
 ];
-const proFeatures   = [
-  { label: 'Coffre illimité',          ok: true },
-  { label: 'Générateur de mots de passe', ok: true },
-  { label: 'Extension Chrome',         ok: true },
-  { label: 'Partage de secrets',       ok: true },
-  { label: '2FA TOTP',                 ok: true },
-  { label: 'Historique illimité',      ok: true },
+const proFeatures = [
+  { label: 'Mots de passe illimités',   ok: true },
+  { label: 'Générateur illimité',        ok: true },
+  { label: 'Partages illimités',         ok: true },
+  { label: 'Secrets illimités',          ok: true },
+  { label: 'Certificats illimités',      ok: true },
+  { label: 'Extension Chrome',           ok: true },
+  { label: '2FA TOTP',                   ok: true },
+  { label: 'Passphrase africaine',       ok: true },
+  { label: 'Support prioritaire',        ok: true },
+  { label: 'Équipes & groupes',          ok: false },
+  { label: 'Active Directory (LDAP)',    ok: false },
+  { label: 'SIEM / Syslog',             ok: false },
 ];
 
 const cloudFeatures = [
