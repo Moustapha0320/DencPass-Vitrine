@@ -48,8 +48,8 @@ const FEATURES = [
     Icon: IcoZap,
     accent: '#f59e0b',
     title: 'Passphrase africaine',
-    desc: 'Générez des phrases de passe mémorables construites à partir de mots en Wolof, Swahili, Bambara, Hausa et d\'autres langues du continent.',
-    tags: ['Wolof · Swahili · Bambara', 'Hausa · Yoruba · Zulu', 'Facile à retenir', 'Séparateur personnalisable'],
+    desc: 'Générez des phrases de passe mémorables construites à partir d\'un wordlist africain unifié — mots en Wolof, Swahili, Bambara, Hausa et d\'autres langues du continent mélangés.',
+    tags: ['Wordlist africain unifié', 'Phrases mémorables', 'Facile à retenir', 'Séparateur personnalisable'],
   },
   {
     Icon: IcoShield,
@@ -69,14 +69,14 @@ const FEATURES = [
     Icon: IcoGlobe,
     accent: '#2fd9f4',
     title: 'Africa-first',
-    desc: 'Interface en français et en langues locales. Paiement en FCFA, Orange Money et Wave. Infrastructure hébergée pour la conformité locale.',
+    desc: 'Interface en français. Paiement en FCFA, Orange Money et Wave. Infrastructure hébergée pour la conformité locale.',
     tags: ['Interface en français', 'Paiement FCFA / Wave', 'Conformité RGPD & APDP', 'Support local'],
   },
 ]
 
 const COMPARE = [
   { label: 'Chiffrement AES-256-GCM',       dp: true,  others: true  },
-  { label: 'Zéro connaissance',              dp: true,  others: true  },
+  { label: 'Chiffrement côté serveur',        dp: true,  others: true  },
   { label: '2FA TOTP',                       dp: true,  others: true  },
   { label: 'Extension navigateur',           dp: true,  others: true  },
   { label: 'Passphrase en langues africaines', dp: true,  others: false },
@@ -84,7 +84,7 @@ const COMPARE = [
   { label: 'Interface en français',          dp: true,  others: false },
   { label: 'Hébergement conforme Africa',    dp: true,  others: false },
   { label: 'Support équipes africaines',     dp: true,  others: false },
-  { label: 'Plan gratuit illimité (1 user)', dp: true,  others: false },
+  { label: 'Plan gratuit (limité)',           dp: true,  others: false },
 ]
 
 export default function FeaturesPage() {

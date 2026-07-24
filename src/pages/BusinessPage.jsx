@@ -171,7 +171,7 @@ export default function BusinessPage() {
                   Conformité et contrôle.
                 </h2>
                 <p style={{ fontSize: 16, color: 'var(--text3)', lineHeight: 1.8, marginBottom: '1.75rem' }}>
-                  DencPass Enterprise est conçu pour répondre aux exigences des équipes sécurité les plus strictes, traçabilité totale, chiffrement bout en bout, intégrations SIEM.
+                  DencPass Enterprise est conçu pour répondre aux exigences des équipes sécurité les plus strictes : traçabilité totale, chiffrement AES-256-GCM, intégrations SIEM.
                 </p>
                 <Link to="/security" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 600, color: '#2fd9f4' }}>
                   Architecture de sécurité complète <IcoArrow size={13} />
@@ -182,7 +182,7 @@ export default function BusinessPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {[
                   { label: 'Chiffrement AES-256-GCM', sub: 'Chaque entrée chiffrée individuellement' },
-                  { label: 'Zero-knowledge architecture', sub: 'Aucun accès en clair côté serveur' },
+                  { label: 'Chiffrement géré par infrastructure', sub: 'Clés protégées et accès audité côté serveur' },
                   { label: 'Logs d\'audit complets', sub: 'Export JSON, Syslog, webhook SIEM' },
                   { label: 'Contrôle d\'accès RBAC', sub: 'Rôles et permissions granulaires' },
                   { label: 'On-Premise disponible', sub: 'Données sur vos serveurs, sous votre contrôle' },

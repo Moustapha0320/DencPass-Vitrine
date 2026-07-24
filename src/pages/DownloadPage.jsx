@@ -122,8 +122,11 @@ export default function DownloadPage() {
                       <span style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: '#8b5cf6', letterSpacing: '0.08em' }}>PWA · PROGRESSIVE WEB APP</span>
                     </div>
                     <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 22, color: 'var(--text-head)', margin: '0 0 0.5rem' }}>Application Web Installable</h2>
-                    <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.7, margin: '0 0 1rem' }}>
+                    <p style={{ fontSize: 14, color: 'var(--text3)', lineHeight: 1.7, margin: '0 0 0.5rem' }}>
                       Installez DencPass directement depuis Chrome, aucun exécutable, aucun téléchargement. L'app apparaît sur votre bureau en quelques secondes.
+                    </p>
+                    <p style={{ fontSize: 13, color: 'var(--text4)', lineHeight: 1.65, margin: '0 0 1rem', fontStyle: 'italic' }}>
+                      Pas d'application mobile native pour l'instant — la PWA s'installe aussi sur mobile (Android/iOS) et fonctionne hors-ligne.
                     </p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                       {['Fonctionne hors-ligne (cache)', 'Icône sur le bureau', 'Mise à jour automatique', 'Windows · macOS · Linux'].map(f => (
