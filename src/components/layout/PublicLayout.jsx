@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTheme } from '../../hooks/useTheme'
-import { IcoArrow, IcoSun, IcoMoon, IcoMonitor, IcoMenu, IcoClose, IcoLock } from '../shared'
+import { IcoSun, IcoMoon, IcoMenu, IcoClose } from '../shared'
 
 // ─── Legal content ────────────────────────────────────────────────────────────
 const LEGAL = {
@@ -42,15 +42,15 @@ function LegalModal({ type, onClose }) {
   if (!doc) return null
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', zIndex: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <div onClick={e => e.stopPropagation()} style={{ background: 'var(--bg2)', border: '1px solid rgba(47,217,244,0.18)', borderRadius: 20, maxWidth: 620, width: '100%', maxHeight: '80vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <div style={{ padding: '1.25rem 1.75rem', borderBottom: '1px solid rgba(47,217,244,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 20, maxWidth: 620, width: '100%', maxHeight: '80vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ padding: '1.25rem 1.75rem', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <h2 style={{ fontSize: 16, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: 'var(--text)' }}>{doc.title}</h2>
           <button onClick={onClose} aria-label="Fermer" style={{ background: 'none', border: 'none', color: 'var(--text4)', cursor: 'pointer', fontSize: 18, lineHeight: 1, padding: '4px 8px', borderRadius: 6 }}>✕</button>
         </div>
         <div style={{ padding: '1.5rem 1.75rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
           {doc.sections.map(s => (
             <div key={s.h}>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#2fd9f4', marginBottom: '0.3rem', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.06em' }}>{s.h}</p>
+              <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent)', marginBottom: '0.3rem', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.06em' }}>{s.h}</p>
               <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.75 }}>{s.p}</p>
             </div>
           ))}
@@ -61,26 +61,44 @@ function LegalModal({ type, onClose }) {
   )
 }
 
+// ─── Logo Mark ────────────────────────────────────────────────────────────────
+function LogoMark({ height = 26, bg = 'var(--bg)', gradId = 'dp-g' }) {
+  const w = Math.round(height * 100 / 108)
+  return (
+    <svg viewBox="0 0 100 108" width={w} height={height} xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true" style={{ filter: 'drop-shadow(0 0 5px var(--accent-014))', flexShrink: 0 }}>
+      <defs>
+        <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="var(--logo-a)" />
+          <stop offset="100%" stopColor="var(--logo-b)" />
+        </linearGradient>
+      </defs>
+      <path d="M26,14 H52 C78,14 95,34 95,60 C95,86 78,106 52,106 H26 C21.6,106 18,102.4 18,98 V22 C18,17.6 21.6,14 26,14 Z" fill={`url(#${gradId})`} />
+      <g fill={bg}>
+        <circle cx="56" cy="54" r="11" />
+        <path d="M56,54 L49,88 H63 Z" />
+      </g>
+    </svg>
+  )
+}
+
 // ─── NavBar ───────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
   { label: 'Fonctionnalités', to: '/features' },
   { label: 'Sécurité',        to: '/security' },
   { label: 'Entreprises',     to: '/business' },
   { label: 'Tarifs',          to: '/pricing' },
-  { label: 'Téléchargements', to: '/download' },
   { label: 'Contact',         to: '/contact' },
 ]
 
-function NavBar() {
-  const [scrolled, setScrolled] = useState(false)
+const THEME_OPTS = [
+  { v: 'dark',  Icon: IcoMoon, l: 'Sombre' },
+  { v: 'light', Icon: IcoSun,  l: 'Clair'  },
+]
+
+function NavBar({ theme, setTheme }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', fn, { passive: true })
-    return () => window.removeEventListener('scroll', fn)
-  }, [])
 
   useEffect(() => { setMobileOpen(false) }, [location.pathname])
 
@@ -91,25 +109,22 @@ function NavBar() {
         height: 62,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 max(1.5rem, calc((100% - 1200px) / 2))',
-        background: scrolled ? 'var(--bg-nav)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(24px) saturate(1.5)' : 'none',
-        borderBottom: scrolled ? '1px solid var(--border2)' : '1px solid transparent',
-        transition: 'background 0.35s, border-color 0.35s, backdrop-filter 0.35s',
+        background: 'transparent',
+        borderBottom: '1px solid transparent',
       }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <div style={{ width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(47,217,244,0.18)', background: '#070e1c', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            <img src="/dencpass-logo.png" alt="DencPass" style={{ width: 24, height: 24, objectFit: 'contain' }} />
-          </div>
-          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.04em', color: 'var(--text)' }}>
-            Denc<span style={{ color: '#2fd9f4' }}>Pass</span>
+
+        <Link to="/" aria-label="DencPass — Accueil" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+          <LogoMark height={26} bg="var(--bg)" gradId="nav-dp-g" />
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.05em', color: 'var(--text)' }}>
+            Denc<span style={{ color: 'var(--accent)' }}>Pass</span>
           </span>
         </Link>
 
-        <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
+        <div className="nav-links">
           {NAV_ITEMS.map(({ label, to }) => (
             <Link key={to} to={to} className="nav-link" style={{
               fontSize: 14,
-              color: location.pathname === to ? '#2fd9f4' : 'var(--text3)',
+              color: location.pathname === to ? 'var(--accent)' : 'var(--text3)',
               fontFamily: "'Inter', sans-serif", fontWeight: 500,
             }}>
               {label}
@@ -118,14 +133,27 @@ function NavBar() {
         </div>
 
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <div className="nav-cta-group" style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <a href="https://app.dencpass.com"
-              className="nav-link"
+          <div className="nav-theme-toggle" style={{ background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 9, padding: 3, gap: 2 }}>
+            {THEME_OPTS.map(({ v, Icon, l }) => (
+              <button key={v} onClick={() => setTheme(v)} title={l}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  padding: '4px 10px', borderRadius: 6, border: 'none', cursor: 'pointer',
+                  fontSize: 12, fontFamily: "'Inter', sans-serif", transition: 'all 0.2s',
+                  background: theme === v ? 'var(--accent-014)' : 'transparent',
+                  color: theme === v ? 'var(--accent)' : 'var(--text5)',
+                }}>
+                <Icon /> {l}
+              </button>
+            ))}
+          </div>
+          <div className="nav-cta-group">
+            <a href="https://app.dencpass.com" className="nav-link"
               style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500, padding: '8px 4px' }}>
               Connexion
             </a>
             <a href="https://app.dencpass.com/register" className="btn-primary"
-              style={{ padding: '9px 18px', borderRadius: 10, background: '#2fd9f4', color: '#07111f', fontSize: 13, boxShadow: '0 2px 16px rgba(47,217,244,0.25)', whiteSpace: 'nowrap' }}>
+              style={{ padding: '9px 18px', borderRadius: 10, background: 'var(--accent)', color: '#07111f', fontSize: 13, boxShadow: '0 2px 16px var(--accent-014)', whiteSpace: 'nowrap' }}>
               Essayer gratuitement
             </a>
           </div>
@@ -134,26 +162,24 @@ function NavBar() {
             onClick={() => setMobileOpen(o => !o)}
             aria-label="Ouvrir le menu"
             aria-expanded={mobileOpen}
-            style={{ display: 'none', background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: 4 }}
+            style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: 4 }}
           >
             <IcoMenu />
           </button>
         </div>
       </nav>
 
-      {/* Mobile menu overlay */}
       {mobileOpen && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(7,17,31,0.97)', backdropFilter: 'blur(24px)', display: 'flex', flexDirection: 'column', padding: '1.25rem max(1.5rem, calc((100% - 1200px) / 2))' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'var(--bg)', display: 'flex', flexDirection: 'column', padding: '0 max(1.5rem, calc((100% - 1200px) / 2))' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 62 }}>
-            <Link to="/" onClick={() => setMobileOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <div style={{ width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(47,217,244,0.18)', background: '#070e1c', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                <img src="/dencpass-logo.png" alt="DencPass" style={{ width: 24, height: 24, objectFit: 'contain' }} />
-              </div>
-              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.04em', color: '#e8edf5' }}>
-                Denc<span style={{ color: '#2fd9f4' }}>Pass</span>
+            <Link to="/" onClick={() => setMobileOpen(false)} aria-label="DencPass — Accueil" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+              <LogoMark height={26} bg="var(--bg)" gradId="mob-dp-g" />
+              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.05em', color: 'var(--text)' }}>
+                Denc<span style={{ color: 'var(--accent)' }}>Pass</span>
               </span>
             </Link>
-            <button onClick={() => setMobileOpen(false)} aria-label="Fermer le menu" style={{ background: 'none', border: 'none', color: 'rgba(232,237,245,0.6)', cursor: 'pointer', padding: 4 }}>
+            <button onClick={() => setMobileOpen(false)} aria-label="Fermer le menu"
+              style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: 4 }}>
               <IcoClose />
             </button>
           </div>
@@ -162,8 +188,8 @@ function NavBar() {
               <Link key={to} to={to} onClick={() => setMobileOpen(false)} style={{
                 display: 'block', padding: '1rem 0', fontSize: 22, fontWeight: 700,
                 fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.02em',
-                color: location.pathname === to ? '#2fd9f4' : '#e8edf5',
-                borderBottom: '1px solid rgba(47,217,244,0.08)',
+                color: location.pathname === to ? 'var(--accent)' : 'var(--text)',
+                borderBottom: '1px solid var(--border)',
               }}>
                 {label}
               </Link>
@@ -171,11 +197,11 @@ function NavBar() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingBottom: '2rem' }}>
             <a href="https://app.dencpass.com"
-              style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, border: '1px solid rgba(47,217,244,0.25)', color: 'rgba(232,237,245,0.8)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+              style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               Connexion
             </a>
             <a href="https://app.dencpass.com/register" className="btn-primary"
-              style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 15 }}>
+              style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 12, background: 'var(--accent)', color: '#07111f', fontSize: 15, fontFamily: "'Space Grotesk', sans-serif" }}>
               Essayer gratuitement
             </a>
           </div>
@@ -186,74 +212,74 @@ function NavBar() {
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer({ setLegalModal }) {
-  const { theme, setTheme } = useTheme()
-  const themes = [
-    { v: 'light',  Icon: IcoSun,     l: 'Clair' },
-    { v: 'dark',   Icon: IcoMoon,    l: 'Sombre' },
-    { v: 'system', Icon: IcoMonitor, l: 'Système' },
-  ]
-  const linkStyle = { display: 'block', fontSize: 13, color: 'var(--text5)', marginBottom: '0.55rem', transition: 'color 0.2s', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: "'Inter', sans-serif", textAlign: 'left' }
-  const hover = { onMouseEnter: e => e.target.style.color = 'var(--accent)', onMouseLeave: e => e.target.style.color = 'var(--text5)' }
+const FOOTER_COLS = [
+  {
+    title: 'Produit',
+    links: [
+      { label: 'Fonctionnalités', to: '/features' },
+      { label: 'Sécurité',        to: '/security' },
+      { label: 'Tarifs',          to: '/pricing' },
+      { label: 'Téléchargements', to: '/download' },
+      { label: 'Connexion',       href: 'https://app.dencpass.com' },
+    ]
+  },
+  {
+    title: 'Entreprise',
+    links: [
+      { label: 'Entreprises', to: '/business' },
+      { label: 'Contact',     to: '/contact' },
+    ]
+  },
+  {
+    title: 'Ressources',
+    links: [
+      { label: 'Statut du service', href: '#' },
+    ]
+  },
+]
 
-  const cols = [
-    {
-      title: 'Produit',
-      links: [
-        { label: 'Fonctionnalités', to: '/features' },
-        { label: 'Sécurité',        to: '/security' },
-        { label: 'Tarifs',          to: '/pricing' },
-        { label: 'Téléchargements', to: '/download' },
-        { label: 'Connexion',       href: 'https://app.dencpass.com' },
-      ]
-    },
-    {
-      title: 'Entreprise',
-      links: [
-        { label: 'Entreprises',     to: '/business' },
-        { label: 'Contact',         to: '/contact' },
-      ]
-    },
-    {
-      title: 'Ressources',
-      links: [
-        { label: 'Statut du service', href: '#' },
-      ]
-    },
-  ]
+function Footer({ setLegalModal, theme, setTheme }) {
+  const linkStyle = {
+    display: 'block', fontSize: 13, color: 'var(--text5)', marginBottom: '0.55rem',
+    transition: 'color 0.2s', background: 'none', border: 'none', cursor: 'pointer',
+    padding: 0, fontFamily: "'Inter', sans-serif", textAlign: 'left',
+  }
+  const hov = {
+    onMouseEnter: e => e.currentTarget.style.color = 'var(--accent)',
+    onMouseLeave: e => e.currentTarget.style.color = 'var(--text5)',
+  }
 
   return (
     <footer style={{ background: 'var(--bg-footer)', borderTop: '1px solid var(--border)' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem 1.5rem 2rem' }}>
-        <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '3rem', marginBottom: '3rem' }}>
+        <div className="footer-grid">
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1rem' }}>
-              <div style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid rgba(47,217,244,0.18)', background: '#070e1c', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                <img src="/dencpass-logo.png" alt="DencPass" style={{ width: 28, height: 28, objectFit: 'contain' }} />
-              </div>
-              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: '-0.04em', color: 'var(--text)' }}>
-                Denc<span style={{ color: '#2fd9f4' }}>Pass</span>
+            <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: '1rem' }}>
+              <LogoMark height={32} bg="var(--bg-footer)" gradId="ft-dp-g" />
+              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: '-0.05em', color: 'var(--text)' }}>
+                Denc<span style={{ color: 'var(--accent)' }}>Pass</span>
               </span>
-            </div>
+            </Link>
             <p style={{ fontSize: 13, color: 'var(--text5)', lineHeight: 1.75, maxWidth: 260, marginBottom: '1.25rem' }}>
               Gestionnaire de mots de passe et secrets numériques pour les professionnels et organisations d'Afrique.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-              <a href="mailto:support@dencpass.com" style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", transition: 'color 0.2s' }} {...hover}>
-                support@dencpass.com
-              </a>
-            </div>
+            <a href="mailto:support@dencpass.com"
+              style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", transition: 'color 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--text5)'}>
+              support@dencpass.com
+            </a>
           </div>
 
-          {cols.map(col => (
+          {FOOTER_COLS.map(col => (
             <div key={col.title}>
-              <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.12em', marginBottom: '1rem' }}>{col.title.toUpperCase()}</p>
+              <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.12em', marginBottom: '1rem', textTransform: 'uppercase' }}>{col.title}</p>
               {col.links.map(l => (
                 l.modal
-                  ? <button key={l.label} onClick={() => setLegalModal(l.modal)} style={linkStyle} {...hover}>{l.label}</button>
+                  ? <button key={l.label} onClick={() => setLegalModal(l.modal)} style={linkStyle} {...hov}>{l.label}</button>
                   : l.to
-                    ? <Link key={l.label} to={l.to} style={linkStyle} {...hover}>{l.label}</Link>
-                    : <a key={l.label} href={l.href} style={linkStyle} {...hover}>{l.label}</a>
+                    ? <Link key={l.label} to={l.to} style={linkStyle} {...hov}>{l.label}</Link>
+                    : <a key={l.label} href={l.href} style={linkStyle} {...hov}>{l.label}</a>
               ))}
             </div>
           ))}
@@ -265,13 +291,13 @@ function Footer({ setLegalModal }) {
               © 2026 DencPass · Sénégal · <em>Samm sa sirru</em>
             </p>
             <span style={{ fontSize: 12, color: 'var(--border2)' }}>·</span>
-            <button onClick={() => setLegalModal('privacy')} style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif", background: 'none', border: 'none', cursor: 'pointer', padding: 0, transition: 'color 0.2s' }} {...hover}>Confidentialité</button>
-            <button onClick={() => setLegalModal('cgu')} style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif", background: 'none', border: 'none', cursor: 'pointer', padding: 0, transition: 'color 0.2s' }} {...hover}>Conditions d'utilisation</button>
+            <button onClick={() => setLegalModal('privacy')} style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif", background: 'none', border: 'none', cursor: 'pointer', padding: 0, transition: 'color 0.2s' }} {...hov}>Confidentialité</button>
+            <button onClick={() => setLegalModal('cgu')} style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif", background: 'none', border: 'none', cursor: 'pointer', padding: 0, transition: 'color 0.2s' }} {...hov}>Conditions d'utilisation</button>
           </div>
           <div style={{ display: 'flex', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 9, padding: 3, gap: 2 }}>
-            {themes.map(({ v, Icon, l }) => (
+            {THEME_OPTS.map(({ v, Icon, l }) => (
               <button key={v} onClick={() => setTheme(v)} title={l}
-                style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 11px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12, fontFamily: "'Inter', sans-serif", transition: 'all 0.2s', background: theme === v ? 'rgba(47,217,244,0.12)' : 'none', color: theme === v ? '#2fd9f4' : 'var(--text5)' }}>
+                style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 11px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12, fontFamily: "'Inter', sans-serif", transition: 'all 0.2s', background: theme === v ? 'var(--accent-014)' : 'none', color: theme === v ? 'var(--accent)' : 'var(--text5)' }}>
                 <Icon /> {l}
               </button>
             ))}
@@ -285,11 +311,12 @@ function Footer({ setLegalModal }) {
 // ─── PublicLayout ─────────────────────────────────────────────────────────────
 export default function PublicLayout({ children }) {
   const [legalModal, setLegalModal] = useState(null)
+  const { theme, setTheme } = useTheme()
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
-      <NavBar />
+      <NavBar theme={theme} setTheme={setTheme} />
       <main>{children}</main>
-      <Footer setLegalModal={setLegalModal} />
+      <Footer setLegalModal={setLegalModal} theme={theme} setTheme={setTheme} />
       {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}
     </div>
   )
