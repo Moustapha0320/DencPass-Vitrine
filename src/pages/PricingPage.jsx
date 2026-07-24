@@ -31,6 +31,7 @@ const groups = [
           { label: 'Extension Chrome · 2FA',        ok: true  },
           { label: 'Vérification HIBP (1 fois)',     ok: true  },
           { label: 'Partages & secrets illimités',  ok: false },
+          { label: 'Journal d\'audit',              ok: false },
         ],
       },
       {
@@ -49,6 +50,7 @@ const groups = [
           { label: 'Partages illimités',              ok: true },
           { label: 'Secrets & certificats illimités', ok: true },
           { label: 'Analyses HIBP illimitées',        ok: true },
+          { label: 'Journal d\'audit',               ok: true },
           { label: 'Support prioritaire',             ok: true },
         ],
       },
