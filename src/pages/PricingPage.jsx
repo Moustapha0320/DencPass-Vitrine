@@ -29,6 +29,7 @@ const groups = [
           { label: 'Passphrase africaine',          ok: true  },
           { label: '5 partages · 5 secrets',        ok: true  },
           { label: 'Extension Chrome · 2FA',        ok: true  },
+          { label: 'Vérification HIBP (1 fois)',     ok: true  },
           { label: 'Partages & secrets illimités',  ok: false },
         ],
       },
