@@ -1,215 +1,157 @@
-import PublicLayout from '../components/layout/PublicLayout';
-import { Reveal, IcoSmartphone, IcoUpload, IcoDatabase, IcoEye, IcoLock, IcoFingerprint, IcoPhone, IcoRefresh, IcoClipboard, IcoShield, IcoArrow } from '../components/shared';
+import { Link } from 'react-router-dom'
+import PublicLayout from '../components/layout/PublicLayout'
+import {
+  Reveal, IcoArrow,
+  IcoLock, IcoFingerprint, IcoPhone, IcoRefresh, IcoClipboard, IcoShield,
+  IcoSmartphone, IcoUpload, IcoDatabase, IcoEye,
+} from '../components/shared'
 
-const steps = [
-  {
-    num: '01',
-    title: 'Sur votre appareil',
-    desc: "La saisie est chiffrée localement avec votre clé, dérivée de votre mot de passe principal.",
-    Icon: IcoSmartphone,
-  },
-  {
-    num: '02',
-    title: 'En transit',
-    desc: "Seuls des blocs déjà chiffrés circulent, protégés par TLS de bout en bout.",
-    Icon: IcoUpload,
-  },
-  {
-    num: '03',
-    title: 'Au repos',
-    desc: "Nos serveurs stockent des données illisibles, chaque entrée chiffrée séparément.",
-    Icon: IcoDatabase,
-  },
-  {
-    num: '04',
-    title: 'À la lecture',
-    desc: "Le déchiffrement n'a lieu que sur votre appareil, jamais côté serveur.",
-    Icon: IcoEye,
-  },
-];
+// ─── Data ─────────────────────────────────────────────────────────────────────
+const flow = [
+  { step: '01', Icon: IcoSmartphone, title: 'Sur votre appareil',  desc: 'La saisie est chiffrée localement avec votre clé, dérivée de votre mot de passe principal.' },
+  { step: '02', Icon: IcoUpload,     title: 'En transit',          desc: 'Seuls des blocs déjà chiffrés circulent, protégés par TLS de bout en bout.' },
+  { step: '03', Icon: IcoDatabase,   title: 'Au repos',            desc: 'Nos serveurs stockent des données illisibles, chaque entrée chiffrée séparément.' },
+  { step: '04', Icon: IcoEye,        title: 'À la lecture',        desc: 'Le déchiffrement n\'a lieu que sur votre appareil, jamais côté serveur.' },
+]
 
 const pillars = [
-  { Icon: IcoLock,        title: 'AES-256-GCM',         desc: "Chiffrement symétrique de référence, par entrée, avec vecteur d'initialisation unique." },
-  { Icon: IcoFingerprint, title: 'Zéro connaissance',   desc: 'Vos secrets ne passent jamais en clair dans nos infrastructures. Même notre équipe ne peut pas les lire.' },
-  { Icon: IcoPhone,       title: '2FA TOTP',             desc: 'Second facteur d\'authentification conforme RFC 6238, compatible Google Authenticator et Aegis.' },
-  { Icon: IcoRefresh,     title: 'Rotation des clés',   desc: 'Les clés de chiffrement peuvent être rotées sans perte de données, à tout moment.' },
-  { Icon: IcoClipboard,   title: 'Audit complet',        desc: 'Chaque action est tracée : connexions, modifications, partages — exportable au format syslog (RFC 5424).' },
-  { Icon: IcoShield,      title: 'Détection de fuites',  desc: 'Vérification Have I Been Pwned par k-anonymat : vos mots de passe ne quittent jamais votre appareil.' },
-];
+  { Icon: IcoLock,        accent: 'var(--accent)', title: 'AES-256-GCM par entrée', desc: 'Chaque mot de passe, secret et certificat est chiffré individuellement, avec un contrôle d\'intégrité HMAC.' },
+  { Icon: IcoFingerprint, accent: 'var(--purple)', title: 'Zéro connaissance',      desc: 'Votre clé ne quitte jamais votre appareil. Même en cas d\'accès physique au serveur, vos données restent illisibles.' },
+  { Icon: IcoPhone,       accent: 'var(--green)',  title: '2FA TOTP',               desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
+  { Icon: IcoRefresh,     accent: 'var(--accent)', title: 'Rotation des clés',      desc: 'Les clés peuvent être renouvelées sans interruption de service ni ré-authentification manuelle.' },
+  { Icon: IcoClipboard,   accent: 'var(--amber)',  title: 'Audit complet',          desc: 'Chaque action est tracée et exportable vers Splunk, Elastic ou Wazuh via webhook ou Syslog RFC 5424.' },
+  { Icon: IcoShield,      accent: 'var(--purple)', title: 'Détection de fuites',    desc: 'Comparaison avec 700 M+ de fuites (HIBP) par k-anonymat — votre mot de passe ne quitte jamais l\'appareil en clair.' },
+]
 
 const specs = [
-  ['Chiffrement symétrique', 'AES-256-GCM'],
-  ['Intégrité des messages',  'HMAC-SHA-256'],
-  ['Dérivation de clé',       'Argon2id / PBKDF2 depuis mot de passe principal'],
-  ['Transport',               'TLS 1.3 uniquement'],
-  ['Second facteur',          'TOTP RFC 6238'],
-  ['Vérification fuites',     'HIBP k-anonymat (5 premiers caractères SHA-1)'],
-  ['Journalisation',          'Syslog RFC 5424 + webhook configurable'],
-  ['Architecture',            'Zero-knowledge — serveurs aveugles'],
-];
+  { label: 'Algorithme de chiffrement', value: 'AES-256-GCM' },
+  { label: 'Intégrité',                 value: 'HMAC par entrée' },
+  { label: 'Dérivation de clé',         value: 'depuis mot de passe principal' },
+  { label: 'Transport',                 value: 'TLS 1.3' },
+  { label: 'Double authentification',   value: 'TOTP (RFC 6238)' },
+  { label: 'Détection de fuites',       value: 'HIBP · k-anonymat' },
+  { label: 'Journalisation',            value: 'Syslog RFC 5424 · webhook' },
+  { label: 'Modèle',                    value: 'Zero-knowledge' },
+]
 
+// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function SecurityPage() {
   return (
     <PublicLayout>
-    <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
 
-      {/* ── Hero ── */}
-      <section style={{
-        padding: 'clamp(5rem,12vw,8rem) max(1.25rem, calc((100vw - 900px)/2)) clamp(3rem,6vw,5rem)',
-        background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(47,217,244,0.08) 0%, transparent 70%)',
-        textAlign: 'center',
-      }}>
-        <Reveal>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: '1.25rem' }}>
-            <span style={{
-              display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
-              background: 'var(--accent)', boxShadow: '0 0 8px var(--accent-glow)',
-              animation: 'dpPulse 2s ease-in-out infinite',
-            }} />
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase' }}>
-              Architecture de sécurité
-            </span>
+        {/* ── Hero ── */}
+        <section style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg)', padding: '4.5rem max(1.25rem, calc((100% - 1200px) / 2)) 3rem' }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 20%, var(--accent-014) 0%, transparent 55%)', pointerEvents: 'none' }} />
+          <div style={{ position: 'relative', zIndex: 1, maxWidth: 820, margin: '0 auto', textAlign: 'center' }}>
+            <Reveal>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--border2)', background: 'var(--accent-004)', marginBottom: '1.6rem' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', animation: 'glow-pulse 2s ease-in-out infinite' }} />
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>ARCHITECTURE DE SÉCURITÉ</span>
+              </div>
+              <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem,4.6vw,3.4rem)', lineHeight: 1.08, letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem' }}>
+                Zéro connaissance. Aucun compromis.
+              </h1>
+              <p style={{ fontSize: 16.5, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 600, margin: '0 auto' }}>
+                Vos données sont chiffrées sur votre appareil, avant de nous parvenir. Nos serveurs stockent des blocs illisibles — nous ne pouvons pas lire vos secrets, même si nous le voulions.
+              </p>
+            </Reveal>
           </div>
-          <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(2rem,5vw,3.25rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1.25rem' }}>
-            Zéro connaissance.<br />Aucun compromis.
-          </h1>
-          <p style={{ fontSize: 'clamp(1rem,2vw,1.125rem)', color: 'var(--text2)', maxWidth: 560, margin: '0 auto 2rem', lineHeight: 1.7 }}>
-            Vos données sont chiffrées sur votre appareil, avant de nous parvenir.
-            Nos serveurs stockent des blocs illisibles — nous ne pouvons pas lire vos secrets, même si nous le voulions.
-          </p>
-        </Reveal>
-      </section>
+          <style>{`@keyframes glow-pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }`}</style>
+        </section>
 
-      {/* ── Flow ── */}
-      <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 1100px)/2))' }}>
-        <Reveal>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '2rem' }}>
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-              Le parcours d'un secret
-            </span>
-            <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+        {/* ── Flux zéro-connaissance ── */}
+        <section style={{ padding: '2rem max(1.25rem, calc((100% - 1200px) / 2)) 4rem', background: 'var(--bg)' }}>
+          <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+            <Reveal>
+              <div style={{ border: '1px solid var(--border)', borderRadius: 22, background: 'var(--bg-card)', padding: '2.5rem' }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: '0.14em', margin: '0 0 1.5rem', textAlign: 'center' }}>LE PARCOURS D'UN SECRET</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }} className="flow-grid">
+                  {flow.map(({ step, Icon, title, desc }) => (
+                    <div key={step} style={{ padding: '1.25rem', borderRadius: 14, border: '1px solid var(--border)', background: 'var(--bg2)', textAlign: 'center' }}>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--accent-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', margin: '0 auto 0.9rem' }}>
+                        <Icon size={20} />
+                      </div>
+                      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--accent)', margin: '0 0 0.35rem' }}>{step}</p>
+                      <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.4rem' }}>{title}</h3>
+                      <p style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.55, margin: 0 }}>{desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
           </div>
-          <div style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            borderRadius: 22,
-            padding: 'clamp(1.5rem,4vw,2.5rem)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '1.5rem',
-          }}>
-            {steps.map(({ num, title, desc, Icon }) => (
-              <div key={num} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.7rem', fontWeight: 700, color: 'var(--accent)', opacity: 0.7 }}>{num}</span>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--accent-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', flexShrink: 0 }}>
-                    <Icon size={18} />
+        </section>
+
+        {/* ── Piliers ── */}
+        <section style={{ padding: '2rem max(1.25rem, calc((100% - 1200px) / 2)) 5rem', background: 'var(--bg)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+            {pillars.map(({ Icon, accent, title, desc }, i) => (
+              <Reveal key={title} delay={(i % 3) * 80}>
+                <div style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start', transition: 'border-color 0.2s' }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border3)'}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+                >
+                  <div style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--bg2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: accent, flexShrink: 0 }}>
+                    <Icon size={20} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: '0 0 0.4rem' }}>{title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.7, margin: 0 }}>{desc}</p>
                   </div>
                 </div>
-                <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-head)' }}>{title}</h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text2)', lineHeight: 1.6 }}>{desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
-        </Reveal>
-      </section>
+        </section>
 
-      {/* ── Pillars ── */}
-      <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 1100px)/2))' }}>
-        <Reveal>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '2rem' }}>
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-              Piliers de sécurité
-            </span>
-            <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
-            {pillars.map(({ Icon, title, desc }) => (
-              <div key={title} style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 16,
-                padding: '1.5rem',
-                transition: 'border-color 0.2s, transform 0.2s',
-                cursor: 'default',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border2)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; }}
-              >
-                <div style={{ width: 40, height: 40, borderRadius: 12, background: 'var(--accent-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', marginBottom: '1rem' }}>
-                  <Icon size={20} />
-                </div>
-                <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '1rem', color: 'var(--text-head)', marginBottom: '0.5rem' }}>{title}</h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text2)', lineHeight: 1.6 }}>{desc}</p>
+        {/* ── Specs ── */}
+        <section style={{ padding: '5rem max(1.25rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }}>
+          <div style={{ maxWidth: 820, margin: '0 auto' }}>
+            <Reveal>
+              <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>SOUS LE CAPOT</p>
+                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.6rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Spécifications techniques</h2>
               </div>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      {/* ── Specs ── */}
-      <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 1100px)/2))' }}>
-        <Reveal>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '2rem' }}>
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-              Sous le capot
-            </span>
-            <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
-          </div>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 18, overflow: 'hidden' }}>
-            {specs.map(([label, value], i) => (
-              <div key={label} style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '1rem 1.5rem',
-                borderBottom: i < specs.length - 1 ? '1px solid var(--border)' : 'none',
-                gap: '1rem',
-                flexWrap: 'wrap',
-              }}>
-                <span style={{ fontSize: '0.9rem', color: 'var(--text2)' }}>{label}</span>
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.82rem', color: 'var(--accent)', fontWeight: 600 }}>{value}</span>
+              <div style={{ border: '1px solid var(--border)', borderRadius: 18, background: 'var(--bg-card)', overflow: 'hidden' }}>
+                {specs.map(({ label, value }, i) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', padding: '1.1rem 1.5rem', borderBottom: i < specs.length - 1 ? '1px solid var(--border)' : 'none', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: 14, color: 'var(--text2)' }}>{label}</span>
+                    <span style={{ fontSize: 13, color: 'var(--accent)', fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>{value}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </Reveal>
           </div>
-        </Reveal>
-      </section>
+        </section>
 
-      {/* ── CTA ── */}
-      <section style={{
-        padding: 'clamp(3rem,8vw,5rem) max(1.25rem, calc((100vw - 1100px)/2))',
-        background: 'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(47,217,244,0.07) 0%, transparent 70%)',
-        textAlign: 'center',
-      }}>
-        <Reveal>
-          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.5rem,3.5vw,2.25rem)', color: 'var(--text-head)', marginBottom: '1rem' }}>
-            Une sécurité que vous pouvez auditer.
-          </h2>
-          <p style={{ fontSize: '1rem', color: 'var(--text2)', maxWidth: 500, margin: '0 auto 2rem', lineHeight: 1.7 }}>
-            Des questions sur notre architecture ? Notre équipe est disponible pour une présentation technique détaillée.
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/contact" className="btn-primary" style={{
-              background: 'var(--accent)', color: '#07111f', border: 'none',
-              padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-            }}>
-              Parler à l'équipe <IcoArrow size={16} />
-            </a>
-            <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
-              background: 'transparent', color: 'var(--text)',
-              border: '1px solid var(--border2)',
-              padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-            }}>
-              Essayer DencPass
-            </a>
+        {/* ── CTA ── */}
+        <section style={{ position: 'relative', overflow: 'hidden', padding: '5.5rem max(1.25rem, calc((100% - 1200px) / 2))', background: 'var(--bg)', textAlign: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 50%, var(--accent-014) 0%, transparent 60%)', pointerEvents: 'none' }} />
+          <div style={{ position: 'relative', maxWidth: 640, margin: '0 auto' }}>
+            <Reveal>
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4.4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem', lineHeight: 1.1 }}>
+                Une sécurité que vous pouvez auditer.
+              </h2>
+              <p style={{ fontSize: 16, color: 'var(--text2)', margin: '0 auto 2rem', maxWidth: 440, lineHeight: 1.7 }}>
+                Créez votre coffre chiffré gratuitement, ou parlez à notre équipe de vos exigences de conformité.
+              </p>
+              <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+                <a href="https://app.dencpass.com/register" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 32px', borderRadius: 14, background: 'var(--accent)', color: 'var(--bg)', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px var(--accent-014)' }}>
+                  Commencer gratuitement <IcoArrow />
+                </a>
+                <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Contacter l'équipe
+                </Link>
+              </div>
+            </Reveal>
           </div>
-        </Reveal>
-      </section>
+        </section>
 
-      <style>{`@keyframes dpPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.25)} }`}</style>
-    </main>
+        <style>{`
+          @media (max-width:760px) { .flow-grid { grid-template-columns: 1fr 1fr !important; } }
+        `}</style>
+      </main>
     </PublicLayout>
-  );
+  )
 }
