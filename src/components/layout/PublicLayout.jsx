@@ -98,7 +98,14 @@ const THEME_OPTS = [
 
 function NavBar({ theme, setTheme }) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 16)
+    window.addEventListener('scroll', fn, { passive: true })
+    return () => window.removeEventListener('scroll', fn)
+  }, [])
 
   useEffect(() => { setMobileOpen(false) }, [location.pathname])
 
@@ -109,8 +116,12 @@ function NavBar({ theme, setTheme }) {
         height: 62,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 max(1.5rem, calc((100% - 1200px) / 2))',
-        background: 'transparent',
-        borderBottom: '1px solid transparent',
+        background: scrolled
+          ? (theme === 'light' ? 'rgba(255,255,255,0.82)' : 'rgba(7,17,31,0.78)')
+          : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px) saturate(1.4)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
+        transition: 'background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
       }}>
 
         <Link to="/" aria-label="DencPass — Accueil" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
