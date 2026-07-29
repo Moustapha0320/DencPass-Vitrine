@@ -22,16 +22,29 @@ function HeroTypewriter() {
         i++
         setTyped(HERO_TEXT.slice(0, i))
         if (i >= HERO_TEXT.length) { clearInterval(iv); setTimeout(() => setShowCaret(false), 1400) }
-      }, 42)
+      }, 45)
       return () => clearInterval(iv)
     }, 320)
     return () => clearTimeout(t)
   }, [])
 
+  const h1Style = { fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.4rem, 5.2vw, 4rem)', lineHeight: 1.05, letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem', maxWidth: 640, position: 'relative' }
+
+  if (prefersReducedMotion) {
+    return <h1 style={h1Style}>{HERO_TEXT}</h1>
+  }
+
   return (
-    <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', lineHeight: 1.08, letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem', maxWidth: 640 }}>
-      {typed}
-      {showCaret && <span style={{ display: 'inline-block', width: '0.055em', height: '0.82em', background: 'var(--accent)', borderRadius: 1, marginLeft: '0.05em', verticalAlign: '-0.05em', animation: 'caret-blink 1.05s step-end infinite' }} />}
+    <h1 style={h1Style}>
+      {/* Layout reserve — sets the H1 height so no layout shift during animation */}
+      <span aria-hidden="true" style={{ visibility: 'hidden', display: 'block' }}>{HERO_TEXT}</span>
+      {/* Animated overlay */}
+      <span aria-hidden="true" style={{ position: 'absolute', inset: 0 }}>
+        {typed}
+        {showCaret && <span style={{ display: 'inline-block', width: '0.055em', height: '0.86em', background: 'var(--accent)', borderRadius: 1, marginLeft: '0.05em', verticalAlign: '-0.05em', animation: 'caret-blink 1.05s step-end infinite' }} />}
+      </span>
+      {/* Screen-reader text */}
+      <span style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>{HERO_TEXT}</span>
     </h1>
   )
 }
@@ -218,7 +231,7 @@ function StatsRow() {
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
         {STATS.map(({ Icon, num, suffix, text, unit, label, context }, i) => (
           <Reveal key={label} delay={i * 80}>
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', transition: 'border-color 0.2s, transform 0.2s' }}
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', transition: 'border-color 0.2s, transform 0.2s', height: '100%' }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border3)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; }}
             >
@@ -237,7 +250,7 @@ function StatsRow() {
                       style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: '2rem', color: 'var(--sand)', letterSpacing: '-0.04em', lineHeight: 1 }}
                     />
                   )}
-                  {unit && <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: '0.95rem', color: 'var(--accent)' }}>{unit}</span>}
+                  {text && unit && <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: '0.95rem', color: 'var(--accent)' }}>{unit}</span>}
                 </div>
               </div>
               <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: "'Space Grotesk', sans-serif" }}>{label}</div>
@@ -310,7 +323,7 @@ function HowItWorksSection() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
           {steps.map(({ n, accent, title, desc }, i) => (
             <Reveal key={n} delay={i * 120}>
-              <div style={{ padding: '2rem', borderRadius: 18, border: '1px solid var(--border)', background: 'var(--bg-card)', textAlign: 'center' }}>
+              <div style={{ padding: '2rem', borderRadius: 18, border: '1px solid var(--border)', background: 'var(--bg-card)', textAlign: 'center', height: '100%' }}>
                 <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--bg2)', border: '1px solid var(--border2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem' }}>
                   <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 18, color: accent }}>{n}</span>
                 </div>
@@ -590,57 +603,154 @@ function TestimonialsSection() {
   )
 }
 
-// ─── Pricing teaser — aperçu 2 plans individuels ─────────────────────────────
+// ─── Pricing — grille 4 plans groupée (individuel + enterprise) ───────────────
 function PricingTeaser() {
-  const plans = [
-    { name: 'Gratuit', tag: 'COMMUNITY', price: 0, desc: 'Pour démarrer sans engagement.', features: ['Mots de passe illimités', '50 générations / mois', '5 partages · 5 secrets', 'Extension Chrome · 2FA'], cta: 'Créer un compte', ctaHref: 'https://app.dencpass.com/register', popular: false },
-    { name: 'Pro', tag: 'POPULAIRE', price: 2000, desc: 'Pour les professionnels qui ne comptent pas.', features: ['Tout du plan Gratuit', 'Générateur illimité', 'Partages & secrets illimités', 'Analyses HIBP illimitées', 'Support prioritaire'], cta: 'Passer en Pro', ctaHref: 'https://app.dencpass.com/register', popular: true },
+  const [yearly, setYearly] = useState(false)
+  const proMonthly = 2000, proYearly = 1600
+  const proPrice = (yearly ? proYearly : proMonthly).toLocaleString('fr-FR')
+
+  const indivPlans = [
+    {
+      name: 'Gratuit', tag: 'COMMUNITY', price: '0', popular: false,
+      desc: 'Pour démarrer sans engagement.', cta: 'Créer un compte',
+      ctaHref: 'https://app.dencpass.com/register',
+      features: [
+        { ok: true,  label: 'Mots de passe illimités' },
+        { ok: true,  label: '50 générations / mois' },
+        { ok: true,  label: 'Passphrase africaine' },
+        { ok: true,  label: '5 partages · 5 secrets' },
+        { ok: true,  label: 'Extension Chrome · 2FA' },
+        { ok: false, label: 'Partages & secrets illimités' },
+      ],
+    },
+    {
+      name: 'Pro', tag: 'POPULAIRE', price: proPrice, popular: true,
+      savings: yearly ? `${((proMonthly - proYearly) * 12).toLocaleString('fr-FR')} FCFA économisés / an` : '',
+      desc: 'Pour les professionnels qui ne comptent pas.', cta: 'Passer en Pro',
+      ctaHref: 'https://app.dencpass.com/register',
+      features: [
+        { ok: true, label: 'Tout du plan Gratuit' },
+        { ok: true, label: 'Générateur illimité' },
+        { ok: true, label: 'Partages illimités' },
+        { ok: true, label: 'Secrets & certificats illimités' },
+        { ok: true, label: 'Analyses HIBP illimitées' },
+        { ok: true, label: 'Support prioritaire' },
+      ],
+    },
   ]
+
+  const orgPlans = [
+    {
+      name: 'Enterprise Cloud', tag: 'SAAS MANAGÉ',
+      desc: 'Licence managée par DencPass, gestion centralisée pour vos équipes.',
+      features: ['Tout du plan Pro', 'Équipes & groupes', 'Active Directory (LDAP)', 'SIEM / Syslog', 'Audit organisation', 'Support dédié'],
+    },
+    {
+      name: 'Enterprise On-Premise', tag: 'SUR VOTRE INFRA',
+      desc: "Installez DencPass sur vos serveurs. Vos données restent sur site, sous votre contrôle.",
+      features: ["Tout de l'édition Cloud", 'Données 100% sur site', 'Docker ou bare metal', 'Intégration LDAP / AD', 'Licence annuelle', 'Maintenance incluse'],
+    },
+  ]
+
   return (
-    <section style={{ padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }}>
+    <section style={{ padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <Reveal>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>TARIFS</p>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Simple. Transparent. En FCFA.</h2>
-            <p style={{ fontSize: 16, color: 'var(--text3)' }}>Pas de conversion, pas de frais cachés.</p>
+            <p style={{ fontSize: 16, color: 'var(--text2)', marginBottom: '1.75rem' }}>Pas de conversion, pas de frais cachés.</p>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 14 }}>
+              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>Mensuel</span>
+              <button onClick={() => setYearly(y => !y)} role="switch" aria-checked={yearly}
+                style={{ width: 50, height: 28, borderRadius: 14, border: 'none', cursor: 'pointer', position: 'relative', background: yearly ? 'var(--accent)' : 'var(--accent-014)', transition: 'background 0.28s', flexShrink: 0 }}>
+                <span style={{ position: 'absolute', top: 4, left: yearly ? 26 : 4, width: 20, height: 20, borderRadius: '50%', background: 'var(--bg)', transition: 'left 0.28s cubic-bezier(0.34,1.56,0.64,1)', display: 'block', boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }} />
+              </button>
+              <span style={{ fontSize: 14, color: 'var(--text2)' }}>Annuel <span style={{ color: 'var(--green)', fontWeight: 700, fontSize: 13 }}>−20%</span></span>
+            </div>
           </div>
         </Reveal>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', maxWidth: 720, margin: '0 auto 2.5rem' }} className="grid-2">
-          {plans.map((p, i) => (
-            <Reveal key={p.name} delay={i * 100}>
-              <div style={{ padding: '2rem', borderRadius: 20, border: p.popular ? '1px solid var(--border3)' : '1px solid var(--border)', background: 'var(--bg-card)', position: 'relative', overflow: 'hidden', boxShadow: p.popular ? '0 24px 64px rgba(47,217,244,0.08)' : 'none' }}>
-                {p.popular && <div style={{ position: 'absolute', top: 0, right: 20, background: 'var(--accent)', color: 'var(--bg)', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 10px', borderRadius: '0 0 8px 8px' }}>POPULAIRE</div>}
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: p.popular ? 'linear-gradient(90deg,var(--accent),rgba(47,217,244,0.2))' : 'linear-gradient(90deg,rgba(47,217,244,0.2),transparent)' }} />
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: '0.14em', marginBottom: '0.5rem' }}>{p.tag}</p>
-                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 18, color: 'var(--text)', marginBottom: '0.75rem' }}>{p.name}</p>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: '0.25rem' }}>
-                  <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 32, color: 'var(--text)', letterSpacing: '-0.04em' }}>{p.price === 0 ? '0' : p.price.toLocaleString('fr-FR')}</span>
-                  {p.price > 0 && <span style={{ fontSize: 12, color: 'var(--text4)' }}>FCFA / mois</span>}
-                </div>
-                <p style={{ fontSize: 13, color: 'var(--text3)', marginBottom: '1.25rem' }}>{p.desc}</p>
-                <a href={p.ctaHref} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textAlign: 'center', padding: '11px 0', borderRadius: 10, fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.25rem', ...(p.popular ? { background: 'var(--accent)', color: 'var(--bg)', boxShadow: '0 4px 20px rgba(47,217,244,0.28)' } : { background: 'transparent', border: '1px solid var(--border2)', color: 'var(--text3)' }) }}>
-                  {p.cta}
-                </a>
-                <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {p.features.map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--text2)' }}>
-                      <span style={{ color: 'var(--accent)', flexShrink: 0 }}><IcoCheck size={13} /></span>{f}
-                    </div>
-                  ))}
-                </div>
+
+        <div className="hp-price-groups">
+          {/* Groupe individuel — cyan */}
+          <Reveal>
+            <div style={{ border: '1px solid var(--border2)', borderRadius: 22, background: 'var(--bg-card)', padding: '1.5rem', position: 'relative', overflow: 'hidden', height: '100%' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg, var(--accent), var(--accent-014))' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.35rem' }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block' }} />
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.12em', margin: 0 }}>USAGE INDIVIDUEL</p>
               </div>
-            </Reveal>
-          ))}
+              <p style={{ fontSize: 13, color: 'var(--text3)', margin: '0 0 1.25rem' }}>Pour vous, en solo ou en freelance.</p>
+              <div className="hp-plan-pair">
+                {indivPlans.map(p => (
+                  <div key={p.name} style={{ position: 'relative', padding: '1.5rem 1.35rem', borderRadius: 16, border: p.popular ? '1px solid var(--border3)' : '1px solid var(--border)', background: 'var(--bg2)', display: 'flex', flexDirection: 'column' }}>
+                    {p.popular && <div style={{ position: 'absolute', top: 0, right: 16, background: 'var(--accent)', color: 'var(--bg)', fontSize: 9, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', padding: '4px 9px', borderRadius: '0 0 7px 7px' }}>POPULAIRE</div>}
+                    <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: '0.12em', margin: '0 0 0.35rem' }}>{p.tag}</p>
+                    <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 17, color: 'var(--text)', margin: '0 0 0.6rem' }}>{p.name}</p>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: '0.15rem' }}>
+                      <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 30, color: 'var(--text)', letterSpacing: '-0.04em' }}>{p.price}</span>
+                      <span style={{ fontSize: 11, color: 'var(--text4)' }}>FCFA / mois</span>
+                    </div>
+                    <p style={{ fontSize: 11, color: 'var(--green)', fontFamily: "'JetBrains Mono', monospace", margin: '0.1rem 0 0', minHeight: 16 }}>{p.savings || ''}</p>
+                    <p style={{ fontSize: 12.5, color: 'var(--text3)', margin: '0.5rem 0 1.1rem', lineHeight: 1.5, minHeight: 34 }}>{p.desc}</p>
+                    <a href={p.ctaHref} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textAlign: 'center', padding: '11px 0', borderRadius: 10, fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.1rem', background: 'var(--accent)', color: 'var(--bg)' }}>{p.cta}</a>
+                    <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
+                      {p.features.map(f => (
+                        <div key={f.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: f.ok ? 'var(--text2)' : 'var(--text5)', lineHeight: 1.4 }}>
+                          <span style={{ flexShrink: 0, marginTop: 1, color: f.ok ? 'var(--accent)' : 'var(--text5)' }}>{f.ok ? <IcoCheck size={13} /> : <IcoX size={13} />}</span>{f.label}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Groupe organisations — violet */}
+          <Reveal delay={80}>
+            <div style={{ border: '1px solid var(--purple-025)', borderRadius: 22, background: 'var(--purple-06)', padding: '1.5rem', position: 'relative', overflow: 'hidden', height: '100%' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg, var(--purple), var(--purple-014))' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.35rem' }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--purple)', display: 'inline-block' }} />
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--purple)', letterSpacing: '0.12em', margin: 0 }}>ORGANISATIONS · ENTERPRISE</p>
+              </div>
+              <p style={{ fontSize: 13, color: 'var(--text3)', margin: '0 0 1.25rem' }}>Pour les équipes et les déploiements internes.</p>
+              <div className="hp-plan-pair">
+                {orgPlans.map(p => (
+                  <div key={p.name} style={{ padding: '1.5rem 1.35rem', borderRadius: 16, border: '1px solid var(--purple-014)', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column' }}>
+                    <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--purple)', letterSpacing: '0.12em', margin: '0 0 0.35rem' }}>{p.tag}</p>
+                    <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: 'var(--text)', margin: '0 0 0.6rem', lineHeight: 1.2 }}>{p.name}</p>
+                    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: 'var(--purple)', display: 'block', marginBottom: '0.15rem' }}>Sur devis</span>
+                    <p style={{ fontSize: 12.5, color: 'var(--text3)', margin: '0.5rem 0 1.1rem', lineHeight: 1.5, minHeight: 52 }}>{p.desc}</p>
+                    <Link to="/contact" style={{ display: 'block', textAlign: 'center', padding: '11px 0', borderRadius: 10, fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.1rem', background: 'var(--purple)', color: '#fff' }}>Demander un devis</Link>
+                    <div style={{ borderTop: '1px solid var(--purple-014)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
+                      {p.features.map(f => (
+                        <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: 'var(--text2)', lineHeight: 1.4 }}>
+                          <span style={{ color: 'var(--purple)', flexShrink: 0, marginTop: 1 }}><IcoCheck size={13} /></span>{f}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
-        <Reveal delay={200}>
-          <div style={{ textAlign: 'center' }}>
-            <Link to="/tarifs" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 11, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-              Voir tous les plans et comparer <IcoArrow />
-            </Link>
-          </div>
+
+        <Reveal delay={150}>
+          <p style={{ textAlign: 'center', fontSize: 13, color: 'var(--text4)', marginTop: '2rem' }}>
+            Tous les plans incluent le chiffrement AES-256-GCM, l'architecture zéro-connaissance et la 2FA.{' '}
+            Paiement par Wave, Orange Money ou virement.
+          </p>
         </Reveal>
       </div>
+      <style>{`
+        .hp-price-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
+        .hp-plan-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 1000px) { .hp-price-groups { grid-template-columns: 1fr; } }
+        @media (max-width: 480px) { .hp-plan-pair { grid-template-columns: 1fr; } }
+      `}</style>
     </section>
   )
 }

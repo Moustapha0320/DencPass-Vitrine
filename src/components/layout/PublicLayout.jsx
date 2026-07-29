@@ -101,13 +101,14 @@ function NavBar({ theme, setTheme }) {
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
 
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 16)
-    window.addEventListener('scroll', fn, { passive: true })
-    return () => window.removeEventListener('scroll', fn)
-  }, [])
-
   useEffect(() => { setMobileOpen(false) }, [location.pathname])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <>
@@ -116,12 +117,11 @@ function NavBar({ theme, setTheme }) {
         height: 62,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 max(1.5rem, calc((100% - 1200px) / 2))',
-        background: scrolled
-          ? (theme === 'light' ? 'rgba(255,255,255,0.82)' : 'rgba(7,17,31,0.78)')
-          : 'transparent',
-        backdropFilter: scrolled ? 'blur(20px) saturate(1.4)' : 'none',
+        background: scrolled ? 'var(--bg-nav)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-        transition: 'background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
+        transition: 'background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease',
       }}>
 
         <Link to="/" aria-label="DencPass — Accueil" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
@@ -173,7 +173,7 @@ function NavBar({ theme, setTheme }) {
             onClick={() => setMobileOpen(o => !o)}
             aria-label="Ouvrir le menu"
             aria-expanded={mobileOpen}
-            style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: 4 }}
+            style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 9, color: 'var(--text3)', cursor: 'pointer', padding: 8 }}
           >
             <IcoMenu />
           </button>

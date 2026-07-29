@@ -17,6 +17,7 @@ export function Reveal({ children, delay = 0, y = 28, style = {} }) {
   }, [])
   return (
     <div ref={ref} style={{
+      height: '100%',
       opacity: visible ? 1 : 0,
       transform: visible ? 'translateY(0)' : `translateY(${y}px)`,
       transition: `opacity 0.65s ease ${delay}ms, transform 0.65s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
