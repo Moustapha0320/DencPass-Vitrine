@@ -111,7 +111,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "DencPass a été construit à partir de ces frictions, pas malgré elles. Le paiement se fait en FCFA, directement via Wave, Orange Money ou CinetPay, sans carte bancaire internationale ni conversion de devise. L'interface est entièrement en français, et il est possible de créer sa phrase secrète principale en s'appuyant sur des mots issus du wolof, du bambara, du swahili ou du yoruba, pour une mémorisation plus naturelle et plus personnelle. Le support est basé à Dakar, aux mêmes heures de travail que ses utilisateurs, capable de répondre à un incident de sécurité sans décalage horaire. Le chiffrement AES-256-GCM reste au niveau des standards internationaux les plus exigeants ; ce qui change, c'est que l'outil a été pensé pour les réalités concrètes de ceux qui l'utilisent.",
+        text: "DencPass a été construit à partir de ces frictions, pas malgré elles. Le paiement se fait en FCFA, directement via Wave ou Orange Money, sans carte bancaire internationale ni conversion de devise. L'interface est entièrement en français, et il est possible de créer sa phrase secrète principale en s'appuyant sur des mots issus du wolof, du bambara, du swahili ou du yoruba, pour une mémorisation plus naturelle et plus personnelle. Le support est basé à Dakar, aux mêmes heures de travail que ses utilisateurs, capable de répondre à un incident de sécurité sans décalage horaire. Le chiffrement AES-256-GCM reste au niveau des standards internationaux les plus exigeants ; ce qui change, c'est que l'outil a été pensé pour les réalités concrètes de ceux qui l'utilisent.",
       },
       {
         type: 'h2',
