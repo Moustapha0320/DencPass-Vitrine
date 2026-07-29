@@ -244,6 +244,8 @@ const FOOTER_COLS = [
   {
     title: 'Ressources',
     links: [
+      { label: 'Blog',              to: '/blog' },
+      { label: 'Changelog',         to: '/changelog' },
       { label: 'Statut du service', href: '#' },
     ]
   },

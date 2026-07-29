@@ -13,6 +13,9 @@ import DownloadPage from './pages/DownloadPage'
 import BusinessPage from './pages/BusinessPage'
 import FeaturesPage from './pages/FeaturesPage'
 import ContactPage from './pages/ContactPage'
+import ChangelogPage from './pages/ChangelogPage'
+import BlogPage from './pages/BlogPage'
+import BlogPostPage from './pages/BlogPostPage'
 import PublicLayout from './components/layout/PublicLayout'
 import { Reveal } from './components/shared'
 
@@ -45,6 +48,9 @@ export default function App() {
         <Route path="/business"  element={<BusinessPage />} />
         <Route path="/features"  element={<FeaturesPage />} />
         <Route path="/contact"   element={<ContactPage />} />
+        <Route path="/changelog" element={<ChangelogPage />} />
+        <Route path="/blog"      element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="*"          element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
