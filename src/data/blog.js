@@ -1,5 +1,4 @@
 // Blog articles data.
-// Replace placeholder sections (marked with [PLACEHOLDER]) with real content before publishing.
 // Add new articles at the TOP of this array (newest first).
 export const ARTICLES = [
   {
@@ -133,7 +132,7 @@ export const ARTICLES = [
     content: [
       {
         type: 'intro',
-        text: "[PLACEHOLDER : Commencez par le constat humain : la mémoire humaine est mauvaise pour les mots de passe robustes. On réutilise, on simplifie, on oublie. Ce n'est pas un défaut de caractère, c'est une limite biologique. La solution n'est pas d'essayer plus fort : c'est d'utiliser le bon outil.]",
+        text: "La plupart d'entre nous gérons aujourd'hui plus de cent comptes en ligne : messagerie, réseaux sociaux, banque, e-commerce, mobile money. Retenir cent mots de passe uniques et vraiment robustes dépasse les capacités de la mémoire humaine, et ce n'est pas un défaut de discipline, c'est simplement une limite biologique. Le résultat, presque tout le monde réutilise les mêmes mots de passe ou les simplifie pour pouvoir s'en souvenir. La bonne nouvelle, c'est qu'il existe un outil conçu précisément pour résoudre ce problème à votre place.",
       },
       {
         type: 'h2',
@@ -141,7 +140,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: '[PLACEHOLDER : Statistiques sur les violations : % des violations dues à des mots de passe compromis/réutilisés, temps moyen pour craquer un mot de passe à 8 caractères, exemples concrets de fuites notoires et leurs conséquences.]',
+        text: "La grande majorité des violations de comptes en ligne ne résultent pas d'un piratage sophistiqué, mais d'un mot de passe faible, réutilisé sur plusieurs sites, ou déjà exposé lors d'une fuite de données ailleurs sur internet. Un mot de passe court de huit caractères, même avec des chiffres et des majuscules, peut être deviné par un ordinateur moderne en quelques heures seulement. Le scénario le plus fréquent est simple : un site que vous utilisez peu subit une fuite, et si vous réutilisiez ce même mot de passe pour votre messagerie ou votre compte bancaire, ces comptes deviennent immédiatement vulnérables, même si eux n'ont jamais été piratés directement.",
       },
       {
         type: 'h2',
@@ -150,10 +149,10 @@ export const ARTICLES = [
       {
         type: 'ul',
         items: [
-          '[PLACEHOLDER : avantage #1 : génération de mots de passe longs et aléatoires]',
-          '[PLACEHOLDER : avantage #2 : un seul mot de passe à retenir (le mot de passe principal)]',
-          '[PLACEHOLDER : avantage #3 : remplissage automatique, résistance au phishing]',
-          '[PLACEHOLDER : avantage #4 : alerte si un mot de passe a été compromis (HIBP)]',
+          "Il génère pour chaque site un mot de passe long, aléatoire et impossible à deviner, sans que vous ayez à l'inventer",
+          "Il retient tout à votre place : vous n'avez plus qu'un seul mot de passe principal à mémoriser",
+          'Il remplit automatiquement vos identifiants sur le bon site, ce qui vous protège aussi des faux sites de phishing',
+          "Il vous alerte si l'un de vos mots de passe apparaît dans une fuite de données connue, pour que vous puissiez le changer avant qu'il ne soit exploité",
         ],
       },
       {
@@ -162,11 +161,11 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER : Répondez à l'objection légitime sur la confiance. Expliquez le chiffrement côté serveur : le gestionnaire ne voit jamais vos mots de passe en clair. Comparez avec le risque réel de l'alternative (post-it, tableur, mémoire).]",
+        text: "C'est une réserve légitime, et la réponse tient dans la façon dont le chiffrement fonctionne. Avec DencPass, vos mots de passe sont chiffrés avant même d'être envoyés vers nos serveurs. Concrètement, cela veut dire que même notre équipe ne peut pas voir vos mots de passe en clair, puisque nous ne détenons jamais la clé qui permettrait de les déchiffrer. Comparé au post-it collé sur l'écran, au fichier tableur non protégé ou à la mémoire faillible, un gestionnaire de mots de passe reste, de loin, l'option la plus sûre.",
       },
       {
         type: 'callout',
-        text: "[PLACEHOLDER : Encadré « À retenir » : 3 faits clés sur la sécurité des gestionnaires modernes. Ex: chiffrement AES-256, clés protégées par l'infrastructure, audits de sécurité tiers.]",
+        text: "À retenir : vos mots de passe sont chiffrés en AES-256-GCM directement sur votre appareil avant tout envoi. Personne chez DencPass ne peut consulter vos mots de passe en clair. Un audit de sécurité indépendant vérifie régulièrement la solidité de ce système.",
       },
       {
         type: 'h2',
@@ -174,7 +173,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: '[PLACEHOLDER : Guide de démarrage en 3 étapes : créer son compte, importer ses mots de passe existants (CSV ou extension), activer le 2FA. Lien vers DencPass, gratuit pour commencer.]',
+        text: "Commencer prend moins de dix minutes. D'abord, créez votre compte DencPass et choisissez un mot de passe principal fort, c'est le seul que vous aurez encore à retenir. Ensuite, importez vos mots de passe existants depuis votre navigateur ou un fichier CSV, DencPass s'occupe du reste. Enfin, activez la double authentification sur votre compte pour une couche de protection supplémentaire. L'inscription est gratuite, alors autant commencer dès aujourd'hui plutôt que d'attendre le prochain incident.",
       },
     ],
   },
