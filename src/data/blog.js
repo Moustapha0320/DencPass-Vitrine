@@ -127,7 +127,7 @@ export const ARTICLES = [
     title: 'Pourquoi tout le monde devrait utiliser un gestionnaire de mots de passe',
     excerpt: "On utilise en moyenne 100 comptes en ligne. Retenir 100 mots de passe uniques et robustes est impossible pour un cerveau humain. Voici pourquoi déléguer cette tâche à un outil dédié n'est pas une option, c'est une nécessité.",
     category: 'Sécurité',
-    date: '2026-05-XX',
+    date: '2026-07-29',
     readTime: '4 min',
     content: [
       {
