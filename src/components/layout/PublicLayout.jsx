@@ -124,7 +124,7 @@ function NavBar({ theme, setTheme }) {
         transition: 'background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease',
       }}>
 
-        <Link to="/" aria-label="DencPass — Accueil" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+        <Link to="/" aria-label="DencPass : Accueil" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
           <LogoMark height={26} bg="var(--bg)" gradId="nav-dp-g" />
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.05em', color: 'var(--text)' }}>
             Denc<span style={{ color: 'var(--accent)' }}>Pass</span>
@@ -183,7 +183,7 @@ function NavBar({ theme, setTheme }) {
       {mobileOpen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'var(--bg)', display: 'flex', flexDirection: 'column', padding: '0 max(1.5rem, calc((100% - 1200px) / 2))' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 62 }}>
-            <Link to="/" onClick={() => setMobileOpen(false)} aria-label="DencPass — Accueil" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+            <Link to="/" onClick={() => setMobileOpen(false)} aria-label="DencPass : Accueil" style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <LogoMark height={26} bg="var(--bg)" gradId="mob-dp-g" />
               <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.05em', color: 'var(--text)' }}>
                 Denc<span style={{ color: 'var(--accent)' }}>Pass</span>

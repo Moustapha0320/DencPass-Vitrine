@@ -36,7 +36,7 @@ function HeroTypewriter() {
 
   return (
     <h1 style={h1Style}>
-      {/* Layout reserve — sets the H1 height so no layout shift during animation */}
+      {/* Layout reserve : sets the H1 height so no layout shift during animation */}
       <span aria-hidden="true" style={{ visibility: 'hidden', display: 'block' }}>{HERO_TEXT}</span>
       {/* Animated overlay */}
       <span aria-hidden="true" style={{ position: 'absolute', inset: 0 }}>
@@ -145,12 +145,12 @@ function HeroSection() {
           {/* « Samm sa sirru » ligne secondaire */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: '1.4rem', flexWrap: 'wrap', animation: 'fade-up 0.7s ease both 0.2s' }}>
             <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.1rem, 2.4vw, 1.5rem)', fontStyle: 'italic', color: 'var(--accent)', letterSpacing: '-0.02em' }}>« Samm sa sirru »</span>
-            <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text4)', letterSpacing: '0.04em', padding: '4px 10px', borderRadius: 100, border: '1px solid var(--border)', background: 'var(--bg2)' }}>wolof — « garde ton secret »</span>
+            <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text4)', letterSpacing: '0.04em', padding: '4px 10px', borderRadius: 100, border: '1px solid var(--border)', background: 'var(--bg2)' }}>wolof : « garde ton secret »</span>
           </div>
 
           {/* Sous-titre */}
           <p style={{ fontSize: 16.5, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 520, marginBottom: '2.2rem', animation: 'fade-up 0.7s ease both 0.3s' }}>
-            Le coffre-fort de vos identifiants, secrets et certificats. Chiffrement AES-256-GCM, zéro connaissance serveur, paiement en FCFA — fait pour l'Afrique.
+            Le coffre-fort de vos identifiants, secrets et certificats. Chiffrement AES-256-GCM, zéro connaissance serveur, paiement en FCFA : fait pour l'Afrique.
           </p>
 
           {/* CTAs */}
@@ -207,9 +207,9 @@ function TrustBand() {
   )
 }
 
-// ─── Stats row — format cards avec contexte ───────────────────────────────────
+// ─── Stats row : format cards avec contexte ───────────────────────────────────
 const STATS = [
-  { Icon: IcoShield, num: 700,   suffix: 'M+',    text: null,        unit: 'M+',    label: 'Fuites indexées (HIBP)',  context: 'Chaque mot de passe est comparé à 700 millions de fuites connues — sans jamais quitter votre appareil en clair.' },
+  { Icon: IcoShield, num: 700,   suffix: 'M+',    text: null,        unit: 'M+',    label: 'Fuites indexées (HIBP)',  context: 'Chaque mot de passe est comparé à 700 millions de fuites connues : sans jamais quitter votre appareil en clair.' },
   { Icon: IcoKey,    num: 128,   suffix: ' car.',  text: null,        unit: 'car.',  label: 'Générateur',              context: 'Longueur maximale d\'un mot de passe généré, avec règles configurables et passphrase mémorable.' },
   { Icon: IcoEye,    num: null,  suffix: '',       text: 'Zéro',      unit: '',      label: 'Accès serveur',           context: 'Nos serveurs ne peuvent pas lire vos données. Même en cas d\'accès physique, tout reste illisible.' },
   { Icon: IcoLock,   num: null,  suffix: '',       text: 'AES-256',   unit: 'GCM',  label: 'Chiffrement',             context: 'Chiffrement de bout en bout, chaque entrée chiffrée individuellement avec contrôle HMAC.' },
@@ -382,7 +382,7 @@ function PourquoiSection() {
           <div style={{ textAlign: 'center', marginBottom: '3.25rem', maxWidth: 640, marginLeft: 'auto', marginRight: 'auto' }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>POURQUOI DENCPASS</p>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Fait pour l'Afrique, dès le départ.</h2>
-            <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.7 }}>Les gestionnaires globaux ne gèrent ni le FCFA, ni Wave, ni Orange Money — et ignorent les contraintes locales. Voici ce que nous faisons différemment.</p>
+            <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.7 }}>Les gestionnaires globaux ne gèrent ni le FCFA, ni Wave, ni Orange Money : et ignorent les contraintes locales. Voici ce que nous faisons différemment.</p>
           </div>
         </Reveal>
 
@@ -603,7 +603,7 @@ function TestimonialsSection() {
   )
 }
 
-// ─── Pricing — grille 4 plans groupée (individuel + enterprise) ───────────────
+// ─── Pricing : grille 4 plans groupée (individuel + enterprise) ───────────────
 function PricingTeaser() {
   const [yearly, setYearly] = useState(false)
   const proMonthly = 2000, proYearly = 1600
@@ -672,7 +672,7 @@ function PricingTeaser() {
         </Reveal>
 
         <div className="hp-price-groups">
-          {/* Groupe individuel — cyan */}
+          {/* Groupe individuel : cyan */}
           <Reveal>
             <div style={{ border: '1px solid var(--border2)', borderRadius: 22, background: 'var(--bg-card)', padding: '1.5rem', position: 'relative', overflow: 'hidden', height: '100%' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg, var(--accent), var(--accent-014))' }} />
@@ -707,7 +707,7 @@ function PricingTeaser() {
             </div>
           </Reveal>
 
-          {/* Groupe organisations — violet */}
+          {/* Groupe organisations : violet */}
           <Reveal delay={80}>
             <div style={{ border: '1px solid var(--purple-025)', borderRadius: 22, background: 'var(--purple-06)', padding: '1.5rem', position: 'relative', overflow: 'hidden', height: '100%' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(90deg, var(--purple), var(--purple-014))' }} />

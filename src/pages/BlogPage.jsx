@@ -92,7 +92,7 @@ export default function BlogPage() {
                 Ressources & perspectives.
               </h1>
               <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 520, margin: '0 auto' }}>
-                Sécurité numérique, pratiques professionnelles, et les coulisses de DencPass — pour les équipes qui prennent leurs données au sérieux.
+                Sécurité numérique, pratiques professionnelles, et les coulisses de DencPass : pour les équipes qui prennent leurs données au sérieux.
               </p>
             </Reveal>
           </div>
@@ -102,7 +102,7 @@ export default function BlogPage() {
         <section style={{ padding: '1rem max(1.5rem, calc((100% - 1100px) / 2)) 7rem' }}>
           {ARTICLES.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text4)', fontFamily: "'JetBrains Mono', monospace", fontSize: 13 }}>
-              Aucun article pour l'instant — revenez bientôt.
+              Aucun article pour l'instant : revenez bientôt.
             </div>
           ) : (
             <div style={{

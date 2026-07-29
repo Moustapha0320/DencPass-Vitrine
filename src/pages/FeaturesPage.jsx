@@ -105,7 +105,7 @@ export default function FeaturesPage() {
                 Tout ce qu'il faut pour protéger vos accès.
               </h1>
               <p style={{ fontSize: 16.5, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 620, margin: '0 auto' }}>
-                De la gestion quotidienne de vos mots de passe au déploiement enterprise avec SIEM et Active Directory — sans jamais rogner sur la sécurité, ni oublier l'Afrique.
+                De la gestion quotidienne de vos mots de passe au déploiement enterprise avec SIEM et Active Directory : sans jamais rogner sur la sécurité, ni oublier l'Afrique.
               </p>
             </Reveal>
           </div>

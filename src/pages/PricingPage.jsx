@@ -108,11 +108,11 @@ const groups = [
 const faqs = [
   {
     q: 'Puis-je payer en FCFA ?',
-    a: 'Oui. Tous nos tarifs sont libellés en Francs CFA (XOF). Aucune conversion ni frais de change — ce que vous voyez est ce que vous payez.',
+    a: 'Oui. Tous nos tarifs sont libellés en Francs CFA (XOF). Aucune conversion ni frais de change : ce que vous voyez est ce que vous payez.',
   },
   {
     q: 'Quelle est la différence entre Enterprise Cloud et On-Premise ?',
-    a: 'Enterprise Cloud est hébergé et maintenu par nos équipes — vous démarrez immédiatement. Enterprise On-Premise se déploie dans votre datacenter (Docker ou bare-metal) pour un contrôle total de vos données.',
+    a: 'Enterprise Cloud est hébergé et maintenu par nos équipes : vous démarrez immédiatement. Enterprise On-Premise se déploie dans votre datacenter (Docker ou bare-metal) pour un contrôle total de vos données.',
   },
   {
     q: 'Puis-je changer de plan à tout moment ?',
@@ -120,7 +120,7 @@ const faqs = [
   },
   {
     q: 'Y a-t-il une réduction pour le plan annuel ?',
-    a: 'Oui — le plan Pro annuel revient à 1 600 FCFA/mois, soit 20 % de réduction par rapport à la facturation mensuelle.',
+    a: 'Oui : le plan Pro annuel revient à 1 600 FCFA/mois, soit 20 % de réduction par rapport à la facturation mensuelle.',
   },
 ];
 

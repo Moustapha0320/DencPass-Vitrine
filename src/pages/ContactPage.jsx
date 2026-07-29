@@ -126,7 +126,7 @@ export default function ContactPage() {
             Parlons de vos besoins.
           </h1>
           <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
-            Équipe basée à Dakar, nous répondons en français — sous 24h ouvrées.
+            Équipe basée à Dakar, nous répondons en français : sous 24h ouvrées.
           </p>
         </Reveal>
       </section>
@@ -141,7 +141,7 @@ export default function ContactPage() {
             alignItems: 'start',
           }}>
 
-            {/* Left — channel cards */}
+            {/* Left : channel cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
               {channels.map(({ Icon, title, detail, href }) => (
                 <div key={title} style={{
@@ -174,7 +174,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Right — form */}
+            {/* Right : form */}
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 20, padding: 'clamp(1.75rem,4vw,2.5rem)' }}>
 
               {status === 'success' ? (

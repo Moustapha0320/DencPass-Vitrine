@@ -4,7 +4,7 @@ import { Reveal, IcoArrow, IcoUsers, IcoKey, IcoLayers, IcoActivity, IcoClipboar
 const capabilities = [
   { Icon: IcoUsers,     title: 'Multi-organisations',    desc: 'Gérez plusieurs entités depuis un tableau de bord unifié.' },
   { Icon: IcoKey,       title: 'Rôles & permissions',   desc: 'Définissez des droits granulaires par utilisateur et par coffre.' },
-  { Icon: IcoLayers,    title: 'Active Directory',       desc: 'Synchronisation LDAP/AD — On-Premise uniquement.', tag: 'On-Premise' },
+  { Icon: IcoLayers,    title: 'Active Directory',       desc: 'Synchronisation LDAP/AD : On-Premise uniquement.', tag: 'On-Premise' },
   { Icon: IcoActivity,  title: 'SIEM / Syslog',          desc: 'Exportez tous les événements vers votre infrastructure de supervision.' },
   { Icon: IcoClipboard, title: 'Journalisation',         desc: 'Chaque accès, modification ou export est horodaté et signé.' },
   { Icon: IcoShield,    title: 'Conformité',             desc: 'Piste d\'audit complète pour ISO 27001, SOC 2 et réglementations locales.' },
@@ -84,7 +84,7 @@ export default function BusinessPage() {
                 La gouvernance des accès,<br />pour vos équipes.
               </h1>
               <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', lineHeight: 1.7, marginBottom: '2rem' }}>
-                Centralisez la gestion des mots de passe, des secrets et des permissions pour toute votre organisation — avec l'audit, la conformité et l'intégration à vos outils existants.
+                Centralisez la gestion des mots de passe, des secrets et des permissions pour toute votre organisation : avec l'audit, la conformité et l'intégration à vos outils existants.
               </p>
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <a href="/contact" className="btn-primary" style={{
@@ -104,7 +104,7 @@ export default function BusinessPage() {
               </div>
             </div>
 
-            {/* Right — capabilities 2x3 */}
+            {/* Right : capabilities 2x3 */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
               {capabilities.map(({ Icon, title, desc, tag }) => (
                 <div key={title} style={{

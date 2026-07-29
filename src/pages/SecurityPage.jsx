@@ -20,7 +20,7 @@ const pillars = [
   { Icon: IcoPhone,       accent: 'var(--green)',  title: '2FA TOTP',               desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
   { Icon: IcoRefresh,     accent: 'var(--accent)', title: 'Rotation des clés',      desc: 'Les clés peuvent être renouvelées sans interruption de service ni ré-authentification manuelle.' },
   { Icon: IcoClipboard,   accent: 'var(--amber)',  title: 'Audit complet',          desc: 'Chaque action est tracée et exportable vers Splunk, Elastic ou Wazuh via webhook ou Syslog RFC 5424.' },
-  { Icon: IcoShield,      accent: 'var(--purple)', title: 'Détection de fuites',    desc: 'Comparaison avec 700 M+ de fuites (HIBP) par k-anonymat — votre mot de passe ne quitte jamais l\'appareil en clair.' },
+  { Icon: IcoShield,      accent: 'var(--purple)', title: 'Détection de fuites',    desc: 'Comparaison avec 700 M+ de fuites (HIBP) par k-anonymat : votre mot de passe ne quitte jamais l\'appareil en clair.' },
 ]
 
 const specs = [
@@ -53,7 +53,7 @@ export default function SecurityPage() {
                 Zéro connaissance. Aucun compromis.
               </h1>
               <p style={{ fontSize: 16.5, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 600, margin: '0 auto' }}>
-                Vos données sont chiffrées sur votre appareil, avant de nous parvenir. Nos serveurs stockent des blocs illisibles — nous ne pouvons pas lire vos secrets, même si nous le voulions.
+                Vos données sont chiffrées sur votre appareil, avant de nous parvenir. Nos serveurs stockent des blocs illisibles : nous ne pouvons pas lire vos secrets, même si nous le voulions.
               </p>
             </Reveal>
           </div>
