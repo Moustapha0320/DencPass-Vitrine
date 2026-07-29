@@ -44,7 +44,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "Un employé qui quitte l'entreprise conserve trop souvent ses accès actifs pendant des semaines, parfois des mois, faute de procédure claire. C'est l'une des failles les plus fréquentes et les plus évitables : chaque compte oublié est une porte laissée entrouverte. Un gestionnaire d'accès centralisé avec journal d'audit permet de voir en un coup d'œil qui a accès à quoi, et de révoquer immédiatement les droits d'une personne le jour de son départ, sans devoir courir après chaque service pour couper les accès un par un.",
+        text: "Un employé qui quitte l'entreprise conserve trop souvent ses accès actifs pendant des semaines, parfois des mois, faute de procédure claire. C'est l'une des failles les plus fréquentes et les plus évitables : chaque compte oublié est une porte laissée entrouverte. Un gestionnaire d'accès centralisé avec journal d'audit permet de voir en un coup d'oeil qui a accès à quoi, et de révoquer immédiatement les droits d'une personne le jour de son départ, sans devoir courir après chaque service pour couper les accès un par un.",
       },
       {
         type: 'h2',
@@ -73,12 +73,12 @@ export const ARTICLES = [
     title: 'Sécurité numérique en Afrique : un enjeu croissant, des outils inadaptés',
     excerpt: "Le continent africain est la région du monde où la digitalisation progresse le plus vite. Mais les outils de cybersécurité disponibles restent pensés pour d'autres réalités. DencPass est né de ce constat.",
     category: 'Produit',
-    date: '2026-06-XX',
+    date: '2026-07-29',
     readTime: '5 min',
     content: [
       {
         type: 'intro',
-        text: "[PLACEHOLDER : Introduisez le paradoxe : croissance rapide de l'usage numérique en Afrique de l'Ouest (mobile money, e-commerce, administration en ligne) vs. outils de sécurité qui ne parlent ni la même langue, ni ne comprennent les mêmes modes de paiement.]",
+        text: "En Afrique de l'Ouest, le mobile money est devenu en une décennie un pilier de l'économie quotidienne : on y paie ses factures, on y reçoit son salaire, on y gère la trésorerie d'une petite entreprise. Dans plusieurs pays de la région, sa contribution au PIB dépasse aujourd'hui les 5 %. Mais cette révolution numérique s'est construite avec des outils de sécurité pensés ailleurs, pour d'autres usages, d'autres monnaies, d'autres langues. DencPass est né de ce décalage.",
       },
       {
         type: 'h2',
@@ -86,7 +86,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER : Données sur la croissance du mobile et de l'internet en Afrique subsaharienne. Mentionnez les secteurs les plus exposés : fintech, santé, e-gouvernement. Source possible : rapport GSMA ou CNUCED.]",
+        text: "Selon les derniers rapports de la GSMA, l'Afrique subsaharienne reste la région la plus dynamique au monde en matière de mobile money, avec plus d'un milliard de comptes enregistrés et des centaines de milliards de dollars transitant chaque année par ces plateformes en Afrique de l'Ouest seule. Cette croissance ne se limite pas au paiement mobile : la fintech, la santé numérique et l'administration en ligne suivent le même mouvement, portées par une génération d'entrepreneurs qui digitalisent leurs opérations plus vite que les infrastructures de sécurité ne suivent. Chaque nouveau service en ligne est un nouveau compte à protéger, et un nouveau mot de passe à retenir.",
       },
       {
         type: 'h2',
@@ -94,15 +94,15 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER : Expliquez les frictions concrètes : paiement en USD ou EUR uniquement, interface uniquement en anglais, support basé en Europe/US avec des fuseaux horaires incompatibles, absence de conformité locale (APDP Sénégal, CNIL pays par pays).]",
+        text: "La grande majorité des gestionnaires de mots de passe disponibles aujourd'hui ont été conçus pour des marchés nord américains ou européens, et cela se sent à chaque étape. L'abonnement se paie en dollars ou en euros par carte bancaire internationale, ce qui exclut d'office une partie des professionnels qui opèrent au quotidien avec Wave ou Orange Money. L'interface, le support client et la documentation restent presque exclusivement en anglais, avec des équipes basées à des fuseaux horaires qui rendent toute urgence technique difficile à résoudre le jour même. Et aucun de ces outils ne se préoccupe des cadres de protection des données propres à chaque pays, comme l'APDP au Sénégal.",
       },
       {
         type: 'ul',
         items: [
-          '[PLACEHOLDER : friction #1 : paiement]',
-          '[PLACEHOLDER : friction #2 : langue]',
-          '[PLACEHOLDER : friction #3 : support]',
-          '[PLACEHOLDER : friction #4 : conformité locale]',
+          'Paiement limité aux cartes bancaires internationales en USD ou EUR, inadapté à une majorité de PME ouest africaines',
+          'Interface et support uniquement en anglais, alors que le français reste la langue de travail de nombreuses organisations',
+          'Support client basé en Europe ou aux États-Unis, avec des délais de réponse incompatibles avec un incident de sécurité urgent',
+          "Aucune prise en compte des réglementations locales sur la protection des données, comme l'APDP au Sénégal",
         ],
       },
       {
@@ -111,7 +111,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER : Présentez les différenciateurs clés de DencPass : paiement FCFA via Wave et Orange Money, passphrases en langues africaines (wolof, bambara, swahili…), interface en français, support basé à Dakar, hébergement Africa-compatible.]",
+        text: "DencPass a été construit à partir de ces frictions, pas malgré elles. Le paiement se fait en FCFA, directement via Wave, Orange Money ou CinetPay, sans carte bancaire internationale ni conversion de devise. L'interface est entièrement en français, et il est possible de créer sa phrase secrète principale en s'appuyant sur des mots issus du wolof, du bambara, du swahili ou du yoruba, pour une mémorisation plus naturelle et plus personnelle. Le support est basé à Dakar, aux mêmes heures de travail que ses utilisateurs, capable de répondre à un incident de sécurité sans décalage horaire. Le chiffrement AES-256-GCM reste au niveau des standards internationaux les plus exigeants ; ce qui change, c'est que l'outil a été pensé pour les réalités concrètes de ceux qui l'utilisent.",
       },
       {
         type: 'h2',
@@ -119,7 +119,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER : Conclusion engageante. La sécurité numérique n'est pas un luxe occidental. DencPass est un outil conçu ici, pour les réalités d'ici. CTA vers la page d'inscription.]",
+        text: "La sécurité numérique n'est pas un luxe réservé aux entreprises occidentales, c'est un besoin aussi réel à Dakar, Abidjan ou Cotonou qu'à Paris ou New York. DencPass est un outil conçu ici, pour les réalités d'ici : la monnaie, la langue, le fuseau horaire et le cadre légal de ceux qui l'utilisent chaque jour. Créez votre compte gratuit dès aujourd'hui et voyez la différence par vous même.",
       },
     ],
   },
@@ -141,7 +141,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER : Statistiques sur les violations : % des violations dues à des mots de passe compromis/réutilisés, temps moyen pour craquer un mot de passe à 8 caractères, exemples concrets de fuites notoires et leurs conséquences.]",
+        text: '[PLACEHOLDER : Statistiques sur les violations : % des violations dues à des mots de passe compromis/réutilisés, temps moyen pour craquer un mot de passe à 8 caractères, exemples concrets de fuites notoires et leurs conséquences.]',
       },
       {
         type: 'h2',
