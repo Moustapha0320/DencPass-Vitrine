@@ -7,7 +7,7 @@ function resolveTheme(t) {
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState(() => localStorage.getItem('denc-theme') || 'dark')
+  const [theme, setThemeState] = useState(() => localStorage.getItem('denc-theme') || 'light')
 
   const applyTheme = useCallback(t => {
     document.documentElement.setAttribute('data-theme', resolveTheme(t))
