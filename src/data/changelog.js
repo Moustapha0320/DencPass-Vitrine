@@ -1,4 +1,4 @@
-// Changelog entries — most recent first.
+// Changelog entries : most recent first.
 // Replace "date" values with exact dates before publishing.
 export const CHANGELOG = [
   {
@@ -47,7 +47,7 @@ export const CHANGELOG = [
     date: '2026-03-XX',
     category: 'Nouveau',
     title: 'Lancement de DencPass',
-    description: "Première version publique de DencPass — gestionnaire de mots de passe et secrets numériques conçu pour les professionnels et organisations d'Afrique. Coffre chiffré AES-256-GCM, générateur de mots de passe, passphrase en langues africaines, 2FA TOTP et paiement en FCFA.",
+    description: "Première version publique de DencPass : gestionnaire de mots de passe et secrets numériques conçu pour les professionnels et organisations d'Afrique. Coffre chiffré AES-256-GCM, générateur de mots de passe, passphrase en langues africaines, 2FA TOTP et paiement en FCFA.",
   },
 ]
 

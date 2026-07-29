@@ -7,7 +7,7 @@ export const ARTICLES = [
     title: 'Comment protéger les accès de votre organisation en 2026',
     excerpt: 'Les violations de données coûtent en moyenne 4,4 millions de dollars aux entreprises. Pourtant, 80 % des incidents impliquent des identifiants compromis. Voici les pratiques concrètes à mettre en place dès maintenant.',
     category: 'Guide',
-    date: '2026-07-XX',
+    date: '2026-07-29',
     readTime: '7 min',
     content: [
       {
@@ -64,7 +64,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "Inventorier ses accès, activer le 2FA, encadrer les départs et auditer régulièrement la santé des mots de passe : ces quatre réflexes suffisent à éliminer la grande majorité des risques liés aux identifiants en entreprise. Aucun ne demande une transformation lourde, seulement un outil adapté et un peu de rigueur. Si vous voulez mettre en place ces pratiques sans complexité technique, DencPass Enterprise a été pensé pour ça — vous pouvez tester la plateforme dès aujourd'hui ou contacter notre équipe à Dakar pour une démonstration.",
+        text: "Inventorier ses accès, activer le 2FA, encadrer les départs et auditer régulièrement la santé des mots de passe : ces quatre réflexes suffisent à éliminer la grande majorité des risques liés aux identifiants en entreprise. Aucun ne demande une transformation lourde, seulement un outil adapté et un peu de rigueur. Si vous voulez mettre en place ces pratiques sans complexité technique, DencPass Enterprise a été pensé pour ça : vous pouvez tester la plateforme dès aujourd'hui ou contacter notre équipe à Dakar pour une démonstration.",
       },
     ],
   },
@@ -78,7 +78,7 @@ export const ARTICLES = [
     content: [
       {
         type: 'intro',
-        text: "[PLACEHOLDER — Introduisez le paradoxe : croissance rapide de l'usage numérique en Afrique de l'Ouest (mobile money, e-commerce, administration en ligne) vs. outils de sécurité qui ne parlent ni la même langue, ni ne comprennent les mêmes modes de paiement.]",
+        text: "[PLACEHOLDER : Introduisez le paradoxe : croissance rapide de l'usage numérique en Afrique de l'Ouest (mobile money, e-commerce, administration en ligne) vs. outils de sécurité qui ne parlent ni la même langue, ni ne comprennent les mêmes modes de paiement.]",
       },
       {
         type: 'h2',
@@ -86,7 +86,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER — Données sur la croissance du mobile et de l'internet en Afrique subsaharienne. Mentionnez les secteurs les plus exposés : fintech, santé, e-gouvernement. Source possible : rapport GSMA ou CNUCED.]",
+        text: "[PLACEHOLDER : Données sur la croissance du mobile et de l'internet en Afrique subsaharienne. Mentionnez les secteurs les plus exposés : fintech, santé, e-gouvernement. Source possible : rapport GSMA ou CNUCED.]",
       },
       {
         type: 'h2',
@@ -94,15 +94,15 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER — Expliquez les frictions concrètes : paiement en USD ou EUR uniquement, interface uniquement en anglais, support basé en Europe/US avec des fuseaux horaires incompatibles, absence de conformité locale (APDP Sénégal, CNIL pays par pays).]",
+        text: "[PLACEHOLDER : Expliquez les frictions concrètes : paiement en USD ou EUR uniquement, interface uniquement en anglais, support basé en Europe/US avec des fuseaux horaires incompatibles, absence de conformité locale (APDP Sénégal, CNIL pays par pays).]",
       },
       {
         type: 'ul',
         items: [
-          '[PLACEHOLDER — friction #1 : paiement]',
-          '[PLACEHOLDER — friction #2 : langue]',
-          '[PLACEHOLDER — friction #3 : support]',
-          '[PLACEHOLDER — friction #4 : conformité locale]',
+          '[PLACEHOLDER : friction #1 : paiement]',
+          '[PLACEHOLDER : friction #2 : langue]',
+          '[PLACEHOLDER : friction #3 : support]',
+          '[PLACEHOLDER : friction #4 : conformité locale]',
         ],
       },
       {
@@ -111,7 +111,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER — Présentez les différenciateurs clés de DencPass : paiement FCFA via Wave et Orange Money, passphrases en langues africaines (wolof, bambara, swahili…), interface en français, support basé à Dakar, hébergement Africa-compatible.]",
+        text: "[PLACEHOLDER : Présentez les différenciateurs clés de DencPass : paiement FCFA via Wave et Orange Money, passphrases en langues africaines (wolof, bambara, swahili…), interface en français, support basé à Dakar, hébergement Africa-compatible.]",
       },
       {
         type: 'h2',
@@ -119,7 +119,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER — Conclusion engageante. La sécurité numérique n'est pas un luxe occidental. DencPass est un outil conçu ici, pour les réalités d'ici. CTA vers la page d'inscription.]",
+        text: "[PLACEHOLDER : Conclusion engageante. La sécurité numérique n'est pas un luxe occidental. DencPass est un outil conçu ici, pour les réalités d'ici. CTA vers la page d'inscription.]",
       },
     ],
   },
@@ -133,7 +133,7 @@ export const ARTICLES = [
     content: [
       {
         type: 'intro',
-        text: "[PLACEHOLDER — Commencez par le constat humain : la mémoire humaine est mauvaise pour les mots de passe robustes. On réutilise, on simplifie, on oublie. Ce n'est pas un défaut de caractère, c'est une limite biologique. La solution n'est pas d'essayer plus fort — c'est d'utiliser le bon outil.]",
+        text: "[PLACEHOLDER : Commencez par le constat humain : la mémoire humaine est mauvaise pour les mots de passe robustes. On réutilise, on simplifie, on oublie. Ce n'est pas un défaut de caractère, c'est une limite biologique. La solution n'est pas d'essayer plus fort : c'est d'utiliser le bon outil.]",
       },
       {
         type: 'h2',
@@ -141,7 +141,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER — Statistiques sur les violations : % des violations dues à des mots de passe compromis/réutilisés, temps moyen pour craquer un mot de passe à 8 caractères, exemples concrets de fuites notoires et leurs conséquences.]",
+        text: "[PLACEHOLDER : Statistiques sur les violations : % des violations dues à des mots de passe compromis/réutilisés, temps moyen pour craquer un mot de passe à 8 caractères, exemples concrets de fuites notoires et leurs conséquences.]",
       },
       {
         type: 'h2',
@@ -150,10 +150,10 @@ export const ARTICLES = [
       {
         type: 'ul',
         items: [
-          '[PLACEHOLDER — avantage #1 : génération de mots de passe longs et aléatoires]',
-          '[PLACEHOLDER — avantage #2 : un seul mot de passe à retenir (le mot de passe principal)]',
-          '[PLACEHOLDER — avantage #3 : remplissage automatique, résistance au phishing]',
-          '[PLACEHOLDER — avantage #4 : alerte si un mot de passe a été compromis (HIBP)]',
+          '[PLACEHOLDER : avantage #1 : génération de mots de passe longs et aléatoires]',
+          '[PLACEHOLDER : avantage #2 : un seul mot de passe à retenir (le mot de passe principal)]',
+          '[PLACEHOLDER : avantage #3 : remplissage automatique, résistance au phishing]',
+          '[PLACEHOLDER : avantage #4 : alerte si un mot de passe a été compromis (HIBP)]',
         ],
       },
       {
@@ -162,11 +162,11 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "[PLACEHOLDER — Répondez à l'objection légitime sur la confiance. Expliquez le chiffrement côté serveur : le gestionnaire ne voit jamais vos mots de passe en clair. Comparez avec le risque réel de l'alternative (post-it, tableur, mémoire).]",
+        text: "[PLACEHOLDER : Répondez à l'objection légitime sur la confiance. Expliquez le chiffrement côté serveur : le gestionnaire ne voit jamais vos mots de passe en clair. Comparez avec le risque réel de l'alternative (post-it, tableur, mémoire).]",
       },
       {
         type: 'callout',
-        text: "[PLACEHOLDER — Encadré « À retenir » : 3 faits clés sur la sécurité des gestionnaires modernes. Ex: chiffrement AES-256, clés protégées par l'infrastructure, audits de sécurité tiers.]",
+        text: "[PLACEHOLDER : Encadré « À retenir » : 3 faits clés sur la sécurité des gestionnaires modernes. Ex: chiffrement AES-256, clés protégées par l'infrastructure, audits de sécurité tiers.]",
       },
       {
         type: 'h2',
@@ -174,7 +174,7 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: '[PLACEHOLDER — Guide de démarrage en 3 étapes : créer son compte, importer ses mots de passe existants (CSV ou extension), activer le 2FA. Lien vers DencPass, gratuit pour commencer.]',
+        text: '[PLACEHOLDER : Guide de démarrage en 3 étapes : créer son compte, importer ses mots de passe existants (CSV ou extension), activer le 2FA. Lien vers DencPass, gratuit pour commencer.]',
       },
     ],
   },
