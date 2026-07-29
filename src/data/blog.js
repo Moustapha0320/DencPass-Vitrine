@@ -161,11 +161,11 @@ export const ARTICLES = [
       },
       {
         type: 'p',
-        text: "C'est une réserve légitime, et la réponse tient dans la façon dont le chiffrement fonctionne. Avec DencPass, vos mots de passe sont chiffrés avant même d'être envoyés vers nos serveurs. Concrètement, cela veut dire que même notre équipe ne peut pas voir vos mots de passe en clair, puisque nous ne détenons jamais la clé qui permettrait de les déchiffrer. Comparé au post-it collé sur l'écran, au fichier tableur non protégé ou à la mémoire faillible, un gestionnaire de mots de passe reste, de loin, l'option la plus sûre.",
+        text: "C'est une réserve légitime, et la réponse tient dans la façon dont le chiffrement fonctionne. Avec l'architecture zero-knowledge de DencPass, vos mots de passe sont chiffrés et déchiffrés directement sur votre appareil, avant même d'être envoyés vers nos serveurs. Concrètement, cela veut dire que même notre équipe ne peut pas voir vos mots de passe en clair, puisque nous ne détenons jamais la clé qui permettrait de les déchiffrer. Comparé au post-it collé sur l'écran, au fichier tableur non protégé ou à la mémoire faillible, un gestionnaire zero-knowledge reste, de loin, l'option la plus sûre.",
       },
       {
         type: 'callout',
-        text: "À retenir : vos mots de passe sont chiffrés en AES-256-GCM directement sur votre appareil avant tout envoi. Personne chez DencPass ne peut consulter vos mots de passe en clair. Un audit de sécurité indépendant vérifie régulièrement la solidité de ce système.",
+        text: "À retenir : architecture zero-knowledge. Vos mots de passe sont chiffrés en AES-256-GCM directement sur votre appareil, avant tout envoi. La clé de chiffrement ne quitte jamais votre appareil et personne chez DencPass ne peut consulter vos mots de passe en clair. Un audit de sécurité indépendant vérifie régulièrement la solidité de ce système.",
       },
       {
         type: 'h2',
