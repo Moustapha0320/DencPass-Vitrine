@@ -246,7 +246,7 @@ const FOOTER_COLS = [
     links: [
       { label: 'Blog',              to: '/blog' },
       { label: 'Changelog',         to: '/changelog' },
-      { label: 'Statut du service', href: '#' },
+      { label: 'Statut du service', to: '/status' },
     ]
   },
 ]

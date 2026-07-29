@@ -16,6 +16,7 @@ import ContactPage from './pages/ContactPage'
 import ChangelogPage from './pages/ChangelogPage'
 import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
+import StatusPage from './pages/StatusPage'
 import PublicLayout from './components/layout/PublicLayout'
 import { Reveal } from './components/shared'
 
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="/changelog" element={<ChangelogPage />} />
         <Route path="/blog"      element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/status"    element={<StatusPage />} />
         <Route path="*"          element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
