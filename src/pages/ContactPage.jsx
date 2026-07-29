@@ -126,7 +126,7 @@ export default function ContactPage() {
             Parlons de vos besoins.
           </h1>
           <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
-            Équipe basée à Dakar, nous répondons en français : sous 24h ouvrées.
+            Équipe basée à Dakar, nous répondons sous 24h ouvrées.
           </p>
         </Reveal>
       </section>
@@ -201,7 +201,7 @@ export default function ContactPage() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <Field label="Nom complet" required>
                       <input style={fieldBase} type="text" required value={form.nom} onChange={set('nom')}
-                        placeholder="Moustapha Diallo" onFocus={focusIn} onBlur={focusOut} />
+                        placeholder="Toto Diallo" onFocus={focusIn} onBlur={focusOut} />
                     </Field>
                     <Field label="Email" required>
                       <input style={fieldBase} type="email" required value={form.email} onChange={set('email')}
