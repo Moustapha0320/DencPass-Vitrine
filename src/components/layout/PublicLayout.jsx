@@ -84,11 +84,12 @@ function LogoMark({ height = 26, bg = 'var(--bg)', gradId = 'dp-g' }) {
 
 // ─── NavBar ───────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
-  { label: 'Fonctionnalités', to: '/features' },
-  { label: 'Sécurité',        to: '/security' },
-  { label: 'Entreprises',     to: '/business' },
-  { label: 'Tarifs',          to: '/pricing' },
-  { label: 'Contact',         to: '/contact' },
+  { label: 'Fonctionnalités', to: '/features'  },
+  { label: 'Sécurité',        to: '/security'  },
+  { label: 'Entreprises',     to: '/business'  },
+  { label: 'Tarifs',          to: '/pricing'   },
+  { label: 'Téléchargement',  to: '/download'  },
+  { label: 'Contact',         to: '/contact'   },
 ]
 
 const THEME_OPTS = [

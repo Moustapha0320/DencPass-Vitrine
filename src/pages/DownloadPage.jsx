@@ -20,7 +20,7 @@ const available = [
     tag: 'Disponible',
     tagColor: 'var(--green)',
     tagBg: 'rgba(34,197,94,0.10)',
-    cta: { label: 'Installer l\'extension', href: 'https://chrome.google.com/webstore', external: true },
+    cta: { label: 'Installer l\'extension', href: 'https://chromewebstore.google.com/detail/dencpass/bcemgedgiblobnnpehlmbfnhejhlpnkb', external: true },
     accentBg: 'var(--accent-014)',
     accentColor: 'var(--accent)',
   },
