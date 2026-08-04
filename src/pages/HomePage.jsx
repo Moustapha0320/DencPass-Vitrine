@@ -4,8 +4,9 @@ import NumberFlow from '@number-flow/react'
 import confetti from 'canvas-confetti'
 import PublicLayout from '../components/layout/PublicLayout'
 import DotField from '../components/DotField'
+import ProductPreview from '../components/ProductPreview'
 import { useTheme } from '../hooks/useTheme'
-import { Reveal, prefersReducedMotion, IcoCheck, IcoX, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoSearch, IcoCopy, IcoBuilding, IcoCode, IcoStar, IcoSmartphone } from '../components/shared'
+import { Reveal, prefersReducedMotion, IcoCheck, IcoX, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoCopy, IcoBuilding, IcoCode, IcoStar, IcoSmartphone } from '../components/shared'
 
 // ─── Hero typewriter ──────────────────────────────────────────────────────────
 const HERO_TEXT = 'Tous vos mots de passe et secrets, chiffrés de bout en bout.'
@@ -49,106 +50,6 @@ function HeroTypewriter() {
   )
 }
 
-// ─── Product mockup ───────────────────────────────────────────────────────────
-function ProductMockup() {
-  const entries = [
-    { initials: 'BQ', name: 'Banque en ligne', cat: 'Finance', user: 'john.doe@gmail.com',   score: 98,  color: '#2fd9f4' },
-    { initials: 'AW', name: 'AWS Production',   cat: 'DevOps',  user: 'toto@acmecorp.io',     score: 100, color: '#8b5cf6' },
-    { initials: 'GH', name: 'GitHub',           cat: 'Dev',     user: 'm.dione@dencu.online', score: 87,  color: '#ec4899' },
-  ]
-  const scoreColor = s => s >= 90 ? 'var(--accent)' : s >= 75 ? '#22c55e' : '#f59e0b'
-
-  return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 420 }}>
-      <div style={{ position: 'absolute', inset: '-40px', background: 'radial-gradient(ellipse at 50% 50%, rgba(47,217,244,0.08) 0%, transparent 65%)', pointerEvents: 'none' }} />
-
-      <div style={{ position: 'relative', background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 20, overflow: 'hidden', boxShadow: 'var(--shadow-card)', animation: 'mockup-float 7s ease-in-out infinite' }}>
-
-        {/* Browser chrome */}
-        <div style={{ padding: '10px 14px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ display: 'flex', gap: 5 }}>
-            {['#ff5f57','#febc2e','#28c840'].map(c => <div key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.85 }} />)}
-          </div>
-          <div style={{ flex: 1, background: 'var(--accent-004)', border: '1px solid var(--border)', borderRadius: 6, padding: '3px 10px', display: 'flex', alignItems: 'center', gap: 5, marginLeft: 6 }}>
-            <span style={{ color: 'var(--accent)', display: 'flex' }}><IcoLock size={9} /></span>
-            <span style={{ fontSize: 10, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>app.dencpass.com</span>
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <div style={{ padding: '0 14px', borderBottom: '1px solid var(--border)', display: 'flex' }}>
-          {[['Coffre', true], ['Générateur', false], ['Partage', false]].map(([t, active]) => (
-            <div key={t} style={{ padding: '8px 12px', fontSize: 11, fontWeight: active ? 600 : 400, color: active ? 'var(--accent)' : 'var(--text5)', borderBottom: active ? '2px solid var(--accent)' : '2px solid transparent' }}>{t}</div>
-          ))}
-        </div>
-
-        {/* Search */}
-        <div style={{ padding: '10px 14px 6px' }}>
-          <div style={{ background: 'var(--accent-004)', border: '1px solid var(--border)', borderRadius: 8, padding: '6px 11px', display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text5)' }}>
-            <IcoSearch size={12} /><span style={{ fontSize: 11, opacity: 0.6 }}>Rechercher dans le coffre…</span>
-          </div>
-        </div>
-
-        {/* Entries */}
-        <div style={{ padding: '2px 10px 8px', display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {entries.map((e, i) => (
-            <div key={i} style={{
-              padding: '9px 10px',
-              display: 'flex', alignItems: 'center', gap: 10,
-              borderRadius: 10,
-              background: i === 0 ? e.color + '0d' : 'transparent',
-              border: `1px solid ${i === 0 ? e.color + '30' : 'var(--border)'}`,
-              borderLeft: `2px solid ${i === 0 ? e.color : 'transparent'}`,
-            }}>
-              <div style={{ width: 32, height: 32, borderRadius: 9, background: e.color + '20', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 11, fontWeight: 800, color: e.color, fontFamily: "'Space Grotesk', sans-serif" }}>{e.initials}</span>
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-head)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.name}</span>
-                  <span style={{ fontSize: 8, fontWeight: 700, color: e.color, background: e.color + '18', padding: '1px 5px', borderRadius: 4, flexShrink: 0 }}>{e.cat}</span>
-                </div>
-                <div style={{ fontSize: 9, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace", marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.user}</div>
-              </div>
-              <span style={{ fontSize: 10, color: 'var(--text5)', letterSpacing: 1.5, flexShrink: 0 }}>••••••</span>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 3, flexShrink: 0 }}>
-                <span style={{ fontSize: 9, fontWeight: 700, color: scoreColor(e.score), fontFamily: "'JetBrains Mono', monospace" }}>{e.score}</span>
-                <div style={{ width: 28, height: 3, borderRadius: 2, background: 'var(--border)', overflow: 'hidden' }}>
-                  <div style={{ width: e.score + '%', height: '100%', background: scoreColor(e.score), borderRadius: 2 }} />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Footer */}
-        <div style={{ padding: '8px 14px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 9, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>3 entrées · AES-256-GCM</span>
-          <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-            <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--accent)', animation: 'glow-pulse 2s ease-in-out infinite' }} />
-            <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--accent)', fontFamily: "'JetBrains Mono', monospace" }}>score : 94/100</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Badge 2FA */}
-      <div style={{ position: 'absolute', bottom: -16, left: -18, background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 12, padding: '9px 13px', display: 'flex', alignItems: 'center', gap: 9, boxShadow: 'var(--shadow-card)', animation: 'mockup-float 7s ease-in-out infinite 1.5s' }}>
-        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--accent-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)' }}><IcoPhone size={13} /></div>
-        <div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text)', fontFamily: "'Space Grotesk', sans-serif" }}>2FA activé</div>
-          <div style={{ fontSize: 9, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>Google Auth</div>
-        </div>
-      </div>
-
-      {/* Badge AES */}
-      <div style={{ position: 'absolute', top: 46, right: -18, background: 'var(--bg2)', border: '1px solid var(--purple-025)', borderRadius: 10, padding: '8px 13px', boxShadow: 'var(--shadow-card)', animation: 'mockup-float 7s ease-in-out infinite 3s' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent)', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.04em' }}>AES-256</div>
-        <div style={{ fontSize: 9, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>chiffré · HMAC</div>
-      </div>
-    </div>
-  )
-}
-
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function HeroSection() {
   const { theme } = useTheme()
@@ -164,7 +65,7 @@ function HeroSection() {
         style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', opacity: 0.7, maskImage: 'radial-gradient(ellipse at 45% 45%, #000 25%, transparent 78%)', WebkitMaskImage: 'radial-gradient(ellipse at 45% 45%, #000 25%, transparent 78%)' }}
         aria-hidden="true"
       />
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '3rem', alignItems: 'center' }} className="hero-grid">
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: '2.5rem', alignItems: 'center' }} className="hero-grid">
         <div>
           {/* Badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--border2)', background: 'var(--accent-004)', marginBottom: '1.6rem', animation: 'fade-up 0.6s ease both 0.05s' }}>
@@ -201,13 +102,12 @@ function HeroSection() {
         </div>
 
         <div className="hero-mockup" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <ProductMockup />
+          <ProductPreview />
         </div>
       </div>
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 100, background: 'linear-gradient(to bottom, transparent, var(--bg))', pointerEvents: 'none' }} />
       <style>{`
         @keyframes caret-blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
-        @keyframes mockup-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
         @keyframes fade-up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
         @keyframes glow-pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
         @media (max-width:1000px) { .hero-grid{grid-template-columns:1fr!important} .hero-mockup{justify-content:center;margin-top:2.5rem} }
