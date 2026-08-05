@@ -95,7 +95,7 @@ function HeroSection() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: 'var(--accent)', color: 'var(--bg)', fontSize: 15, boxShadow: '0 4px 28px var(--accent-014)' }}>
               Commencer gratuitement <IcoArrow />
             </a>
-            <Link to="/fonctionnalites" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid var(--border2)', background: 'transparent', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+            <Link to="/features" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid var(--border2)', background: 'transparent', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               Voir les fonctionnalités
             </Link>
           </div>
@@ -201,9 +201,9 @@ function StatsRow() {
 
 // ─── Features teaser ──────────────────────────────────────────────────────────
 const MAIN_FEATURES = [
-  { Icon: IcoVault,    title: 'Coffre chiffré',    desc: 'Mots de passe, identifiants et notes sécurisées avec historique des modifications.', link: '/fonctionnalites' },
-  { Icon: IcoShare,    title: 'Partage sécurisé',  desc: 'Liens temporaires avec limite de vues, expiration et révocation à tout moment.',      link: '/fonctionnalites' },
-  { Icon: IcoActivity, title: 'Audit de sécurité', desc: 'Chaque action tracée. Intégration Splunk, Elastic, Wazuh via webhook ou Syslog.',     link: '/fonctionnalites' },
+  { Icon: IcoVault,    title: 'Coffre chiffré',    desc: 'Mots de passe, identifiants et notes sécurisées avec historique des modifications.', link: '/features' },
+  { Icon: IcoShare,    title: 'Partage sécurisé',  desc: 'Liens temporaires avec limite de vues, expiration et révocation à tout moment.',      link: '/features' },
+  { Icon: IcoActivity, title: 'Audit de sécurité', desc: 'Chaque action tracée. Intégration Splunk, Elastic, Wazuh via webhook ou Syslog.',     link: '/features' },
   { Icon: IcoUsers,    title: 'Équipes & groupes', desc: 'Gestion centralisée des accès avec rôles, permissions et audit par organisation.',     link: '/entreprises' },
 ]
 
