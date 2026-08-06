@@ -242,7 +242,7 @@ export default function FeaturesPage() {
                 <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.8, marginBottom: '2rem' }}>
                   Le violet signale l'univers Organisations : gouvernance des accès, intégrations et déploiement On-Premise pour vos équipes IT.
                 </p>
-                <Link to="/tarifs" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px var(--purple-025)' }}>
+                <Link to="/business" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px var(--purple-025)' }}>
                   Voir les offres Enterprise <IcoArrow size={15} />
                 </Link>
               </div>
@@ -275,7 +275,7 @@ export default function FeaturesPage() {
                 <a href="https://app.dencpass.com/register" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 32px', borderRadius: 14, background: 'var(--accent)', color: 'var(--bg)', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px var(--accent-014)' }}>
                   Commencer gratuitement <IcoArrow />
                 </a>
-                <Link to="/tarifs" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+                <Link to="/pricing" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
                   Voir les tarifs
                 </Link>
               </div>

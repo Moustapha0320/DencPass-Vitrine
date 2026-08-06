@@ -405,7 +405,7 @@ function SecuritySection() {
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>SÉCURITÉ</p>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Aucun compromis.</h2>
             </div>
-            <Link to="/securite" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 10, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 13, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", whiteSpace: 'nowrap' }}>
+            <Link to="/security" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 10, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 13, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", whiteSpace: 'nowrap' }}>
               Architecture de sécurité complète <IcoArrow size={12} />
             </Link>
           </div>
@@ -471,7 +471,7 @@ function EnterpriseSection() {
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.15 }}>Pensé pour vos équipes.</h2>
             <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.8, marginBottom: '2rem' }}>DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès, avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks.</p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-              <Link to="/entreprises" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, boxShadow: '0 4px 24px var(--purple-025)' }}>
+              <Link to="/business" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, boxShadow: '0 4px 24px var(--purple-025)' }}>
                 Découvrir Enterprise <IcoArrow />
               </Link>
               <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 22px', borderRadius: 12, border: '1px solid var(--purple-025)', color: 'var(--text2)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>

@@ -245,7 +245,7 @@ export default function BusinessPage() {
               }}>
                 Prendre contact <IcoArrow size={16} />
               </a>
-              <a href="/tarifs" className="btn-primary" style={{
+              <a href="/pricing" className="btn-primary" style={{
                 background: 'transparent', color: 'var(--text)',
                 border: '1px solid var(--border2)',
                 padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
