@@ -97,7 +97,7 @@ const THEME_OPTS = [
   { v: 'light', Icon: IcoSun,  l: 'Clair'  },
 ]
 
-function NavBar({ theme, setTheme }) {
+function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
@@ -145,23 +145,9 @@ function NavBar({ theme, setTheme }) {
         </div>
 
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <div className="nav-theme-toggle" style={{ background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 9, padding: 3, gap: 2 }}>
-            {THEME_OPTS.map(({ v, Icon, l }) => (
-              <button key={v} onClick={() => setTheme(v)} title={l}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 5,
-                  padding: '4px 10px', borderRadius: 6, border: 'none', cursor: 'pointer',
-                  fontSize: 12, fontFamily: "'Inter', sans-serif", transition: 'all 0.2s',
-                  background: theme === v ? 'var(--accent-014)' : 'transparent',
-                  color: theme === v ? 'var(--accent)' : 'var(--text5)',
-                }}>
-                <Icon /> {l}
-              </button>
-            ))}
-          </div>
           <div className="nav-cta-group">
             <a href="https://app.dencpass.com" className="nav-link"
-              style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500, padding: '8px 4px' }}>
+              style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500, padding: '8px 18px', borderRadius: 100, border: '1px solid var(--border2)', background: 'transparent' }}>
               Connexion
             </a>
             <a href="https://app.dencpass.com/register" className="btn-primary"
@@ -328,7 +314,7 @@ export default function PublicLayout({ children }) {
   const { theme, setTheme } = useTheme()
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
-      <NavBar theme={theme} setTheme={setTheme} />
+      <NavBar />
       <main>{children}</main>
       <Footer setLegalModal={setLegalModal} theme={theme} setTheme={setTheme} />
       {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}

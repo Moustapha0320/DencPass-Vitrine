@@ -70,7 +70,7 @@ function HeroSection() {
           {/* Badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--border2)', background: 'var(--accent-004)', marginBottom: '1.6rem', animation: 'fade-up 0.6s ease both 0.05s' }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', animation: 'glow-pulse 2s ease-in-out infinite', display: 'inline-block', flexShrink: 0 }} />
-            <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>GESTIONNAIRE DE MOTS DE PASSE · SÉNÉGAL</span>
+            <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>GESTIONNAIRE DE MOTS DE PASSE</span>
           </div>
 
           {/* H1 typewriter */}
