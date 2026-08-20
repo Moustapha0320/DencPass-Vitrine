@@ -88,6 +88,7 @@ button { font-family: inherit; }
 /* ── Nav ──────────────────────────────────────────────── */
 .nav-link { transition: color 0.2s ease; }
 .nav-link:hover { color: var(--accent) !important; }
+.nav-link-business:hover { color: var(--purple) !important; }
 
 .nav-links        { display: flex; align-items: center; gap: 1.75rem; }
 .nav-cta-group    { display: flex; align-items: center; gap: 10px; }

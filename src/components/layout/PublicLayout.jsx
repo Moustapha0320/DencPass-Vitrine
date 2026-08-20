@@ -133,15 +133,20 @@ function NavBar() {
         </Link>
 
         <div className="nav-links">
-          {NAV_ITEMS.map(({ label, to }) => (
-            <Link key={to} to={to} className="nav-link" style={{
-              fontSize: 14,
-              color: location.pathname === to ? 'var(--accent)' : 'var(--text3)',
-              fontFamily: "'Inter', sans-serif", fontWeight: 500,
-            }}>
-              {label}
-            </Link>
-          ))}
+          {NAV_ITEMS.map(({ label, to }) => {
+            const active = location.pathname === to
+            const isBusiness = to === '/business'
+            const activeColor = isBusiness ? 'var(--purple)' : 'var(--accent)'
+            return (
+              <Link key={to} to={to} className={isBusiness ? 'nav-link nav-link-business' : 'nav-link'} style={{
+                fontSize: 14,
+                color: active ? activeColor : 'var(--text3)',
+                fontFamily: "'Inter', sans-serif", fontWeight: 500,
+              }}>
+                {label}
+              </Link>
+            )
+          })}
         </div>
 
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
@@ -182,16 +187,20 @@ function NavBar() {
             </button>
           </div>
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.5rem' }}>
-            {NAV_ITEMS.map(({ label, to }) => (
-              <Link key={to} to={to} onClick={() => setMobileOpen(false)} style={{
-                display: 'block', padding: '1rem 0', fontSize: 22, fontWeight: 700,
-                fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.02em',
-                color: location.pathname === to ? 'var(--accent)' : 'var(--text)',
-                borderBottom: '1px solid var(--border)',
-              }}>
-                {label}
-              </Link>
-            ))}
+            {NAV_ITEMS.map(({ label, to }) => {
+              const active = location.pathname === to
+              const activeColor = to === '/business' ? 'var(--purple)' : 'var(--accent)'
+              return (
+                <Link key={to} to={to} onClick={() => setMobileOpen(false)} style={{
+                  display: 'block', padding: '1rem 0', fontSize: 22, fontWeight: 700,
+                  fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.02em',
+                  color: active ? activeColor : 'var(--text)',
+                  borderBottom: '1px solid var(--border)',
+                }}>
+                  {label}
+                </Link>
+              )
+            })}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingBottom: '2rem' }}>
             <a href="https://app.dencpass.com"
