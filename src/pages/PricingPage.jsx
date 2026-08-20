@@ -28,7 +28,7 @@ const groups = [
           { label: '50 générations / mois',        ok: true  },
           { label: 'Passphrase africaine',          ok: true  },
           { label: '5 partages · 5 secrets',        ok: true  },
-          { label: 'Extension Chrome · 2FA',        ok: true  },
+          { label: 'Extensions navigateur · 2FA',   ok: true  },
           { label: 'Vérification HIBP (1 fois)',     ok: true  },
           { label: 'Partages & secrets illimités',  ok: false },
           { label: 'Journal d\'audit',              ok: false },

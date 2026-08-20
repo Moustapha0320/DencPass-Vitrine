@@ -24,19 +24,31 @@ const available = [
     accentBg: 'var(--accent-014)',
     accentColor: 'var(--accent)',
   },
+  {
+    Icon: IcoCode,
+    title: 'Extension Edge',
+    desc: 'Remplissage automatique dans Microsoft Edge. Installez en un clic depuis le store officiel.',
+    tag: 'Disponible',
+    tagColor: 'var(--green)',
+    tagBg: 'rgba(34,197,94,0.10)',
+    cta: { label: 'Installer l\'extension', href: 'https://microsoftedge.microsoft.com/addons/detail/padokcokhaaledeaaffnanjhahkhnpfk', external: true },
+    accentBg: 'var(--accent-014)',
+    accentColor: 'var(--accent)',
+  },
+  {
+    Icon: IcoCode,
+    title: 'Extension Firefox',
+    desc: 'Remplissage automatique dans Firefox et Firefox ESR. Installez en un clic depuis le store officiel.',
+    tag: 'Disponible',
+    tagColor: 'var(--green)',
+    tagBg: 'rgba(34,197,94,0.10)',
+    cta: { label: 'Installer l\'extension', href: 'https://addons.mozilla.org/fr/firefox/addon/dencpass/', external: true },
+    accentBg: 'var(--accent-014)',
+    accentColor: 'var(--accent)',
+  },
 ];
 
 const upcoming = [
-  {
-    title: 'Extension Firefox',
-    desc: 'Compatible Firefox et Firefox ESR.',
-    status: 'En développement',
-  },
-  {
-    title: 'Extension Edge',
-    desc: 'Compatible Microsoft Edge (Chromium).',
-    status: 'En développement',
-  },
   {
     title: 'Application Android',
     desc: 'Coffre natif avec remplissage automatique.',
@@ -68,7 +80,7 @@ export default function DownloadPage() {
             DencPass, partout où<br />vous travaillez.
           </h1>
           <p style={{ fontSize: 'clamp(1rem,2vw,1.0625rem)', color: 'var(--text2)', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
-            Disponible dès maintenant sur le web et Chrome. Applications mobiles et autres extensions en cours de développement.
+            Disponible dès maintenant sur le web et en extension Chrome, Edge et Firefox. Applications mobiles en cours de développement.
           </p>
         </Reveal>
       </section>

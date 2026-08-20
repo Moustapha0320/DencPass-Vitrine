@@ -17,7 +17,7 @@ const featureGroups = [
     items: [
       { Icon: IcoVault,    accent: 'var(--accent)', title: 'Coffre chiffré',              desc: 'Mots de passe, identifiants et notes sécurisés, avec historique des modifications par entrée.' },
       { Icon: IcoKey,      accent: 'var(--accent)', title: 'Générateur jusqu\'à 128 car.', desc: 'Règles configurables : longueur, symboles, chiffres. Ou passphrase mémorable.' },
-      { Icon: IcoCode,     accent: 'var(--accent)', title: 'Extension Chrome',             desc: 'Remplissage et capture automatiques des identifiants directement dans le navigateur.' },
+      { Icon: IcoCode,     accent: 'var(--accent)', title: 'Extensions navigateur',        desc: 'Remplissage et capture automatiques des identifiants Chrome, Edge et Firefox.' },
       { Icon: IcoFolder,   accent: 'var(--accent)', title: 'Secrets & certificats',        desc: 'Stockez clés d\'API, certificats et notes sécurisées à côté de vos mots de passe.' },
       { Icon: IcoRefresh,  accent: 'var(--accent)', title: 'Import en 2 minutes',          desc: 'CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC.' },
       { Icon: IcoActivity, accent: 'var(--accent)', title: 'Score de sécurité',            desc: 'Détection des mots de passe faibles, réutilisés ou compromis via HIBP.' },
@@ -76,7 +76,6 @@ const parity = [
 ]
 
 const roadmap = [
-  { label: 'Extension Firefox & Edge', tag: 'En développement' },
   { label: 'Applications mobiles natives', tag: 'Sur la feuille de route' },
 ]
 

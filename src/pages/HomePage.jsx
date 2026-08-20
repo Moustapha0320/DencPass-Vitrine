@@ -123,7 +123,7 @@ function TrustBand() {
     { Icon: IcoLock,  label: 'AES-256-GCM' },
     { Icon: IcoEye,   label: 'Zéro connaissance' },
     { Icon: IcoPhone, label: '2FA TOTP' },
-    { Icon: IcoCode,  label: 'Extension Chrome' },
+    { Icon: IcoCode,  label: 'Extensions navigateur' },
     { Icon: IcoGlobe, label: 'Africa-first' },
   ]
   return (
@@ -245,7 +245,7 @@ function HowItWorksSection() {
   const steps = [
     { n: '01', accent: 'var(--accent)', title: 'Créez votre coffre',   desc: 'Inscription en 2 minutes. Votre coffre chiffré est prêt instantanément, sans carte bancaire.' },
     { n: '02', accent: 'var(--purple)', title: 'Importez ou générez',   desc: 'Depuis Chrome, Bitwarden, 1Password ou KeePass. Ou générez des mots de passe forts directement.' },
-    { n: '03', accent: 'var(--green)',  title: 'Accédez partout',       desc: 'Via app.dencpass.com ou l\'extension Chrome pour le remplissage automatique dans votre navigateur.' },
+    { n: '03', accent: 'var(--green)',  title: 'Accédez partout',       desc: 'Via app.dencpass.com ou l\'extension Chrome, Edge ou Firefox pour le remplissage automatique dans votre navigateur.' },
   ]
   return (
     <section style={{ padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }}>
@@ -306,7 +306,6 @@ const PARITY = [
 ]
 
 const ROADMAP = [
-  { label: 'Extension Firefox & Edge', tag: 'En développement' },
   { label: 'Interface multilingue au-delà du français', tag: 'Sur la feuille de route' },
 ]
 
@@ -555,7 +554,7 @@ function PricingTeaser() {
         { ok: true,  label: '50 générations / mois' },
         { ok: true,  label: 'Passphrase africaine' },
         { ok: true,  label: '5 partages · 5 secrets' },
-        { ok: true,  label: 'Extension Chrome · 2FA' },
+        { ok: true,  label: 'Extensions navigateur · 2FA' },
         { ok: false, label: 'Partages & secrets illimités' },
       ],
     },

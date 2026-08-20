@@ -1,6 +1,14 @@
 // Changelog entries : most recent first.
 export const CHANGELOG = [
   {
+    id: 'v1-4-0',
+    version: 'v1.4.0',
+    date: '2026-08-16',
+    category: 'Nouveau',
+    title: 'Extensions Edge et Firefox disponibles',
+    description: "L'extension DencPass, jusque-là réservée à Chrome, est désormais aussi disponible sur Microsoft Edge et Firefox. Même remplissage automatique des identifiants, et détection des nouveaux mots de passe saisis avec proposition d'enregistrement dans le coffre.",
+  },
+  {
     id: 'v1-3-0',
     version: 'v1.3.0',
     date: '2026-07-29',
