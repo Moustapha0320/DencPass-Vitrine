@@ -78,10 +78,9 @@ function HeroSection() {
             <HeroTypewriter />
           </div>
 
-          {/* « Samm sa sirru » ligne secondaire */}
+          {/* Slogan */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: '1.4rem', flexWrap: 'wrap', animation: 'fade-up 0.7s ease both 0.2s' }}>
-            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.1rem, 2.4vw, 1.5rem)', fontStyle: 'italic', color: 'var(--accent)', letterSpacing: '-0.02em' }}>« Samm sa sirru »</span>
-            <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text4)', letterSpacing: '0.04em', padding: '4px 10px', borderRadius: 100, border: '1px solid var(--border)', background: 'var(--bg2)' }}>wolof : « garde ton secret »</span>
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.1rem, 2.4vw, 1.5rem)', fontStyle: 'italic', color: 'var(--accent)', letterSpacing: '-0.02em' }}>Protégez vos accès. Maîtrisez vos secrets.</span>
           </div>
 
           {/* Sous-titre */}

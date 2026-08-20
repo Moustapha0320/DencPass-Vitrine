@@ -85,10 +85,10 @@ export default function SecurityPage() {
 
         {/* ── Piliers ── */}
         <section style={{ padding: '2rem max(1.25rem, calc((100% - 1200px) / 2)) 5rem', background: 'var(--bg)' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+          <div className="pillars-grid" style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
             {pillars.map(({ Icon, accent, title, desc }, i) => (
               <Reveal key={title} delay={(i % 3) * 80}>
-                <div style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', display: 'flex', gap: '1.1rem', alignItems: 'flex-start', transition: 'border-color 0.2s' }}
+                <div style={{ height: '100%', boxSizing: 'border-box', padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', gap: '1.1rem', transition: 'border-color 0.2s' }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border3)'}
                   onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
                 >
@@ -150,6 +150,8 @@ export default function SecurityPage() {
 
         <style>{`
           @media (max-width:760px) { .flow-grid { grid-template-columns: 1fr 1fr !important; } }
+          @media (max-width:900px) { .pillars-grid { grid-template-columns: 1fr 1fr !important; } }
+          @media (max-width:560px) { .pillars-grid { grid-template-columns: 1fr !important; } }
         `}</style>
       </main>
     </PublicLayout>
