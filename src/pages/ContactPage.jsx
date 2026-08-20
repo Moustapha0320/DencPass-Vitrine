@@ -201,7 +201,7 @@ export default function ContactPage() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <Field label="Nom complet" required>
                       <input style={fieldBase} type="text" required value={form.nom} onChange={set('nom')}
-                        placeholder="Toto Diallo" onFocus={focusIn} onBlur={focusOut} />
+                        placeholder="Prénom et Nom" onFocus={focusIn} onBlur={focusOut} />
                     </Field>
                     <Field label="Email" required>
                       <input style={fieldBase} type="email" required value={form.email} onChange={set('email')}
