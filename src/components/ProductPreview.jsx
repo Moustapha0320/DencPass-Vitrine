@@ -231,7 +231,7 @@ export default function ProductPreview() {
         }
         .dpp-sb-logo { padding: 10px 10px 9px; border-bottom: 1px solid var(--dpp-border); display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
         .dpp-mark { width: 19px; height: auto; flex-shrink: 0; filter: drop-shadow(0 0 4px var(--dpp-accent-18)); }
-        .dpp-brand { font-size: 11.5px; font-weight: 800; letter-spacing: -0.04em; white-space: nowrap; }
+        .dpp-brand { font-family: 'Space Grotesk', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: -0.04em; white-space: nowrap; }
         .dpp-brand-d { color: var(--dpp-text); }
         .dpp-brand-p { color: var(--dpp-accent); }
 
