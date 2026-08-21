@@ -8,30 +8,30 @@ import {
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const flow = [
-  { step: '01', Icon: IcoSmartphone, title: 'Sur votre appareil',  desc: 'La saisie est chiffrée localement avec votre clé, dérivée de votre mot de passe principal.' },
-  { step: '02', Icon: IcoUpload,     title: 'En transit',          desc: 'Seuls des blocs déjà chiffrés circulent, protégés par TLS de bout en bout.' },
-  { step: '03', Icon: IcoDatabase,   title: 'Au repos',            desc: 'Nos serveurs stockent des données illisibles, chaque entrée chiffrée séparément.' },
-  { step: '04', Icon: IcoEye,        title: 'À la lecture',        desc: 'Le déchiffrement n\'a lieu que sur votre appareil, jamais côté serveur.' },
+  { step: '01', Icon: IcoSmartphone, title: 'Sur votre appareil', desc: 'La saisie est chiffrée localement avec votre clé, dérivée de votre mot de passe principal.' },
+  { step: '02', Icon: IcoUpload, title: 'En transit', desc: 'Seuls des blocs déjà chiffrés circulent, protégés par TLS de bout en bout.' },
+  { step: '03', Icon: IcoDatabase, title: 'Au repos', desc: 'Nos serveurs stockent des données illisibles, chaque entrée chiffrée séparément.' },
+  { step: '04', Icon: IcoEye, title: 'À la lecture', desc: 'Le déchiffrement n\'a lieu que sur votre appareil, jamais côté serveur.' },
 ]
 
 const pillars = [
-  { Icon: IcoLock,        accent: 'var(--accent)', title: 'AES-256-GCM par entrée', desc: 'Chaque mot de passe, secret et certificat est chiffré individuellement, avec un contrôle d\'intégrité HMAC.' },
-  { Icon: IcoFingerprint, accent: 'var(--purple)', title: 'Zéro connaissance',      desc: 'Votre clé ne quitte jamais votre appareil. Même en cas d\'accès physique au serveur, vos données restent illisibles.' },
-  { Icon: IcoPhone,       accent: 'var(--green)',  title: '2FA TOTP',               desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
-  { Icon: IcoRefresh,     accent: 'var(--accent)', title: 'Rotation des clés',      desc: 'Les clés peuvent être renouvelées sans interruption de service ni ré-authentification manuelle.' },
-  { Icon: IcoClipboard,   accent: 'var(--amber)',  title: 'Audit complet',          desc: 'Chaque action est tracée et exportable vers Splunk, Elastic ou Wazuh via webhook ou Syslog RFC 5424.' },
-  { Icon: IcoShield,      accent: 'var(--purple)', title: 'Détection de fuites',    desc: 'Comparaison avec 700 M+ de fuites (HIBP) par k-anonymat : votre mot de passe ne quitte jamais l\'appareil en clair.' },
+  { Icon: IcoLock, accent: 'var(--accent)', title: 'AES-256-GCM par entrée', desc: 'Chaque mot de passe, secret et certificat est chiffré individuellement, avec un contrôle d\'intégrité HMAC.' },
+  { Icon: IcoFingerprint, accent: 'var(--purple)', title: 'Zéro connaissance', desc: 'Votre clé ne quitte jamais votre appareil. Même en cas d\'accès physique au serveur, vos données restent illisibles.' },
+  { Icon: IcoPhone, accent: 'var(--green)', title: '2FA TOTP', desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
+  { Icon: IcoRefresh, accent: 'var(--accent)', title: 'Rotation des clés', desc: 'Les clés peuvent être renouvelées sans interruption de service ni ré-authentification manuelle.' },
+  { Icon: IcoClipboard, accent: 'var(--amber)', title: 'Audit complet', desc: 'Chaque action est tracée et exportable vers Splunk, Elastic ou Wazuh via webhook ou Syslog RFC 5424.' },
+  { Icon: IcoShield, accent: 'var(--purple)', title: 'Détection de fuites', desc: 'Comparaison avec 700 M+ de fuites (HIBP) par k-anonymat : votre mot de passe ne quitte jamais l\'appareil en clair.' },
 ]
 
 const specs = [
   { label: 'Algorithme de chiffrement', value: 'AES-256-GCM' },
-  { label: 'Intégrité',                 value: 'HMAC par entrée' },
-  { label: 'Dérivation de clé',         value: 'depuis mot de passe principal' },
-  { label: 'Transport',                 value: 'TLS 1.3' },
-  { label: 'Double authentification',   value: 'TOTP (RFC 6238)' },
-  { label: 'Détection de fuites',       value: 'HIBP · k-anonymat' },
-  { label: 'Journalisation',            value: 'Syslog RFC 5424 · webhook' },
-  { label: 'Modèle',                    value: 'Zero-knowledge' },
+  { label: 'Intégrité', value: 'HMAC par entrée' },
+  { label: 'Dérivation de clé', value: 'depuis mot de passe principal' },
+  { label: 'Transport', value: 'TLS 1.3' },
+  { label: 'Double authentification', value: 'TOTP (RFC 6238)' },
+  { label: 'Détection de fuites', value: 'HIBP · k-anonymat' },
+  { label: 'Journalisation', value: 'Syslog RFC 5424 · webhook' },
+  { label: 'Modèle', value: 'Zero-knowledge' },
 ]
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -50,7 +50,7 @@ export default function SecurityPage() {
                 <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>ARCHITECTURE DE SÉCURITÉ</span>
               </div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem,4.6vw,3.4rem)', lineHeight: 1.08, letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem' }}>
-                Zéro connaissance. Aucun compromis.
+                Zéro connaissance, Aucun compromis
               </h1>
               <p style={{ fontSize: 16.5, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 600, margin: '0 auto' }}>
                 Vos données sont chiffrées sur votre appareil, avant de nous parvenir. Nos serveurs stockent des blocs illisibles : nous ne pouvons pas lire vos secrets, même si nous le voulions.
@@ -131,7 +131,7 @@ export default function SecurityPage() {
           <div style={{ position: 'relative', maxWidth: 640, margin: '0 auto' }}>
             <Reveal>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4.4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem', lineHeight: 1.1 }}>
-                Une sécurité que vous pouvez auditer.
+                Une sécurité que vous pouvez auditer
               </h2>
               <p style={{ fontSize: 16, color: 'var(--text2)', margin: '0 auto 2rem', maxWidth: 440, lineHeight: 1.7 }}>
                 Créez votre coffre chiffré gratuitement, ou parlez à notre équipe de vos exigences de conformité.

@@ -297,7 +297,7 @@ function Footer({ setLegalModal, theme, setTheme }) {
         <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
             <p style={{ fontSize: 12, color: 'var(--text4)', fontFamily: "'JetBrains Mono', monospace", margin: 0 }}>
-              © 2026 DencPass · Sénégal · <em>Protégez vos accès. Maîtrisez vos secrets.</em>
+              © 2026 DencPass · <em>Protégez vos accès. Maîtrisez vos secrets.</em>
             </p>
             <span style={{ fontSize: 12, color: 'var(--border2)' }}>·</span>
             <button onClick={() => setLegalModal('privacy')} style={{ fontSize: 12, color: 'var(--text5)', fontFamily: "'Inter', sans-serif", background: 'none', border: 'none', cursor: 'pointer', padding: 0, transition: 'color 0.2s' }} {...hov}>Confidentialité</button>

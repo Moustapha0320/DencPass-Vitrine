@@ -9,7 +9,7 @@ import { useTheme } from '../hooks/useTheme'
 import { Reveal, prefersReducedMotion, IcoCheck, IcoX, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoCopy, IcoBuilding, IcoCode, IcoStar, IcoSmartphone } from '../components/shared'
 
 // ─── Hero typewriter ──────────────────────────────────────────────────────────
-const HERO_TEXT = 'Tous vos mots de passe et secrets, chiffrés de bout en bout.'
+const HERO_TEXT = 'Tous vos mots de passe et secrets, chiffrés de bout en bout'
 
 function HeroTypewriter() {
   const [typed, setTyped] = useState(prefersReducedMotion ? HERO_TEXT : '')
@@ -119,10 +119,10 @@ function HeroSection() {
 // ─── Trust band ───────────────────────────────────────────────────────────────
 function TrustBand() {
   const badges = [
-    { Icon: IcoLock,  label: 'AES-256-GCM' },
-    { Icon: IcoEye,   label: 'Zéro connaissance' },
+    { Icon: IcoLock, label: 'AES-256-GCM' },
+    { Icon: IcoEye, label: 'Zéro connaissance' },
     { Icon: IcoPhone, label: '2FA TOTP' },
-    { Icon: IcoCode,  label: 'Extensions navigateur' },
+    { Icon: IcoCode, label: 'Extensions navigateur' },
     { Icon: IcoGlobe, label: 'Africa-first' },
   ]
   return (
@@ -144,10 +144,10 @@ function TrustBand() {
 
 // ─── Stats row : format cards avec contexte ───────────────────────────────────
 const STATS = [
-  { Icon: IcoShield, num: 700,   suffix: 'M+',    text: null,        unit: 'M+',    label: 'Fuites indexées (HIBP)',  context: 'Chaque mot de passe est comparé à 700 millions de fuites connues : sans jamais quitter votre appareil en clair.' },
-  { Icon: IcoKey,    num: 128,   suffix: ' car.',  text: null,        unit: 'car.',  label: 'Générateur',              context: 'Longueur maximale d\'un mot de passe généré, avec règles configurables et passphrase mémorable.' },
-  { Icon: IcoEye,    num: null,  suffix: '',       text: 'Zéro',      unit: '',      label: 'Accès serveur',           context: 'Nos serveurs ne peuvent pas lire vos données. Même en cas d\'accès physique, tout reste illisible.' },
-  { Icon: IcoLock,   num: null,  suffix: '',       text: 'AES-256',   unit: 'GCM',  label: 'Chiffrement',             context: 'Chiffrement de bout en bout, chaque entrée chiffrée individuellement avec contrôle HMAC.' },
+  { Icon: IcoShield, num: 700, suffix: 'M+', text: null, unit: 'M+', label: 'Fuites indexées (HIBP)', context: 'Chaque mot de passe est comparé à 700 millions de fuites connues : sans jamais quitter votre appareil en clair.' },
+  { Icon: IcoKey, num: 128, suffix: ' car.', text: null, unit: 'car.', label: 'Générateur', context: 'Longueur maximale d\'un mot de passe généré, avec règles configurables et passphrase mémorable.' },
+  { Icon: IcoEye, num: null, suffix: '', text: 'Zéro', unit: '', label: 'Accès serveur', context: 'Nos serveurs ne peuvent pas lire vos données. Même en cas d\'accès physique, tout reste illisible.' },
+  { Icon: IcoLock, num: null, suffix: '', text: 'AES-256', unit: 'GCM', label: 'Chiffrement', context: 'Chiffrement de bout en bout, chaque entrée chiffrée individuellement avec contrôle HMAC.' },
 ]
 
 function StatsRow() {
@@ -200,10 +200,10 @@ function StatsRow() {
 
 // ─── Features teaser ──────────────────────────────────────────────────────────
 const MAIN_FEATURES = [
-  { Icon: IcoVault,    title: 'Coffre chiffré',    desc: 'Mots de passe, identifiants et notes sécurisées avec historique des modifications.', link: '/features' },
-  { Icon: IcoShare,    title: 'Partage sécurisé',  desc: 'Liens temporaires avec limite de vues, expiration et révocation à tout moment.',      link: '/features' },
-  { Icon: IcoActivity, title: 'Audit de sécurité', desc: 'Chaque action tracée. Intégration Splunk, Elastic, Wazuh via webhook ou Syslog.',     link: '/features' },
-  { Icon: IcoUsers,    title: 'Équipes & groupes', desc: 'Gestion centralisée des accès avec rôles, permissions et audit par organisation.',     link: '/entreprises' },
+  { Icon: IcoVault, title: 'Coffre chiffré', desc: 'Mots de passe, identifiants et notes sécurisées avec historique des modifications', link: '/features' },
+  { Icon: IcoShare, title: 'Partage sécurisé', desc: 'Liens temporaires avec limite de vues, expiration et révocation à tout moment', link: '/features' },
+  { Icon: IcoActivity, title: 'Audit de sécurité', desc: 'Chaque action tracée : Intégration Splunk, Elastic, Wazuh via webhook ou Syslog', link: '/features' },
+  { Icon: IcoUsers, title: 'Équipes & groupes', desc: 'Gestion centralisée des accès avec rôles, permissions et audit par organisation', link: '/entreprises' },
 ]
 
 function FeaturesTeaser() {
@@ -214,7 +214,7 @@ function FeaturesTeaser() {
           <div style={{ marginBottom: '3rem', maxWidth: 560 }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>FONCTIONNALITÉS</p>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>
-              Tout ce dont vous avez besoin.
+              Tout ce dont vous avez besoin
             </h2>
             <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.7 }}>De la gestion quotidienne à la sécurité enterprise avec SIEM et Active Directory.</p>
           </div>
@@ -242,9 +242,9 @@ function FeaturesTeaser() {
 // ─── Comment ça marche ────────────────────────────────────────────────────────
 function HowItWorksSection() {
   const steps = [
-    { n: '01', accent: 'var(--accent)', title: 'Créez votre coffre',   desc: 'Inscription en 2 minutes. Votre coffre chiffré est prêt instantanément, sans carte bancaire.' },
-    { n: '02', accent: 'var(--purple)', title: 'Importez ou générez',   desc: 'Depuis Chrome, Bitwarden, 1Password ou KeePass. Ou générez des mots de passe forts directement.' },
-    { n: '03', accent: 'var(--green)',  title: 'Accédez partout',       desc: 'Via app.dencpass.com ou l\'extension Chrome, Edge ou Firefox pour le remplissage automatique dans votre navigateur.' },
+    { n: '01', accent: 'var(--accent)', title: 'Créez votre coffre', desc: 'Inscription en 2 minutes. Votre coffre chiffré est prêt instantanément.' },
+    { n: '02', accent: 'var(--purple)', title: 'Importez ou générez', desc: 'Depuis Chrome, Bitwarden, 1Password ou KeePass. Ou générez des mots de passe forts directement.' },
+    { n: '03', accent: 'var(--green)', title: 'Accédez partout', desc: 'Via app.dencpass.com ou l\'extension Chrome, Edge ou Firefox pour le remplissage automatique dans votre navigateur.' },
   ]
   return (
     <section style={{ padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }}>
@@ -252,7 +252,7 @@ function HowItWorksSection() {
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>COMMENT ÇA MARCHE</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Opérationnel en 3 étapes.</h2>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Opérationnel en 3 étapes</h2>
           </div>
         </Reveal>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
@@ -315,7 +315,7 @@ function PourquoiSection() {
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: '3.25rem', maxWidth: 640, marginLeft: 'auto', marginRight: 'auto' }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>POURQUOI DENCPASS</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Fait pour l'Afrique, dès le départ.</h2>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Fait pour l'Afrique, dès le départ</h2>
             <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.7 }}>Les gestionnaires globaux ne gèrent ni le FCFA, ni Wave, ni Orange Money : et ignorent les contraintes locales. Voici ce que nous faisons différemment.</p>
           </div>
         </Reveal>
@@ -387,10 +387,10 @@ function PourquoiSection() {
 
 // ─── Security ─────────────────────────────────────────────────────────────────
 const SECURITY_CARDS = [
-  { Icon: IcoShield,    accent: 'var(--accent)', title: 'Chiffrement AES-256',       desc: 'Chaque entrée chiffrée individuellement. Rotation des clés sans interruption de service.' },
-  { Icon: IcoPhone,     accent: 'var(--purple)', title: '2FA TOTP',                  desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
-  { Icon: IcoEye,       accent: 'var(--green)',  title: 'Zéro connaissance',          desc: 'Même en cas d\'accès physique au serveur, vos données restent illisibles sans vos clés.' },
-  { Icon: IcoClipboard, accent: 'var(--amber)',  title: 'Audit complet',              desc: 'Chaque action tracée. Export vers Splunk, Elastic via webhook ou Syslog RFC 5424.' },
+  { Icon: IcoShield, accent: 'var(--accent)', title: 'Chiffrement AES-256', desc: 'Chaque entrée chiffrée individuellement. Rotation des clés sans interruption de service.' },
+  { Icon: IcoPhone, accent: 'var(--purple)', title: '2FA TOTP', desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
+  { Icon: IcoEye, accent: 'var(--green)', title: 'Zéro connaissance', desc: 'Même en cas d\'accès physique au serveur, vos données restent illisibles sans vos clés.' },
+  { Icon: IcoClipboard, accent: 'var(--amber)', title: 'Audit complet', desc: 'Chaque action tracée. Export vers Splunk, Elastic via webhook ou Syslog RFC 5424.' },
 ]
 
 function SecuritySection() {
@@ -401,7 +401,7 @@ function SecuritySection() {
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '3rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>SÉCURITÉ</p>
-              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Aucun compromis.</h2>
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Aucun compromis</h2>
             </div>
             <Link to="/security" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 10, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 13, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", whiteSpace: 'nowrap' }}>
               Architecture de sécurité complète <IcoArrow size={12} />
@@ -466,7 +466,7 @@ function EnterpriseSection() {
               <span style={{ color: 'var(--purple)', display: 'flex' }}><IcoBuilding size={13} /></span>
               <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--purple)', letterSpacing: '0.1em' }}>ENTERPRISE</span>
             </div>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.15 }}>Pensé pour vos équipes.</h2>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.15 }}>Pensé pour vos équipes</h2>
             <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.8, marginBottom: '2rem' }}>DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès, avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks.</p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
               <Link to="/business" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, boxShadow: '0 4px 24px var(--purple-025)' }}>
@@ -508,7 +508,7 @@ function TestimonialsSection() {
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>TÉMOIGNAGES</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Ce qu'ils disent.</h2>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Ce qu'ils disent</h2>
           </div>
         </Reveal>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
@@ -549,12 +549,12 @@ function PricingTeaser() {
       desc: 'Pour démarrer sans engagement.', cta: 'Créer un compte',
       ctaHref: 'https://app.dencpass.com/register',
       features: [
-        { ok: true,  label: 'Mots de passe illimités' },
-        { ok: true,  label: '50 générations / mois' },
-        { ok: true,  label: 'Passphrase africaine' },
-        { ok: true,  label: '5 partages · 5 secrets' },
-        { ok: true,  label: 'Extensions navigateur · 2FA' },
-        { ok: false, label: 'Partages & secrets illimités' },
+        { ok: true, label: 'Mots de passe illimités' },
+        { ok: true, label: '50 générations / mois' },
+        { ok: true, label: 'Passphrase africaine' },
+        { ok: true, label: '5 partages · 5 secrets' },
+        { ok: true, label: 'Extensions navigateur · 2FA' },
+        { ok: true, label: 'Analyses HIBP limitées' },
       ],
     },
     {
@@ -592,7 +592,7 @@ function PricingTeaser() {
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>TARIFS</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Simple. Transparent. En FCFA.</h2>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Simple, Transparent</h2>
             <p style={{ fontSize: 16, color: 'var(--text2)', marginBottom: '1.75rem' }}>Pas de conversion, pas de frais cachés.</p>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 14 }}>
               <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>Mensuel</span>
@@ -736,7 +736,7 @@ function CTABanner() {
         <Reveal>
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>Commencer maintenant</p>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.4rem,5vw,3.8rem)', letterSpacing: '-0.05em', color: 'var(--sand)', margin: '0 0 1.25rem', lineHeight: 1.08 }}>
-            Vos accès.<br /><span style={{ background: 'linear-gradient(135deg, var(--accent), var(--purple))', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Blindés.</span>
+            Vos accès<br /><span style={{ background: 'linear-gradient(135deg, var(--accent), var(--purple))', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Blindés</span>
           </h2>
           <p style={{ fontSize: 17, color: 'var(--text2)', maxWidth: 480, margin: '0 auto 2.5rem', lineHeight: 1.7 }}>Créez votre coffre en moins de 2 minutes.<br />Gratuit, sans carte bancaire.</p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>

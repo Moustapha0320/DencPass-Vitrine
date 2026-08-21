@@ -24,14 +24,14 @@ const groups = [
         cta: { label: 'Créer un compte', href: 'https://app.dencpass.com', external: true, style: 'outline' },
         accent: 'var(--accent)',
         features: [
-          { label: 'Mots de passe illimités',     ok: true  },
-          { label: '50 générations / mois',        ok: true  },
-          { label: 'Passphrase africaine',          ok: true  },
-          { label: '5 partages · 5 secrets',        ok: true  },
-          { label: 'Extensions navigateur · 2FA',   ok: true  },
-          { label: 'Vérification HIBP (1 fois)',     ok: true  },
-          { label: 'Partages & secrets illimités',  ok: false },
-          { label: 'Journal d\'audit',              ok: false },
+          { label: 'Mots de passe illimités', ok: true },
+          { label: '50 générations / mois', ok: true },
+          { label: 'Passphrase africaine', ok: true },
+          { label: '5 partages · 5 secrets', ok: true },
+          { label: 'Extensions navigateur · 2FA', ok: true },
+          { label: 'Vérification HIBP (1 fois)', ok: true },
+          { label: 'Partages & secrets illimités', ok: false },
+          { label: 'Journal d\'audit', ok: false },
         ],
       },
       {
@@ -45,13 +45,13 @@ const groups = [
         cta: { label: 'Passer en Pro', href: 'https://app.dencpass.com', external: true, style: 'accent' },
         accent: 'var(--accent)',
         features: [
-          { label: 'Tout du plan Gratuit',           ok: true },
-          { label: 'Générateur illimité',             ok: true },
-          { label: 'Partages illimités',              ok: true },
+          { label: 'Tout du plan Gratuit', ok: true },
+          { label: 'Générateur illimité', ok: true },
+          { label: 'Partages illimités', ok: true },
           { label: 'Secrets & certificats illimités', ok: true },
-          { label: 'Analyses HIBP illimitées',        ok: true },
-          { label: 'Support prioritaire',             ok: true },
-          { label: 'Journal d\'audit',               ok: false },
+          { label: 'Analyses HIBP illimitées', ok: true },
+          { label: 'Support prioritaire', ok: true },
+          { label: 'Journal d\'audit', ok: false },
         ],
       },
     ],
@@ -75,11 +75,11 @@ const groups = [
         cta: { label: 'Demander un devis', href: '/contact', external: false, style: 'purple' },
         accent: 'var(--purple)',
         features: [
-          { label: 'Tout du plan Pro',    ok: true },
-          { label: 'Équipes & groupes',   ok: true },
-          { label: 'SIEM / Syslog',       ok: true },
-          { label: 'Audit organisation',  ok: true },
-          { label: 'Support dédié',       ok: true },
+          { label: 'Tout du plan Pro', ok: true },
+          { label: 'Équipes & groupes', ok: true },
+          { label: 'SIEM / Syslog', ok: true },
+          { label: 'Audit organisation', ok: true },
+          { label: 'Support dédié', ok: true },
         ],
       },
       {
@@ -94,11 +94,11 @@ const groups = [
         accent: 'var(--purple)',
         features: [
           { label: "Tout de l'édition Cloud", ok: true },
-          { label: 'Données 100% sur site',    ok: true },
-          { label: 'Docker ou bare metal',     ok: true },
-          { label: 'Intégration LDAP / AD',    ok: true },
-          { label: 'Licence annuelle',          ok: true },
-          { label: 'Maintenance incluse',       ok: true },
+          { label: 'Données 100% sur site', ok: true },
+          { label: 'Docker ou bare metal', ok: true },
+          { label: 'Intégration LDAP / AD', ok: true },
+          { label: 'Licence annuelle', ok: true },
+          { label: 'Maintenance incluse', ok: true },
         ],
       },
     ],
@@ -279,139 +279,139 @@ export default function PricingPage() {
 
   return (
     <PublicLayout>
-    <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
 
-      {/* ── Hero ── */}
-      <section style={{
-        padding: 'clamp(5rem,12vw,8rem) max(1.25rem, calc((100vw - 900px)/2)) clamp(2rem,4vw,3rem)',
-        background: 'radial-gradient(ellipse 80% 55% at 50% 0%, rgba(47,217,244,0.07) 0%, transparent 70%)',
-        textAlign: 'center',
-      }}>
-        <Reveal>
-          <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', display: 'block', marginBottom: '1.25rem' }}>
-            Tarifs
-          </span>
-          <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(2rem,5vw,3.25rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1rem' }}>
-            Simple. Transparent. En FCFA.
-          </h1>
-          <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', maxWidth: 500, margin: '0 auto 2rem', lineHeight: 1.7 }}>
-            Choisissez le plan adapté à votre usage. Pas de frais cachés, pas de conversion.
-          </p>
+        {/* ── Hero ── */}
+        <section style={{
+          padding: 'clamp(5rem,12vw,8rem) max(1.25rem, calc((100vw - 900px)/2)) clamp(2rem,4vw,3rem)',
+          background: 'radial-gradient(ellipse 80% 55% at 50% 0%, rgba(47,217,244,0.07) 0%, transparent 70%)',
+          textAlign: 'center',
+        }}>
+          <Reveal>
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', display: 'block', marginBottom: '1.25rem' }}>
+              Tarifs
+            </span>
+            <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(2rem,5vw,3.25rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1rem' }}>
+              Simple, Transparent
+            </h1>
+            <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', maxWidth: 500, margin: '0 auto 2rem', lineHeight: 1.7 }}>
+              Choisissez le plan adapté à votre usage. Pas de frais cachés, pas de conversion.
+            </p>
 
-          {/* Toggle mensuel / annuel */}
-          <div ref={toggleRef} style={{ display: 'inline-flex', alignItems: 'center', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 30, padding: '4px' }}>
-            <button onClick={() => handleToggle(false)} style={{
-              padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
-              fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif',
-              background: !annual ? 'var(--accent)' : 'transparent',
-              color: !annual ? '#07111f' : 'var(--text3)', transition: 'all 0.2s',
-            }}>
-              Mensuel
-            </button>
-            <button onClick={() => handleToggle(true)} style={{
-              padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
-              fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif',
-              background: annual ? 'var(--accent)' : 'transparent',
-              color: annual ? '#07111f' : 'var(--text3)', transition: 'all 0.2s',
-              display: 'flex', alignItems: 'center', gap: 6,
-            }}>
-              Annuel
-              <span style={{ fontSize: '0.68rem', background: 'rgba(34,197,94,0.15)', color: 'var(--green)', padding: '2px 7px', borderRadius: 20, fontWeight: 700 }}>
-                −20 %
-              </span>
-            </button>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* ── Grille des plans ── */}
-      <section style={{ padding: '1.5rem max(1.25rem, calc((100vw - 1160px)/2)) clamp(2.5rem,6vw,4rem)' }}>
-        <Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.25rem' }}>
-            {groups.map(group => (
-              <div key={group.id} style={{
-                background: group.id === 'enterprise' ? 'rgba(139,92,246,0.04)' : 'transparent',
-                border: `1px solid ${group.borderColor}`,
-                borderTop: `3px solid ${group.borderTop}`,
-                borderRadius: 20,
-                padding: '1.5rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1.25rem',
+            {/* Toggle mensuel / annuel */}
+            <div ref={toggleRef} style={{ display: 'inline-flex', alignItems: 'center', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 30, padding: '4px' }}>
+              <button onClick={() => handleToggle(false)} style={{
+                padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
+                fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif',
+                background: !annual ? 'var(--accent)' : 'transparent',
+                color: !annual ? '#07111f' : 'var(--text3)', transition: 'all 0.2s',
               }}>
-                {/* En-tête groupe */}
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: '0.4rem' }}>
-                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: group.dot, flexShrink: 0, display: 'inline-block' }} />
-                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.14em', color: group.dot, textTransform: 'uppercase' }}>
-                      {group.label}
-                    </span>
+                Mensuel
+              </button>
+              <button onClick={() => handleToggle(true)} style={{
+                padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
+                fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif',
+                background: annual ? 'var(--accent)' : 'transparent',
+                color: annual ? '#07111f' : 'var(--text3)', transition: 'all 0.2s',
+                display: 'flex', alignItems: 'center', gap: 6,
+              }}>
+                Annuel
+                <span style={{ fontSize: '0.68rem', background: 'rgba(34,197,94,0.15)', color: 'var(--green)', padding: '2px 7px', borderRadius: 20, fontWeight: 700 }}>
+                  −20 %
+                </span>
+              </button>
+            </div>
+          </Reveal>
+        </section>
+
+        {/* ── Grille des plans ── */}
+        <section style={{ padding: '1.5rem max(1.25rem, calc((100vw - 1160px)/2)) clamp(2.5rem,6vw,4rem)' }}>
+          <Reveal>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.25rem' }}>
+              {groups.map(group => (
+                <div key={group.id} style={{
+                  background: group.id === 'enterprise' ? 'rgba(139,92,246,0.04)' : 'transparent',
+                  border: `1px solid ${group.borderColor}`,
+                  borderTop: `3px solid ${group.borderTop}`,
+                  borderRadius: 20,
+                  padding: '1.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1.25rem',
+                }}>
+                  {/* En-tête groupe */}
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: '0.4rem' }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: group.dot, flexShrink: 0, display: 'inline-block' }} />
+                      <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.14em', color: group.dot, textTransform: 'uppercase' }}>
+                        {group.label}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text2)' }}>{group.sub}</p>
                   </div>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--text2)' }}>{group.sub}</p>
+
+                  {/* Plans 2 colonnes */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.875rem' }}>
+                    {group.plans.map(plan => (
+                      <PlanCard
+                        key={plan.title}
+                        plan={plan}
+                        annual={annual}
+                        accentOverride={group.dot}
+                      />
+                    ))}
+                  </div>
                 </div>
+              ))}
+            </div>
 
-                {/* Plans 2 colonnes */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.875rem' }}>
-                  {group.plans.map(plan => (
-                    <PlanCard
-                      key={plan.title}
-                      plan={plan}
-                      annual={annual}
-                      accentOverride={group.dot}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+            <p style={{ textAlign: 'center', marginTop: '1.25rem', fontSize: '0.8rem', color: 'var(--text3)' }}>
+              Tous les plans incluent le chiffrement AES-256-GCM et la vérification HIBP k-anonymat.
+            </p>
+          </Reveal>
+        </section>
 
-          <p style={{ textAlign: 'center', marginTop: '1.25rem', fontSize: '0.8rem', color: 'var(--text3)' }}>
-            Tous les plans incluent le chiffrement AES-256-GCM et la vérification HIBP k-anonymat.
-          </p>
-        </Reveal>
-      </section>
+        {/* ── FAQ ── */}
+        <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 760px)/2))' }}>
+          <Reveal>
+            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.3rem,3vw,1.75rem)', color: 'var(--text-head)', marginBottom: '1.75rem', textAlign: 'center' }}>
+              Questions fréquentes
+            </h2>
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 18, padding: '0 1.75rem' }}>
+              {faqs.map(faq => <FaqItem key={faq.q} {...faq} />)}
+            </div>
+          </Reveal>
+        </section>
 
-      {/* ── FAQ ── */}
-      <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 760px)/2))' }}>
-        <Reveal>
-          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.3rem,3vw,1.75rem)', color: 'var(--text-head)', marginBottom: '1.75rem', textAlign: 'center' }}>
-            Questions fréquentes
-          </h2>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 18, padding: '0 1.75rem' }}>
-            {faqs.map(faq => <FaqItem key={faq.q} {...faq} />)}
-          </div>
-        </Reveal>
-      </section>
+        {/* ── CTA ── */}
+        <section style={{ padding: 'clamp(3rem,7vw,4.5rem) max(1.25rem, calc((100vw - 1100px)/2))', textAlign: 'center' }}>
+          <Reveal>
+            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.4rem,3.5vw,2.25rem)', color: 'var(--text-head)', marginBottom: '1rem' }}>
+              Vous avez des besoins spécifiques ?
+            </h2>
+            <p style={{ fontSize: '1rem', color: 'var(--text2)', maxWidth: 460, margin: '0 auto 2rem', lineHeight: 1.7 }}>
+              Notre équipe est disponible pour un chiffrage personnalisé et une démonstration.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="/contact" className="btn-primary" style={{
+                background: 'var(--accent)', color: '#07111f', border: 'none',
+                padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+              }}>
+                Contacter l'équipe <IcoArrow size={16} />
+              </a>
+              <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
+                background: 'transparent', color: 'var(--text)',
+                border: '1px solid var(--border2)',
+                padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
+              }}>
+                Essayer gratuitement
+              </a>
+            </div>
+          </Reveal>
+        </section>
 
-      {/* ── CTA ── */}
-      <section style={{ padding: 'clamp(3rem,7vw,4.5rem) max(1.25rem, calc((100vw - 1100px)/2))', textAlign: 'center' }}>
-        <Reveal>
-          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.4rem,3.5vw,2.25rem)', color: 'var(--text-head)', marginBottom: '1rem' }}>
-            Vous avez des besoins spécifiques ?
-          </h2>
-          <p style={{ fontSize: '1rem', color: 'var(--text2)', maxWidth: 460, margin: '0 auto 2rem', lineHeight: 1.7 }}>
-            Notre équipe est disponible pour un chiffrage personnalisé et une démonstration.
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/contact" className="btn-primary" style={{
-              background: 'var(--accent)', color: '#07111f', border: 'none',
-              padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-            }}>
-              Contacter l'équipe <IcoArrow size={16} />
-            </a>
-            <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
-              background: 'transparent', color: 'var(--text)',
-              border: '1px solid var(--border2)',
-              padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
-            }}>
-              Essayer gratuitement
-            </a>
-          </div>
-        </Reveal>
-      </section>
-
-    </main>
+      </main>
     </PublicLayout>
   );
 }

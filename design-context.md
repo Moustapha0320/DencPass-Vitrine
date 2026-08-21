@@ -147,7 +147,7 @@ Pas de fichier de config typographique centralisé — chaque composant redécla
 - **Témoignages (3)** : Mamadou Diallo (FinServ Dakar), Awa Konaré (Kolibri Tech, Abidjan), Ibrahima Ndiaye (Cabinet Ndiaye & Associés) — *textes probablement fictifs/placeholder à valider*
 - **Pricing teaser** : Gratuit (0 FCFA) vs Pro (2000 FCFA/mois, badge "POPULAIRE")
 - **FAQ (5 questions)** : chiffrement, migration Bitwarden/1Password/KeePass, extension Chrome, paiement Enterprise, mot de passe oublié
-- **CTA final** : "Vos accès. Blindés." + "Créez votre coffre en moins de 2 minutes. Gratuit, sans carte bancaire."
+- **CTA final** : "Vos accè Blindés" + "Créez votre coffre en moins de 2 minutes. Gratuit, sans carte bancaire."
 
 ### 4.2 Fonctionnalités (`/features`)
 

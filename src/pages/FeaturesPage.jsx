@@ -15,12 +15,12 @@ const featureGroups = [
     Icon: IcoVault,
     title: 'Gérez vos accès sans effort',
     items: [
-      { Icon: IcoVault,    accent: 'var(--accent)', title: 'Coffre chiffré',              desc: 'Mots de passe, identifiants et notes sécurisés, avec historique des modifications par entrée.' },
-      { Icon: IcoKey,      accent: 'var(--accent)', title: 'Générateur jusqu\'à 128 car.', desc: 'Règles configurables : longueur, symboles, chiffres. Ou passphrase mémorable.' },
-      { Icon: IcoCode,     accent: 'var(--accent)', title: 'Extensions navigateur',        desc: 'Remplissage et capture automatiques des identifiants Chrome, Edge et Firefox.' },
-      { Icon: IcoFolder,   accent: 'var(--accent)', title: 'Secrets & certificats',        desc: 'Stockez clés d\'API, certificats et notes sécurisées à côté de vos mots de passe.' },
-      { Icon: IcoRefresh,  accent: 'var(--accent)', title: 'Import en 2 minutes',          desc: 'CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC.' },
-      { Icon: IcoActivity, accent: 'var(--accent)', title: 'Score de sécurité',            desc: 'Détection des mots de passe faibles, réutilisés ou compromis via HIBP.' },
+      { Icon: IcoVault, accent: 'var(--accent)', title: 'Coffre chiffré', desc: 'Mots de passe, identifiants et notes sécurisés, avec historique des modifications par entrée.' },
+      { Icon: IcoKey, accent: 'var(--accent)', title: 'Générateur jusqu\'à 128 car.', desc: 'Règles configurables : longueur, symboles, chiffres. Ou passphrase mémorable.' },
+      { Icon: IcoCode, accent: 'var(--accent)', title: 'Extensions navigateur', desc: 'Remplissage et capture automatiques des identifiants Chrome, Edge et Firefox.' },
+      { Icon: IcoFolder, accent: 'var(--accent)', title: 'Secrets & certificats', desc: 'Stockez clés d\'API, certificats et notes sécurisées à côté de vos mots de passe.' },
+      { Icon: IcoRefresh, accent: 'var(--accent)', title: 'Import en 2 minutes', desc: 'CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC.' },
+      { Icon: IcoActivity, accent: 'var(--accent)', title: 'Score de sécurité', desc: 'Détection des mots de passe faibles, réutilisés ou compromis via HIBP.' },
     ],
   },
   {
@@ -28,9 +28,9 @@ const featureGroups = [
     Icon: IcoShare,
     title: 'Partagez en toute sécurité',
     items: [
-      { Icon: IcoLink2,  accent: 'var(--green)', title: 'Liens temporaires',    desc: 'Partage par lien avec limite de vues, expiration et révocation à tout moment.' },
-      { Icon: IcoUsers,  accent: 'var(--green)', title: 'Équipes & groupes',    desc: 'Accès centralisés avec rôles et permissions par organisation.' },
-      { Icon: IcoBell,   accent: 'var(--green)', title: 'Notifications d\'accès', desc: 'Soyez averti à chaque consultation ou modification d\'un secret partagé.' },
+      { Icon: IcoLink2, accent: 'var(--green)', title: 'Liens temporaires', desc: 'Partage par lien avec limite de vues, expiration et révocation à tout moment.' },
+      { Icon: IcoUsers, accent: 'var(--green)', title: 'Équipes & groupes', desc: 'Accès centralisés avec rôles et permissions par organisation.' },
+      { Icon: IcoBell, accent: 'var(--green)', title: 'Notifications d\'accès', desc: 'Soyez averti à chaque consultation ou modification d\'un secret partagé.' },
     ],
   },
   {
@@ -38,9 +38,9 @@ const featureGroups = [
     Icon: IcoShield,
     title: 'Une architecture zéro-connaissance',
     items: [
-      { Icon: IcoLock,        accent: 'var(--purple)', title: 'AES-256-GCM par entrée', desc: 'Chaque élément chiffré individuellement avec contrôle HMAC, avant tout stockage.' },
-      { Icon: IcoFingerprint, accent: 'var(--purple)', title: 'Zéro connaissance',       desc: 'Nos serveurs ne peuvent pas lire vos données. Même en cas d\'accès physique.' },
-      { Icon: IcoPhone,       accent: 'var(--purple)', title: '2FA TOTP',                desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
+      { Icon: IcoLock, accent: 'var(--purple)', title: 'AES-256-GCM par entrée', desc: 'Chaque élément chiffré individuellement avec contrôle HMAC, avant tout stockage.' },
+      { Icon: IcoFingerprint, accent: 'var(--purple)', title: 'Zéro connaissance', desc: 'Nos serveurs ne peuvent pas lire vos données. Même en cas d\'accès physique.' },
+      { Icon: IcoPhone, accent: 'var(--purple)', title: '2FA TOTP', desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
     ],
   },
 ]
@@ -101,7 +101,7 @@ export default function FeaturesPage() {
                 <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>FONCTIONNALITÉS</span>
               </div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem,4.6vw,3.4rem)', lineHeight: 1.08, letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem' }}>
-                Tout ce qu'il faut pour protéger vos accès.
+                Tout ce qu'il faut pour protéger vos accès
               </h1>
               <p style={{ fontSize: 16.5, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 620, margin: '0 auto' }}>
                 De la gestion quotidienne de vos mots de passe au déploiement enterprise avec SIEM et Active Directory : sans jamais rogner sur la sécurité, ni oublier l'Afrique.
@@ -151,7 +151,7 @@ export default function FeaturesPage() {
             <Reveal>
               <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: 640, marginLeft: 'auto', marginRight: 'auto' }}>
                 <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>DENCPASS VS LES AUTRES</p>
-                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.8rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Nos vrais points forts.</h2>
+                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.8rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Nos vrais points forts</h2>
                 <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.7 }}>On ne prétend pas battre les géants sur tout. Voici précisément là où DencPass fait la différence pour l'Afrique de l'Ouest.</p>
               </div>
             </Reveal>
@@ -236,7 +236,7 @@ export default function FeaturesPage() {
                   <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--purple)', letterSpacing: '0.1em' }}>ENTERPRISE</span>
                 </div>
                 <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.7rem,3.4vw,2.4rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.15 }}>
-                  Les fonctionnalités pour vos équipes.
+                  Les fonctionnalités pour vos équipes
                 </h2>
                 <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.8, marginBottom: '2rem' }}>
                   Le violet signale l'univers Organisations : gouvernance des accès, intégrations et déploiement On-Premise pour vos équipes IT.
