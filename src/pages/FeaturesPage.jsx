@@ -51,21 +51,21 @@ const advantages = [
     kicker: 'FCFA · WAVE · ORANGE MONEY',
     title: 'Paiement en FCFA',
     desc: 'Payez directement en francs CFA par Wave ou Orange Money. Aucune conversion, aucune carte internationale, aucun frais caché.',
-    points: ['Tarifs affichés en FCFA', 'Wave & Orange Money', 'Facturation locale'],
+    points: ['Sans conversion de devise', 'Sans carte bancaire internationale', 'Facturation locale, zéro frais caché'],
   },
   {
     Icon: IcoZap,
     kicker: 'WOLOF · BAMBARA · SWAHILI · YORUBA',
     title: 'Passphrase africaine',
     desc: 'Des phrases de passe mémorables puisant dans un lexique de plusieurs langues africaines. Fortes et faciles à retenir.',
-    points: ['Lexique multilingue africain', 'Séparateur personnalisable', 'Facile à mémoriser'],
+    points: ['Lexique multilingue africain', 'Séparateur personnalisable', 'Aussi forte qu\'un mot de passe aléatoire'],
   },
   {
     Icon: IcoServer,
     kicker: "AFRIQUE DE L'OUEST",
     title: 'Hébergement & support local',
     desc: "Infrastructure et support pensés pour l'Afrique de l'Ouest francophone. Conformité locale et interface en français.",
-    points: ['Support en français', 'Conformité RGPD & APDP', 'Latence pensée pour la région'],
+    points: ['Support en français', 'Conformité APDP (Sénégal)', 'Serveurs proches de vos utilisateurs'],
   },
 ]
 
