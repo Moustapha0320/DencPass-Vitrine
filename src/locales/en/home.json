@@ -92,6 +92,7 @@
     "indivSub": "For you, solo or freelance.",
     "orgLabel": "ORGANIZATIONS · ENTERPRISE",
     "orgSub": "For teams and internal deployments.",
+    "onDemand": "Custom pricing",
     "free": { "name": "Free", "tag": "COMMUNITY", "desc": "To get started with no commitment.", "cta": "Create an account", "f1": "Unlimited passwords", "f2": "50 generations / month", "f3": "African passphrase", "f4": "5 shares · 5 secrets", "f5": "Browser extensions · 2FA", "f6": "Limited HIBP scans" },
     "pro": { "name": "Pro", "tag": "POPULAR", "desc": "For professionals who don't cut corners.", "cta": "Upgrade to Pro", "f1": "Everything in Free", "f2": "Unlimited generator", "f3": "Unlimited shares", "f4": "Unlimited secrets & certificates", "f5": "Unlimited HIBP scans", "f6": "Priority support" },
     "cloud": { "name": "Enterprise Cloud", "tag": "MANAGED SAAS", "desc": "Managed license from DencPass, centralized management for your teams.", "f1": "Everything in Pro", "f2": "Teams & groups", "f3": "Active Directory (LDAP)", "f4": "SIEM / Syslog", "f5": "Organization audit", "f6": "Dedicated support" },

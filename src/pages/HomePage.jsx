@@ -667,7 +667,7 @@ function PricingTeaser() {
                   <div key={p.name} style={{ padding: '1.5rem 1.35rem', borderRadius: 16, border: '1px solid var(--purple-014)', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column' }}>
                     <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--purple)', letterSpacing: '0.12em', margin: '0 0 0.35rem' }}>{p.tag}</p>
                     <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: 'var(--text)', margin: '0 0 0.6rem', lineHeight: 1.2 }}>{p.name}</p>
-                    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: 'var(--purple)', display: 'block', marginBottom: '0.15rem' }}>Sur devis</span>
+                    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: 'var(--purple)', display: 'block', marginBottom: '0.15rem' }}>{t('home:pricingTeaser.onDemand')}</span>
                     <p style={{ fontSize: 12.5, color: 'var(--text3)', margin: '0.5rem 0 1.1rem', lineHeight: 1.5, minHeight: 52 }}>{p.desc}</p>
                     <Link to="/contact" style={{ display: 'block', textAlign: 'center', padding: '11px 0', borderRadius: 10, fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.1rem', background: 'var(--purple)', color: '#fff' }}>{t('home:pricingTeaser.requestQuote')}</Link>
                     <div style={{ borderTop: '1px solid var(--purple-014)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
