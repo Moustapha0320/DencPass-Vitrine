@@ -1,0 +1,122 @@
+{
+  "meta": { "title": "DencPass: Protect your access. Own your secrets.", "description": "Encrypted vault for your passwords, secrets and certificates. AES-256-GCM, zero server-side knowledge, pay in FCFA: built for Africa." },
+  "hero": {
+    "badge": "PASSWORD MANAGER",
+    "typewriter": "All your passwords and secrets, encrypted end-to-end",
+    "slogan": "Protect your access. Own your secrets.",
+    "subtitle": "The vault for your credentials, secrets and certificates. AES-256-GCM encryption, zero server-side knowledge, pay in FCFA: built for Africa.",
+    "ctaPrimary": "Start for free",
+    "ctaSecondary": "See the features"
+  },
+  "trust": { "aes": "AES-256-GCM", "zeroKnowledge": "Zero knowledge", "totp": "2FA TOTP", "extensions": "Browser extensions", "africaFirst": "Africa-first" },
+  "stats": {
+    "hibp": { "label": "Indexed breaches (HIBP)", "context": "Every password is checked against 700 million known breaches — without ever leaving your device in clear text." },
+    "generator": { "label": "Generator", "context": "Maximum length of a generated password, with configurable rules and a memorable passphrase." },
+    "zeroAccess": { "text": "Zero", "label": "Server access", "context": "Our servers cannot read your data. Even with physical access, everything stays unreadable." },
+    "encryption": { "text": "AES-256", "unit": "GCM", "label": "Encryption", "context": "End-to-end encryption, every entry encrypted individually with HMAC integrity control." }
+  },
+  "features": {
+    "eyebrow": "FEATURES",
+    "title": "Everything you need",
+    "subtitle": "From everyday management to enterprise-grade security with SIEM and Active Directory.",
+    "vault": { "title": "Encrypted vault", "desc": "Passwords, credentials and secure notes, with a change history for every entry" },
+    "sharing": { "title": "Secure sharing", "desc": "Temporary links with view limits, expiration, and revocation at any time" },
+    "audit": { "title": "Security audit", "desc": "Every action logged: Splunk, Elastic, Wazuh integration via webhook or Syslog" },
+    "teams": { "title": "Teams & groups", "desc": "Centralized access management with roles, permissions and per-organization audit" },
+    "learnMore": "Learn more"
+  },
+  "howItWorks": {
+    "eyebrow": "HOW IT WORKS",
+    "title": "Up and running in 3 steps",
+    "step1": { "title": "Create your vault", "desc": "Sign up in 2 minutes. Your encrypted vault is ready instantly." },
+    "step2": { "title": "Import or generate", "desc": "From Chrome, Bitwarden, 1Password or KeePass. Or generate strong passwords directly." },
+    "step3": { "title": "Access it anywhere", "desc": "Via app.dencpass.com or the Chrome, Edge or Firefox extension for autofill in your browser." }
+  },
+  "why": {
+    "eyebrow": "WHY DENCPASS",
+    "title": "Built for Africa, from day one",
+    "subtitle": "Global password managers don't handle FCFA, Wave, or Orange Money — and they ignore local constraints. Here's what we do differently.",
+    "advFcfa": { "kicker": "FCFA · WAVE · ORANGE MONEY", "title": "Pay in FCFA", "desc": "Pay directly in CFA francs via Wave or Orange Money. No currency conversion, no international card, no hidden fees.", "points": ["FCFA-listed pricing", "Wave & Orange Money", "Local billing"] },
+    "advPassphrase": { "kicker": "WOLOF · BAMBARA · SWAHILI · YORUBA", "title": "African passphrase", "desc": "Memorable passphrases built from a wordlist drawing on several African languages. Strong and easy to recall.", "points": ["Multilingual African wordlist", "Customizable separator", "Easy to memorize"] },
+    "advHosting": { "kicker": "WEST AFRICA", "title": "Local hosting & support", "desc": "Infrastructure and support built for French-speaking West Africa. Local compliance and a fully French interface.", "points": ["Support in French", "GDPR & APDP compliance", "Latency built for the region"] },
+    "parityTitle": "And everything you'd expect from a serious password manager",
+    "parity": ["Zero-knowledge architecture", "AES-256-GCM per entry", "2FA TOTP (Google Auth, Authy)", "Generator up to 128 characters", "HIBP breach detection (k-anonymity)", "CSV import in 2 minutes"],
+    "roadmapTitle": "Coming soon",
+    "roadmapSubtitle": "We'd rather be honest about what isn't there yet.",
+    "roadmapItem": "Multilingual interface beyond French",
+    "roadmapTag": "On the roadmap"
+  },
+  "security": {
+    "eyebrow": "SECURITY",
+    "title": "No compromises",
+    "linkText": "Full security architecture",
+    "aes": { "title": "AES-256 encryption", "desc": "Every entry encrypted individually. Key rotation with zero service interruption." },
+    "totp": { "title": "2FA TOTP", "desc": "Compatible with Google Authenticator and Authy. The TOTP secret itself is encrypted at rest." },
+    "zeroKnowledge": { "title": "Zero knowledge", "desc": "Even with physical access to the server, your data stays unreadable without your keys." },
+    "audit": { "title": "Full audit trail", "desc": "Every action logged. Export to Splunk, Elastic via webhook or Syslog RFC 5424." }
+  },
+  "transitionBand": {
+    "badge": "YOU'RE ENTERING THE ENTERPRISE ZONE",
+    "descBefore": "From here on, ",
+    "descPurple": "purple",
+    "descMid": " marks features for ",
+    "descTeams": "teams and organizations",
+    "descMid2": ". ",
+    "descCyan": "Cyan",
+    "descAfter": " stays your individual usage."
+  },
+  "enterprise": {
+    "badge": "ENTERPRISE",
+    "title": "Built for your teams",
+    "desc": "DencPass Enterprise gives your IT teams full visibility into access, with the tools they already use: LDAP, SIEM, webhooks.",
+    "ctaPrimary": "Discover Enterprise",
+    "ctaSecondary": "Request a quote",
+    "items": ["Multi-organization management", "Active Directory (LDAP)", "SIEM / Syslog RFC 5424", "Full access logging", "Group roles & permissions", "On-Premise deployment available"]
+  },
+  "testimonials": {
+    "eyebrow": "TESTIMONIALS",
+    "title": "What they say",
+    "t1": { "quote": "We migrated our entire IT team in 20 minutes. Syslog integration with our SIEM was live the same day.", "role": "Head of Information Security" },
+    "t2": { "quote": "The only manager that actually works in Africa — pay in FCFA, Wave Money, and the interface stays usable even on an unstable connection.", "role": "Founder & CTO" },
+    "t3": { "quote": "No more passwords shared over WhatsApp. Expiring links transformed our client security reviews.", "role": "IT Director" }
+  },
+  "pricingTeaser": {
+    "eyebrow": "PRICING",
+    "title": "Simple, Transparent",
+    "subtitle": "No conversion, no hidden fees.",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "perMonth": "FCFA / month",
+    "savings": "{{amount}} FCFA saved / year",
+    "indivLabel": "INDIVIDUAL USE",
+    "indivSub": "For you, solo or freelance.",
+    "orgLabel": "ORGANIZATIONS · ENTERPRISE",
+    "orgSub": "For teams and internal deployments.",
+    "free": { "name": "Free", "tag": "COMMUNITY", "desc": "To get started with no commitment.", "cta": "Create an account", "f1": "Unlimited passwords", "f2": "50 generations / month", "f3": "African passphrase", "f4": "5 shares · 5 secrets", "f5": "Browser extensions · 2FA", "f6": "Limited HIBP scans" },
+    "pro": { "name": "Pro", "tag": "POPULAR", "desc": "For professionals who don't cut corners.", "cta": "Upgrade to Pro", "f1": "Everything in Free", "f2": "Unlimited generator", "f3": "Unlimited shares", "f4": "Unlimited secrets & certificates", "f5": "Unlimited HIBP scans", "f6": "Priority support" },
+    "cloud": { "name": "Enterprise Cloud", "tag": "MANAGED SAAS", "desc": "Managed license from DencPass, centralized management for your teams.", "f1": "Everything in Pro", "f2": "Teams & groups", "f3": "Active Directory (LDAP)", "f4": "SIEM / Syslog", "f5": "Organization audit", "f6": "Dedicated support" },
+    "onprem": { "name": "Enterprise On-Premise", "tag": "ON YOUR INFRASTRUCTURE", "desc": "Install DencPass on your own servers. Your data stays on-site, under your control.", "f1": "Everything in Cloud edition", "f2": "100% on-site data", "f3": "Docker or bare metal", "f4": "LDAP / AD integration", "f5": "Annual license", "f6": "Maintenance included" },
+    "requestQuote": "Request a quote",
+    "footnote": "Every plan includes AES-256-GCM encryption, zero-knowledge architecture and 2FA. Pay via Wave, Orange Money or bank transfer."
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Frequently asked questions",
+    "q1": "How is my data encrypted?",
+    "a1": "Every password, secret and certificate is individually encrypted with AES-256-GCM before storage, with an HMAC check per entry. Even our own teams can't read your secrets: zero clear-text access.",
+    "q2": "Can I migrate from Bitwarden, 1Password or KeePass?",
+    "a2": "Yes. DencPass accepts CSV import from Chrome, Bitwarden, LastPass, KeePass and KeePassXC directly from the interface. Migration takes less than 2 minutes.",
+    "q3": "How does paying in FCFA work?",
+    "a3": "Pay by bank transfer or mobile money (Wave, Orange Money). For Enterprise editions, we issue a quote in FCFA tailored to your organization.",
+    "q4": "What happens if I forget my master password?",
+    "a4": "Click \"Forgot password?\" on the login page. You'll receive a reset link valid for 1 hour."
+  },
+  "ctaBanner": {
+    "eyebrow": "Get started now",
+    "titleLine1": "Your access",
+    "titleLine2": "Locked down",
+    "subtitle": "Create your vault in under 2 minutes.\nFree, no credit card required.",
+    "ctaPrimary": "Start for free",
+    "ctaSecondary": "Contact the team"
+  }
+}

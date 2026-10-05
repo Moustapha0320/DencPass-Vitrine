@@ -1,0 +1,122 @@
+{
+  "meta": { "title": "DencPass : Protégez vos accès. Maîtrisez vos secrets.", "description": "Coffre-fort chiffré pour vos mots de passe, secrets et certificats. AES-256-GCM, zéro connaissance serveur, paiement en FCFA : fait pour l'Afrique." },
+  "hero": {
+    "badge": "GESTIONNAIRE DE MOTS DE PASSE",
+    "typewriter": "Tous vos mots de passe et secrets, chiffrés de bout en bout",
+    "slogan": "Protégez vos accès. Maîtrisez vos secrets.",
+    "subtitle": "Le coffre-fort de vos identifiants, secrets et certificats. Chiffrement AES-256-GCM, zéro connaissance serveur, paiement en FCFA : fait pour l'Afrique.",
+    "ctaPrimary": "Commencer gratuitement",
+    "ctaSecondary": "Voir les fonctionnalités"
+  },
+  "trust": { "aes": "AES-256-GCM", "zeroKnowledge": "Zéro connaissance", "totp": "2FA TOTP", "extensions": "Extensions navigateur", "africaFirst": "Africa-first" },
+  "stats": {
+    "hibp": { "label": "Fuites indexées (HIBP)", "context": "Chaque mot de passe est comparé à 700 millions de fuites connues : sans jamais quitter votre appareil en clair." },
+    "generator": { "label": "Générateur", "context": "Longueur maximale d'un mot de passe généré, avec règles configurables et passphrase mémorable." },
+    "zeroAccess": { "text": "Zéro", "label": "Accès serveur", "context": "Nos serveurs ne peuvent pas lire vos données. Même en cas d'accès physique, tout reste illisible." },
+    "encryption": { "text": "AES-256", "unit": "GCM", "label": "Chiffrement", "context": "Chiffrement de bout en bout, chaque entrée chiffrée individuellement avec contrôle HMAC." }
+  },
+  "features": {
+    "eyebrow": "FONCTIONNALITÉS",
+    "title": "Tout ce dont vous avez besoin",
+    "subtitle": "De la gestion quotidienne à la sécurité enterprise avec SIEM et Active Directory.",
+    "vault": { "title": "Coffre chiffré", "desc": "Mots de passe, identifiants et notes sécurisées avec historique des modifications" },
+    "sharing": { "title": "Partage sécurisé", "desc": "Liens temporaires avec limite de vues, expiration et révocation à tout moment" },
+    "audit": { "title": "Audit de sécurité", "desc": "Chaque action tracée : Intégration Splunk, Elastic, Wazuh via webhook ou Syslog" },
+    "teams": { "title": "Équipes & groupes", "desc": "Gestion centralisée des accès avec rôles, permissions et audit par organisation" },
+    "learnMore": "En savoir plus"
+  },
+  "howItWorks": {
+    "eyebrow": "COMMENT ÇA MARCHE",
+    "title": "Opérationnel en 3 étapes",
+    "step1": { "title": "Créez votre coffre", "desc": "Inscription en 2 minutes. Votre coffre chiffré est prêt instantanément." },
+    "step2": { "title": "Importez ou générez", "desc": "Depuis Chrome, Bitwarden, 1Password ou KeePass. Ou générez des mots de passe forts directement." },
+    "step3": { "title": "Accédez partout", "desc": "Via app.dencpass.com ou l'extension Chrome, Edge ou Firefox pour le remplissage automatique dans votre navigateur." }
+  },
+  "why": {
+    "eyebrow": "POURQUOI DENCPASS",
+    "title": "Fait pour l'Afrique, dès le départ",
+    "subtitle": "Les gestionnaires globaux ne gèrent ni le FCFA, ni Wave, ni Orange Money : et ignorent les contraintes locales. Voici ce que nous faisons différemment.",
+    "advFcfa": { "kicker": "FCFA · WAVE · ORANGE MONEY", "title": "Paiement en FCFA", "desc": "Payez directement en francs CFA par Wave ou Orange Money. Aucune conversion, aucune carte internationale, aucun frais caché.", "points": ["Tarifs affichés en FCFA", "Wave & Orange Money", "Facturation locale"] },
+    "advPassphrase": { "kicker": "WOLOF · BAMBARA · SWAHILI · YORUBA", "title": "Passphrase africaine", "desc": "Des phrases de passe mémorables construites depuis un lexique puisant dans plusieurs langues africaines. Fortes et faciles à retenir.", "points": ["Lexique multilingue africain", "Séparateur personnalisable", "Facile à mémoriser"] },
+    "advHosting": { "kicker": "AFRIQUE DE L'OUEST", "title": "Hébergement & support local", "desc": "Infrastructure et support pensés pour l'Afrique de l'Ouest francophone. Conformité locale et interface entièrement en français.", "points": ["Support en français", "Conformité RGPD & APDP", "Latence pensée pour la région"] },
+    "parityTitle": "Et tout ce qu'on attend d'un gestionnaire sérieux",
+    "parity": ["Architecture zéro-connaissance", "AES-256-GCM par entrée", "2FA TOTP (Google Auth, Authy)", "Générateur jusqu'à 128 caractères", "Détection HIBP (k-anonymat)", "Import CSV en 2 minutes"],
+    "roadmapTitle": "Ce qui arrive bientôt",
+    "roadmapSubtitle": "On préfère être honnêtes sur ce qui n'est pas encore là.",
+    "roadmapItem": "Interface multilingue au-delà du français",
+    "roadmapTag": "Sur la feuille de route"
+  },
+  "security": {
+    "eyebrow": "SÉCURITÉ",
+    "title": "Aucun compromis",
+    "linkText": "Architecture de sécurité complète",
+    "aes": { "title": "Chiffrement AES-256", "desc": "Chaque entrée chiffrée individuellement. Rotation des clés sans interruption de service." },
+    "totp": { "title": "2FA TOTP", "desc": "Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos." },
+    "zeroKnowledge": { "title": "Zéro connaissance", "desc": "Même en cas d'accès physique au serveur, vos données restent illisibles sans vos clés." },
+    "audit": { "title": "Audit complet", "desc": "Chaque action tracée. Export vers Splunk, Elastic via webhook ou Syslog RFC 5424." }
+  },
+  "transitionBand": {
+    "badge": "VOUS PASSEZ EN ZONE ENTERPRISE",
+    "descBefore": "À partir d'ici, le ",
+    "descPurple": "violet",
+    "descMid": " signale les fonctionnalités pour les ",
+    "descTeams": "équipes et organisations",
+    "descMid2": ". Le ",
+    "descCyan": "cyan",
+    "descAfter": " reste votre usage individuel."
+  },
+  "enterprise": {
+    "badge": "ENTERPRISE",
+    "title": "Pensé pour vos équipes",
+    "desc": "DencPass Enterprise donne à vos équipes IT une visibilité totale sur les accès, avec les outils qu'elles utilisent déjà : LDAP, SIEM, webhooks.",
+    "ctaPrimary": "Découvrir Enterprise",
+    "ctaSecondary": "Demander un devis",
+    "items": ["Gestion multi-organisations", "Active Directory (LDAP)", "SIEM / Syslog RFC 5424", "Journalisation complète des accès", "Rôles & permissions par groupe", "Déploiement On-Premise disponible"]
+  },
+  "testimonials": {
+    "eyebrow": "TÉMOIGNAGES",
+    "title": "Ce qu'ils disent",
+    "t1": { "quote": "On a migré toute notre équipe IT en 20 minutes. L'intégration Syslog avec notre SIEM était opérationnelle le jour même.", "role": "Responsable Sécurité SI" },
+    "t2": { "quote": "Le seul gestionnaire qui fonctionne vraiment en Afrique, paiement en FCFA, Wave Money, et l'interface reste disponible même avec une connexion instable.", "role": "Fondatrice & CTO" },
+    "t3": { "quote": "Plus jamais de mots de passe partagés sur WhatsApp. Les liens à expiration ont transformé nos revues de sécurité client.", "role": "Directeur Informatique" }
+  },
+  "pricingTeaser": {
+    "eyebrow": "TARIFS",
+    "title": "Simple, Transparent",
+    "subtitle": "Pas de conversion, pas de frais cachés.",
+    "monthly": "Mensuel",
+    "annual": "Annuel",
+    "perMonth": "FCFA / mois",
+    "savings": "{{amount}} FCFA économisés / an",
+    "indivLabel": "USAGE INDIVIDUEL",
+    "indivSub": "Pour vous, en solo ou en freelance.",
+    "orgLabel": "ORGANISATIONS · ENTERPRISE",
+    "orgSub": "Pour les équipes et les déploiements internes.",
+    "free": { "name": "Gratuit", "tag": "COMMUNITY", "desc": "Pour démarrer sans engagement.", "cta": "Créer un compte", "f1": "Mots de passe illimités", "f2": "50 générations / mois", "f3": "Passphrase africaine", "f4": "5 partages · 5 secrets", "f5": "Extensions navigateur · 2FA", "f6": "Analyses HIBP limitées" },
+    "pro": { "name": "Pro", "tag": "POPULAIRE", "desc": "Pour les professionnels qui ne comptent pas.", "cta": "Passer en Pro", "f1": "Tout du plan Gratuit", "f2": "Générateur illimité", "f3": "Partages illimités", "f4": "Secrets & certificats illimités", "f5": "Analyses HIBP illimitées", "f6": "Support prioritaire" },
+    "cloud": { "name": "Enterprise Cloud", "tag": "SAAS MANAGÉ", "desc": "Licence managée par DencPass, gestion centralisée pour vos équipes.", "f1": "Tout du plan Pro", "f2": "Équipes & groupes", "f3": "Active Directory (LDAP)", "f4": "SIEM / Syslog", "f5": "Audit organisation", "f6": "Support dédié" },
+    "onprem": { "name": "Enterprise On-Premise", "tag": "SUR VOTRE INFRA", "desc": "Installez DencPass sur vos serveurs. Vos données restent sur site, sous votre contrôle.", "f1": "Tout de l'édition Cloud", "f2": "Données 100% sur site", "f3": "Docker ou bare metal", "f4": "Intégration LDAP / AD", "f5": "Licence annuelle", "f6": "Maintenance incluse" },
+    "requestQuote": "Demander un devis",
+    "footnote": "Tous les plans incluent le chiffrement AES-256-GCM, l'architecture zéro-connaissance et la 2FA. Paiement par Wave, Orange Money ou virement."
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Questions fréquentes",
+    "q1": "Comment mes données sont-elles chiffrées ?",
+    "a1": "Chaque mot de passe, secret et certificat est chiffré individuellement en AES-256-GCM avant stockage, avec un contrôle HMAC par entrée. Même nos équipes ne peuvent pas lire vos secrets : zéro accès en clair.",
+    "q2": "Puis-je migrer depuis Bitwarden, 1Password ou KeePass ?",
+    "a2": "Oui. DencPass accepte l'import CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC directement depuis l'interface. La migration prend moins de 2 minutes.",
+    "q3": "Comment fonctionne le paiement en FCFA ?",
+    "a3": "Paiement par virement bancaire ou mobile money (Wave, Orange Money). Pour les éditions Enterprise, nous émettons un devis en FCFA adapté à votre organisation.",
+    "q4": "Que se passe-t-il si j'oublie mon mot de passe principal ?",
+    "a4": "Cliquez sur « Mot de passe oublié ? » depuis la page de connexion. Vous recevrez un lien de réinitialisation valable 1 heure."
+  },
+  "ctaBanner": {
+    "eyebrow": "Commencer maintenant",
+    "titleLine1": "Vos accès",
+    "titleLine2": "Blindés",
+    "subtitle": "Créez votre coffre en moins de 2 minutes.\nGratuit, sans carte bancaire.",
+    "ctaPrimary": "Commencer gratuitement",
+    "ctaSecondary": "Contacter l'équipe"
+  }
+}
