@@ -1,35 +1,37 @@
 import { useState } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import PublicLayout from '../components/layout/PublicLayout';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Reveal, IcoArrow, IcoCheck, IcoMail, IcoBuilding, IcoGlobe, IcoCheckCircle } from '../components/shared';
 
 const API_URL = 'https://app.dencpass.com/api/public/contact/';
 
-const SUJET_OPTIONS = [
-  { value: '', label: 'Choisir un sujet...' },
-  { value: 'question-generale', label: 'Question générale' },
-  { value: 'demonstration', label: 'Démonstration produit' },
-  { value: 'devis-enterprise', label: 'Devis Enterprise' },
-  { value: 'support-technique', label: 'Support technique' },
-  { value: 'autre', label: 'Autre' },
+const sujetOptions = (t) => [
+  { value: '', label: t('contact:form.subjectChoose') },
+  { value: 'question-generale', label: t('contact:form.subjectGeneral') },
+  { value: 'demonstration', label: t('contact:form.subjectDemo') },
+  { value: 'devis-enterprise', label: t('contact:form.subjectQuote') },
+  { value: 'support-technique', label: t('contact:form.subjectSupport') },
+  { value: 'autre', label: t('contact:form.subjectOther') },
 ];
 
-const channels = [
+const channels = (t) => [
   {
     Icon: IcoMail,
-    title: 'Support & ventes',
-    detail: 'support@dencpass.com',
+    title: t('contact:channels.support.title'),
+    detail: t('contact:channels.support.detail'),
     href: 'mailto:support@dencpass.com',
   },
   {
     Icon: IcoBuilding,
-    title: 'Enterprise',
-    detail: 'enterprise@dencpass.com',
+    title: t('contact:channels.enterprise.title'),
+    detail: t('contact:channels.enterprise.detail'),
     href: 'mailto:enterprise@dencpass.com',
   },
   {
     Icon: IcoGlobe,
-    title: 'Bureau',
-    detail: 'Dakar · Sénégal',
+    title: t('contact:channels.office.title'),
+    detail: t('contact:channels.office.detail'),
     href: null,
   },
 ];
@@ -70,11 +72,14 @@ function focusIn(e) { e.target.style.borderColor = 'var(--accent)'; e.target.sty
 function focusOut(e) { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none'; }
 
 export default function ContactPage() {
+  const { t } = useTranslation('contact');
+  useDocumentTitle(t('contact:meta.title'), t('contact:meta.description'), '/contact');
+
   const [form, setForm] = useState({ nom: '', email: '', organisation: '', sujet: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState('');
 
-  const firstName = form.nom.trim().split(' ')[0] || 'vous';
+  const firstName = form.nom.trim().split(' ')[0] || t('contact:success.fallbackName');
 
   function set(key) {
     return e => setForm(f => ({ ...f, [key]: e.target.value }));
@@ -100,11 +105,11 @@ export default function ContactPage() {
         setStatus('success');
       } else {
         setStatus('error');
-        setErrorMsg(data.detail || 'Une erreur est survenue. Réessayez plus tard.');
+        setErrorMsg(data.detail || t('contact:form.genericError'));
       }
     } catch {
       setStatus('error');
-      setErrorMsg('Impossible de joindre le serveur. Réessayez plus tard.');
+      setErrorMsg(t('contact:form.networkError'));
     }
   }
 
@@ -120,13 +125,13 @@ export default function ContactPage() {
         }}>
           <Reveal>
             <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', display: 'block', marginBottom: '1.25rem' }}>
-              Contact
+              {t('contact:hero.eyebrow')}
             </span>
             <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(2rem,5vw,3.25rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1.1rem' }}>
-              Parlons de vos besoins
+              {t('contact:hero.title')}
             </h1>
             <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
-              Équipe basée à Dakar, nous répondons sous 24h ouvrées.
+              {t('contact:hero.subtitle')}
             </p>
           </Reveal>
         </section>
@@ -143,7 +148,7 @@ export default function ContactPage() {
 
               {/* Left : channel cards */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
-                {channels.map(({ Icon, title, detail, href }) => (
+                {channels(t).map(({ Icon, title, detail, href }) => (
                   <div key={title} style={{
                     background: 'var(--bg-card)',
                     border: '1px solid var(--border)',
@@ -169,7 +174,7 @@ export default function ContactPage() {
 
                 <div style={{ marginTop: '0.5rem', padding: '1rem 1.25rem', background: 'var(--accent-004)', border: '1px solid var(--accent-014)', borderRadius: 14 }}>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text2)', lineHeight: 1.6 }}>
-                    Vos informations ne sont utilisées que pour vous répondre. Elles ne sont jamais partagées.
+                    {t('contact:privacyNote')}
                   </p>
                 </div>
               </div>
@@ -183,51 +188,53 @@ export default function ContactPage() {
                       <IcoCheckCircle size={28} />
                     </div>
                     <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.4rem', color: 'var(--text-head)', marginBottom: '0.75rem' }}>
-                      Merci, {firstName} !
+                      {t('contact:success.title', { name: firstName })}
                     </h2>
                     <p style={{ fontSize: '0.9rem', color: 'var(--text2)', lineHeight: 1.65, marginBottom: '2rem' }}>
-                      Nous avons bien reçu votre message. Nous vous répondrons à <strong>{form.email}</strong> sous 24h ouvrées.
+                      <Trans i18nKey="contact:success.body" values={{ email: form.email }}>
+                        Nous avons bien reçu votre message. Nous vous répondrons à <strong>{{ email: form.email }}</strong> sous 24h ouvrées.
+                      </Trans>
                     </p>
                     <button
                       onClick={() => { setStatus('idle'); setForm({ nom: '', email: '', organisation: '', sujet: '', message: '' }); }}
                       style={{ background: 'transparent', border: '1px solid var(--border2)', color: 'var(--text2)', padding: '0.65rem 1.5rem', borderRadius: 10, cursor: 'pointer', fontSize: '0.875rem', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}
                     >
-                      Envoyer un autre message
+                      {t('contact:success.again')}
                     </button>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                      <Field label="Nom complet" required>
+                      <Field label={t('contact:form.nameLabel')} required>
                         <input style={fieldBase} type="text" required value={form.nom} onChange={set('nom')}
-                          placeholder="Prénom et Nom" onFocus={focusIn} onBlur={focusOut} />
+                          placeholder={t('contact:form.namePlaceholder')} onFocus={focusIn} onBlur={focusOut} />
                       </Field>
-                      <Field label="Email" required>
+                      <Field label={t('contact:form.emailLabel')} required>
                         <input style={fieldBase} type="email" required value={form.email} onChange={set('email')}
-                          placeholder="vous@entreprise.com" onFocus={focusIn} onBlur={focusOut} />
+                          placeholder={t('contact:form.emailPlaceholder')} onFocus={focusIn} onBlur={focusOut} />
                       </Field>
                     </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                      <Field label="Organisation">
+                      <Field label={t('contact:form.orgLabel')}>
                         <input style={fieldBase} type="text" value={form.organisation} onChange={set('organisation')}
-                          placeholder="Nom de l'entreprise" onFocus={focusIn} onBlur={focusOut} />
+                          placeholder={t('contact:form.orgPlaceholder')} onFocus={focusIn} onBlur={focusOut} />
                       </Field>
-                      <Field label="Sujet">
+                      <Field label={t('contact:form.subjectLabel')}>
                         <select style={{ ...fieldBase, cursor: 'pointer' }} value={form.sujet} onChange={set('sujet')} onFocus={focusIn} onBlur={focusOut}>
-                          {SUJET_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                          {sujetOptions(t).map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                         </select>
                       </Field>
                     </div>
 
-                    <Field label="Message" required>
+                    <Field label={t('contact:form.messageLabel')} required>
                       <textarea
                         style={{ ...fieldBase, minHeight: 140, resize: 'vertical' }}
                         required
                         value={form.message}
                         onChange={set('message')}
-                        placeholder="Décrivez votre besoin ou votre question..."
+                        placeholder={t('contact:form.messagePlaceholder')}
                         onFocus={focusIn}
                         onBlur={focusOut}
                       />
@@ -252,7 +259,7 @@ export default function ContactPage() {
                         opacity: status === 'loading' ? 0.7 : 1,
                       }}
                     >
-                      {status === 'loading' ? 'Envoi en cours…' : <><span>Envoyer le message</span><IcoArrow size={16} /></>}
+                      {status === 'loading' ? t('contact:form.submitting') : <><span>{t('contact:form.submit')}</span><IcoArrow size={16} /></>}
                     </button>
 
                   </form>

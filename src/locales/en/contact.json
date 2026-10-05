@@ -1,0 +1,33 @@
+{
+  "meta": { "title": "Contact — DencPass", "description": "Team based in Dakar, we reply within 24 business hours. Support, sales, or Enterprise inquiries." },
+  "hero": { "eyebrow": "Contact", "title": "Let's talk about your needs", "subtitle": "Team based in Dakar, we reply within 24 business hours." },
+  "channels": {
+    "support": { "title": "Support & sales", "detail": "support@dencpass.com" },
+    "enterprise": { "title": "Enterprise", "detail": "enterprise@dencpass.com" },
+    "office": { "title": "Office", "detail": "Dakar · Senegal" }
+  },
+  "privacyNote": "Your information is only used to reply to you. It is never shared.",
+  "form": {
+    "nameLabel": "Full name", "namePlaceholder": "First and last name",
+    "emailLabel": "Email", "emailPlaceholder": "you@company.com",
+    "orgLabel": "Organization", "orgPlaceholder": "Company name",
+    "subjectLabel": "Subject",
+    "subjectChoose": "Choose a subject...",
+    "subjectGeneral": "General question",
+    "subjectDemo": "Product demo",
+    "subjectQuote": "Enterprise quote",
+    "subjectSupport": "Technical support",
+    "subjectOther": "Other",
+    "messageLabel": "Message", "messagePlaceholder": "Describe your need or your question...",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "genericError": "Something went wrong. Please try again later.",
+    "networkError": "Couldn't reach the server. Please try again later."
+  },
+  "success": {
+    "title": "Thanks, {{name}}!",
+    "body": "We've received your message. We'll get back to you at <1>{{email}}</1> within 24 business hours.",
+    "fallbackName": "there",
+    "again": "Send another message"
+  }
+}

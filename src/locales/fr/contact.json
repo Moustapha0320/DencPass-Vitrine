@@ -1,0 +1,33 @@
+{
+  "meta": { "title": "Contact — DencPass", "description": "Équipe basée à Dakar, nous répondons sous 24h ouvrées. Support, ventes, ou demande Enterprise." },
+  "hero": { "eyebrow": "Contact", "title": "Parlons de vos besoins", "subtitle": "Équipe basée à Dakar, nous répondons sous 24h ouvrées." },
+  "channels": {
+    "support": { "title": "Support & ventes", "detail": "support@dencpass.com" },
+    "enterprise": { "title": "Enterprise", "detail": "enterprise@dencpass.com" },
+    "office": { "title": "Bureau", "detail": "Dakar · Sénégal" }
+  },
+  "privacyNote": "Vos informations ne sont utilisées que pour vous répondre. Elles ne sont jamais partagées.",
+  "form": {
+    "nameLabel": "Nom complet", "namePlaceholder": "Prénom et Nom",
+    "emailLabel": "Email", "emailPlaceholder": "vous@entreprise.com",
+    "orgLabel": "Organisation", "orgPlaceholder": "Nom de l'entreprise",
+    "subjectLabel": "Sujet",
+    "subjectChoose": "Choisir un sujet...",
+    "subjectGeneral": "Question générale",
+    "subjectDemo": "Démonstration produit",
+    "subjectQuote": "Devis Enterprise",
+    "subjectSupport": "Support technique",
+    "subjectOther": "Autre",
+    "messageLabel": "Message", "messagePlaceholder": "Décrivez votre besoin ou votre question...",
+    "submit": "Envoyer le message",
+    "submitting": "Envoi en cours…",
+    "genericError": "Une erreur est survenue. Réessayez plus tard.",
+    "networkError": "Impossible de joindre le serveur. Réessayez plus tard."
+  },
+  "success": {
+    "title": "Merci, {{name}} !",
+    "body": "Nous avons bien reçu votre message. Nous vous répondrons à <1>{{email}}</1> sous 24h ouvrées.",
+    "fallbackName": "vous",
+    "again": "Envoyer un autre message"
+  }
+}
