@@ -1,8 +1,12 @@
+import { useTranslation } from 'react-i18next'
 import PublicLayout from '../components/layout/PublicLayout'
 import { Reveal } from '../components/shared'
-import { CHANGELOG, CATEGORY_STYLES } from '../data/changelog'
+import useDocumentTitle from '../hooks/useDocumentTitle'
+import { CHANGELOG as CHANGELOG_FR, CATEGORY_STYLES } from '../data/changelog.fr'
+import { CHANGELOG as CHANGELOG_EN } from '../data/changelog.en'
 
 function CategoryBadge({ category }) {
+  const { t } = useTranslation('changelog')
   const s = CATEGORY_STYLES[category] ?? { color: 'var(--text3)', bg: 'var(--bg3)' }
   return (
     <span style={{
@@ -18,12 +22,16 @@ function CategoryBadge({ category }) {
       border: `1px solid ${s.color}33`,
       whiteSpace: 'nowrap',
     }}>
-      {category}
+      {t(`categories.${category}`)}
     </span>
   )
 }
 
 export default function ChangelogPage() {
+  const { t, i18n } = useTranslation('changelog')
+  useDocumentTitle(t('changelog:meta.title'), t('changelog:meta.description'), '/changelog')
+  const CHANGELOG = i18n.language === 'en' ? CHANGELOG_EN : CHANGELOG_FR
+
   return (
     <PublicLayout>
       <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
@@ -39,14 +47,14 @@ export default function ChangelogPage() {
             <Reveal>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--border2)', background: 'var(--purple-06)', marginBottom: '1.4rem' }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', display: 'inline-block' }} />
-                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--purple)', letterSpacing: '0.1em' }}>HISTORIQUE DES VERSIONS</span>
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--purple)', letterSpacing: '0.1em' }}>{t('changelog:hero.badge')}</span>
               </div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem,4.5vw,3.4rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.08 }}>
-                Ce qui change.
+                {t('changelog:hero.title')}
               </h1>
               <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 480, margin: 0 }}>
-                Chaque mise à jour, correctif et amélioration, dans l'ordre chronologique inverse.
-                Les dates marquées <span style={{ fontFamily: "'JetBrains Mono', monospace", color: 'var(--text4)', fontSize: 13 }}>XX</span> seront complétées avant publication.
+                {t('changelog:hero.subtitlePart1')}
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", color: 'var(--text4)', fontSize: 13 }}>{t('changelog:hero.subtitleXX')}</span>{t('changelog:hero.subtitlePart2')}
               </p>
             </Reveal>
           </div>
@@ -130,14 +138,14 @@ export default function ChangelogPage() {
           <Reveal>
             <div style={{ textAlign: 'center', borderTop: '1px solid var(--border)', paddingTop: '3rem' }}>
               <p style={{ fontSize: 14, color: 'var(--text4)', fontFamily: "'JetBrains Mono', monospace", marginBottom: '1rem', letterSpacing: '0.04em' }}>
-                Vous avez une suggestion ou un bug à signaler ?
+                {t('changelog:cta.text')}
               </p>
               <a href="mailto:support@dencpass.com"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 22px', borderRadius: 10, border: '1px solid var(--border2)', background: 'transparent', color: 'var(--text2)', fontSize: 14, fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, transition: 'border-color 0.2s, color 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border2)'; e.currentTarget.style.color = 'var(--text2)' }}
               >
-                Contacter l'équipe
+                {t('changelog:cta.button')}
               </a>
             </div>
           </Reveal>

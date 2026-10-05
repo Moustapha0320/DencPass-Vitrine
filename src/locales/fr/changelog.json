@@ -1,0 +1,12 @@
+{
+  "meta": { "title": "Changelog — DencPass", "description": "Historique complet des versions de DencPass : nouveautés, corrections et améliorations." },
+  "hero": {
+    "badge": "HISTORIQUE DES VERSIONS",
+    "title": "Ce qui change.",
+    "subtitlePart1": "Chaque mise à jour, correctif et amélioration, dans l'ordre chronologique inverse. Les dates marquées ",
+    "subtitleXX": "XX",
+    "subtitlePart2": " seront complétées avant publication."
+  },
+  "categories": { "new": "Nouveau", "security": "Sécurité", "fixed": "Corrigé", "design": "Design" },
+  "cta": { "text": "Vous avez une suggestion ou un bug à signaler ?", "button": "Contacter l'équipe" }
+}
