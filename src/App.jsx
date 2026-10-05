@@ -32,9 +32,13 @@ import BlogPostPage from './pages/BlogPostPage'
 import StatusPage from './pages/StatusPage'
 import PublicLayout from './components/layout/PublicLayout'
 import { Reveal } from './components/shared'
+import useDocumentTitle from './hooks/useDocumentTitle'
 
 function NotFoundPage() {
   const { t } = useTranslation('common')
+  const { pathname } = useLocation()
+  const alternatePath = pathname === '/en' ? '/' : pathname.startsWith('/en/') ? pathname.slice(3) : pathname
+  useDocumentTitle(t('notFound.meta.title'), t('notFound.meta.description'), alternatePath)
   return (
     <PublicLayout>
       <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '4rem 1.5rem' }}>
