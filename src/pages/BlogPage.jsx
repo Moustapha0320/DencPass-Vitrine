@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import PublicLayout from '../components/layout/PublicLayout'
 import { Reveal, IcoArrow } from '../components/shared'
-import { ARTICLES, ARTICLE_CATEGORY_STYLES } from '../data/blog'
+import useDocumentTitle from '../hooks/useDocumentTitle'
+import { ARTICLES as ARTICLES_FR, ARTICLE_CATEGORY_STYLES } from '../data/blog.fr'
+import { ARTICLES as ARTICLES_EN } from '../data/blog.en'
 
 function CategoryBadge({ category }) {
+  const { t } = useTranslation('blog')
   const s = ARTICLE_CATEGORY_STYLES[category] ?? { color: 'var(--text3)', bg: 'var(--bg3)' }
   return (
     <span style={{
@@ -19,12 +23,13 @@ function CategoryBadge({ category }) {
       border: `1px solid ${s.color}33`,
       whiteSpace: 'nowrap',
     }}>
-      {category}
+      {t(`categories.${category}`)}
     </span>
   )
 }
 
 function ArticleCard({ article, delay }) {
+  const { t } = useTranslation('blog')
   return (
     <Reveal delay={delay} style={{ height: '100%' }}>
       <Link to={`/blog/${article.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
@@ -46,7 +51,7 @@ function ArticleCard({ article, delay }) {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
             <CategoryBadge category={article.category} />
             <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text5)' }}>
-              {article.readTime} de lecture
+              {article.readTime} {t('blog:readTimeSuffix')}
             </span>
           </div>
 
@@ -63,7 +68,7 @@ function ArticleCard({ article, delay }) {
               {article.date}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'var(--accent)', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600 }}>
-              Lire <IcoArrow size={13} />
+              {t('blog:readLink')} <IcoArrow size={13} />
             </span>
           </div>
         </article>
@@ -73,6 +78,10 @@ function ArticleCard({ article, delay }) {
 }
 
 export default function BlogPage() {
+  const { t, i18n } = useTranslation('blog')
+  useDocumentTitle(t('blog:meta.title'), t('blog:meta.description'), '/blog')
+  const ARTICLES = i18n.language === 'en' ? ARTICLES_EN : ARTICLES_FR
+
   return (
     <PublicLayout>
       <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
@@ -86,13 +95,13 @@ export default function BlogPage() {
           <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
             <Reveal>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--border2)', background: 'var(--accent-004)', marginBottom: '1.4rem' }}>
-                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>BLOG</span>
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>{t('blog:hero.badge')}</span>
               </div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem,4.5vw,3.4rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.08 }}>
-                Ressources & perspectives.
+                {t('blog:hero.title')}
               </h1>
               <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 520, margin: '0 auto' }}>
-                Sécurité numérique, pratiques professionnelles, et les coulisses de DencPass : pour les équipes qui prennent leurs données au sérieux.
+                {t('blog:hero.subtitle')}
               </p>
             </Reveal>
           </div>
@@ -102,7 +111,7 @@ export default function BlogPage() {
         <section style={{ padding: '1rem max(1.5rem, calc((100% - 1100px) / 2)) 7rem' }}>
           {ARTICLES.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text4)', fontFamily: "'JetBrains Mono', monospace", fontSize: 13 }}>
-              Aucun article pour l'instant : revenez bientôt.
+              {t('blog:empty')}
             </div>
           ) : (
             <div style={{

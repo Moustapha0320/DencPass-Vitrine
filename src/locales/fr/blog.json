@@ -1,0 +1,16 @@
+{
+  "meta": { "title": "Blog — DencPass", "description": "Sécurité numérique, pratiques professionnelles, et les coulisses de DencPass." },
+  "hero": { "badge": "BLOG", "title": "Ressources & perspectives.", "subtitle": "Sécurité numérique, pratiques professionnelles, et les coulisses de DencPass : pour les équipes qui prennent leurs données au sérieux." },
+  "empty": "Aucun article pour l'instant : revenez bientôt.",
+  "readTimeSuffix": "de lecture",
+  "readLink": "Lire",
+  "categories": { "security": "Sécurité", "product": "Produit", "guide": "Guide", "enterprise": "Entreprise" },
+  "post": {
+    "backToBlog": "Blog",
+    "allArticles": "Tous les articles",
+    "ctaButton": "Essayer DencPass gratuitement",
+    "notFoundEyebrow": "404 · ARTICLE INTROUVABLE",
+    "notFoundTitle": "Cet article n'existe pas.",
+    "notFoundDesc": "Il a peut-être été déplacé ou n'a pas encore été publié."
+  }
+}

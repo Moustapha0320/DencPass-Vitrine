@@ -5,7 +5,7 @@ export const ARTICLES = [
     slug: 'proteger-acces-organisation',
     title: 'Comment protéger les accès de votre organisation en 2026',
     excerpt: 'Les violations de données coûtent en moyenne 4,4 millions de dollars aux entreprises. Pourtant, 80 % des incidents impliquent des identifiants compromis. Voici les pratiques concrètes à mettre en place dès maintenant.',
-    category: 'Guide',
+    category: 'guide',
     date: '2026-07-29',
     readTime: '7 min',
     content: [
@@ -71,7 +71,7 @@ export const ARTICLES = [
     slug: 'securite-numerique-afrique',
     title: 'Sécurité numérique en Afrique : un enjeu croissant, des outils inadaptés',
     excerpt: "Le continent africain est la région du monde où la digitalisation progresse le plus vite. Mais les outils de cybersécurité disponibles restent pensés pour d'autres réalités. DencPass est né de ce constat.",
-    category: 'Produit',
+    category: 'product',
     date: '2026-07-29',
     readTime: '5 min',
     content: [
@@ -126,7 +126,7 @@ export const ARTICLES = [
     slug: 'pourquoi-gestionnaire-mots-de-passe',
     title: 'Pourquoi tout le monde devrait utiliser un gestionnaire de mots de passe',
     excerpt: "On utilise en moyenne 100 comptes en ligne. Retenir 100 mots de passe uniques et robustes est impossible pour un cerveau humain. Voici pourquoi déléguer cette tâche à un outil dédié n'est pas une option, c'est une nécessité.",
-    category: 'Sécurité',
+    category: 'security',
     date: '2026-07-29',
     readTime: '4 min',
     content: [
@@ -180,8 +180,8 @@ export const ARTICLES = [
 ]
 
 export const ARTICLE_CATEGORY_STYLES = {
-  Sécurité:  { color: 'var(--purple)',  bg: 'var(--purple-014)'     },
-  Produit:   { color: 'var(--accent)',  bg: 'var(--accent-014)'     },
-  Guide:     { color: 'var(--green)',   bg: 'rgba(34,197,94,0.10)'  },
-  Entreprise:{ color: 'var(--amber)',   bg: 'rgba(245,158,11,0.12)' },
+  security:   { color: 'var(--purple)',  bg: 'var(--purple-014)'     },
+  product:    { color: 'var(--accent)',  bg: 'var(--accent-014)'     },
+  guide:      { color: 'var(--green)',   bg: 'rgba(34,197,94,0.10)'  },
+  enterprise: { color: 'var(--amber)',   bg: 'rgba(245,158,11,0.12)' },
 }

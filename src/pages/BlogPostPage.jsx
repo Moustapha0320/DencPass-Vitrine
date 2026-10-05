@@ -1,9 +1,13 @@
 import { Link, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import PublicLayout from '../components/layout/PublicLayout'
 import { Reveal, IcoArrow } from '../components/shared'
-import { ARTICLES, ARTICLE_CATEGORY_STYLES } from '../data/blog'
+import useDocumentTitle from '../hooks/useDocumentTitle'
+import { ARTICLES as ARTICLES_FR, ARTICLE_CATEGORY_STYLES } from '../data/blog.fr'
+import { ARTICLES as ARTICLES_EN } from '../data/blog.en'
 
 function CategoryBadge({ category }) {
+  const { t } = useTranslation('blog')
   const s = ARTICLE_CATEGORY_STYLES[category] ?? { color: 'var(--text3)', bg: 'var(--bg3)' }
   return (
     <span style={{
@@ -11,7 +15,7 @@ function CategoryBadge({ category }) {
       fontSize: 11, fontFamily: "'JetBrains Mono', monospace", fontWeight: 600, letterSpacing: '0.06em',
       color: s.color, background: s.bg, border: `1px solid ${s.color}33`, whiteSpace: 'nowrap',
     }}>
-      {category}
+      {t(`categories.${category}`)}
     </span>
   )
 }
@@ -101,14 +105,15 @@ function ContentBlock({ block }) {
 
 // ─── 404 within the blog layout ───────────────────────────────────────────────
 function ArticleNotFound() {
+  const { t } = useTranslation('blog')
   return (
     <div style={{ minHeight: '70vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '4rem 1.5rem' }}>
       <Reveal>
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--text4)', letterSpacing: '0.12em', marginBottom: '1rem' }}>404 · ARTICLE INTROUVABLE</p>
-        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1rem' }}>Cet article n'existe pas.</h1>
-        <p style={{ fontSize: 15, color: 'var(--text3)', marginBottom: '2rem' }}>Il a peut-être été déplacé ou n'a pas encore été publié.</p>
+        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--text4)', letterSpacing: '0.12em', marginBottom: '1rem' }}>{t('blog:post.notFoundEyebrow')}</p>
+        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1rem' }}>{t('blog:post.notFoundTitle')}</h1>
+        <p style={{ fontSize: 15, color: 'var(--text3)', marginBottom: '2rem' }}>{t('blog:post.notFoundDesc')}</p>
         <Link to="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 22px', borderRadius: 10, background: 'var(--accent)', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", textDecoration: 'none' }}>
-          Tous les articles
+          {t('blog:post.allArticles')}
         </Link>
       </Reveal>
     </div>
@@ -118,7 +123,11 @@ function ArticleNotFound() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function BlogPostPage() {
   const { slug } = useParams()
+  const { t, i18n } = useTranslation('blog')
+  const ARTICLES = i18n.language === 'en' ? ARTICLES_EN : ARTICLES_FR
   const article = ARTICLES.find(a => a.slug === slug)
+
+  useDocumentTitle(article ? article.title : t('blog:post.notFoundTitle'), article ? article.excerpt : t('blog:meta.description'), `/blog/${slug}`)
 
   if (!article) {
     return <PublicLayout><ArticleNotFound /></PublicLayout>
@@ -144,7 +153,7 @@ export default function BlogPostPage() {
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--text4)'}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                Blog
+                {t('blog:post.backToBlog')}
               </Link>
 
               <CategoryBadge category={article.category} />
@@ -156,7 +165,7 @@ export default function BlogPostPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text5)' }}>{article.date}</span>
                 <span style={{ color: 'var(--border2)' }}>·</span>
-                <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text5)' }}>{article.readTime} de lecture</span>
+                <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text5)' }}>{article.readTime} {t('blog:readTimeSuffix')}</span>
               </div>
             </Reveal>
           </div>
@@ -179,10 +188,10 @@ export default function BlogPostPage() {
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--text3)'}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                Tous les articles
+                {t('blog:post.allArticles')}
               </Link>
               <a href="https://app.dencpass.com/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 10, background: 'var(--accent)', color: '#07111f', fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", textDecoration: 'none' }}>
-                Essayer DencPass gratuitement <IcoArrow size={13} />
+                {t('blog:post.ctaButton')} <IcoArrow size={13} />
               </a>
             </div>
           </div>

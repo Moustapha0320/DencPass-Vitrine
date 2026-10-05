@@ -1,0 +1,88 @@
+// Blog articles data (English).
+// Add new articles at the TOP of this array (newest first).
+export const ARTICLES = [
+  {
+    slug: 'proteger-acces-organisation',
+    title: 'How to protect your organization\'s access in 2026',
+    excerpt: 'Data breaches cost companies an average of $4.4 million. Yet 80% of incidents involve compromised credentials. Here are the concrete practices to put in place right now.',
+    category: 'guide',
+    date: '2026-07-29',
+    readTime: '7 min',
+    content: [
+      { type: 'intro', text: "In 2026, one in two West African companies already uses more than ten different digital tools to run their operations: messaging, accounting, CRM, online banking, professional social networks. Every tool is a potential entry point if its access isn't properly protected. Data breaches cost affected companies an average of $4.4 million, and in 80% of cases, the cause is a compromised, reused, or poorly protected credential. The good news: fixing the essentials doesn't take a big budget or a dedicated team — four habits are enough to drastically reduce the risk." },
+      { type: 'h2', text: '1. Inventory every access point in your organization' },
+      { type: 'p', text: "Before you can secure anything, you need to know what exists. Most organizations underestimate how many active accounts they have: SaaS tools an employee signed up for without IT approval, server access created for a one-off project and never revoked, shared accounts nobody can even list the holders of anymore. These ghost accounts are especially dangerous because they escape all monitoring and stay active long after they've stopped being useful. A complete inventory — even just a simple spreadsheet to start — is the essential starting point for any security effort." },
+      { type: 'h2', text: '2. Enforce two-factor authentication (2FA)' },
+      { type: 'p', text: "App-based TOTP 2FA (a one-time code generated every 30 seconds) is significantly safer than SMS, which remains vulnerable to SIM-swap attacks and interception. According to several account-security studies, turning on app-based 2FA blocks more than 99% of automated hijacking attempts, even when the password has leaked. A manager like DencPass lets you generate and store these TOTP codes right alongside the matching passwords, encrypted with the same rigor — no juggling between apps, and easier adoption across teams." },
+      { type: 'ul', items: [
+        'Blocks nearly all fraudulent logins, even with a stolen password',
+        "Doesn't depend on mobile network coverage, so it works even with a weak signal",
+        'Keeps codes and passwords in one place, for easier team adoption',
+      ]},
+      { type: 'h2', text: '3. Manage departures and role changes' },
+      { type: 'p', text: "An employee who leaves the company too often keeps active access for weeks, sometimes months, for lack of a clear procedure. It's one of the most common and most avoidable gaps: every forgotten account is a door left ajar. A centralized access manager with an audit log lets you see at a glance who has access to what, and revoke someone's rights immediately on their last day — instead of chasing down every service to cut access one by one." },
+      { type: 'h2', text: '4. Regularly audit password health' },
+      { type: 'p', text: "A password created three years ago, reused across several accounts, or exposed in a public data breach (via a database like Have I Been Pwned) stays an active risk until someone catches it. A security score that automatically evaluates the strength, reuse, and exposure of your organization's passwords turns a reactive approach — discovering the problem after the incident — into a proactive one, where you fix it before it happens." },
+      { type: 'callout', text: 'Quarterly checklist: 1) Is the list of active accounts up to date? 2) Is 2FA enabled on every sensitive access point? 3) Have departed employees\' access rights actually been revoked? 4) Has the password security score improved or gotten worse? 5) Have shared passwords been changed since the last review?' },
+      { type: 'h2', text: 'Conclusion' },
+      { type: 'p', text: "Inventory your access points, enable 2FA, manage departures properly, and regularly audit password health: these four habits are enough to eliminate the vast majority of credential-related risks in a company. None of them requires a heavy transformation — just the right tool and a bit of rigor. If you want to put these practices in place without technical complexity, DencPass Enterprise was built for exactly that: try the platform today, or contact our team in Dakar for a demo." },
+    ],
+  },
+  {
+    slug: 'securite-numerique-afrique',
+    title: 'Digital security in Africa: a growing challenge, mismatched tools',
+    excerpt: 'Africa is the region of the world where digitalization is moving fastest. But the cybersecurity tools available remain built for other realities. DencPass was born from that gap.',
+    category: 'product',
+    date: '2026-07-29',
+    readTime: '5 min',
+    content: [
+      { type: 'intro', text: "In West Africa, mobile money has become a pillar of everyday economic life in the span of a decade: people pay their bills with it, receive their salary through it, manage a small business's cash flow on it. In several countries in the region, its contribution to GDP now exceeds 5%. But this digital revolution was built on security tools designed elsewhere, for other use cases, other currencies, other languages. DencPass was born from that gap." },
+      { type: 'h2', text: 'A digital ecosystem in rapid expansion' },
+      { type: 'p', text: "According to the latest GSMA reports, Sub-Saharan Africa remains the most dynamic region in the world for mobile money, with over a billion registered accounts and hundreds of billions of dollars flowing through these platforms every year in West Africa alone. This growth isn't limited to mobile payments: fintech, digital health, and e-government are following the same trajectory, driven by a generation of entrepreneurs digitizing their operations faster than security infrastructure can keep up. Every new online service is another account to protect, and another password to remember." },
+      { type: 'h2', text: "Existing tools weren't built for Africa" },
+      { type: 'p', text: "The vast majority of password managers available today were built for North American or European markets, and it shows at every step. Subscriptions are billed in dollars or euros via an international bank card, which immediately excludes professionals who operate day-to-day with Wave or Orange Money. The interface, customer support, and documentation stay almost exclusively in English, with teams based in time zones that make same-day resolution of an urgent technical issue difficult. And none of these tools pay any attention to country-specific data protection frameworks, like APDP in Senegal." },
+      { type: 'ul', items: [
+        'Payment limited to international bank cards in USD or EUR, unsuited to most West African SMEs',
+        'Interface and support in English only, while French remains the working language of many organizations',
+        'Customer support based in Europe or the US, with response times incompatible with an urgent security incident',
+        'No regard for local data protection regulations, like APDP in Senegal',
+      ]},
+      { type: 'h2', text: 'What DencPass does differently' },
+      { type: 'p', text: "DencPass was built starting from these frictions, not in spite of them. Payment happens in FCFA, directly via Wave or Orange Money, with no international bank card or currency conversion. The interface is fully in French, and you can build your master passphrase from words drawn from Wolof, Bambara, Swahili or Yoruba, for a more natural, more personal way to remember it. Support is based in Dakar, on the same working hours as its users, able to respond to a security incident with no time-zone lag. AES-256-GCM encryption still meets the most demanding international standards; what changes is that the tool was built for the concrete realities of the people who use it." },
+      { type: 'h2', text: 'Conclusion' },
+      { type: 'p', text: "Digital security isn't a luxury reserved for Western companies — it's a need just as real in Dakar, Abidjan, or Cotonou as it is in Paris or New York. DencPass is a tool designed here, for realities that are lived here: the currency, the language, the time zone, and the legal framework of the people who use it every day. Create your free account today and see the difference for yourself." },
+    ],
+  },
+  {
+    slug: 'pourquoi-gestionnaire-mots-de-passe',
+    title: 'Why everyone should use a password manager',
+    excerpt: 'We each use an average of 100 online accounts. Remembering 100 unique, strong passwords is impossible for a human brain. Here\'s why handing that task to a dedicated tool isn\'t optional — it\'s a necessity.',
+    category: 'security',
+    date: '2026-07-29',
+    readTime: '4 min',
+    content: [
+      { type: 'intro', text: "Most of us now manage more than a hundred online accounts: email, social media, banking, e-commerce, mobile money. Remembering a hundred unique, genuinely strong passwords is beyond the capacity of human memory — and that's not a discipline problem, it's simply a biological limit. The result: almost everyone reuses the same passwords or simplifies them so they can be remembered. The good news is there's a tool designed to solve exactly this problem for you." },
+      { type: 'h2', text: 'The real cost of a weak password' },
+      { type: 'p', text: "The vast majority of online account breaches don't come from sophisticated hacking — they come from a weak password, reused across multiple sites, or already exposed in a data breach elsewhere on the internet. A short eight-character password, even with numbers and capitals, can be guessed by a modern computer in just a few hours. The most common scenario is simple: a site you rarely use gets breached, and if you reused that same password for your email or bank account, those accounts become immediately vulnerable — even though they were never directly hacked." },
+      { type: 'h2', text: 'What a manager does for you' },
+      { type: 'ul', items: [
+        "It generates a long, random, unguessable password for every site — you never have to make one up",
+        'It remembers everything for you: you only need to memorize one master password',
+        'It autofills your credentials on the right site, which also protects you from fake phishing sites',
+        "It alerts you if one of your passwords shows up in a known data breach, so you can change it before it's exploited",
+      ]},
+      { type: 'h2', text: '"But I don\'t trust anyone to store my passwords"' },
+      { type: 'p', text: "That's a legitimate concern, and the answer lies in how the encryption actually works. With DencPass's zero-knowledge architecture, your passwords are encrypted and decrypted directly on your device, before they're ever sent to our servers. In practical terms, that means even our own team can't see your passwords in clear text, because we never hold the key that could decrypt them. Compared to a sticky note on your screen, an unprotected spreadsheet, or fallible memory, a zero-knowledge manager remains, by far, the safest option." },
+      { type: 'callout', text: 'Key takeaway: zero-knowledge architecture. Your passwords are encrypted with AES-256-GCM directly on your device, before anything is sent. The encryption key never leaves your device, and no one at DencPass can view your passwords in clear text. An independent security audit regularly verifies the strength of this system.' },
+      { type: 'h2', text: 'Where to start' },
+      { type: 'p', text: "Getting started takes less than ten minutes. First, create your DencPass account and choose a strong master password — it's the only one you'll still need to remember. Next, import your existing passwords from your browser or a CSV file; DencPass takes care of the rest. Finally, turn on two-factor authentication on your account for an extra layer of protection. Sign-up is free, so you might as well start today rather than wait for the next incident." },
+    ],
+  },
+]
+
+export const ARTICLE_CATEGORY_STYLES = {
+  security:   { color: 'var(--purple)',  bg: 'var(--purple-014)'     },
+  product:    { color: 'var(--accent)',  bg: 'var(--accent-014)'     },
+  guide:      { color: 'var(--green)',   bg: 'rgba(34,197,94,0.10)'  },
+  enterprise: { color: 'var(--amber)',   bg: 'rgba(245,158,11,0.12)' },
+}

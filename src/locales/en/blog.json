@@ -1,0 +1,16 @@
+{
+  "meta": { "title": "Blog — DencPass", "description": "Digital security, professional practices, and behind the scenes at DencPass." },
+  "hero": { "badge": "BLOG", "title": "Resources & perspectives.", "subtitle": "Digital security, professional practices, and behind the scenes at DencPass — for teams who take their data seriously." },
+  "empty": "No articles yet — check back soon.",
+  "readTimeSuffix": "read",
+  "readLink": "Read",
+  "categories": { "security": "Security", "product": "Product", "guide": "Guide", "enterprise": "Enterprise" },
+  "post": {
+    "backToBlog": "Blog",
+    "allArticles": "All articles",
+    "ctaButton": "Try DencPass for free",
+    "notFoundEyebrow": "404 · ARTICLE NOT FOUND",
+    "notFoundTitle": "This article doesn't exist.",
+    "notFoundDesc": "It may have been moved, or hasn't been published yet."
+  }
+}
