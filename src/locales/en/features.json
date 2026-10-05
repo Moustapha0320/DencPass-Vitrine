@@ -1,0 +1,58 @@
+{
+  "meta": { "title": "Features — DencPass", "description": "Everything you need to protect your access: encrypted vault, secure sharing, zero-knowledge architecture, and Enterprise features." },
+  "hero": {
+    "eyebrow": "FEATURES",
+    "title": "Everything you need to protect your access",
+    "subtitle": "From everyday password management to enterprise deployment with SIEM and Active Directory — without ever cutting corners on security, or forgetting Africa."
+  },
+  "groups": {
+    "daily": {
+      "kicker": "EVERY DAY", "title": "Manage your access effortlessly",
+      "vault": { "title": "Encrypted vault", "desc": "Passwords, credentials and secure notes, with a change history per entry." },
+      "generator": { "title": "Generator up to 128 char.", "desc": "Configurable rules: length, symbols, digits. Or a memorable passphrase." },
+      "extensions": { "title": "Browser extensions", "desc": "Automatic autofill and capture of credentials in Chrome, Edge and Firefox." },
+      "secrets": { "title": "Secrets & certificates", "desc": "Store API keys, certificates and secure notes alongside your passwords." },
+      "import": { "title": "Import in 2 minutes", "desc": "CSV import from Chrome, Bitwarden, LastPass, KeePass and KeePassXC." },
+      "score": { "title": "Security score", "desc": "Detects weak, reused or compromised passwords via HIBP." }
+    },
+    "sharing": {
+      "kicker": "SHARING & COLLABORATION", "title": "Share securely",
+      "links": { "title": "Temporary links", "desc": "Link-based sharing with view limits, expiration and revocation at any time." },
+      "teams": { "title": "Teams & groups", "desc": "Centralized access with roles and permissions per organization." },
+      "notifications": { "title": "Access notifications", "desc": "Get notified every time a shared secret is viewed or changed." }
+    },
+    "security": {
+      "kicker": "CORE SECURITY", "title": "A zero-knowledge architecture",
+      "aes": { "title": "AES-256-GCM per entry", "desc": "Every item encrypted individually with HMAC integrity control, before storage." },
+      "zeroKnowledge": { "title": "Zero knowledge", "desc": "Our servers cannot read your data. Even with physical access." },
+      "totp": { "title": "2FA TOTP", "desc": "Compatible with Google Authenticator and Authy. The TOTP secret itself is encrypted at rest." }
+    }
+  },
+  "why": {
+    "kicker": "DENCPASS VS THE REST",
+    "title": "Where we actually stand out",
+    "subtitle": "We don't claim to beat the giants at everything. Here's precisely where DencPass makes a difference for West Africa.",
+    "advFcfa": { "kicker": "FCFA · WAVE · ORANGE MONEY", "title": "Pay in FCFA", "desc": "Pay directly in CFA francs via Wave or Orange Money. No currency conversion, no international card, no hidden fees.", "points": ["No currency conversion", "No international bank card needed", "Local billing, zero hidden fees"] },
+    "advPassphrase": { "kicker": "WOLOF · BAMBARA · SWAHILI · YORUBA", "title": "African passphrase", "desc": "Memorable passphrases drawn from a wordlist spanning several African languages. Strong and easy to recall.", "points": ["Multilingual African wordlist", "Customizable separator", "As strong as a random password"] },
+    "advHosting": { "kicker": "WEST AFRICA", "title": "Local hosting & support", "desc": "Infrastructure and support built for French-speaking West Africa. Local compliance and a French interface.", "points": ["Support in French", "APDP compliant (Senegal)", "Servers close to your users"] },
+    "parityTitle": "Parity with the serious password managers",
+    "parity": ["Zero-knowledge architecture", "AES-256-GCM per entry", "2FA TOTP (Google Auth, Authy)", "Generator up to 128 characters", "HIBP breach detection (k-anonymity)", "CSV import in 2 minutes"],
+    "roadmapTitle": "Coming soon",
+    "roadmapSubtitle": "We'd rather be honest about what isn't there yet.",
+    "roadmapItem": "Native mobile apps",
+    "roadmapTag": "On the roadmap"
+  },
+  "enterprise": {
+    "badge": "ENTERPRISE",
+    "title": "Features for your teams",
+    "desc": "Purple marks the Organizations universe: access governance, integrations and On-Premise deployment for your IT teams.",
+    "cta": "See Enterprise plans",
+    "items": ["Multi-organization management", "Active Directory (LDAP)", "SIEM / Syslog RFC 5424", "Full access logging", "Group roles & permissions", "On-Premise deployment available"]
+  },
+  "cta": {
+    "title": "Ready to secure your access?",
+    "subtitle": "Free, no credit card required. Encrypted vault ready in 2 minutes.",
+    "ctaPrimary": "Start for free",
+    "ctaSecondary": "See pricing"
+  }
+}

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import PublicLayout from '../components/layout/PublicLayout'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 import {
   Reveal, IcoCheck, IcoArrow, IcoBuilding,
   IcoVault, IcoKey, IcoCode, IcoFolder, IcoRefresh, IcoActivity,
@@ -9,84 +11,77 @@ import {
 } from '../components/shared'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const featureGroups = [
+const featureGroups = (t) => [
   {
-    kicker: 'AU QUOTIDIEN',
+    kicker: t('features:groups.daily.kicker'),
     Icon: IcoVault,
-    title: 'Gérez vos accès sans effort',
+    title: t('features:groups.daily.title'),
     items: [
-      { Icon: IcoVault, accent: 'var(--accent)', title: 'Coffre chiffré', desc: 'Mots de passe, identifiants et notes sécurisés, avec historique des modifications par entrée.' },
-      { Icon: IcoKey, accent: 'var(--accent)', title: 'Générateur jusqu\'à 128 car.', desc: 'Règles configurables : longueur, symboles, chiffres. Ou passphrase mémorable.' },
-      { Icon: IcoCode, accent: 'var(--accent)', title: 'Extensions navigateur', desc: 'Remplissage et capture automatiques des identifiants Chrome, Edge et Firefox.' },
-      { Icon: IcoFolder, accent: 'var(--accent)', title: 'Secrets & certificats', desc: 'Stockez clés d\'API, certificats et notes sécurisées à côté de vos mots de passe.' },
-      { Icon: IcoRefresh, accent: 'var(--accent)', title: 'Import en 2 minutes', desc: 'CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC.' },
-      { Icon: IcoActivity, accent: 'var(--accent)', title: 'Score de sécurité', desc: 'Détection des mots de passe faibles, réutilisés ou compromis via HIBP.' },
+      { Icon: IcoVault, accent: 'var(--accent)', title: t('features:groups.daily.vault.title'), desc: t('features:groups.daily.vault.desc') },
+      { Icon: IcoKey, accent: 'var(--accent)', title: t('features:groups.daily.generator.title'), desc: t('features:groups.daily.generator.desc') },
+      { Icon: IcoCode, accent: 'var(--accent)', title: t('features:groups.daily.extensions.title'), desc: t('features:groups.daily.extensions.desc') },
+      { Icon: IcoFolder, accent: 'var(--accent)', title: t('features:groups.daily.secrets.title'), desc: t('features:groups.daily.secrets.desc') },
+      { Icon: IcoRefresh, accent: 'var(--accent)', title: t('features:groups.daily.import.title'), desc: t('features:groups.daily.import.desc') },
+      { Icon: IcoActivity, accent: 'var(--accent)', title: t('features:groups.daily.score.title'), desc: t('features:groups.daily.score.desc') },
     ],
   },
   {
-    kicker: 'PARTAGE & COLLABORATION',
+    kicker: t('features:groups.sharing.kicker'),
     Icon: IcoShare,
-    title: 'Partagez en toute sécurité',
+    title: t('features:groups.sharing.title'),
     items: [
-      { Icon: IcoLink2, accent: 'var(--green)', title: 'Liens temporaires', desc: 'Partage par lien avec limite de vues, expiration et révocation à tout moment.' },
-      { Icon: IcoUsers, accent: 'var(--green)', title: 'Équipes & groupes', desc: 'Accès centralisés avec rôles et permissions par organisation.' },
-      { Icon: IcoBell, accent: 'var(--green)', title: 'Notifications d\'accès', desc: 'Soyez averti à chaque consultation ou modification d\'un secret partagé.' },
+      { Icon: IcoLink2, accent: 'var(--green)', title: t('features:groups.sharing.links.title'), desc: t('features:groups.sharing.links.desc') },
+      { Icon: IcoUsers, accent: 'var(--green)', title: t('features:groups.sharing.teams.title'), desc: t('features:groups.sharing.teams.desc') },
+      { Icon: IcoBell, accent: 'var(--green)', title: t('features:groups.sharing.notifications.title'), desc: t('features:groups.sharing.notifications.desc') },
     ],
   },
   {
-    kicker: 'SÉCURITÉ DE FOND',
+    kicker: t('features:groups.security.kicker'),
     Icon: IcoShield,
-    title: 'Une architecture zéro-connaissance',
+    title: t('features:groups.security.title'),
     items: [
-      { Icon: IcoLock, accent: 'var(--purple)', title: 'AES-256-GCM par entrée', desc: 'Chaque élément chiffré individuellement avec contrôle HMAC, avant tout stockage.' },
-      { Icon: IcoFingerprint, accent: 'var(--purple)', title: 'Zéro connaissance', desc: 'Nos serveurs ne peuvent pas lire vos données. Même en cas d\'accès physique.' },
-      { Icon: IcoPhone, accent: 'var(--purple)', title: '2FA TOTP', desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
+      { Icon: IcoLock, accent: 'var(--purple)', title: t('features:groups.security.aes.title'), desc: t('features:groups.security.aes.desc') },
+      { Icon: IcoFingerprint, accent: 'var(--purple)', title: t('features:groups.security.zeroKnowledge.title'), desc: t('features:groups.security.zeroKnowledge.desc') },
+      { Icon: IcoPhone, accent: 'var(--purple)', title: t('features:groups.security.totp.title'), desc: t('features:groups.security.totp.desc') },
     ],
   },
 ]
 
-const advantages = [
+const advantages = (t) => [
   {
     Icon: IcoCoins,
-    kicker: 'FCFA · WAVE · ORANGE MONEY',
-    title: 'Paiement en FCFA',
-    desc: 'Payez directement en francs CFA par Wave ou Orange Money. Aucune conversion, aucune carte internationale, aucun frais caché.',
-    points: ['Sans conversion de devise', 'Sans carte bancaire internationale', 'Facturation locale, zéro frais caché'],
+    kicker: t('features:why.advFcfa.kicker'),
+    title: t('features:why.advFcfa.title'),
+    desc: t('features:why.advFcfa.desc'),
+    points: t('features:why.advFcfa.points', { returnObjects: true }),
   },
   {
     Icon: IcoZap,
-    kicker: 'WOLOF · BAMBARA · SWAHILI · YORUBA',
-    title: 'Passphrase africaine',
-    desc: 'Des phrases de passe mémorables puisant dans un lexique de plusieurs langues africaines. Fortes et faciles à retenir.',
-    points: ['Lexique multilingue africain', 'Séparateur personnalisable', 'Aussi forte qu\'un mot de passe aléatoire'],
+    kicker: t('features:why.advPassphrase.kicker'),
+    title: t('features:why.advPassphrase.title'),
+    desc: t('features:why.advPassphrase.desc'),
+    points: t('features:why.advPassphrase.points', { returnObjects: true }),
   },
   {
     Icon: IcoServer,
-    kicker: "AFRIQUE DE L'OUEST",
-    title: 'Hébergement & support local',
-    desc: "Infrastructure et support pensés pour l'Afrique de l'Ouest francophone. Conformité locale et interface en français.",
-    points: ['Support en français', 'Conformité APDP (Sénégal)', 'Serveurs proches de vos utilisateurs'],
+    kicker: t('features:why.advHosting.kicker'),
+    title: t('features:why.advHosting.title'),
+    desc: t('features:why.advHosting.desc'),
+    points: t('features:why.advHosting.points', { returnObjects: true }),
   },
-]
-
-const parity = [
-  'Architecture zéro-connaissance', 'AES-256-GCM par entrée',
-  '2FA TOTP (Google Auth, Authy)', 'Générateur jusqu\'à 128 caractères',
-  'Détection HIBP (k-anonymat)', 'Import CSV en 2 minutes',
-]
-
-const roadmap = [
-  { label: 'Applications mobiles natives', tag: 'Sur la feuille de route' },
-]
-
-const enterpriseItems = [
-  'Gestion multi-organisations', 'Active Directory (LDAP)',
-  'SIEM / Syslog RFC 5424', 'Journalisation complète des accès',
-  'Rôles & permissions par groupe', 'Déploiement On-Premise disponible',
 ]
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function FeaturesPage() {
+  const { t } = useTranslation('features')
+  useDocumentTitle(t('features:meta.title'), t('features:meta.description'), '/features')
+
+  const featureGroupsList = featureGroups(t)
+  const advantagesList = advantages(t)
+  const parity = t('features:why.parity', { returnObjects: true })
+  const roadmap = [{ label: t('features:why.roadmapItem'), tag: t('features:why.roadmapTag') }]
+  const enterpriseItems = t('features:enterprise.items', { returnObjects: true })
+
   return (
     <PublicLayout>
       <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
@@ -98,13 +93,13 @@ export default function FeaturesPage() {
             <Reveal>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--border2)', background: 'var(--accent-004)', marginBottom: '1.6rem' }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', animation: 'glow-pulse 2s ease-in-out infinite', display: 'inline-block' }} />
-                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>FONCTIONNALITÉS</span>
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>{t('features:hero.eyebrow')}</span>
               </div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem,4.6vw,3.4rem)', lineHeight: 1.08, letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem' }}>
-                Tout ce qu'il faut pour protéger vos accès
+                {t('features:hero.title')}
               </h1>
               <p style={{ fontSize: 16.5, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 620, margin: '0 auto' }}>
-                De la gestion quotidienne de vos mots de passe au déploiement enterprise avec SIEM et Active Directory : sans jamais rogner sur la sécurité, ni oublier l'Afrique.
+                {t('features:hero.subtitle')}
               </p>
             </Reveal>
           </div>
@@ -114,7 +109,7 @@ export default function FeaturesPage() {
         {/* ── Feature groups ── */}
         <section style={{ padding: '2rem max(1.25rem, calc((100% - 1200px) / 2)) 5rem', background: 'var(--bg)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {featureGroups.map(({ kicker, Icon, title, items }) => (
+            {featureGroupsList.map(({ kicker, Icon, title, items }) => (
               <Reveal key={kicker}>
                 <div style={{ border: '1px solid var(--border)', borderRadius: 22, background: 'var(--bg-card)', padding: '2.5rem' }}>
                   {/* Group header */}
@@ -150,15 +145,15 @@ export default function FeaturesPage() {
           <div style={{ maxWidth: 1080, margin: '0 auto' }}>
             <Reveal>
               <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: 640, marginLeft: 'auto', marginRight: 'auto' }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>DENCPASS VS LES AUTRES</p>
-                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.8rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>Nos vrais points forts</h2>
-                <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.7 }}>On ne prétend pas battre les géants sur tout. Voici précisément là où DencPass fait la différence pour l'Afrique de l'Ouest.</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>{t('features:why.kicker')}</p>
+                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.8rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.1 }}>{t('features:why.title')}</h2>
+                <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.7 }}>{t('features:why.subtitle')}</p>
               </div>
             </Reveal>
 
             {/* 3 advantage cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
-              {advantages.map(({ Icon, kicker, title, desc, points }, i) => (
+              {advantagesList.map(({ Icon, kicker, title, desc, points }, i) => (
                 <Reveal key={title} delay={i * 80}>
                   <div style={{ position: 'relative', padding: '2rem 1.75rem', borderRadius: 18, border: '1px solid var(--border2)', background: 'linear-gradient(180deg, var(--accent-004), transparent)', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, var(--accent), transparent)' }} />
@@ -187,7 +182,7 @@ export default function FeaturesPage() {
                 <div style={{ padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: '1.1rem' }}>
                     <span style={{ color: 'var(--green)', display: 'flex' }}><IcoCheck size={15} /></span>
-                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: 0 }}>La parité avec les gestionnaires sérieux</h3>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: 0 }}>{t('features:why.parityTitle')}</h3>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
                     {parity.map(p => (
@@ -203,9 +198,9 @@ export default function FeaturesPage() {
                     <span style={{ width: 20, height: 20, borderRadius: 6, background: 'var(--amber)', opacity: 0.9, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--bg)', flexShrink: 0 }}>
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><line x1="12" y1="8" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
                     </span>
-                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: 0 }}>Ce qui arrive bientôt</h3>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-head)', fontFamily: "'Space Grotesk', sans-serif", margin: 0 }}>{t('features:why.roadmapTitle')}</h3>
                   </div>
-                  <p style={{ fontSize: 12.5, color: 'var(--text3)', lineHeight: 1.5, margin: '0 0 1rem' }}>On préfère être honnêtes sur ce qui n'est pas encore là.</p>
+                  <p style={{ fontSize: 12.5, color: 'var(--text3)', lineHeight: 1.5, margin: '0 0 1rem' }}>{t('features:why.roadmapSubtitle')}</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                     {roadmap.map(({ label, tag }) => (
                       <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -233,16 +228,16 @@ export default function FeaturesPage() {
               <div>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--purple-025)', background: 'var(--purple-06)', marginBottom: '1.5rem', color: 'var(--purple)' }}>
                   <IcoBuilding size={13} />
-                  <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--purple)', letterSpacing: '0.1em' }}>ENTERPRISE</span>
+                  <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--purple)', letterSpacing: '0.1em' }}>{t('features:enterprise.badge')}</span>
                 </div>
                 <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.7rem,3.4vw,2.4rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.15 }}>
-                  Les fonctionnalités pour vos équipes
+                  {t('features:enterprise.title')}
                 </h2>
                 <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.8, marginBottom: '2rem' }}>
-                  Le violet signale l'univers Organisations : gouvernance des accès, intégrations et déploiement On-Premise pour vos équipes IT.
+                  {t('features:enterprise.desc')}
                 </p>
                 <Link to="/business" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px var(--purple-025)' }}>
-                  Voir les offres Enterprise <IcoArrow size={15} />
+                  {t('features:enterprise.cta')} <IcoArrow size={15} />
                 </Link>
               </div>
             </Reveal>
@@ -265,17 +260,17 @@ export default function FeaturesPage() {
           <div style={{ position: 'relative', maxWidth: 640, margin: '0 auto' }}>
             <Reveal>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4.4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem', lineHeight: 1.1 }}>
-                Prêt à sécuriser vos accès ?
+                {t('features:cta.title')}
               </h2>
               <p style={{ fontSize: 16, color: 'var(--text2)', margin: '0 auto 2rem', maxWidth: 440, lineHeight: 1.7 }}>
-                Gratuit, sans carte bancaire. Coffre chiffré prêt en 2 minutes.
+                {t('features:cta.subtitle')}
               </p>
               <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <a href="https://app.dencpass.com/register" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 32px', borderRadius: 14, background: 'var(--accent)', color: 'var(--bg)', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px var(--accent-014)' }}>
-                  Commencer gratuitement <IcoArrow />
+                  {t('features:cta.ctaPrimary')} <IcoArrow />
                 </a>
                 <Link to="/pricing" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-                  Voir les tarifs
+                  {t('features:cta.ctaSecondary')}
                 </Link>
               </div>
             </Reveal>

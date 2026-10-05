@@ -1,0 +1,58 @@
+{
+  "meta": { "title": "Fonctionnalités — DencPass", "description": "Tout ce qu'il faut pour protéger vos accès : coffre chiffré, partage sécurisé, architecture zéro-connaissance et fonctionnalités Enterprise." },
+  "hero": {
+    "eyebrow": "FONCTIONNALITÉS",
+    "title": "Tout ce qu'il faut pour protéger vos accès",
+    "subtitle": "De la gestion quotidienne de vos mots de passe au déploiement enterprise avec SIEM et Active Directory : sans jamais rogner sur la sécurité, ni oublier l'Afrique."
+  },
+  "groups": {
+    "daily": {
+      "kicker": "AU QUOTIDIEN", "title": "Gérez vos accès sans effort",
+      "vault": { "title": "Coffre chiffré", "desc": "Mots de passe, identifiants et notes sécurisés, avec historique des modifications par entrée." },
+      "generator": { "title": "Générateur jusqu'à 128 car.", "desc": "Règles configurables : longueur, symboles, chiffres. Ou passphrase mémorable." },
+      "extensions": { "title": "Extensions navigateur", "desc": "Remplissage et capture automatiques des identifiants Chrome, Edge et Firefox." },
+      "secrets": { "title": "Secrets & certificats", "desc": "Stockez clés d'API, certificats et notes sécurisées à côté de vos mots de passe." },
+      "import": { "title": "Import en 2 minutes", "desc": "CSV depuis Chrome, Bitwarden, LastPass, KeePass et KeePassXC." },
+      "score": { "title": "Score de sécurité", "desc": "Détection des mots de passe faibles, réutilisés ou compromis via HIBP." }
+    },
+    "sharing": {
+      "kicker": "PARTAGE & COLLABORATION", "title": "Partagez en toute sécurité",
+      "links": { "title": "Liens temporaires", "desc": "Partage par lien avec limite de vues, expiration et révocation à tout moment." },
+      "teams": { "title": "Équipes & groupes", "desc": "Accès centralisés avec rôles et permissions par organisation." },
+      "notifications": { "title": "Notifications d'accès", "desc": "Soyez averti à chaque consultation ou modification d'un secret partagé." }
+    },
+    "security": {
+      "kicker": "SÉCURITÉ DE FOND", "title": "Une architecture zéro-connaissance",
+      "aes": { "title": "AES-256-GCM par entrée", "desc": "Chaque élément chiffré individuellement avec contrôle HMAC, avant tout stockage." },
+      "zeroKnowledge": { "title": "Zéro connaissance", "desc": "Nos serveurs ne peuvent pas lire vos données. Même en cas d'accès physique." },
+      "totp": { "title": "2FA TOTP", "desc": "Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos." }
+    }
+  },
+  "why": {
+    "kicker": "DENCPASS VS LES AUTRES",
+    "title": "Nos vrais points forts",
+    "subtitle": "On ne prétend pas battre les géants sur tout. Voici précisément là où DencPass fait la différence pour l'Afrique de l'Ouest.",
+    "advFcfa": { "kicker": "FCFA · WAVE · ORANGE MONEY", "title": "Paiement en FCFA", "desc": "Payez directement en francs CFA par Wave ou Orange Money. Aucune conversion, aucune carte internationale, aucun frais caché.", "points": ["Sans conversion de devise", "Sans carte bancaire internationale", "Facturation locale, zéro frais caché"] },
+    "advPassphrase": { "kicker": "WOLOF · BAMBARA · SWAHILI · YORUBA", "title": "Passphrase africaine", "desc": "Des phrases de passe mémorables puisant dans un lexique de plusieurs langues africaines. Fortes et faciles à retenir.", "points": ["Lexique multilingue africain", "Séparateur personnalisable", "Aussi forte qu'un mot de passe aléatoire"] },
+    "advHosting": { "kicker": "AFRIQUE DE L'OUEST", "title": "Hébergement & support local", "desc": "Infrastructure et support pensés pour l'Afrique de l'Ouest francophone. Conformité locale et interface en français.", "points": ["Support en français", "Conformité APDP (Sénégal)", "Serveurs proches de vos utilisateurs"] },
+    "parityTitle": "La parité avec les gestionnaires sérieux",
+    "parity": ["Architecture zéro-connaissance", "AES-256-GCM par entrée", "2FA TOTP (Google Auth, Authy)", "Générateur jusqu'à 128 caractères", "Détection HIBP (k-anonymat)", "Import CSV en 2 minutes"],
+    "roadmapTitle": "Ce qui arrive bientôt",
+    "roadmapSubtitle": "On préfère être honnêtes sur ce qui n'est pas encore là.",
+    "roadmapItem": "Applications mobiles natives",
+    "roadmapTag": "Sur la feuille de route"
+  },
+  "enterprise": {
+    "badge": "ENTERPRISE",
+    "title": "Les fonctionnalités pour vos équipes",
+    "desc": "Le violet signale l'univers Organisations : gouvernance des accès, intégrations et déploiement On-Premise pour vos équipes IT.",
+    "cta": "Voir les offres Enterprise",
+    "items": ["Gestion multi-organisations", "Active Directory (LDAP)", "SIEM / Syslog RFC 5424", "Journalisation complète des accès", "Rôles & permissions par groupe", "Déploiement On-Premise disponible"]
+  },
+  "cta": {
+    "title": "Prêt à sécuriser vos accès ?",
+    "subtitle": "Gratuit, sans carte bancaire. Coffre chiffré prêt en 2 minutes.",
+    "ctaPrimary": "Commencer gratuitement",
+    "ctaSecondary": "Voir les tarifs"
+  }
+}
