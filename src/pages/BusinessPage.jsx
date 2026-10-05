@@ -1,68 +1,78 @@
+import { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
 import PublicLayout from '../components/layout/PublicLayout';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Reveal, IcoArrow, IcoUsers, IcoKey, IcoLayers, IcoActivity, IcoClipboard, IcoShield, IcoCloud, IcoServer, IcoLink2, IcoBuilding } from '../components/shared';
 
-const capabilities = [
-  { Icon: IcoUsers, title: 'Multi-organisations', desc: 'Gérez plusieurs entités depuis un tableau de bord unifié.' },
-  { Icon: IcoKey, title: 'Rôles & permissions', desc: 'Définissez des droits granulaires par utilisateur et par coffre.' },
-  { Icon: IcoLayers, title: 'Active Directory', desc: 'Synchronisation LDAP/AD : On-Premise uniquement.', tag: 'On-Premise' },
-  { Icon: IcoActivity, title: 'SIEM / Syslog', desc: 'Exportez tous les événements vers votre infrastructure de supervision.' },
-  { Icon: IcoClipboard, title: 'Journalisation', desc: 'Chaque accès, modification ou export est horodaté et signé.' },
-  { Icon: IcoShield, title: 'Conformité', desc: 'Piste d\'audit complète pour ISO 27001, SOC 2 et réglementations locales.' },
+const capabilities = (t) => [
+  { Icon: IcoUsers, title: t('business:capabilities.multiOrg.title'), desc: t('business:capabilities.multiOrg.desc') },
+  { Icon: IcoKey, title: t('business:capabilities.roles.title'), desc: t('business:capabilities.roles.desc') },
+  { Icon: IcoLayers, title: t('business:capabilities.ad.title'), desc: t('business:capabilities.ad.desc'), tag: t('business:capabilities.ad.tag') },
+  { Icon: IcoActivity, title: t('business:capabilities.siem.title'), desc: t('business:capabilities.siem.desc') },
+  { Icon: IcoClipboard, title: t('business:capabilities.logging.title'), desc: t('business:capabilities.logging.desc') },
+  { Icon: IcoShield, title: t('business:capabilities.compliance.title'), desc: t('business:capabilities.compliance.desc') },
 ];
 
-const deployments = [
+const deployments = (t) => [
   {
-    label: 'SAAS MANAGÉ',
+    label: t('business:deployment.cloud.label'),
     Icon: IcoCloud,
-    title: 'Enterprise Cloud',
-    desc: 'Hébergé, maintenu et sécurisé par nos équipes. Démarrez en quelques minutes, sans infrastructure.',
-    features: ['Tout Pro inclus', 'Équipes & groupes', 'SIEM / Syslog', 'Audit complet', 'Support dédié'],
-    cta: { label: 'Nous contacter', href: '/contact' },
+    title: t('business:deployment.cloud.title'),
+    desc: t('business:deployment.cloud.desc'),
+    features: [t('business:deployment.cloud.f1'), t('business:deployment.cloud.f2'), t('business:deployment.cloud.f3'), t('business:deployment.cloud.f4'), t('business:deployment.cloud.f5')],
+    cta: { label: t('business:deployment.cloud.cta'), href: '/contact' },
     accent: 'var(--accent)',
     accentBg: 'var(--accent-014)',
   },
   {
-    label: 'SUR VOTRE INFRA',
+    label: t('business:deployment.onprem.label'),
     Icon: IcoServer,
-    title: 'Enterprise On-Premise',
-    desc: 'Déploiement Docker ou bare-metal dans votre datacenter. Contrôle total de vos données.',
-    features: ['100% sur site', 'Docker / bare-metal', 'LDAP / Active Directory', 'Licence annuelle', 'Maintenance incluse'],
-    cta: { label: 'Demander un devis', href: '/contact' },
+    title: t('business:deployment.onprem.title'),
+    desc: t('business:deployment.onprem.desc'),
+    features: [t('business:deployment.onprem.f1'), t('business:deployment.onprem.f2'), t('business:deployment.onprem.f3'), t('business:deployment.onprem.f4'), t('business:deployment.onprem.f5')],
+    cta: { label: t('business:deployment.onprem.cta'), href: '/contact' },
     accent: 'var(--purple)',
     accentBg: 'var(--purple-014)',
   },
 ];
 
-const integrations = [
+const integrations = (t) => [
   {
     Icon: IcoLayers,
-    title: 'Active Directory & LDAP',
-    desc: 'Synchronisation bidirectionnelle des utilisateurs et des groupes. Provisioning automatique.',
-    tag: 'On-Premise uniquement',
+    title: t('business:integrations.ad.title'),
+    desc: t('business:integrations.ad.desc'),
+    tag: t('business:integrations.ad.tag'),
     tagColor: 'var(--purple)',
     tagBg: 'var(--purple-014)',
   },
   {
     Icon: IcoActivity,
-    title: 'SIEM & Syslog',
-    desc: 'Envoi des événements d\'audit en temps réel via syslog RFC 5424 vers votre SIEM.',
+    title: t('business:integrations.siem.title'),
+    desc: t('business:integrations.siem.desc'),
     tag: null,
   },
   {
     Icon: IcoLink2,
-    title: 'Webhooks',
-    desc: 'Déclenchez des actions dans vos outils internes à chaque connexion, modification ou alerte.',
+    title: t('business:integrations.webhooks.title'),
+    desc: t('business:integrations.webhooks.desc'),
     tag: null,
   },
   {
     Icon: IcoClipboard,
-    title: 'Splunk / Elastic / Wazuh',
-    desc: 'Connecteurs natifs pour les principales plateformes d\'observabilité et de détection.',
+    title: t('business:integrations.connectors.title'),
+    desc: t('business:integrations.connectors.desc'),
     tag: null,
   },
 ];
 
 export default function BusinessPage() {
+  const { t } = useTranslation('business');
+  useDocumentTitle(t('business:meta.title'), t('business:meta.description'), '/business');
+
+  const capabilitiesList = capabilities(t);
+  const deploymentsList = deployments(t);
+  const integrationsList = integrations(t);
+
   return (
     <PublicLayout>
       <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
@@ -78,13 +88,13 @@ export default function BusinessPage() {
               <div>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--purple-014)', border: '1px solid var(--purple-025)', borderRadius: 20, padding: '4px 14px', marginBottom: '1.5rem' }}>
                   <IcoBuilding size={13} style={{ color: 'var(--purple)' }} />
-                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.12em', color: 'var(--purple)', textTransform: 'uppercase' }}>Enterprise</span>
+                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.12em', color: 'var(--purple)', textTransform: 'uppercase' }}>{t('business:hero.badge')}</span>
                 </div>
                 <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.75rem,4vw,2.75rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1.25rem' }}>
-                  La gouvernance des accès,<br />pour vos équipes
+                  {t('business:hero.title').split('<br/>').map((line, i) => <Fragment key={i}>{i > 0 && <br />}{line}</Fragment>)}
                 </h1>
                 <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', lineHeight: 1.7, marginBottom: '2rem' }}>
-                  Centralisez la gestion des mots de passe, des secrets et des permissions pour toute votre organisation : avec l'audit, la conformité et l'intégration à vos outils existants.
+                  {t('business:hero.subtitle')}
                 </p>
                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                   <a href="/contact" className="btn-primary" style={{
@@ -92,21 +102,21 @@ export default function BusinessPage() {
                     padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                     display: 'inline-flex', alignItems: 'center', gap: 8,
                   }}>
-                    Contacter l'équipe <IcoArrow size={16} />
+                    {t('business:hero.ctaPrimary')} <IcoArrow size={16} />
                   </a>
                   <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
                     background: 'transparent', color: 'var(--text)',
                     border: '1px solid var(--border2)',
                     padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                   }}>
-                    Essayer gratuitement
+                    {t('business:hero.ctaSecondary')}
                   </a>
                 </div>
               </div>
 
               {/* Right : capabilities 2x3 */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-                {capabilities.map(({ Icon, title, desc, tag }) => (
+                {capabilitiesList.map(({ Icon, title, desc, tag }) => (
                   <div key={title} style={{
                     background: 'var(--bg-card)',
                     border: '1px solid var(--purple-014)',
@@ -135,12 +145,12 @@ export default function BusinessPage() {
           <Reveal>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '2rem' }}>
               <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-                Deux modes de déploiement
+                {t('business:deployment.kicker')}
               </span>
               <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: '1.5rem' }}>
-              {deployments.map(({ label, Icon, title, desc, features, cta, accent, accentBg }) => (
+              {deploymentsList.map(({ label, Icon, title, desc, features, cta, accent, accentBg }) => (
                 <div key={title} style={{
                   background: 'var(--bg-card)',
                   border: `1px solid ${accent}33`,
@@ -169,7 +179,7 @@ export default function BusinessPage() {
                     ))}
                   </ul>
                   <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.4rem', color: 'var(--text-head)', marginTop: 4 }}>
-                    Sur devis
+                    {t('business:deployment.onRequest')}
                   </div>
                   <a href={cta.href} className="btn-primary" style={{
                     background: accent, color: accent === 'var(--accent)' ? '#07111f' : '#fff',
@@ -189,12 +199,12 @@ export default function BusinessPage() {
           <Reveal>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '2rem' }}>
               <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-                Dans votre stack existante
+                {t('business:integrations.kicker')}
               </span>
               <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px,1fr))', gap: '1rem' }}>
-              {integrations.map(({ Icon, title, desc, tag, tagColor, tagBg }) => (
+              {integrationsList.map(({ Icon, title, desc, tag, tagColor, tagBg }) => (
                 <div key={title} style={{
                   background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, padding: '1.5rem',
                   transition: 'border-color 0.2s, transform 0.2s',
@@ -232,10 +242,10 @@ export default function BusinessPage() {
             }}>
               <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '60%', height: 2, background: 'var(--purple)', opacity: 0.5 }} />
               <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.5rem,3.5vw,2.25rem)', color: 'var(--text-head)', marginBottom: '1rem' }}>
-                Parlons de votre organisation
+                {t('business:cta.title')}
               </h2>
               <p style={{ fontSize: '1rem', color: 'var(--text2)', maxWidth: 480, margin: '0 auto 2rem', lineHeight: 1.7 }}>
-                Notre équipe est disponible pour une démonstration, un audit de sécurité ou un chiffrage personnalisé.
+                {t('business:cta.subtitle')}
               </p>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <a href="/contact" className="btn-primary" style={{
@@ -243,14 +253,14 @@ export default function BusinessPage() {
                   padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                 }}>
-                  Prendre contact <IcoArrow size={16} />
+                  {t('business:cta.ctaPrimary')} <IcoArrow size={16} />
                 </a>
                 <a href="/pricing" className="btn-primary" style={{
                   background: 'transparent', color: 'var(--text)',
                   border: '1px solid var(--border2)',
                   padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                 }}>
-                  Voir les tarifs
+                  {t('business:cta.ctaSecondary')}
                 </a>
               </div>
             </div>

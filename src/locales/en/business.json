@@ -1,0 +1,47 @@
+{
+  "meta": { "title": "Enterprise — DencPass", "description": "Access governance for your teams: Active Directory, SIEM, full audit trail. Managed Cloud or On-Premise deployment." },
+  "hero": {
+    "badge": "Enterprise",
+    "title": "Access governance,<br/>built for your teams",
+    "subtitle": "Centralize password, secret and permission management for your entire organization — with audit, compliance and integration into the tools you already use.",
+    "ctaPrimary": "Contact the team",
+    "ctaSecondary": "Try for free"
+  },
+  "capabilities": {
+    "multiOrg": { "title": "Multi-organization", "desc": "Manage several entities from a single unified dashboard." },
+    "roles": { "title": "Roles & permissions", "desc": "Set granular rights per user and per vault." },
+    "ad": { "title": "Active Directory", "desc": "LDAP/AD sync: On-Premise only.", "tag": "On-Premise" },
+    "siem": { "title": "SIEM / Syslog", "desc": "Export every event to your monitoring infrastructure." },
+    "logging": { "title": "Logging", "desc": "Every access, change or export is timestamped and signed." },
+    "compliance": { "title": "Compliance", "desc": "Full audit trail for ISO 27001, SOC 2 and local regulations." }
+  },
+  "deployment": {
+    "kicker": "Two deployment modes",
+    "cloud": {
+      "label": "MANAGED SAAS", "title": "Enterprise Cloud",
+      "desc": "Hosted, maintained and secured by our team. Get started in minutes, no infrastructure needed.",
+      "f1": "Everything in Pro", "f2": "Teams & groups", "f3": "SIEM / Syslog", "f4": "Full audit trail", "f5": "Dedicated support",
+      "cta": "Contact us"
+    },
+    "onprem": {
+      "label": "ON YOUR INFRASTRUCTURE", "title": "Enterprise On-Premise",
+      "desc": "Docker or bare-metal deployment in your own datacenter. Full control over your data.",
+      "f1": "100% on-site", "f2": "Docker / bare-metal", "f3": "LDAP / Active Directory", "f4": "Annual license", "f5": "Maintenance included",
+      "cta": "Request a quote"
+    },
+    "onRequest": "On request"
+  },
+  "integrations": {
+    "kicker": "Into your existing stack",
+    "ad": { "title": "Active Directory & LDAP", "desc": "Two-way sync of users and groups. Automatic provisioning.", "tag": "On-Premise only" },
+    "siem": { "title": "SIEM & Syslog", "desc": "Real-time audit events sent via Syslog RFC 5424 to your SIEM." },
+    "webhooks": { "title": "Webhooks", "desc": "Trigger actions in your internal tools on every login, change or alert." },
+    "connectors": { "title": "Splunk / Elastic / Wazuh", "desc": "Native connectors for the leading observability and detection platforms." }
+  },
+  "cta": {
+    "title": "Let's talk about your organization",
+    "subtitle": "Our team is available for a demo, a security audit, or custom pricing.",
+    "ctaPrimary": "Get in touch",
+    "ctaSecondary": "See pricing"
+  }
+}
