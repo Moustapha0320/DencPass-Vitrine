@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import PublicLayout from '../components/layout/PublicLayout'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 import {
   Reveal, IcoArrow,
   IcoLock, IcoFingerprint, IcoPhone, IcoRefresh, IcoClipboard, IcoShield,
@@ -7,35 +9,42 @@ import {
 } from '../components/shared'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const flow = [
-  { step: '01', Icon: IcoSmartphone, title: 'Sur votre appareil', desc: 'La saisie est chiffrée localement avec votre clé, dérivée de votre mot de passe principal.' },
-  { step: '02', Icon: IcoUpload, title: 'En transit', desc: 'Seuls des blocs déjà chiffrés circulent, protégés par TLS de bout en bout.' },
-  { step: '03', Icon: IcoDatabase, title: 'Au repos', desc: 'Nos serveurs stockent des données illisibles, chaque entrée chiffrée séparément.' },
-  { step: '04', Icon: IcoEye, title: 'À la lecture', desc: 'Le déchiffrement n\'a lieu que sur votre appareil, jamais côté serveur.' },
+const flow = (t) => [
+  { step: '01', Icon: IcoSmartphone, title: t('security:flow.step1.title'), desc: t('security:flow.step1.desc') },
+  { step: '02', Icon: IcoUpload, title: t('security:flow.step2.title'), desc: t('security:flow.step2.desc') },
+  { step: '03', Icon: IcoDatabase, title: t('security:flow.step3.title'), desc: t('security:flow.step3.desc') },
+  { step: '04', Icon: IcoEye, title: t('security:flow.step4.title'), desc: t('security:flow.step4.desc') },
 ]
 
-const pillars = [
-  { Icon: IcoLock, accent: 'var(--accent)', title: 'AES-256-GCM par entrée', desc: 'Chaque mot de passe, secret et certificat est chiffré individuellement, avec un contrôle d\'intégrité HMAC.' },
-  { Icon: IcoFingerprint, accent: 'var(--purple)', title: 'Zéro connaissance', desc: 'Votre clé ne quitte jamais votre appareil. Même en cas d\'accès physique au serveur, vos données restent illisibles.' },
-  { Icon: IcoPhone, accent: 'var(--green)', title: '2FA TOTP', desc: 'Compatible Google Authenticator et Authy. Le secret TOTP est lui-même chiffré au repos.' },
-  { Icon: IcoRefresh, accent: 'var(--accent)', title: 'Rotation des clés', desc: 'Les clés peuvent être renouvelées sans interruption de service ni ré-authentification manuelle.' },
-  { Icon: IcoClipboard, accent: 'var(--amber)', title: 'Audit complet', desc: 'Chaque action est tracée et exportable vers Splunk, Elastic ou Wazuh via webhook ou Syslog RFC 5424.' },
-  { Icon: IcoShield, accent: 'var(--purple)', title: 'Détection de fuites', desc: 'Comparaison avec 700 M+ de fuites (HIBP) par k-anonymat : votre mot de passe ne quitte jamais l\'appareil en clair.' },
+const pillars = (t) => [
+  { Icon: IcoLock, accent: 'var(--accent)', title: t('security:pillars.aes.title'), desc: t('security:pillars.aes.desc') },
+  { Icon: IcoFingerprint, accent: 'var(--purple)', title: t('security:pillars.zeroKnowledge.title'), desc: t('security:pillars.zeroKnowledge.desc') },
+  { Icon: IcoPhone, accent: 'var(--green)', title: t('security:pillars.totp.title'), desc: t('security:pillars.totp.desc') },
+  { Icon: IcoRefresh, accent: 'var(--accent)', title: t('security:pillars.rotation.title'), desc: t('security:pillars.rotation.desc') },
+  { Icon: IcoClipboard, accent: 'var(--amber)', title: t('security:pillars.audit.title'), desc: t('security:pillars.audit.desc') },
+  { Icon: IcoShield, accent: 'var(--purple)', title: t('security:pillars.leaks.title'), desc: t('security:pillars.leaks.desc') },
 ]
 
-const specs = [
-  { label: 'Algorithme de chiffrement', value: 'AES-256-GCM' },
-  { label: 'Intégrité', value: 'HMAC par entrée' },
-  { label: 'Dérivation de clé', value: 'depuis mot de passe principal' },
-  { label: 'Transport', value: 'TLS 1.3' },
-  { label: 'Double authentification', value: 'TOTP (RFC 6238)' },
-  { label: 'Détection de fuites', value: 'HIBP · k-anonymat' },
-  { label: 'Journalisation', value: 'Syslog RFC 5424 · webhook' },
-  { label: 'Modèle', value: 'Zero-knowledge' },
+const specs = (t) => [
+  { label: t('security:specs.encryption.label'), value: t('security:specs.encryption.value') },
+  { label: t('security:specs.integrity.label'), value: t('security:specs.integrity.value') },
+  { label: t('security:specs.keyDerivation.label'), value: t('security:specs.keyDerivation.value') },
+  { label: t('security:specs.transport.label'), value: t('security:specs.transport.value') },
+  { label: t('security:specs.twoFa.label'), value: t('security:specs.twoFa.value') },
+  { label: t('security:specs.leakDetection.label'), value: t('security:specs.leakDetection.value') },
+  { label: t('security:specs.logging.label'), value: t('security:specs.logging.value') },
+  { label: t('security:specs.model.label'), value: t('security:specs.model.value') },
 ]
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function SecurityPage() {
+  const { t } = useTranslation('security')
+  useDocumentTitle(t('security:meta.title'), t('security:meta.description'), '/security')
+
+  const flowList = flow(t)
+  const pillarsList = pillars(t)
+  const specsList = specs(t)
+
   return (
     <PublicLayout>
       <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
@@ -47,13 +56,13 @@ export default function SecurityPage() {
             <Reveal>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--border2)', background: 'var(--accent-004)', marginBottom: '1.6rem' }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', animation: 'glow-pulse 2s ease-in-out infinite' }} />
-                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>ARCHITECTURE DE SÉCURITÉ</span>
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>{t('security:hero.eyebrow')}</span>
               </div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.2rem,4.6vw,3.4rem)', lineHeight: 1.08, letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem' }}>
-                Zéro connaissance, Aucun compromis
+                {t('security:hero.title')}
               </h1>
               <p style={{ fontSize: 16.5, color: 'var(--text2)', lineHeight: 1.75, maxWidth: 600, margin: '0 auto' }}>
-                Vos données sont chiffrées sur votre appareil, avant de nous parvenir. Nos serveurs stockent des blocs illisibles : nous ne pouvons pas lire vos secrets, même si nous le voulions.
+                {t('security:hero.subtitle')}
               </p>
             </Reveal>
           </div>
@@ -65,9 +74,9 @@ export default function SecurityPage() {
           <div style={{ maxWidth: 1000, margin: '0 auto' }}>
             <Reveal>
               <div style={{ border: '1px solid var(--border)', borderRadius: 22, background: 'var(--bg-card)', padding: '2.5rem' }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: '0.14em', margin: '0 0 1.5rem', textAlign: 'center' }}>LE PARCOURS D'UN SECRET</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: '0.14em', margin: '0 0 1.5rem', textAlign: 'center' }}>{t('security:flow.title')}</p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }} className="flow-grid">
-                  {flow.map(({ step, Icon, title, desc }) => (
+                  {flowList.map(({ step, Icon, title, desc }) => (
                     <div key={step} style={{ padding: '1.25rem', borderRadius: 14, border: '1px solid var(--border)', background: 'var(--bg2)', textAlign: 'center' }}>
                       <div style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--accent-014)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', margin: '0 auto 0.9rem' }}>
                         <Icon size={20} />
@@ -86,7 +95,7 @@ export default function SecurityPage() {
         {/* ── Piliers ── */}
         <section style={{ padding: '2rem max(1.25rem, calc((100% - 1200px) / 2)) 5rem', background: 'var(--bg)' }}>
           <div className="pillars-grid" style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
-            {pillars.map(({ Icon, accent, title, desc }, i) => (
+            {pillarsList.map(({ Icon, accent, title, desc }, i) => (
               <Reveal key={title} delay={(i % 3) * 80}>
                 <div style={{ height: '100%', boxSizing: 'border-box', padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', gap: '1.1rem', transition: 'border-color 0.2s' }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border3)'}
@@ -110,12 +119,12 @@ export default function SecurityPage() {
           <div style={{ maxWidth: 820, margin: '0 auto' }}>
             <Reveal>
               <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>SOUS LE CAPOT</p>
-                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.6rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>Spécifications techniques</h2>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>{t('security:specs.kicker')}</p>
+                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.6rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>{t('security:specs.title')}</h2>
               </div>
               <div style={{ border: '1px solid var(--border)', borderRadius: 18, background: 'var(--bg-card)', overflow: 'hidden' }}>
-                {specs.map(({ label, value }, i) => (
-                  <div key={label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', padding: '1.1rem 1.5rem', borderBottom: i < specs.length - 1 ? '1px solid var(--border)' : 'none', flexWrap: 'wrap' }}>
+                {specsList.map(({ label, value }, i) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', padding: '1.1rem 1.5rem', borderBottom: i < specsList.length - 1 ? '1px solid var(--border)' : 'none', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: 14, color: 'var(--text2)' }}>{label}</span>
                     <span style={{ fontSize: 13, color: 'var(--accent)', fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>{value}</span>
                   </div>
@@ -131,17 +140,17 @@ export default function SecurityPage() {
           <div style={{ position: 'relative', maxWidth: 640, margin: '0 auto' }}>
             <Reveal>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4.4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem', lineHeight: 1.1 }}>
-                Une sécurité que vous pouvez auditer
+                {t('security:cta.title')}
               </h2>
               <p style={{ fontSize: 16, color: 'var(--text2)', margin: '0 auto 2rem', maxWidth: 440, lineHeight: 1.7 }}>
-                Créez votre coffre chiffré gratuitement, ou parlez à notre équipe de vos exigences de conformité.
+                {t('security:cta.subtitle')}
               </p>
               <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <a href="https://app.dencpass.com/register" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 32px', borderRadius: 14, background: 'var(--accent)', color: 'var(--bg)', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px var(--accent-014)' }}>
-                  Commencer gratuitement <IcoArrow />
+                  {t('security:cta.ctaPrimary')} <IcoArrow />
                 </a>
                 <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-                  Contacter l'équipe
+                  {t('security:cta.ctaSecondary')}
                 </Link>
               </div>
             </Reveal>

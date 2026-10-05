@@ -1,0 +1,41 @@
+{
+  "meta": { "title": "Security architecture — DencPass", "description": "AES-256-GCM encryption, zero-knowledge architecture, 2FA TOTP, HIBP breach detection. Security you can audit." },
+  "hero": {
+    "eyebrow": "SECURITY ARCHITECTURE",
+    "title": "Zero knowledge, No compromises",
+    "subtitle": "Your data is encrypted on your device before it ever reaches us. Our servers store unreadable blocks: we can't read your secrets, even if we wanted to."
+  },
+  "flow": {
+    "title": "THE JOURNEY OF A SECRET",
+    "step1": { "title": "On your device", "desc": "Input is encrypted locally with your key, derived from your master password." },
+    "step2": { "title": "In transit", "desc": "Only already-encrypted blocks travel, protected end-to-end by TLS." },
+    "step3": { "title": "At rest", "desc": "Our servers store unreadable data, each entry encrypted separately." },
+    "step4": { "title": "On read", "desc": "Decryption only ever happens on your device, never server-side." }
+  },
+  "pillars": {
+    "aes": { "title": "AES-256-GCM per entry", "desc": "Every password, secret and certificate is individually encrypted, with an HMAC integrity check." },
+    "zeroKnowledge": { "title": "Zero knowledge", "desc": "Your key never leaves your device. Even with physical access to the server, your data stays unreadable." },
+    "totp": { "title": "2FA TOTP", "desc": "Compatible with Google Authenticator and Authy. The TOTP secret itself is encrypted at rest." },
+    "rotation": { "title": "Key rotation", "desc": "Keys can be renewed with zero service interruption and no manual re-authentication." },
+    "audit": { "title": "Full audit trail", "desc": "Every action is logged and exportable to Splunk, Elastic or Wazuh via webhook or Syslog RFC 5424." },
+    "leaks": { "title": "Breach detection", "desc": "Checked against 700M+ known breaches (HIBP) via k-anonymity: your password never leaves your device in clear text." }
+  },
+  "specs": {
+    "title": "Technical specifications",
+    "kicker": "UNDER THE HOOD",
+    "encryption": { "label": "Encryption algorithm", "value": "AES-256-GCM" },
+    "integrity": { "label": "Integrity", "value": "HMAC per entry" },
+    "keyDerivation": { "label": "Key derivation", "value": "from master password" },
+    "transport": { "label": "Transport", "value": "TLS 1.3" },
+    "twoFa": { "label": "Two-factor authentication", "value": "TOTP (RFC 6238)" },
+    "leakDetection": { "label": "Breach detection", "value": "HIBP · k-anonymity" },
+    "logging": { "label": "Logging", "value": "Syslog RFC 5424 · webhook" },
+    "model": { "label": "Model", "value": "Zero-knowledge" }
+  },
+  "cta": {
+    "title": "Security you can audit",
+    "subtitle": "Create your encrypted vault for free, or talk to our team about your compliance requirements.",
+    "ctaPrimary": "Start for free",
+    "ctaSecondary": "Contact the team"
+  }
+}
