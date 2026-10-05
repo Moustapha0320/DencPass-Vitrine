@@ -1,0 +1,26 @@
+{
+  "meta": { "title": "Téléchargements — DencPass", "description": "Application web, extension Chrome, Edge et Firefox : disponibles dès maintenant. Applications mobiles en cours de développement." },
+  "hero": {
+    "eyebrow": "Téléchargements",
+    "title": "DencPass, partout où<br/>vous travaillez",
+    "subtitle": "Disponible dès maintenant sur le web et en extension Chrome, Edge et Firefox. Applications mobiles en cours de développement."
+  },
+  "available": {
+    "kicker": "Disponible maintenant",
+    "tag": "Disponible",
+    "web": { "title": "Application web", "desc": "Accédez à votre coffre depuis n'importe quel navigateur moderne. Aucune installation requise.", "cta": "Ouvrir l'app" },
+    "chrome": { "title": "Extension Chrome", "desc": "Remplissage automatique dans Chrome, Brave et tout navigateur Chromium. Installez en un clic.", "cta": "Installer l'extension" },
+    "edge": { "title": "Extension Edge", "desc": "Remplissage automatique dans Microsoft Edge. Installez en un clic depuis le store officiel.", "cta": "Installer l'extension" },
+    "firefox": { "title": "Extension Firefox", "desc": "Remplissage automatique dans Firefox et Firefox ESR. Installez en un clic depuis le store officiel.", "cta": "Installer l'extension" }
+  },
+  "upcoming": {
+    "kicker": "Prochainement",
+    "status": "Feuille de route",
+    "android": { "title": "Application Android", "desc": "Coffre natif avec remplissage automatique." },
+    "ios": { "title": "Application iOS", "desc": "Coffre natif avec intégration iCloud Keychain." }
+  },
+  "cta": {
+    "text": "Vous voulez être prévenu à la sortie des prochaines versions ?",
+    "button": "Écrivez-nous"
+  }
+}

@@ -1,67 +1,47 @@
+import { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
 import PublicLayout from '../components/layout/PublicLayout';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Reveal, IcoGlobe, IcoCode, IcoSmartphone, IcoArrow } from '../components/shared';
 
-const available = [
+const available = (t) => [
   {
-    Icon: IcoGlobe,
-    title: 'Application web',
-    desc: 'Accédez à votre coffre depuis n\'importe quel navigateur moderne. Aucune installation requise.',
-    tag: 'Disponible',
-    tagColor: 'var(--green)',
-    tagBg: 'rgba(34,197,94,0.10)',
-    cta: { label: 'Ouvrir l\'app', href: 'https://app.dencpass.com', external: true },
-    accentBg: 'var(--accent-014)',
-    accentColor: 'var(--accent)',
+    Icon: IcoGlobe, title: t('download:available.web.title'), desc: t('download:available.web.desc'),
+    tag: t('download:available.tag'), tagColor: 'var(--green)', tagBg: 'rgba(34,197,94,0.10)',
+    cta: { label: t('download:available.web.cta'), href: 'https://app.dencpass.com', external: true },
+    accentBg: 'var(--accent-014)', accentColor: 'var(--accent)',
   },
   {
-    Icon: IcoCode,
-    title: 'Extension Chrome',
-    desc: 'Remplissage automatique dans Chrome, Brave et tout navigateur Chromium. Installez en un clic.',
-    tag: 'Disponible',
-    tagColor: 'var(--green)',
-    tagBg: 'rgba(34,197,94,0.10)',
-    cta: { label: 'Installer l\'extension', href: 'https://chromewebstore.google.com/detail/dencpass/bcemgedgiblobnnpehlmbfnhejhlpnkb', external: true },
-    accentBg: 'var(--accent-014)',
-    accentColor: 'var(--accent)',
+    Icon: IcoCode, title: t('download:available.chrome.title'), desc: t('download:available.chrome.desc'),
+    tag: t('download:available.tag'), tagColor: 'var(--green)', tagBg: 'rgba(34,197,94,0.10)',
+    cta: { label: t('download:available.chrome.cta'), href: 'https://chromewebstore.google.com/detail/dencpass/bcemgedgiblobnnpehlmbfnhejhlpnkb', external: true },
+    accentBg: 'var(--accent-014)', accentColor: 'var(--accent)',
   },
   {
-    Icon: IcoCode,
-    title: 'Extension Edge',
-    desc: 'Remplissage automatique dans Microsoft Edge. Installez en un clic depuis le store officiel.',
-    tag: 'Disponible',
-    tagColor: 'var(--green)',
-    tagBg: 'rgba(34,197,94,0.10)',
-    cta: { label: 'Installer l\'extension', href: 'https://microsoftedge.microsoft.com/addons/detail/padokcokhaaledeaaffnanjhahkhnpfk', external: true },
-    accentBg: 'var(--accent-014)',
-    accentColor: 'var(--accent)',
+    Icon: IcoCode, title: t('download:available.edge.title'), desc: t('download:available.edge.desc'),
+    tag: t('download:available.tag'), tagColor: 'var(--green)', tagBg: 'rgba(34,197,94,0.10)',
+    cta: { label: t('download:available.edge.cta'), href: 'https://microsoftedge.microsoft.com/addons/detail/padokcokhaaledeaaffnanjhahkhnpfk', external: true },
+    accentBg: 'var(--accent-014)', accentColor: 'var(--accent)',
   },
   {
-    Icon: IcoCode,
-    title: 'Extension Firefox',
-    desc: 'Remplissage automatique dans Firefox et Firefox ESR. Installez en un clic depuis le store officiel.',
-    tag: 'Disponible',
-    tagColor: 'var(--green)',
-    tagBg: 'rgba(34,197,94,0.10)',
-    cta: { label: 'Installer l\'extension', href: 'https://addons.mozilla.org/fr/firefox/addon/dencpass/', external: true },
-    accentBg: 'var(--accent-014)',
-    accentColor: 'var(--accent)',
+    Icon: IcoCode, title: t('download:available.firefox.title'), desc: t('download:available.firefox.desc'),
+    tag: t('download:available.tag'), tagColor: 'var(--green)', tagBg: 'rgba(34,197,94,0.10)',
+    cta: { label: t('download:available.firefox.cta'), href: 'https://addons.mozilla.org/fr/firefox/addon/dencpass/', external: true },
+    accentBg: 'var(--accent-014)', accentColor: 'var(--accent)',
   },
 ];
 
-const upcoming = [
-  {
-    title: 'Application Android',
-    desc: 'Coffre natif avec remplissage automatique.',
-    status: 'Feuille de route',
-  },
-  {
-    title: 'Application iOS',
-    desc: 'Coffre natif avec intégration iCloud Keychain.',
-    status: 'Feuille de route',
-  },
+const upcoming = (t) => [
+  { title: t('download:upcoming.android.title'), desc: t('download:upcoming.android.desc'), status: t('download:upcoming.status') },
+  { title: t('download:upcoming.ios.title'), desc: t('download:upcoming.ios.desc'), status: t('download:upcoming.status') },
 ];
 
 export default function DownloadPage() {
+  const { t } = useTranslation('download');
+  useDocumentTitle(t('download:meta.title'), t('download:meta.description'), '/download');
+  const availableList = available(t);
+  const upcomingList = upcoming(t);
+
   return (
     <PublicLayout>
       <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
@@ -74,13 +54,13 @@ export default function DownloadPage() {
         }}>
           <Reveal>
             <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', display: 'block', marginBottom: '1.25rem' }}>
-              Téléchargements
+              {t('download:hero.eyebrow')}
             </span>
             <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(2rem,5vw,3.25rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1.25rem' }}>
-              DencPass, partout où<br />vous travaillez
+              {t('download:hero.title').split('<br/>').map((line, i) => <Fragment key={i}>{i > 0 && <br />}{line}</Fragment>)}
             </h1>
             <p style={{ fontSize: 'clamp(1rem,2vw,1.0625rem)', color: 'var(--text2)', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
-              Disponible dès maintenant sur le web et en extension Chrome, Edge et Firefox. Applications mobiles en cours de développement.
+              {t('download:hero.subtitle')}
             </p>
           </Reveal>
         </section>
@@ -90,12 +70,12 @@ export default function DownloadPage() {
           <Reveal>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.75rem' }}>
               <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--green)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-                Disponible maintenant
+                {t('download:available.kicker')}
               </span>
               <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr))', gap: '1.5rem' }}>
-              {available.map(({ Icon, title, desc, tag, tagColor, tagBg, cta, accentBg, accentColor }) => (
+              {availableList.map(({ Icon, title, desc, tag, tagColor, tagBg, cta, accentBg, accentColor }) => (
                 <div key={title} style={{
                   background: 'var(--bg-card)',
                   border: '1px solid var(--border)',
@@ -145,16 +125,16 @@ export default function DownloadPage() {
           <Reveal>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.75rem' }}>
               <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--amber)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-                Prochainement
+                {t('download:upcoming.kicker')}
               </span>
               <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
             </div>
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 18, overflow: 'hidden' }}>
-              {upcoming.map(({ title, desc, status }, i) => (
+              {upcomingList.map(({ title, desc, status }, i) => (
                 <div key={title} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   padding: '1rem 1.5rem',
-                  borderBottom: i < upcoming.length - 1 ? '1px solid var(--border)' : 'none',
+                  borderBottom: i < upcomingList.length - 1 ? '1px solid var(--border)' : 'none',
                   gap: '1rem', flexWrap: 'wrap',
                 }}>
                   <div>
@@ -178,14 +158,14 @@ export default function DownloadPage() {
         <section style={{ padding: 'clamp(3rem,7vw,4.5rem) max(1.25rem, calc((100vw - 1100px)/2))', textAlign: 'center' }}>
           <Reveal>
             <p style={{ fontSize: '1rem', color: 'var(--text2)', marginBottom: '1.25rem' }}>
-              Vous voulez être prévenu à la sortie des prochaines versions ?
+              {t('download:cta.text')}
             </p>
             <a href="/contact" className="btn-primary" style={{
               background: 'var(--accent)', color: '#07111f', border: 'none',
               padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
               display: 'inline-flex', alignItems: 'center', gap: 8,
             }}>
-              Écrivez-nous <IcoArrow size={16} />
+              {t('download:cta.button')} <IcoArrow size={16} />
             </a>
           </Reveal>
         </section>

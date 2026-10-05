@@ -1,0 +1,26 @@
+{
+  "meta": { "title": "Downloads — DencPass", "description": "Web app, Chrome, Edge and Firefox extensions: available now. Mobile apps in development." },
+  "hero": {
+    "eyebrow": "Downloads",
+    "title": "DencPass, wherever<br/>you work",
+    "subtitle": "Available now on the web and as a Chrome, Edge and Firefox extension. Mobile apps in development."
+  },
+  "available": {
+    "kicker": "Available now",
+    "tag": "Available",
+    "web": { "title": "Web application", "desc": "Access your vault from any modern browser. No installation required.", "cta": "Open the app" },
+    "chrome": { "title": "Chrome extension", "desc": "Autofill in Chrome, Brave and any Chromium-based browser. One-click install.", "cta": "Install the extension" },
+    "edge": { "title": "Edge extension", "desc": "Autofill in Microsoft Edge. One-click install from the official store.", "cta": "Install the extension" },
+    "firefox": { "title": "Firefox extension", "desc": "Autofill in Firefox and Firefox ESR. One-click install from the official store.", "cta": "Install the extension" }
+  },
+  "upcoming": {
+    "kicker": "Coming soon",
+    "status": "On the roadmap",
+    "android": { "title": "Android app", "desc": "Native vault with autofill." },
+    "ios": { "title": "iOS app", "desc": "Native vault with iCloud Keychain integration." }
+  },
+  "cta": {
+    "text": "Want to be notified when new versions ship?",
+    "button": "Write to us"
+  }
+}
