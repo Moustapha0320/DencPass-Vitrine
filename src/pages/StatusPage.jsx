@@ -1,34 +1,36 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import PublicLayout from '../components/layout/PublicLayout'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 import { Reveal } from '../components/shared'
 
 const APP_BASE = 'https://app.dencpass.com'
 
 // Composants à surveiller : fetch no-cors vers chaque URL.
 // Résolu = serveur joignable, rejeté (NetworkError) = hors ligne.
-const CHECKS = [
+const checks = (t) => [
   {
     id: 'app',
-    label: 'Application web',
-    desc: 'Interface principale',
+    label: t('status:checks.app.label'),
+    desc: t('status:checks.app.desc'),
     url: APP_BASE,
   },
   {
     id: 'api',
-    label: 'API',
-    desc: 'Endpoints métier',
+    label: t('status:checks.api.label'),
+    desc: t('status:checks.api.desc'),
     url: `${APP_BASE}/api/auth/password-policy/`,
   },
   {
     id: 'auth',
-    label: 'Authentification',
-    desc: 'Connexion et 2FA',
+    label: t('status:checks.auth.label'),
+    desc: t('status:checks.auth.desc'),
     url: `${APP_BASE}/api/auth/token/`,
   },
   {
     id: 'extension',
-    label: 'Extension Chrome',
-    desc: 'Synchronisation navigateur',
+    label: t('status:checks.extension.label'),
+    desc: t('status:checks.extension.desc'),
     url: `${APP_BASE}/api/admin/extension/info/`,
   },
 ]
@@ -72,11 +74,12 @@ function StatusDot({ status }) {
 }
 
 function StatusLabel({ status }) {
-  const map = { up: 'Opérationnel', down: 'Hors ligne', checking: 'Vérification...' }
+  const { t } = useTranslation('status')
+  const map = { up: t('status:statusLabel.up'), down: t('status:statusLabel.down'), checking: t('status:statusLabel.checking') }
   const color = { up: 'var(--green)', down: '#ef4444', checking: 'var(--amber)' }
   return (
     <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: color[status] ?? color.checking, fontWeight: 600 }}>
-      {map[status] ?? 'Vérification...'}
+      {map[status] ?? map.checking}
     </span>
   )
 }
@@ -90,6 +93,10 @@ function globalStatus(results) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function StatusPage() {
+  const { t, i18n } = useTranslation('status')
+  const CHECKS = checks(t)
+  useDocumentTitle(t('status:meta.title'), t('status:meta.description'), '/status')
+
   const [results, setResults] = useState(() =>
     Object.fromEntries(CHECKS.map(c => [c.id, 'checking']))
   )
@@ -116,15 +123,15 @@ export default function StatusPage() {
   const overall = globalStatus(results)
 
   const overallMeta = {
-    up:       { label: 'Tous les systèmes sont opérationnels', color: 'var(--green)',  bg: 'rgba(34,197,94,0.08)',  border: 'rgba(34,197,94,0.25)'  },
-    down:     { label: 'Incident en cours',                    color: '#ef4444',       bg: 'rgba(239,68,68,0.08)',  border: 'rgba(239,68,68,0.25)'  },
-    checking: { label: 'Vérification en cours...',             color: 'var(--amber)',  bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.25)' },
+    up:       { label: t('status:overall.up'),       color: 'var(--green)',  bg: 'rgba(34,197,94,0.08)',  border: 'rgba(34,197,94,0.25)'  },
+    down:     { label: t('status:overall.down'),     color: '#ef4444',       bg: 'rgba(239,68,68,0.08)',  border: 'rgba(239,68,68,0.25)'  },
+    checking: { label: t('status:overall.checking'), color: 'var(--amber)',  bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.25)' },
   }[overall]
 
   const incidentStatusLabel = {
-    resolved:   { text: 'Résolu',    color: 'var(--green)'  },
-    monitoring: { text: 'Surveillance', color: 'var(--amber)' },
-    identified: { text: 'Identifié', color: '#ef4444'       },
+    resolved:   { text: t('status:incidentStatus.resolved'),   color: 'var(--green)'  },
+    monitoring: { text: t('status:incidentStatus.monitoring'), color: 'var(--amber)' },
+    identified: { text: t('status:incidentStatus.identified'), color: '#ef4444'       },
   }
 
   return (
@@ -137,13 +144,13 @@ export default function StatusPage() {
           <div style={{ position: 'relative', zIndex: 1 }}>
             <Reveal>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 13px', borderRadius: 100, border: '1px solid var(--border2)', background: 'var(--accent-004)', marginBottom: '1.4rem' }}>
-                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>STATUT DU SERVICE</span>
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.1em' }}>{t('status:hero.badge')}</span>
               </div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4.5vw,3.2rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 0.75rem', lineHeight: 1.08 }}>
-                État de DencPass
+                {t('status:hero.title')}
               </h1>
               <p style={{ fontSize: 15, color: 'var(--text3)', lineHeight: 1.7 }}>
-                Disponibilité en temps réel. Mis à jour automatiquement toutes les 60 secondes.
+                {t('status:hero.subtitle')}
               </p>
             </Reveal>
           </div>
@@ -163,7 +170,7 @@ export default function StatusPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 {lastCheck && (
                   <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: 'var(--text5)' }}>
-                    Dernier contrôle : {lastCheck.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                    {t('status:lastCheck', { time: lastCheck.toLocaleTimeString(i18n.language === 'en' ? 'en-US' : 'fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) })}
                   </span>
                 )}
                 <button
@@ -171,7 +178,7 @@ export default function StatusPage() {
                   disabled={checking}
                   style={{ fontSize: 12, fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, color: 'var(--text3)', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 8, padding: '5px 12px', cursor: checking ? 'default' : 'pointer', opacity: checking ? 0.5 : 1, transition: 'opacity 0.2s' }}
                 >
-                  {checking ? 'Vérification...' : 'Actualiser'}
+                  {checking ? t('status:refreshing') : t('status:refresh')}
                 </button>
               </div>
             </div>
@@ -181,7 +188,7 @@ export default function StatusPage() {
           <Reveal delay={80}>
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden' }}>
               <div style={{ padding: '1rem 1.4rem', borderBottom: '1px solid var(--border)' }}>
-                <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Composants</p>
+                <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{t('status:componentsTitle')}</p>
               </div>
               {CHECKS.map((c, i) => (
                 <div key={c.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.9rem 1.4rem', borderBottom: i < CHECKS.length - 1 ? '1px solid var(--border)' : 'none', gap: '1rem' }}>
@@ -202,11 +209,11 @@ export default function StatusPage() {
           <Reveal delay={160}>
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden' }}>
               <div style={{ padding: '1rem 1.4rem', borderBottom: '1px solid var(--border)' }}>
-                <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Incidents récents</p>
+                <p style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: 'var(--accent)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{t('status:incidentsTitle')}</p>
               </div>
               {INCIDENTS.length === 0 ? (
                 <div style={{ padding: '2rem 1.4rem', textAlign: 'center' }}>
-                  <p style={{ fontSize: 13, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>Aucun incident enregistré.</p>
+                  <p style={{ fontSize: 13, color: 'var(--text5)', fontFamily: "'JetBrains Mono', monospace" }}>{t('status:noIncidents')}</p>
                 </div>
               ) : INCIDENTS.map((inc, i) => {
                 const s = incidentStatusLabel[inc.status] ?? incidentStatusLabel.identified
@@ -226,12 +233,12 @@ export default function StatusPage() {
           {/* ── Contact ── */}
           <Reveal delay={240}>
             <p style={{ fontSize: 13, color: 'var(--text5)', textAlign: 'center' }}>
-              Un problème non détecté ?{' '}
+              {t('status:contactPrefix')}{' '}
               <a href="mailto:support@dencpass.com" style={{ color: 'var(--accent)', fontWeight: 600, transition: 'opacity 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
                 onMouseLeave={e => e.currentTarget.style.opacity = '1'}
               >
-                Contactez le support
+                {t('status:contactLink')}
               </a>
             </p>
           </Reveal>

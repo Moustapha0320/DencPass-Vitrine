@@ -1,0 +1,21 @@
+{
+  "meta": { "title": "Service status — DencPass", "description": "Real-time availability of DencPass services, automatically updated every 60 seconds." },
+  "hero": { "badge": "SERVICE STATUS", "title": "DencPass status", "subtitle": "Real-time availability. Automatically updated every 60 seconds." },
+  "overall": { "up": "All systems operational", "down": "Ongoing incident", "checking": "Checking..." },
+  "lastCheck": "Last check: {{time}}",
+  "refresh": "Refresh",
+  "refreshing": "Checking...",
+  "componentsTitle": "Components",
+  "checks": {
+    "app": { "label": "Web application", "desc": "Main interface" },
+    "api": { "label": "API", "desc": "Core endpoints" },
+    "auth": { "label": "Authentication", "desc": "Login and 2FA" },
+    "extension": { "label": "Chrome extension", "desc": "Browser sync" }
+  },
+  "statusLabel": { "up": "Operational", "down": "Offline", "checking": "Checking..." },
+  "incidentsTitle": "Recent incidents",
+  "noIncidents": "No incidents on record.",
+  "incidentStatus": { "resolved": "Resolved", "monitoring": "Monitoring", "identified": "Identified" },
+  "contactPrefix": "Found something we missed?",
+  "contactLink": "Contact support"
+}
