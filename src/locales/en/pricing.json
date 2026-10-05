@@ -1,0 +1,56 @@
+{
+  "meta": { "title": "Pricing — DencPass", "description": "Free plan, Pro at 2000 FCFA/month, or Enterprise Cloud and On-Premise on request. No hidden fees, no conversion." },
+  "hero": {
+    "eyebrow": "Pricing",
+    "title": "Simple, Transparent",
+    "subtitle": "Choose the plan that fits your usage. No hidden fees, no conversion.",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "annualDiscount": "−20%"
+  },
+  "groups": {
+    "individual": { "label": "INDIVIDUAL USE", "sub": "For you, solo or freelance." },
+    "enterprise": { "label": "ORGANIZATIONS · ENTERPRISE", "sub": "For teams and internal deployments." }
+  },
+  "plans": {
+    "free": {
+      "tag": "COMMUNITY", "title": "Free", "desc": "To get started with no commitment.", "cta": "Create an account",
+      "f1": "Unlimited passwords", "f2": "50 generations / month", "f3": "African passphrase", "f4": "5 shares · 5 secrets",
+      "f5": "Browser extensions · 2FA", "f6": "HIBP check (1 time)", "f7": "Unlimited shares & secrets", "f8": "Audit log"
+    },
+    "pro": {
+      "tag": "POPULAR", "badge": "POPULAR", "title": "Pro", "desc": "For professionals who don't cut corners.", "cta": "Upgrade to Pro",
+      "f1": "Everything in Free", "f2": "Unlimited generator", "f3": "Unlimited shares", "f4": "Unlimited secrets & certificates",
+      "f5": "Unlimited HIBP scans", "f6": "Priority support", "f7": "Audit log"
+    },
+    "cloud": {
+      "tag": "MANAGED SAAS", "title": "Enterprise Cloud", "desc": "License managed by DencPass, centralized management for your teams.", "cta": "Request a quote",
+      "f1": "Everything in Pro", "f2": "Teams & groups", "f3": "SIEM / Syslog", "f4": "Organization audit", "f5": "Dedicated support"
+    },
+    "onprem": {
+      "tag": "ON YOUR INFRASTRUCTURE", "title": "Enterprise On-Premise", "desc": "Install DencPass on your own servers. Your data stays on-site, under your control.", "cta": "Request a quote",
+      "f1": "Everything in Cloud edition", "f2": "100% on-site data", "f3": "Docker or bare metal", "f4": "LDAP / AD integration", "f5": "Annual license", "f6": "Maintenance included"
+    }
+  },
+  "onRequest": "On request",
+  "perMonth": "FCFA / month",
+  "billedAnnually": "billed annually",
+  "footnote": "Every plan includes AES-256-GCM encryption and HIBP k-anonymity checks.",
+  "faq": {
+    "title": "Frequently asked questions",
+    "q1": "Can I pay in FCFA?",
+    "a1": "Yes. All our pricing is listed in CFA francs (XOF). No conversion, no exchange fees: what you see is what you pay.",
+    "q2": "What's the difference between Enterprise Cloud and On-Premise?",
+    "a2": "Enterprise Cloud is hosted and maintained by our team: you start immediately. Enterprise On-Premise deploys in your own datacenter (Docker or bare metal) for full control over your data.",
+    "q3": "Can I change plans at any time?",
+    "a3": "Yes, you can upgrade whenever you like. The change takes effect immediately, billed pro-rata.",
+    "q4": "Is there a discount for the annual plan?",
+    "a4": "Yes: the annual Pro plan comes down to 1,600 FCFA/month — a 20% discount compared to monthly billing."
+  },
+  "cta": {
+    "title": "Have specific needs?",
+    "subtitle": "Our team is available for custom pricing and a demo.",
+    "ctaPrimary": "Contact the team",
+    "ctaSecondary": "Try for free"
+  }
+}

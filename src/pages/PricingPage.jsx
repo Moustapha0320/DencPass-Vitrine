@@ -1,57 +1,59 @@
 import { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
 import PublicLayout from '../components/layout/PublicLayout';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Reveal, IcoCheck, IcoX, IcoArrow, IcoChevron } from '../components/shared';
 
 /* ── Data ─────────────────────────────────────────── */
-const groups = [
+const groups = (t) => [
   {
     id: 'individuel',
     dot: 'var(--accent)',
-    label: 'USAGE INDIVIDUEL',
-    sub: 'Pour vous, en solo ou en freelance.',
+    label: t('pricing:groups.individual.label'),
+    sub: t('pricing:groups.individual.sub'),
     borderColor: 'var(--border2)',
     borderTop: 'var(--accent)',
     plans: [
       {
-        tag: 'COMMUNITY',
+        tag: t('pricing:plans.free.tag'),
         tagColor: 'var(--accent)',
         tagBg: 'var(--accent-014)',
         badge: null,
-        title: 'Gratuit',
+        title: t('pricing:plans.free.title'),
         priceKey: 'free',
-        desc: 'Pour démarrer sans engagement.',
-        cta: { label: 'Créer un compte', href: 'https://app.dencpass.com', external: true, style: 'outline' },
+        desc: t('pricing:plans.free.desc'),
+        cta: { label: t('pricing:plans.free.cta'), href: 'https://app.dencpass.com', external: true, style: 'outline' },
         accent: 'var(--accent)',
         features: [
-          { label: 'Mots de passe illimités', ok: true },
-          { label: '50 générations / mois', ok: true },
-          { label: 'Passphrase africaine', ok: true },
-          { label: '5 partages · 5 secrets', ok: true },
-          { label: 'Extensions navigateur · 2FA', ok: true },
-          { label: 'Vérification HIBP (1 fois)', ok: true },
-          { label: 'Partages & secrets illimités', ok: false },
-          { label: 'Journal d\'audit', ok: false },
+          { label: t('pricing:plans.free.f1'), ok: true },
+          { label: t('pricing:plans.free.f2'), ok: true },
+          { label: t('pricing:plans.free.f3'), ok: true },
+          { label: t('pricing:plans.free.f4'), ok: true },
+          { label: t('pricing:plans.free.f5'), ok: true },
+          { label: t('pricing:plans.free.f6'), ok: true },
+          { label: t('pricing:plans.free.f7'), ok: false },
+          { label: t('pricing:plans.free.f8'), ok: false },
         ],
       },
       {
-        tag: 'POPULAIRE',
+        tag: t('pricing:plans.pro.tag'),
         tagColor: 'var(--accent)',
         tagBg: 'var(--accent-014)',
-        badge: 'POPULAIRE',
-        title: 'Pro',
+        badge: t('pricing:plans.pro.badge'),
+        title: t('pricing:plans.pro.title'),
         priceKey: 'pro',
-        desc: "Pour les professionnels qui ne comptent pas.",
-        cta: { label: 'Passer en Pro', href: 'https://app.dencpass.com', external: true, style: 'accent' },
+        desc: t('pricing:plans.pro.desc'),
+        cta: { label: t('pricing:plans.pro.cta'), href: 'https://app.dencpass.com', external: true, style: 'accent' },
         accent: 'var(--accent)',
         features: [
-          { label: 'Tout du plan Gratuit', ok: true },
-          { label: 'Générateur illimité', ok: true },
-          { label: 'Partages illimités', ok: true },
-          { label: 'Secrets & certificats illimités', ok: true },
-          { label: 'Analyses HIBP illimitées', ok: true },
-          { label: 'Support prioritaire', ok: true },
-          { label: 'Journal d\'audit', ok: false },
+          { label: t('pricing:plans.pro.f1'), ok: true },
+          { label: t('pricing:plans.pro.f2'), ok: true },
+          { label: t('pricing:plans.pro.f3'), ok: true },
+          { label: t('pricing:plans.pro.f4'), ok: true },
+          { label: t('pricing:plans.pro.f5'), ok: true },
+          { label: t('pricing:plans.pro.f6'), ok: true },
+          { label: t('pricing:plans.pro.f7'), ok: false },
         ],
       },
     ],
@@ -59,69 +61,57 @@ const groups = [
   {
     id: 'enterprise',
     dot: 'var(--purple)',
-    label: 'ORGANISATIONS · ENTERPRISE',
-    sub: 'Pour les équipes et les déploiements internes.',
+    label: t('pricing:groups.enterprise.label'),
+    sub: t('pricing:groups.enterprise.sub'),
     borderColor: 'var(--purple-025)',
     borderTop: 'var(--purple)',
     plans: [
       {
-        tag: 'SAAS MANAGÉ',
+        tag: t('pricing:plans.cloud.tag'),
         tagColor: 'var(--purple)',
         tagBg: 'var(--purple-06)',
         badge: null,
-        title: 'Enterprise Cloud',
+        title: t('pricing:plans.cloud.title'),
         priceKey: 'cloud',
-        desc: 'Licence managée par DencPass, gestion centralisée pour vos équipes.',
-        cta: { label: 'Demander un devis', href: '/contact', external: false, style: 'purple' },
+        desc: t('pricing:plans.cloud.desc'),
+        cta: { label: t('pricing:plans.cloud.cta'), href: '/contact', external: false, style: 'purple' },
         accent: 'var(--purple)',
         features: [
-          { label: 'Tout du plan Pro', ok: true },
-          { label: 'Équipes & groupes', ok: true },
-          { label: 'SIEM / Syslog', ok: true },
-          { label: 'Audit organisation', ok: true },
-          { label: 'Support dédié', ok: true },
+          { label: t('pricing:plans.cloud.f1'), ok: true },
+          { label: t('pricing:plans.cloud.f2'), ok: true },
+          { label: t('pricing:plans.cloud.f3'), ok: true },
+          { label: t('pricing:plans.cloud.f4'), ok: true },
+          { label: t('pricing:plans.cloud.f5'), ok: true },
         ],
       },
       {
-        tag: 'SUR VOTRE INFRA',
+        tag: t('pricing:plans.onprem.tag'),
         tagColor: 'var(--purple)',
         tagBg: 'var(--purple-06)',
         badge: null,
-        title: 'Enterprise On-Premise',
+        title: t('pricing:plans.onprem.title'),
         priceKey: 'onprem',
-        desc: 'Installez DencPass sur vos serveurs. Vos données restent sur site, sous votre contrôle.',
-        cta: { label: 'Demander un devis', href: '/contact', external: false, style: 'purple' },
+        desc: t('pricing:plans.onprem.desc'),
+        cta: { label: t('pricing:plans.onprem.cta'), href: '/contact', external: false, style: 'purple' },
         accent: 'var(--purple)',
         features: [
-          { label: "Tout de l'édition Cloud", ok: true },
-          { label: 'Données 100% sur site', ok: true },
-          { label: 'Docker ou bare metal', ok: true },
-          { label: 'Intégration LDAP / AD', ok: true },
-          { label: 'Licence annuelle', ok: true },
-          { label: 'Maintenance incluse', ok: true },
+          { label: t('pricing:plans.onprem.f1'), ok: true },
+          { label: t('pricing:plans.onprem.f2'), ok: true },
+          { label: t('pricing:plans.onprem.f3'), ok: true },
+          { label: t('pricing:plans.onprem.f4'), ok: true },
+          { label: t('pricing:plans.onprem.f5'), ok: true },
+          { label: t('pricing:plans.onprem.f6'), ok: true },
         ],
       },
     ],
   },
 ];
 
-const faqs = [
-  {
-    q: 'Puis-je payer en FCFA ?',
-    a: 'Oui. Tous nos tarifs sont libellés en Francs CFA (XOF). Aucune conversion ni frais de change : ce que vous voyez est ce que vous payez.',
-  },
-  {
-    q: 'Quelle est la différence entre Enterprise Cloud et On-Premise ?',
-    a: 'Enterprise Cloud est hébergé et maintenu par nos équipes : vous démarrez immédiatement. Enterprise On-Premise se déploie dans votre datacenter (Docker ou bare-metal) pour un contrôle total de vos données.',
-  },
-  {
-    q: 'Puis-je changer de plan à tout moment ?',
-    a: 'Oui, vous pouvez passer au plan supérieur quand vous le souhaitez. Le changement prend effet immédiatement avec facturation au prorata.',
-  },
-  {
-    q: 'Y a-t-il une réduction pour le plan annuel ?',
-    a: 'Oui : le plan Pro annuel revient à 1 600 FCFA/mois, soit 20 % de réduction par rapport à la facturation mensuelle.',
-  },
+const faqs = (t) => [
+  { q: t('pricing:faq.q1'), a: t('pricing:faq.a1') },
+  { q: t('pricing:faq.q2'), a: t('pricing:faq.a2') },
+  { q: t('pricing:faq.q3'), a: t('pricing:faq.a3') },
+  { q: t('pricing:faq.q4'), a: t('pricing:faq.a4') },
 ];
 
 /* ── Subcomponents ────────────────────────────────── */
@@ -148,7 +138,7 @@ function FaqItem({ q, a }) {
   );
 }
 
-function PlanCard({ plan, annual, accentOverride }) {
+function PlanCard({ plan, annual, accentOverride, locale, onRequestLabel, perMonthLabel, billedAnnuallyLabel }) {
   const { tag, tagColor, tagBg, badge, title, priceKey, desc, cta, accent, features } = plan;
 
   const prices = { free: [0, 0], pro: [2000, 1600], cloud: null, onprem: null };
@@ -214,17 +204,17 @@ function PlanCard({ plan, annual, accentOverride }) {
         <div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
             <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '2rem', color: 'var(--text-head)', lineHeight: 1 }}>
-              {price.toLocaleString('fr-FR')}
+              {price.toLocaleString(locale)}
             </span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text3)' }}>FCFA / mois</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text3)' }}>{perMonthLabel}</span>
           </div>
           {annual && priceKey === 'pro' && (
-            <p style={{ fontSize: '0.72rem', color: 'var(--text4)', marginTop: 2 }}>facturation annuelle</p>
+            <p style={{ fontSize: '0.72rem', color: 'var(--text4)', marginTop: 2 }}>{billedAnnuallyLabel}</p>
           )}
         </div>
       ) : (
         <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.4rem', color: accentOverride || accent, margin: 0 }}>
-          Sur devis
+          {onRequestLabel}
         </p>
       )}
 
@@ -262,8 +252,18 @@ function PlanCard({ plan, annual, accentOverride }) {
 
 /* ── Page ─────────────────────────────────────────── */
 export default function PricingPage() {
+  const { t, i18n } = useTranslation('pricing');
+  useDocumentTitle(t('pricing:meta.title'), t('pricing:meta.description'), '/pricing');
+
   const [annual, setAnnual] = useState(false);
   const toggleRef = useRef(null);
+
+  const locale = i18n.language === 'en' ? 'en-US' : 'fr-FR';
+  const groupsList = groups(t);
+  const faqsList = faqs(t);
+  const onRequestLabel = t('pricing:onRequest');
+  const perMonthLabel = t('pricing:perMonth');
+  const billedAnnuallyLabel = t('pricing:billedAnnually');
 
   function handleToggle(toAnnual) {
     setAnnual(toAnnual);
@@ -289,13 +289,13 @@ export default function PricingPage() {
         }}>
           <Reveal>
             <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--accent)', textTransform: 'uppercase', display: 'block', marginBottom: '1.25rem' }}>
-              Tarifs
+              {t('pricing:hero.eyebrow')}
             </span>
             <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(2rem,5vw,3.25rem)', color: 'var(--text-head)', lineHeight: 1.15, marginBottom: '1rem' }}>
-              Simple, Transparent
+              {t('pricing:hero.title')}
             </h1>
             <p style={{ fontSize: '1.0625rem', color: 'var(--text2)', maxWidth: 500, margin: '0 auto 2rem', lineHeight: 1.7 }}>
-              Choisissez le plan adapté à votre usage. Pas de frais cachés, pas de conversion.
+              {t('pricing:hero.subtitle')}
             </p>
 
             {/* Toggle mensuel / annuel */}
@@ -306,7 +306,7 @@ export default function PricingPage() {
                 background: !annual ? 'var(--accent)' : 'transparent',
                 color: !annual ? '#07111f' : 'var(--text3)', transition: 'all 0.2s',
               }}>
-                Mensuel
+                {t('pricing:hero.monthly')}
               </button>
               <button onClick={() => handleToggle(true)} style={{
                 padding: '0.45rem 1.1rem', borderRadius: 24, border: 'none', cursor: 'pointer',
@@ -315,9 +315,9 @@ export default function PricingPage() {
                 color: annual ? '#07111f' : 'var(--text3)', transition: 'all 0.2s',
                 display: 'flex', alignItems: 'center', gap: 6,
               }}>
-                Annuel
+                {t('pricing:hero.annual')}
                 <span style={{ fontSize: '0.68rem', background: 'rgba(34,197,94,0.15)', color: 'var(--green)', padding: '2px 7px', borderRadius: 20, fontWeight: 700 }}>
-                  −20 %
+                  {t('pricing:hero.annualDiscount')}
                 </span>
               </button>
             </div>
@@ -328,7 +328,7 @@ export default function PricingPage() {
         <section style={{ padding: '1.5rem max(1.25rem, calc((100vw - 1160px)/2)) clamp(2.5rem,6vw,4rem)' }}>
           <Reveal>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.25rem' }}>
-              {groups.map(group => (
+              {groupsList.map(group => (
                 <div key={group.id} style={{
                   background: group.id === 'enterprise' ? 'rgba(139,92,246,0.04)' : 'transparent',
                   border: `1px solid ${group.borderColor}`,
@@ -358,6 +358,10 @@ export default function PricingPage() {
                         plan={plan}
                         annual={annual}
                         accentOverride={group.dot}
+                        locale={locale}
+                        onRequestLabel={onRequestLabel}
+                        perMonthLabel={perMonthLabel}
+                        billedAnnuallyLabel={billedAnnuallyLabel}
                       />
                     ))}
                   </div>
@@ -366,7 +370,7 @@ export default function PricingPage() {
             </div>
 
             <p style={{ textAlign: 'center', marginTop: '1.25rem', fontSize: '0.8rem', color: 'var(--text3)' }}>
-              Tous les plans incluent le chiffrement AES-256-GCM et la vérification HIBP k-anonymat.
+              {t('pricing:footnote')}
             </p>
           </Reveal>
         </section>
@@ -375,10 +379,10 @@ export default function PricingPage() {
         <section style={{ padding: 'clamp(2.5rem,6vw,4rem) max(1.25rem, calc((100vw - 760px)/2))' }}>
           <Reveal>
             <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.3rem,3vw,1.75rem)', color: 'var(--text-head)', marginBottom: '1.75rem', textAlign: 'center' }}>
-              Questions fréquentes
+              {t('pricing:faq.title')}
             </h2>
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 18, padding: '0 1.75rem' }}>
-              {faqs.map(faq => <FaqItem key={faq.q} {...faq} />)}
+              {faqsList.map(faq => <FaqItem key={faq.q} {...faq} />)}
             </div>
           </Reveal>
         </section>
@@ -387,10 +391,10 @@ export default function PricingPage() {
         <section style={{ padding: 'clamp(3rem,7vw,4.5rem) max(1.25rem, calc((100vw - 1100px)/2))', textAlign: 'center' }}>
           <Reveal>
             <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 'clamp(1.4rem,3.5vw,2.25rem)', color: 'var(--text-head)', marginBottom: '1rem' }}>
-              Vous avez des besoins spécifiques ?
+              {t('pricing:cta.title')}
             </h2>
             <p style={{ fontSize: '1rem', color: 'var(--text2)', maxWidth: 460, margin: '0 auto 2rem', lineHeight: 1.7 }}>
-              Notre équipe est disponible pour un chiffrage personnalisé et une démonstration.
+              {t('pricing:cta.subtitle')}
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href="/contact" className="btn-primary" style={{
@@ -398,14 +402,14 @@ export default function PricingPage() {
                 padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                 display: 'inline-flex', alignItems: 'center', gap: 8,
               }}>
-                Contacter l'équipe <IcoArrow size={16} />
+                {t('pricing:cta.ctaPrimary')} <IcoArrow size={16} />
               </a>
               <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
                 background: 'transparent', color: 'var(--text)',
                 border: '1px solid var(--border2)',
                 padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
               }}>
-                Essayer gratuitement
+                {t('pricing:cta.ctaSecondary')}
               </a>
             </div>
           </Reveal>
