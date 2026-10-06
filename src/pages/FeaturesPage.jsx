@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import PublicLayout from '../components/layout/PublicLayout'
+import { localizedPath } from '../utils/localizedPath'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import {
   Reveal, IcoCheck, IcoArrow, IcoBuilding,
@@ -73,7 +74,7 @@ const advantages = (t) => [
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function FeaturesPage() {
-  const { t } = useTranslation('features')
+  const { t, i18n } = useTranslation('features')
   useDocumentTitle(t('features:meta.title'), t('features:meta.description'), '/features')
 
   const featureGroupsList = featureGroups(t)
@@ -236,7 +237,7 @@ export default function FeaturesPage() {
                 <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.8, marginBottom: '2rem' }}>
                   {t('features:enterprise.desc')}
                 </p>
-                <Link to="/business" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px var(--purple-025)' }}>
+                <Link to={localizedPath('/business', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 24px var(--purple-025)' }}>
                   {t('features:enterprise.cta')} <IcoArrow size={15} />
                 </Link>
               </div>
@@ -269,7 +270,7 @@ export default function FeaturesPage() {
                 <a href="https://app.dencpass.com/register" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 32px', borderRadius: 14, background: 'var(--accent)', color: 'var(--bg)', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px var(--accent-014)' }}>
                   {t('features:cta.ctaPrimary')} <IcoArrow />
                 </a>
-                <Link to="/pricing" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+                <Link to={localizedPath('/pricing', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
                   {t('features:cta.ctaSecondary')}
                 </Link>
               </div>

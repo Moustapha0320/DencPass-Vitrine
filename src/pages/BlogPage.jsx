@@ -5,6 +5,7 @@ import { Reveal, IcoArrow } from '../components/shared'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import { ARTICLES as ARTICLES_FR, ARTICLE_CATEGORY_STYLES } from '../data/blog.fr'
 import { ARTICLES as ARTICLES_EN } from '../data/blog.en'
+import { localizedPath } from '../utils/localizedPath'
 
 function CategoryBadge({ category }) {
   const { t } = useTranslation('blog')
@@ -29,10 +30,10 @@ function CategoryBadge({ category }) {
 }
 
 function ArticleCard({ article, delay }) {
-  const { t } = useTranslation('blog')
+  const { t, i18n } = useTranslation('blog')
   return (
     <Reveal delay={delay} style={{ height: '100%' }}>
-      <Link to={`/blog/${article.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+      <Link to={localizedPath(`/blog/${article.slug}`, i18n.language)} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
         <article style={{
           height: '100%',
           background: 'var(--bg-card)',

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import PublicLayout from '../components/layout/PublicLayout'
 import useDocumentTitle from '../hooks/useDocumentTitle'
+import { localizedPath } from '../utils/localizedPath'
 import {
   Reveal, IcoArrow,
   IcoLock, IcoFingerprint, IcoPhone, IcoRefresh, IcoClipboard, IcoShield,
@@ -38,7 +39,7 @@ const specs = (t) => [
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function SecurityPage() {
-  const { t } = useTranslation('security')
+  const { t, i18n } = useTranslation('security')
   useDocumentTitle(t('security:meta.title'), t('security:meta.description'), '/security')
 
   const flowList = flow(t)
@@ -149,7 +150,7 @@ export default function SecurityPage() {
                 <a href="https://app.dencpass.com/register" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 32px', borderRadius: 14, background: 'var(--accent)', color: 'var(--bg)', fontSize: 15, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", boxShadow: '0 4px 32px var(--accent-014)' }}>
                   {t('security:cta.ctaPrimary')} <IcoArrow />
                 </a>
-                <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+                <Link to={localizedPath('/contact', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '15px 26px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
                   {t('security:cta.ctaSecondary')}
                 </Link>
               </div>

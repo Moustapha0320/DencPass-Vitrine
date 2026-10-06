@@ -9,6 +9,7 @@ import ProductPreview from '../components/ProductPreview'
 import { useTheme } from '../hooks/useTheme'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import { Reveal, prefersReducedMotion, IcoCheck, IcoX, IcoArrow, IcoChevron, IcoVault, IcoZap, IcoShare, IcoKey, IcoGlobe, IcoCert, IcoUsers, IcoActivity, IcoServer, IcoShield, IcoPhone, IcoEye, IcoClipboard, IcoLock, IcoCopy, IcoBuilding, IcoCode, IcoStar, IcoSmartphone } from '../components/shared'
+import { localizedPath } from '../utils/localizedPath'
 
 // ─── Hero typewriter ──────────────────────────────────────────────────────────
 function HeroTypewriter({ text }) {
@@ -52,7 +53,7 @@ function HeroTypewriter({ text }) {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function HeroSection() {
-  const { t } = useTranslation('home')
+  const { t, i18n } = useTranslation('home')
   const { theme } = useTheme()
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
 
@@ -95,7 +96,7 @@ function HeroSection() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 30px', borderRadius: 13, background: 'var(--accent)', color: 'var(--bg)', fontSize: 15, boxShadow: '0 4px 28px var(--accent-014)' }}>
               {t('home:hero.ctaPrimary')} <IcoArrow />
             </a>
-            <Link to="/features" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid var(--border2)', background: 'transparent', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+            <Link to={localizedPath('/features', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 26px', borderRadius: 13, border: '1px solid var(--border2)', background: 'transparent', color: 'var(--text2)', fontSize: 15, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               {t('home:hero.ctaSecondary')}
             </Link>
           </div>
@@ -208,11 +209,11 @@ const mainFeatures = (t) => [
   { Icon: IcoVault, title: t('home:features.vault.title'), desc: t('home:features.vault.desc'), link: '/features' },
   { Icon: IcoShare, title: t('home:features.sharing.title'), desc: t('home:features.sharing.desc'), link: '/features' },
   { Icon: IcoActivity, title: t('home:features.audit.title'), desc: t('home:features.audit.desc'), link: '/features' },
-  { Icon: IcoUsers, title: t('home:features.teams.title'), desc: t('home:features.teams.desc'), link: '/entreprises' },
+  { Icon: IcoUsers, title: t('home:features.teams.title'), desc: t('home:features.teams.desc'), link: '/business' },
 ]
 
 function FeaturesTeaser() {
-  const { t } = useTranslation('home')
+  const { t, i18n } = useTranslation('home')
   const MAIN_FEATURES = mainFeatures(t)
   return (
     <section style={{ padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }}>
@@ -229,7 +230,7 @@ function FeaturesTeaser() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
           {MAIN_FEATURES.map(({ Icon, title, desc, link }, i) => (
             <Reveal key={title} delay={i * 80}>
-              <Link to={link} style={{ display: 'block', padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', textDecoration: 'none', transition: 'border-color 0.2s, transform 0.2s' }}
+              <Link to={localizedPath(link, i18n.language)} style={{ display: 'block', padding: '1.75rem', borderRadius: 16, border: '1px solid var(--border)', background: 'var(--bg-card)', textDecoration: 'none', transition: 'border-color 0.2s, transform 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border3)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; }}
               >
@@ -402,7 +403,7 @@ const securityCards = (t) => [
 ]
 
 function SecuritySection() {
-  const { t } = useTranslation('home')
+  const { t, i18n } = useTranslation('home')
   const SECURITY_CARDS = securityCards(t)
   return (
     <section style={{ padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg-alt)' }}>
@@ -413,7 +414,7 @@ function SecuritySection() {
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--accent)', letterSpacing: '0.16em', marginBottom: '1rem' }}>{t('home:security.eyebrow')}</p>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.9rem,4vw,2.9rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: 0, lineHeight: 1.1 }}>{t('home:security.title')}</h2>
             </div>
-            <Link to="/security" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 10, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 13, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", whiteSpace: 'nowrap' }}>
+            <Link to={localizedPath('/security', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 10, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 13, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", whiteSpace: 'nowrap' }}>
               {t('home:security.linkText')} <IcoArrow size={12} />
             </Link>
           </div>
@@ -462,7 +463,7 @@ function TransitionBand() {
 
 // ─── Enterprise ───────────────────────────────────────────────────────────────
 function EnterpriseSection() {
-  const { t } = useTranslation('home')
+  const { t, i18n } = useTranslation('home')
   const items = t('home:enterprise.items', { returnObjects: true })
   return (
     <section style={{ position: 'relative', padding: '4rem max(1.25rem, calc((100vw - 1200px) / 2)) 6rem', background: 'var(--bg-alt)', overflow: 'hidden' }}>
@@ -477,10 +478,10 @@ function EnterpriseSection() {
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', letterSpacing: '-0.035em', color: 'var(--sand)', margin: '0 0 1rem', lineHeight: 1.15 }}>{t('home:enterprise.title')}</h2>
             <p style={{ fontSize: 16, color: 'var(--text2)', lineHeight: 1.8, marginBottom: '2rem' }}>{t('home:enterprise.desc')}</p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-              <Link to="/business" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, boxShadow: '0 4px 24px var(--purple-025)' }}>
+              <Link to={localizedPath('/business', i18n.language)} className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: 'var(--purple)', color: '#fff', fontSize: 14, boxShadow: '0 4px 24px var(--purple-025)' }}>
                 {t('home:enterprise.ctaPrimary')} <IcoArrow />
               </Link>
-              <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 22px', borderRadius: 12, border: '1px solid var(--purple-025)', color: 'var(--text2)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+              <Link to={localizedPath('/contact', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 22px', borderRadius: 12, border: '1px solid var(--purple-025)', color: 'var(--text2)', fontSize: 14, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
                 {t('home:enterprise.ctaSecondary')}
               </Link>
             </div>
@@ -669,7 +670,7 @@ function PricingTeaser() {
                     <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: 'var(--text)', margin: '0 0 0.6rem', lineHeight: 1.2 }}>{p.name}</p>
                     <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: 'var(--purple)', display: 'block', marginBottom: '0.15rem' }}>{t('home:pricingTeaser.onDemand')}</span>
                     <p style={{ fontSize: 12.5, color: 'var(--text3)', margin: '0.5rem 0 1.1rem', lineHeight: 1.5, minHeight: 52 }}>{p.desc}</p>
-                    <Link to="/contact" style={{ display: 'block', textAlign: 'center', padding: '11px 0', borderRadius: 10, fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.1rem', background: 'var(--purple)', color: '#fff' }}>{t('home:pricingTeaser.requestQuote')}</Link>
+                    <Link to={localizedPath('/contact', i18n.language)} style={{ display: 'block', textAlign: 'center', padding: '11px 0', borderRadius: 10, fontSize: 13, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: '1.1rem', background: 'var(--purple)', color: '#fff' }}>{t('home:pricingTeaser.requestQuote')}</Link>
                     <div style={{ borderTop: '1px solid var(--purple-014)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
                       {p.features.map(f => (
                         <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: 'var(--text2)', lineHeight: 1.4 }}>
@@ -739,7 +740,7 @@ function FAQSection() {
 
 // ─── CTA final ────────────────────────────────────────────────────────────────
 function CTABanner() {
-  const { t } = useTranslation('home')
+  const { t, i18n } = useTranslation('home')
   return (
     <section style={{ position: 'relative', overflow: 'hidden', padding: '6rem max(1.5rem, calc((100% - 1200px) / 2))', background: 'var(--bg)' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 25% 50%, var(--accent-014) 0%, transparent 55%), radial-gradient(ellipse at 75% 50%, var(--purple-06) 0%, transparent 55%)', pointerEvents: 'none' }} />
@@ -757,7 +758,7 @@ function CTABanner() {
             <a href="https://app.dencpass.com/register" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 36px', borderRadius: 14, background: 'var(--accent)', color: 'var(--bg)', fontSize: 16, boxShadow: '0 4px 32px var(--accent-014)' }}>
               {t('home:ctaBanner.ctaPrimary')} <IcoArrow size={17} />
             </a>
-            <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 28px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 16, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
+            <Link to={localizedPath('/contact', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '16px 28px', borderRadius: 14, border: '1px solid var(--border2)', color: 'var(--text2)', fontSize: 16, fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               {t('home:ctaBanner.ctaSecondary')}
             </Link>
           </div>

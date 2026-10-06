@@ -5,6 +5,7 @@ import { Reveal, IcoArrow } from '../components/shared'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import { ARTICLES as ARTICLES_FR, ARTICLE_CATEGORY_STYLES } from '../data/blog.fr'
 import { ARTICLES as ARTICLES_EN } from '../data/blog.en'
+import { localizedPath } from '../utils/localizedPath'
 
 function CategoryBadge({ category }) {
   const { t } = useTranslation('blog')
@@ -105,14 +106,14 @@ function ContentBlock({ block }) {
 
 // ─── 404 within the blog layout ───────────────────────────────────────────────
 function ArticleNotFound() {
-  const { t } = useTranslation('blog')
+  const { t, i18n } = useTranslation('blog')
   return (
     <div style={{ minHeight: '70vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '4rem 1.5rem' }}>
       <Reveal>
         <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--text4)', letterSpacing: '0.12em', marginBottom: '1rem' }}>{t('blog:post.notFoundEyebrow')}</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2rem,4vw,3rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1rem' }}>{t('blog:post.notFoundTitle')}</h1>
         <p style={{ fontSize: 15, color: 'var(--text3)', marginBottom: '2rem' }}>{t('blog:post.notFoundDesc')}</p>
-        <Link to="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 22px', borderRadius: 10, background: 'var(--accent)', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", textDecoration: 'none' }}>
+        <Link to={localizedPath('/blog', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 22px', borderRadius: 10, background: 'var(--accent)', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", textDecoration: 'none' }}>
           {t('blog:post.allArticles')}
         </Link>
       </Reveal>
@@ -148,7 +149,7 @@ export default function BlogPostPage() {
           <div style={{ position: 'relative', zIndex: 1 }}>
             <Reveal>
               {/* Back link */}
-              <Link to="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--text4)', fontFamily: "'Inter', sans-serif", marginBottom: '1.75rem', textDecoration: 'none', transition: 'color 0.2s' }}
+              <Link to={localizedPath('/blog', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--text4)', fontFamily: "'Inter', sans-serif", marginBottom: '1.75rem', textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--text4)'}
               >
@@ -183,7 +184,7 @@ export default function BlogPostPage() {
 
             {/* ── Back + CTA ── */}
             <div style={{ marginTop: '3.5rem', paddingTop: '2rem', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-              <Link to="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, color: 'var(--text3)', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, textDecoration: 'none', transition: 'color 0.2s' }}
+              <Link to={localizedPath('/blog', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, color: 'var(--text3)', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--text3)'}
               >

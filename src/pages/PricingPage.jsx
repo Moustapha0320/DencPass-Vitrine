@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
 import PublicLayout from '../components/layout/PublicLayout';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Reveal, IcoCheck, IcoX, IcoArrow, IcoChevron } from '../components/shared';
+import { localizedPath } from '../utils/localizedPath';
 
 /* ── Data ─────────────────────────────────────────── */
 const groups = (t) => [
@@ -138,7 +140,7 @@ function FaqItem({ q, a }) {
   );
 }
 
-function PlanCard({ plan, annual, accentOverride, locale, onRequestLabel, perMonthLabel, billedAnnuallyLabel }) {
+function PlanCard({ plan, annual, accentOverride, locale, lang, onRequestLabel, perMonthLabel, billedAnnuallyLabel }) {
   const { tag, tagColor, tagBg, badge, title, priceKey, desc, cta, accent, features } = plan;
 
   const prices = { free: [0, 0], pro: [2000, 1600], cloud: null, onprem: null };
@@ -227,9 +229,9 @@ function PlanCard({ plan, annual, accentOverride, locale, onRequestLabel, perMon
           {cta.label}
         </a>
       ) : (
-        <a href={cta.href} className="btn-primary" style={{ ...btnStyle, ...styles[cta.style] }}>
+        <Link to={localizedPath(cta.href, lang)} className="btn-primary" style={{ ...btnStyle, ...styles[cta.style] }}>
           {cta.label}
-        </a>
+        </Link>
       )}
 
       {/* Divider */}
@@ -359,6 +361,7 @@ export default function PricingPage() {
                         annual={annual}
                         accentOverride={group.dot}
                         locale={locale}
+                        lang={i18n.language}
                         onRequestLabel={onRequestLabel}
                         perMonthLabel={perMonthLabel}
                         billedAnnuallyLabel={billedAnnuallyLabel}
@@ -397,13 +400,13 @@ export default function PricingPage() {
               {t('pricing:cta.subtitle')}
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="/contact" className="btn-primary" style={{
+              <Link to={localizedPath('/contact', i18n.language)} className="btn-primary" style={{
                 background: 'var(--accent)', color: '#07111f', border: 'none',
                 padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                 display: 'inline-flex', alignItems: 'center', gap: 8,
               }}>
                 {t('pricing:cta.ctaPrimary')} <IcoArrow size={16} />
-              </a>
+              </Link>
               <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
                 background: 'transparent', color: 'var(--text)',
                 border: '1px solid var(--border2)',

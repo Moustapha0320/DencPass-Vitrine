@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../../hooks/useTheme'
 import { IcoSun, IcoMoon, IcoMenu, IcoClose } from '../shared'
+import { localizedPath } from '../../utils/localizedPath'
 
 // ─── Legal Modal ──────────────────────────────────────────────────────────────
 function LegalModal({ type, onClose }) {
@@ -126,7 +127,7 @@ function NavBar() {
         transition: 'background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease',
       }}>
 
-        <Link to="/" aria-label={t('nav.home')} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+        <Link to={localizedPath('/', i18n.language)} aria-label={t('nav.home')} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
           <LogoMark height={26} bg="var(--bg)" gradId="nav-dp-g" />
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.05em', color: 'var(--text)' }}>
             Denc<span style={{ color: 'var(--accent)' }}>Pass</span>
@@ -135,11 +136,11 @@ function NavBar() {
 
         <div className="nav-links">
           {NAV_PATHS.map(({ key, to }) => {
-            const active = location.pathname === to
+            const active = location.pathname === to || location.pathname === localizedPath(to, i18n.language)
             const isBusiness = to === '/business'
             const activeColor = isBusiness ? 'var(--purple)' : 'var(--accent)'
             return (
-              <Link key={to} to={to} className={isBusiness ? 'nav-link nav-link-business' : 'nav-link'} style={{
+              <Link key={to} to={localizedPath(to, i18n.language)} className={isBusiness ? 'nav-link nav-link-business' : 'nav-link'} style={{
                 fontSize: 14,
                 color: active ? activeColor : 'var(--text3)',
                 fontFamily: "'Inter', sans-serif", fontWeight: 500,
@@ -177,7 +178,7 @@ function NavBar() {
       {mobileOpen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'var(--bg)', display: 'flex', flexDirection: 'column', padding: '0 max(1.5rem, calc((100% - 1200px) / 2))' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 62 }}>
-            <Link to="/" onClick={() => setMobileOpen(false)} aria-label={t('nav.home')} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+            <Link to={localizedPath('/', i18n.language)} onClick={() => setMobileOpen(false)} aria-label={t('nav.home')} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <LogoMark height={26} bg="var(--bg)" gradId="mob-dp-g" />
               <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 19, letterSpacing: '-0.05em', color: 'var(--text)' }}>
                 Denc<span style={{ color: 'var(--accent)' }}>Pass</span>
@@ -190,10 +191,10 @@ function NavBar() {
           </div>
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.5rem' }}>
             {NAV_PATHS.map(({ key, to }) => {
-              const active = location.pathname === to
+              const active = location.pathname === to || location.pathname === localizedPath(to, i18n.language)
               const activeColor = to === '/business' ? 'var(--purple)' : 'var(--accent)'
               return (
-                <Link key={to} to={to} onClick={() => setMobileOpen(false)} style={{
+                <Link key={to} to={localizedPath(to, i18n.language)} onClick={() => setMobileOpen(false)} style={{
                   display: 'block', padding: '1rem 0', fontSize: 22, fontWeight: 700,
                   fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.02em',
                   color: active ? activeColor : 'var(--text)',
@@ -251,7 +252,7 @@ const FOOTER_COLS = [
 ]
 
 function Footer({ setLegalModal, theme, setTheme }) {
-  const { t } = useTranslation('common')
+  const { t, i18n } = useTranslation('common')
   const linkStyle = {
     display: 'block', fontSize: 13, color: 'var(--text5)', marginBottom: '0.55rem',
     transition: 'color 0.2s', background: 'none', border: 'none', cursor: 'pointer',
@@ -267,7 +268,7 @@ function Footer({ setLegalModal, theme, setTheme }) {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem 1.5rem 2rem' }}>
         <div className="footer-grid">
           <div>
-            <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: '1rem' }}>
+            <Link to={localizedPath('/', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: '1rem' }}>
               <LogoMark height={32} bg="var(--bg-footer)" gradId="ft-dp-g" />
               <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: '-0.05em', color: 'var(--text)' }}>
                 Denc<span style={{ color: 'var(--accent)' }}>Pass</span>
@@ -291,7 +292,7 @@ function Footer({ setLegalModal, theme, setTheme }) {
                 l.modal
                   ? <button key={l.key} onClick={() => setLegalModal(l.modal)} style={linkStyle} {...hov}>{t(`footer.link${l.key}`)}</button>
                   : l.to
-                    ? <Link key={l.key} to={l.to} style={linkStyle} {...hov}>{t(`footer.link${l.key}`)}</Link>
+                    ? <Link key={l.key} to={localizedPath(l.to, i18n.language)} style={linkStyle} {...hov}>{t(`footer.link${l.key}`)}</Link>
                     : <a key={l.key} href={l.href} style={linkStyle} {...hov}>{t(`footer.link${l.key}`)}</a>
               ))}
             </div>

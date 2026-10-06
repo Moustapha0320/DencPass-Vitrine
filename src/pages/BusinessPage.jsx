@@ -1,8 +1,10 @@
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PublicLayout from '../components/layout/PublicLayout';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Reveal, IcoArrow, IcoUsers, IcoKey, IcoLayers, IcoActivity, IcoClipboard, IcoShield, IcoCloud, IcoServer, IcoLink2, IcoBuilding } from '../components/shared';
+import { localizedPath } from '../utils/localizedPath';
 
 const capabilities = (t) => [
   { Icon: IcoUsers, title: t('business:capabilities.multiOrg.title'), desc: t('business:capabilities.multiOrg.desc') },
@@ -66,7 +68,7 @@ const integrations = (t) => [
 ];
 
 export default function BusinessPage() {
-  const { t } = useTranslation('business');
+  const { t, i18n } = useTranslation('business');
   useDocumentTitle(t('business:meta.title'), t('business:meta.description'), '/business');
 
   const capabilitiesList = capabilities(t);
@@ -97,13 +99,13 @@ export default function BusinessPage() {
                   {t('business:hero.subtitle')}
                 </p>
                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                  <a href="/contact" className="btn-primary" style={{
+                  <Link to={localizedPath('/contact', i18n.language)} className="btn-primary" style={{
                     background: 'var(--purple)', color: '#fff', border: 'none',
                     padding: '0.8rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                     display: 'inline-flex', alignItems: 'center', gap: 8,
                   }}>
                     {t('business:hero.ctaPrimary')} <IcoArrow size={16} />
-                  </a>
+                  </Link>
                   <a href="https://app.dencpass.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{
                     background: 'transparent', color: 'var(--text)',
                     border: '1px solid var(--border2)',
@@ -181,13 +183,13 @@ export default function BusinessPage() {
                   <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: '1.4rem', color: 'var(--text-head)', marginTop: 4 }}>
                     {t('business:deployment.onRequest')}
                   </div>
-                  <a href={cta.href} className="btn-primary" style={{
+                  <Link to={localizedPath(cta.href, i18n.language)} className="btn-primary" style={{
                     background: accent, color: accent === 'var(--accent)' ? '#07111f' : '#fff',
                     border: 'none', padding: '0.75rem 1.5rem', borderRadius: 10, fontSize: '0.875rem',
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                   }}>
                     {cta.label} <IcoArrow size={15} />
-                  </a>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -248,20 +250,20 @@ export default function BusinessPage() {
                 {t('business:cta.subtitle')}
               </p>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                <a href="/contact" className="btn-primary" style={{
+                <Link to={localizedPath('/contact', i18n.language)} className="btn-primary" style={{
                   background: 'var(--purple)', color: '#fff', border: 'none',
                   padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                 }}>
                   {t('business:cta.ctaPrimary')} <IcoArrow size={16} />
-                </a>
-                <a href="/pricing" className="btn-primary" style={{
+                </Link>
+                <Link to={localizedPath('/pricing', i18n.language)} className="btn-primary" style={{
                   background: 'transparent', color: 'var(--text)',
                   border: '1px solid var(--border2)',
                   padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
                 }}>
                   {t('business:cta.ctaSecondary')}
-                </a>
+                </Link>
               </div>
             </div>
           </Reveal>

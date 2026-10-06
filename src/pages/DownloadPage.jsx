@@ -1,8 +1,10 @@
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PublicLayout from '../components/layout/PublicLayout';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Reveal, IcoGlobe, IcoCode, IcoSmartphone, IcoArrow } from '../components/shared';
+import { localizedPath } from '../utils/localizedPath';
 
 const available = (t) => [
   {
@@ -37,7 +39,7 @@ const upcoming = (t) => [
 ];
 
 export default function DownloadPage() {
-  const { t } = useTranslation('download');
+  const { t, i18n } = useTranslation('download');
   useDocumentTitle(t('download:meta.title'), t('download:meta.description'), '/download');
   const availableList = available(t);
   const upcomingList = upcoming(t);
@@ -160,13 +162,13 @@ export default function DownloadPage() {
             <p style={{ fontSize: '1rem', color: 'var(--text2)', marginBottom: '1.25rem' }}>
               {t('download:cta.text')}
             </p>
-            <a href="/contact" className="btn-primary" style={{
+            <Link to={localizedPath('/contact', i18n.language)} className="btn-primary" style={{
               background: 'var(--accent)', color: '#07111f', border: 'none',
               padding: '0.85rem 1.75rem', borderRadius: 10, fontSize: '0.9rem',
               display: 'inline-flex', alignItems: 'center', gap: 8,
             }}>
               {t('download:cta.button')} <IcoArrow size={16} />
-            </a>
+            </Link>
           </Reveal>
         </section>
 
