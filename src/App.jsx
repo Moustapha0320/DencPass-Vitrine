@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import i18n from './i18n'
+import { localizedPath } from './utils/localizedPath'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -46,7 +47,7 @@ function NotFoundPage() {
           <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#2fd9f4', letterSpacing: '0.16em', marginBottom: '1rem' }}>{t('notFound.eyebrow')}</p>
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.5rem,5vw,4rem)', letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1rem' }}>{t('notFound.title')}</h1>
           <p style={{ fontSize: 16, color: 'var(--text3)', marginBottom: '2rem', maxWidth: 400 }}>{t('notFound.desc')}</p>
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>
+          <Link to={localizedPath('/', i18n.language)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 26px', borderRadius: 12, background: '#2fd9f4', color: '#07111f', fontSize: 14, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>
             {t('notFound.cta')}
           </Link>
         </Reveal>
