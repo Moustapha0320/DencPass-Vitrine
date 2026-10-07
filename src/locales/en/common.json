@@ -71,7 +71,7 @@
     "close": "Close"
   },
   "notFound": {
-    "meta": { "title": "Page not found — DencPass", "description": "This page doesn't exist or has been moved." },
+    "meta": { "title": "Page not found | DencPass", "description": "This page doesn't exist or has been moved." },
     "eyebrow": "404",
     "title": "Page not found.",
     "desc": "This page doesn't exist or has been moved.",

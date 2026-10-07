@@ -47,7 +47,7 @@ i18n
     defaultNS: 'common',
     detection: {
       // URL prefix wins first (App.jsx calls changeLanguage explicitly per route),
-      // then a returning visitor's last choice — never the browser's Accept-Language.
+      // then a returning visitor's last choice, never the browser's Accept-Language.
       order: ['localStorage'],
       caches: ['localStorage'],
     },

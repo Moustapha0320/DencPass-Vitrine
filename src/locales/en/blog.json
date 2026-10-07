@@ -1,7 +1,7 @@
 {
-  "meta": { "title": "Blog — DencPass", "description": "Digital security, professional practices, and behind the scenes at DencPass." },
-  "hero": { "badge": "BLOG", "title": "Resources & perspectives.", "subtitle": "Digital security, professional practices, and behind the scenes at DencPass — for teams who take their data seriously." },
-  "empty": "No articles yet — check back soon.",
+  "meta": { "title": "Blog | DencPass", "description": "Digital security, professional practices, and behind the scenes at DencPass." },
+  "hero": { "badge": "BLOG", "title": "Resources & perspectives.", "subtitle": "Digital security, professional practices, and behind the scenes at DencPass, for teams who take their data seriously." },
+  "empty": "No articles yet. Check back soon.",
   "readTimeSuffix": "read",
   "readLink": "Read",
   "categories": { "security": "Security", "product": "Product", "guide": "Guide", "enterprise": "Enterprise" },

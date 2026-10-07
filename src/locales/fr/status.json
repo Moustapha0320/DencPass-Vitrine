@@ -1,5 +1,5 @@
 {
-  "meta": { "title": "Statut du service — DencPass", "description": "Disponibilité en temps réel des services DencPass, mise à jour automatiquement toutes les 60 secondes." },
+  "meta": { "title": "Statut du service | DencPass", "description": "Disponibilité en temps réel des services DencPass, mise à jour automatiquement toutes les 60 secondes." },
   "hero": { "badge": "STATUT DU SERVICE", "title": "État de DencPass", "subtitle": "Disponibilité en temps réel. Mis à jour automatiquement toutes les 60 secondes." },
   "overall": { "up": "Tous les systèmes sont opérationnels", "down": "Incident en cours", "checking": "Vérification en cours..." },
   "lastCheck": "Dernier contrôle : {{time}}",

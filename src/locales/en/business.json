@@ -1,9 +1,9 @@
 {
-  "meta": { "title": "Enterprise — DencPass", "description": "Access governance for your teams: Active Directory, SIEM, full audit trail. Managed Cloud or On-Premise deployment." },
+  "meta": { "title": "Enterprise | DencPass", "description": "Access governance for your teams: Active Directory, SIEM, full audit trail. Managed Cloud or On-Premise deployment." },
   "hero": {
     "badge": "Enterprise",
     "title": "Access governance,<br/>built for your teams",
-    "subtitle": "Centralize password, secret and permission management for your entire organization — with audit, compliance and integration into the tools you already use.",
+    "subtitle": "Centralize password, secret and permission management for your entire organization, with audit, compliance and integration into the tools you already use.",
     "ctaPrimary": "Contact the team",
     "ctaSecondary": "Try for free"
   },

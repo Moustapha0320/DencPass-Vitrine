@@ -1,9 +1,9 @@
 {
-  "meta": { "title": "Features — DencPass", "description": "Everything you need to protect your access: encrypted vault, secure sharing, zero-knowledge architecture, and Enterprise features." },
+  "meta": { "title": "Features | DencPass", "description": "Everything you need to protect your access: encrypted vault, secure sharing, zero-knowledge architecture, and Enterprise features." },
   "hero": {
     "eyebrow": "FEATURES",
     "title": "Everything you need to protect your access",
-    "subtitle": "From everyday password management to enterprise deployment with SIEM and Active Directory — without ever cutting corners on security, or forgetting Africa."
+    "subtitle": "From everyday password management to enterprise deployment with SIEM and Active Directory, without ever cutting corners on security, or forgetting Africa."
   },
   "groups": {
     "daily": {

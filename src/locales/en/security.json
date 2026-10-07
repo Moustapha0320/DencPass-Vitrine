@@ -1,5 +1,5 @@
 {
-  "meta": { "title": "Security architecture — DencPass", "description": "AES-256-GCM encryption, zero-knowledge architecture, 2FA TOTP, HIBP breach detection. Security you can audit." },
+  "meta": { "title": "Security architecture | DencPass", "description": "AES-256-GCM encryption, zero-knowledge architecture, 2FA TOTP, HIBP breach detection. Security you can audit." },
   "hero": {
     "eyebrow": "SECURITY ARCHITECTURE",
     "title": "Zero knowledge, No compromises",

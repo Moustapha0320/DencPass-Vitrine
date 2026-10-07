@@ -1,5 +1,5 @@
 {
-  "meta": { "title": "Service status — DencPass", "description": "Real-time availability of DencPass services, automatically updated every 60 seconds." },
+  "meta": { "title": "Service status | DencPass", "description": "Real-time availability of DencPass services, automatically updated every 60 seconds." },
   "hero": { "badge": "SERVICE STATUS", "title": "DencPass status", "subtitle": "Real-time availability. Automatically updated every 60 seconds." },
   "overall": { "up": "All systems operational", "down": "Ongoing incident", "checking": "Checking..." },
   "lastCheck": "Last check: {{time}}",

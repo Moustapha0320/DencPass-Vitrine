@@ -1,5 +1,5 @@
 /**
- * ProductPreview — aperçu du produit pour le hero de la page d'accueil.
+ * ProductPreview : aperçu du produit pour le hero de la page d'accueil.
  *
  * ⚠️ COPIE ADAPTÉE, PAS UN IMPORT RÉEL.
  * denc-vitrine et le web app (DencPass/frontend) sont deux dépôts séparés :
@@ -10,7 +10,7 @@
  * `extension/src/services/crypto.js` (copie adaptée du crypto.js du web app).
  *
  * Si le design du vrai dashboard change, ce fichier doit être mis à jour
- * manuellement — rien ici n'est branché sur le vrai code du web app.
+ * manuellement, rien ici n'est branché sur le vrai code du web app.
  */
 
 const NAV_ITEMS = [
@@ -28,7 +28,7 @@ const DEMO_ENTRIES = [
   { id: 4, title: 'Gmail Pro', category: 'Email', user: 'contact@dencpass.com', url: 'mail.google.com', expiry: { label: 'Expiré', tone: 'exp' }, color: '#f59e0b' },
 ]
 
-// Mark officiel — copie exacte de frontend/src/components/DencPassMark.jsx
+// Mark officiel : copie exacte de frontend/src/components/DencPassMark.jsx
 // (dégradé cyan monochrome uniquement, pas de violet dans le logo)
 function LogoMark() {
   return (

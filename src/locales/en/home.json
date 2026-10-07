@@ -10,7 +10,7 @@
   },
   "trust": { "aes": "AES-256-GCM", "zeroKnowledge": "Zero knowledge", "totp": "2FA TOTP", "extensions": "Browser extensions", "africaFirst": "Africa-first" },
   "stats": {
-    "hibp": { "label": "Indexed breaches (HIBP)", "context": "Every password is checked against 700 million known breaches — without ever leaving your device in clear text." },
+    "hibp": { "label": "Indexed breaches (HIBP)", "context": "Every password is checked against 700 million known breaches, without ever leaving your device in clear text." },
     "generator": { "label": "Generator", "context": "Maximum length of a generated password, with configurable rules and a memorable passphrase." },
     "zeroAccess": { "text": "Zero", "label": "Server access", "context": "Our servers cannot read your data. Even with physical access, everything stays unreadable." },
     "encryption": { "text": "AES-256", "unit": "GCM", "label": "Encryption", "context": "End-to-end encryption, every entry encrypted individually with HMAC integrity control." }
@@ -35,7 +35,7 @@
   "why": {
     "eyebrow": "WHY DENCPASS",
     "title": "Built for Africa, from day one",
-    "subtitle": "Global password managers don't handle FCFA, Wave, or Orange Money — and they ignore local constraints. Here's what we do differently.",
+    "subtitle": "Global password managers don't handle FCFA, Wave, or Orange Money, and they ignore local constraints. Here's what we do differently.",
     "advFcfa": { "kicker": "FCFA · WAVE · ORANGE MONEY", "title": "Pay in FCFA", "desc": "Pay directly in CFA francs via Wave or Orange Money. No currency conversion, no international card, no hidden fees.", "points": ["FCFA-listed pricing", "Wave & Orange Money", "Local billing"] },
     "advPassphrase": { "kicker": "WOLOF · BAMBARA · SWAHILI · YORUBA", "title": "African passphrase", "desc": "Memorable passphrases built from a wordlist drawing on several African languages. Strong and easy to recall.", "points": ["Multilingual African wordlist", "Customizable separator", "Easy to memorize"] },
     "advHosting": { "kicker": "WEST AFRICA", "title": "Local hosting & support", "desc": "Infrastructure and support built for French-speaking West Africa. Local compliance and a fully French interface.", "points": ["Support in French", "GDPR & APDP compliance", "Latency built for the region"] },
@@ -77,7 +77,7 @@
     "eyebrow": "TESTIMONIALS",
     "title": "What they say",
     "t1": { "quote": "We migrated our entire IT team in 20 minutes. Syslog integration with our SIEM was live the same day.", "role": "Head of Information Security" },
-    "t2": { "quote": "The only manager that actually works in Africa — pay in FCFA, Wave Money, and the interface stays usable even on an unstable connection.", "role": "Founder & CTO" },
+    "t2": { "quote": "The only manager that actually works in Africa: pay in FCFA, Wave Money, and the interface stays usable even on an unstable connection.", "role": "Founder & CTO" },
     "t3": { "quote": "No more passwords shared over WhatsApp. Expiring links transformed our client security reviews.", "role": "IT Director" }
   },
   "pricingTeaser": {
