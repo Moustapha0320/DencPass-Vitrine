@@ -77,7 +77,6 @@
     "eyebrow": "TESTIMONIALS",
     "title": "What they say",
     "t1": { "quote": "We migrated our entire IT team in 20 minutes. Syslog integration with our SIEM was live the same day.", "role": "Head of Information Security" },
-    "t2": { "quote": "The only manager that actually works in Africa: pay in FCFA, Wave Money, and the interface stays usable even on an unstable connection.", "role": "Founder & CTO" },
     "t3": { "quote": "No more passwords shared over WhatsApp. Expiring links transformed our client security reviews.", "role": "IT Director" }
   },
   "pricingTeaser": {

@@ -506,7 +506,6 @@ function EnterpriseSection() {
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 const testimonials = (t) => [
   { quote: t('home:testimonials.t1.quote'), name: 'Mamadou Diallo', role: t('home:testimonials.t1.role'), company: 'FinServ Dakar', initial: 'MD', accent: 'var(--accent)' },
-  { quote: t('home:testimonials.t2.quote'), name: 'Awa Konaré', role: t('home:testimonials.t2.role'), company: 'Kolibri Tech, Abidjan', initial: 'AK', accent: 'var(--purple)' },
   { quote: t('home:testimonials.t3.quote'), name: 'Ibrahima Ndiaye', role: t('home:testimonials.t3.role'), company: 'Cabinet Ndiaye & Associés', initial: 'IN', accent: 'var(--green)' },
 ]
 

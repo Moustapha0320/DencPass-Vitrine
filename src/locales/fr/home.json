@@ -77,7 +77,6 @@
     "eyebrow": "TÉMOIGNAGES",
     "title": "Ce qu'ils disent",
     "t1": { "quote": "On a migré toute notre équipe IT en 20 minutes. L'intégration Syslog avec notre SIEM était opérationnelle le jour même.", "role": "Responsable Sécurité SI" },
-    "t2": { "quote": "Le seul gestionnaire qui fonctionne vraiment en Afrique, paiement en FCFA, Wave Money, et l'interface reste disponible même avec une connexion instable.", "role": "Fondatrice & CTO" },
     "t3": { "quote": "Plus jamais de mots de passe partagés sur WhatsApp. Les liens à expiration ont transformé nos revues de sécurité client.", "role": "Directeur Informatique" }
   },
   "pricingTeaser": {
