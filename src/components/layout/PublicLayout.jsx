@@ -154,7 +154,7 @@ function NavBar() {
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <div className="nav-cta-group">
             <LangSwitch />
-            <a href="https://app.dencpass.com" className="nav-link"
+            <a href="https://app.dencpass.com" className="nav-login"
               style={{ fontSize: 13, color: 'var(--text3)', fontFamily: "'Inter', sans-serif", fontWeight: 500, padding: '8px 18px', borderRadius: 100, border: '1px solid var(--border2)', background: 'transparent' }}>
               {t('nav.login')}
             </a>
