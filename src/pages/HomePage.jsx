@@ -16,19 +16,24 @@ function HeroTypewriter({ text }) {
   const [typed, setTyped] = useState(prefersReducedMotion ? text : '')
   const [showCaret, setShowCaret] = useState(!prefersReducedMotion)
 
+  // Relancée quand le texte change : le premier rendu peut précéder la synchro
+  // de langue faite par LanguageSync (ex. arrivée directe sur /en), sinon
+  // l'animation taperait le texte de l'autre langue.
   useEffect(() => {
     if (prefersReducedMotion) return
+    setTyped('')
+    setShowCaret(true)
     let i = 0
-    const t = setTimeout(() => {
-      const iv = setInterval(() => {
+    let iv, caretTimeout
+    const start = setTimeout(() => {
+      iv = setInterval(() => {
         i++
         setTyped(text.slice(0, i))
-        if (i >= text.length) { clearInterval(iv); setTimeout(() => setShowCaret(false), 1400) }
+        if (i >= text.length) { clearInterval(iv); caretTimeout = setTimeout(() => setShowCaret(false), 1400) }
       }, 45)
-      return () => clearInterval(iv)
     }, 320)
-    return () => clearTimeout(t)
-  }, [])
+    return () => { clearTimeout(start); clearInterval(iv); clearTimeout(caretTimeout) }
+  }, [text])
 
   const h1Style = { fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 'clamp(2.4rem, 5.2vw, 4rem)', lineHeight: 1.05, letterSpacing: '-0.04em', color: 'var(--sand)', margin: '0 0 1.1rem', maxWidth: 640, position: 'relative' }
 
